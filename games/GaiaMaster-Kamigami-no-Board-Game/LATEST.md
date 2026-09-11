@@ -1,60 +1,68 @@
 # Gaia Master — trạng thái mới nhất
 
-Cập nhật 2026-09-11.
+Cập nhật: **2026-09-11 sau runtime test Alpha 0.6.1 FRONT**.
 
-## Kết quả diagnostic 0.1.8
+## Chốt kỹ thuật
 
-- `FIRST_STRING_S3122`: TREO
-- `SLOT_S3123`: TREO
-- `CONTROL_OTHER_PACK`: OK
-- `BALANCED_SWAP`: OK
+- Checksum BDP đã reverse và verify 60/60 nested + top-level.
+- Raw MODE2/Form1 EDC/ECC patch ổn định.
+- Full-width Latin Shift-JIS hiển thị đúng.
+- ASCII 1-byte build được nhưng runtime hiện ký hiệu sai, **đã loại**.
+- Alpha 0.5.1 được user xác nhận Việt hóa hiển thị và game chạy.
 
-## Phát hiện checksum nested BDP
+## Translation master
 
-Nested BDP chứa bảng text gameplay có checksum 32-bit tại offset `+0x04`.
+- 596 vị trí trong workflow.
+- Luôn giữ `vi_full` có dấu + fallback runtime không dấu.
+- Không dịch lại từ đầu khi font dấu hoàn tất.
 
-Công thức đã khớp chính xác dữ liệu gốc:
+## Alpha 0.6
+
+- 366 patch.
+- +163 so với Alpha 0.5.
+- 230 dòng đã dịch nhưng chưa fit slot full-width, đang chờ repack.
+- Local verify output SHA1: `5a12d3209deee065c129945e169e632f4cec9a8e`.
+
+## Alpha 0.6.1 FRONT
+
+Mục tiêu là thấy Việt hóa ngay đầu game.
+
+- thêm 31 patch front-loaded;
+- tổng 397 patch;
+- changed sectors: 26;
+- output SHA1: `54d2fb026bc3b71c79861e723caffb4114caa34c`.
+
+User runtime test:
+
+- nhiều chỗ đầu game đã Việt hóa;
+- đa số game vẫn còn Nhật;
+- có màn intro bị Nhật + Việt lẫn do một màn ghép nhiều text fragment nhưng mới patch một phần.
+
+## Graphic/menu finding
+
+Các label lớn như `ストーリーモード`, `対戦モード`, `オプション`, `キャラクターセレクト` không xuất hiện như chuỗi Shift-JIS bình thường trong vùng text đã scan. Khả năng cao cần graphic/texture patch riêng.
+
+## Next milestone
+
+**Ưu tiên test tiếng Việt có dấu ngay đầu game.**
+
+Không nhét UTF-8 trực tiếp. Cần trace renderer/glyph path, kiểm tra đầu mối BIOS `Krom2RawAdd`, rồi tạo custom 2-byte glyph mapping hoặc font injection.
+
+Visible test mục tiêu:
 
 ```text
-sum16 = sum(all bytes except checksum field +0x04..+0x07) & 0xFFFF
-checksum = ((~sum16 & 0xFFFF) << 16) | sum16
+TIẾNG VIỆT
+Ă Â Ê Ô Ơ Ư Đ
+Á À Ả Ã Ạ
+Ắ Ằ Ẳ Ẵ Ặ
+Ế Ề Ể Ễ Ệ
+Ớ Ờ Ở Ỡ Ợ
+Ứ Ừ Ử Ữ Ự
 ```
 
-Điều này giải thích vì sao balanced swap chạy: tổng byte không đổi nên checksum cũ vẫn hợp lệ.
+Sau font test:
 
-## Kết quả diagnostic 0.1.9
-
-User test:
-
-- A `FIX_A_CHECKSUM`: OK
-- B `FIX_SLOT_CHECKSUM`: OK
-- C `FIX_FIRST_CHECKSUM`: OK
-- D `FULLWIDTH_BATDAU_CHECKSUM`: OK
-- Không quan sát thấy `BATDAU!!!` trên màn hình do vị trí text khó bắt gặp.
-
-Kết luận: cơ chế patch + cập nhật checksum BDP + regenerate PS1 EDC/ECC đã hoạt động ổn định ở vùng nested BDP này.
-
-## Visible menu test 0.2.0
-
-Tạo prototype patch 3 chuỗi ở pre-game setup / character-select để kiểm tra renderer Latin full-width ở vị trí dễ quan sát.
-
-Patcher Python được test trực tiếp với BIN gốc SHA1 `f4d5298583c90d89c4b7e51d2dde160ee07f2aec` và build thành công.
-
-Tuy nhiên trên máy user, file BAT của gói 0.2.0 mở rồi đóng ngay trước khi user đọc được lỗi.
-
-## 0.2.1 FIXED launcher
-
-Đã đổi sang launcher BAT ASCII-only không BOM:
-
-- `BUILD_VISIBLE_MENU_TEST_FIXED.bat` mở một cửa sổ `cmd /k` riêng nên không tự đóng.
-- `BUILD_WORKER.bat` tự phát hiện Python và ghi `build_log.txt`.
-- `KEO_BIN_VAO_DAY.bat` hỗ trợ drag-drop BIN.
-
-Patcher Python giữ nguyên vì đã được xác nhận build thành công trong môi trường kiểm thử.
-
-## Bước kế tiếp
-
-1. User test build 0.2.1 FIXED.
-2. Nếu build được, kiểm tra text ở màn setup/chọn nhân vật có hiển thị Latin full-width hay không.
-3. Nếu renderer hiển thị được, bắt đầu prototype Việt hóa UI/menu không dấu.
-4. Sau đó mới reverse font/glyph để thêm tiếng Việt có dấu.
+1. dọn sạch intro mixed Nhật/Việt;
+2. patch graphic main menu/Character Select;
+3. tiếp tục full translation;
+4. reverse/repack 230 dòng pending.
