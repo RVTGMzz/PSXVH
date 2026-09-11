@@ -1,5 +1,7 @@
 # Gaia Master: Kamigami no Board Game (Japan) — Tiến độ Việt hóa
 
+Cập nhật: **2026-09-11, sau runtime test Alpha 0.6.1 FRONT**.
+
 ## Bản game mục tiêu
 
 - Platform: PlayStation 1
@@ -9,14 +11,15 @@
 - SHA1 BIN gốc: `f4d5298583c90d89c4b7e51d2dde160ee07f2aec`
 - Emulator test: DuckStation
 
-## Những gì đã xác định
+## Những gì đã xác định chắc chắn
 
 - `SLPS_020.75` chứa nhiều text gameplay/card/menu dạng Shift-JIS.
-- `PRGPACK.BDP` là BDP archive chứa 60 nested BDP.
+- `PRGPACK.BDP` là BDP archive chứa **60 nested BDP**.
 - Nested BDP và top-level BDP dùng checksum additive 32-bit.
 - Full-width Latin Shift-JIS đã được xác nhận hiển thị đúng trong game.
-- ASCII 1-byte đã test sau khi checksum được sửa đúng và **hiển thị ký hiệu sai**, vì vậy không dùng cho bản dịch.
+- ASCII 1-byte đã test sau khi checksum được sửa đúng và **hiển thị ký hiệu sai**, vì vậy đã loại.
 - Patcher raw MODE2/Form1 + EDC/ECC đang hoạt động đúng.
+- Một số menu/title lớn không xuất hiện như chuỗi Shift-JIS trong các vùng text đã scan, nên có khả năng là **graphic/texture** và phải patch ảnh riêng.
 
 ## Cấu trúc BDP đã reverse
 
@@ -35,7 +38,7 @@ sum16 = sum(all bytes except checksum field +0x04..+0x07) & 0xFFFF
 checksum = ((~sum16 & 0xFFFF) << 16) | sum16
 ```
 
-Công thức đã verify trên 60/60 nested BDP và top-level `PRGPACK.BDP`.
+Công thức đã verify trên **60/60 nested BDP** và top-level `PRGPACK.BDP`.
 
 ## Diagnostic đã chốt
 
@@ -50,7 +53,7 @@ Kết luận: nguyên nhân treo của các patch trước là checksum nested B
 
 ### Visible Menu 0.2.1
 
-Người dùng đã nhìn thấy trực tiếp:
+Người dùng nhìn thấy trực tiếp:
 
 ```text
 ＶＩＥＴＨＯＡＴＥＳＴ！
@@ -58,49 +61,62 @@ Người dùng đã nhìn thấy trực tiếp:
 
 => text patch thật sự được game đọc và full-width Latin render đúng.
 
-### ASCII Capacity Test 0.2.2
+### ASCII Capacity Test 0.2.2 / 0.2.2.1
 
-ASCII 1-byte build được nhưng khi chạy game **hiện ký hiệu/chữ sai**.
+- 0.2.2 ban đầu lỗi `UnicodeDecodeError('charmap', ...)` do Windows mở JSON bằng codepage mặc định.
+- 0.2.2.1 sửa bằng JSON ASCII-safe + explicit UTF-8 reader; builder chạy thành công.
+- Runtime: **ASCII 1-byte hiện ký hiệu lung tung**, không phải Latin bình thường.
 
-=> loại hướng ASCII. Runtime hiện tiếp tục dùng full-width Latin Shift-JIS.
+=> **Loại ASCII 1-byte.** Runtime hiện dùng full-width Latin Shift-JIS.
 
-## Alpha 0.5 — runtime đã xác nhận
+## Lỗi launcher Windows đã gặp
+
+Alpha 0.5 BAT từng báo:
+
+```text
+.bin was unexpected at this time.
+```
+
+Nguyên nhân: tên file có `(Japan).bin` nằm trong parenthesized `IF (...)` block của CMD. Dấu `)` trong tên file phá parser của batch.
+
+Quy tắc từ đây:
+
+- launcher BAT tránh parenthesized blocks khi biến có thể chứa dấu ngoặc;
+- ưu tiên label + `goto`;
+- cửa sổ build giữ mở và luôn ghi `build_log.txt`.
+
+## Alpha 0.5 / 0.5.1 — runtime đã xác nhận
 
 - 203 vị trí text.
 - `SLPS_020.75`: 73 vị trí.
 - `PRGPACK.BDP`: 130 vị trí.
 - 9 nested BDP bị tác động: `0, 3, 4, 5, 6, 7, 8, 29, 30`.
-- Người dùng xác nhận **đã thấy bản dịch hoạt động trong game**.
+- Alpha 0.5.1 sửa launcher BAT.
+- Người dùng xác nhận **bản dịch hiển thị và game chạy**.
 
 ## Translation master 0.6
 
-Master hiện có **596 vị trí** đã đưa vào workflow dịch.
+Master hiện có **596 vị trí** trong workflow.
 
-Master giữ song song:
+Mỗi dòng giữ song song:
 
 1. tiếng Nhật gốc;
-2. tiếng Việt chuẩn có dấu để làm bản dịch nguồn;
-3. fallback không dấu cho runtime hiện tại.
+2. `vi_full`: tiếng Việt chuẩn có dấu làm source-of-truth;
+3. `vi_game_current`: fallback không dấu cho runtime full-width hiện tại.
 
-Mục tiêu là khi custom font/glyph hoàn thành thì đổi encoding mà không phải dịch lại từ đầu.
+Mục tiêu: khi custom font/glyph hoàn thành chỉ đổi encoding, **không dịch lại từ đầu**.
 
 ## Alpha 0.6 — LARGE BATCH
 
-Đã build gói `GaiaMaster_Vietnamese_Alpha_0.6`.
-
-### Phạm vi
-
-- **366 vị trí text** được patch an toàn với giới hạn slot hiện tại.
+- **366 vị trí** patch an toàn với giới hạn slot hiện tại.
 - Alpha 0.5: 203 vị trí.
-- Thêm mới ở Alpha 0.6: **163 vị trí**.
-- `SLPS_020.75`: 158 vị trí trong tổng batch.
-- `PRGPACK.BDP`: 208 vị trí trong tổng batch.
+- Thêm mới ở 0.6: **163 vị trí**.
+- `SLPS_020.75`: 158 vị trí.
+- `PRGPACK.BDP`: 208 vị trí.
 - 9 nested BDP bị sửa: `0, 3, 4, 5, 6, 7, 8, 29, 30`.
-- **230 vị trí** trong master đã có bản dịch nhưng chưa thể nhét an toàn vì full-width Latin tốn 2 byte/ký tự và vượt slot gốc. Các dòng này được tách riêng để xử lý sau khi reverse/repack string table.
+- **230 vị trí** đã dịch nhưng chưa fit slot full-width, được đưa vào `PENDING_LONG_OR_REPACK_06.csv`.
 
-### Local verification
-
-Builder chạy thành công trên BIN SHA1 chuẩn:
+Local verify:
 
 ```text
 Patched text locations: 366
@@ -109,34 +125,137 @@ Changed raw sectors: 25
 Output SHA1: 5a12d3209deee065c129945e169e632f4cec9a8e
 ```
 
-Builder tự động:
+## Alpha 0.6.1 FRONT DEMO — runtime đã test
 
-1. verify SHA1 BIN gốc;
-2. verify embedded `SLPS_020.75` / `PRGPACK.BDP`;
-3. patch exact bytes;
-4. cập nhật nested BDP checksum;
-5. cập nhật top-level BDP checksum;
-6. ghi lại user-data;
-7. regenerate Mode2/Form1 EDC/ECC;
-8. tạo BIN/CUE `[VI Alpha 0.6]`.
+Mục tiêu: **không bắt tester phải vào sâu gameplay mới thấy tiếng Việt**.
 
-**Trạng thái Alpha 0.6:** builder/local verify OK, chờ runtime test trong DuckStation.
+Đã thêm **31 patch front-loaded** trên nền Alpha 0.6, nâng tổng thành:
+
+```text
+Patched text locations: 397
+Touched nested BDP entries: 9 [0, 3, 4, 5, 6, 7, 8, 29, 30]
+Changed raw sectors: 26
+Output SHA1: 54d2fb026bc3b71c79861e723caffb4114caa34c
+```
+
+Các vùng bổ sung:
+
+- intro / lời dẫn đầu game;
+- câu hỏi load Weapon Skill data;
+- setup trước Character Select;
+- xác nhận nhân vật / cài đặt;
+- một số lựa chọn `CÓ / KHÔNG` fallback không dấu.
+
+### Kết quả runtime 0.6.1
+
+Người dùng xác nhận:
+
+- **nhiều chỗ đầu game đã hiện Việt hóa**;
+- vẫn còn **đa số text tiếng Nhật**;
+- có màn intro bị **Nhật + Việt lẫn nhau** trong cùng màn.
+
+Ví dụ screenshot có các fragment Việt kiểu:
+
+```text
+THEGIOI=BANCO
+NGUOI=CO
+```
+
+nhưng vẫn có fragment Nhật chưa patch.
+
+Đây không được xem là lỗi encoding. Intro được ghép từ nhiều text fragment và 0.6.1 mới thay một phần. Cần patch đủ toàn bộ fragment của từng màn để tránh UI nửa Nhật nửa Việt.
+
+## Những text đầu game đã xác định là text thật
+
+Các chuỗi sau có trong `PRGPACK.BDP` và patch bằng pipeline text hiện tại được:
+
+```text
+0xC0274  月も太陽もおおいかくす
+0xC028C  世界はもはや人のものではなくなった
+0xBFC20  武器スキルのデータをロードする？
+```
+
+0.6.1 đã bổ sung nhiều fragment intro/setup quanh các vùng này.
+
+## Những thành phần có khả năng là graphic/texture
+
+Các label lớn sau **không tìm thấy như chuỗi Shift-JIS bình thường** trong vùng text đã scan và cần theo nhánh graphic patch:
+
+- `ストーリーモード` — Story Mode
+- `対戦モード` — Versus Mode
+- `武器スキルリスト` — Weapon Skill List
+- `オプション` — Option
+- `キャラクターセレクト` — Character Select title
+
+Không được tuyên bố 100% là texture cho tới khi asset được xác định, nhưng hiện đây là giả thuyết mạnh nhất.
 
 ## Hai bài toán kỹ thuật còn lại
 
 ### 1. Repack / string table
 
-Cần reverse cách tổ chức string table để cho phép câu Việt dài hơn slot Nhật gốc. Đây là chìa khóa để đưa 230 dòng pending và các câu tự nhiên hơn vào game.
+Full-width Latin dùng 2 byte/ký tự, nên nhiều câu Việt không fit slot Nhật gốc. Hiện có **230 dòng pending** ở master 0.6.
 
-### 2. Font tiếng Việt có dấu
+Cần reverse/repack string table hoặc pointer table để:
 
-Hiện full-width Latin chạy được nhưng các glyph `ă â ê ô ơ ư đ` và dấu thanh chưa có đường render xác nhận. Tiếp tục nghiên cứu font/glyph mapping hoặc hook font renderer.
+- tăng không gian câu;
+- tránh rút gọn quá mức;
+- dùng câu Việt tự nhiên hơn.
 
-## Hướng tiếp theo
+### 2. Font tiếng Việt có dấu — ưu tiên tiếp theo
 
-1. test runtime Alpha 0.6;
-2. tiếp tục mở rộng master dịch;
-3. reverse/repack string table;
-4. nghiên cứu custom glyph tiếng Việt;
-5. dump/phân loại thêm `EVCARD.BDP`, `DUELDATA.BDP`, `PC_DATA.BDP`, `SCR_DATA.BDP`;
-6. cuối cùng phát hành patch thay vì phân phối BIN game.
+Người dùng đã đồng ý **test dấu ngay bước tiếp theo**, trước khi đổ thêm quá nhiều text không dấu.
+
+Không nhét UTF-8 trực tiếp.
+
+Hướng nghiên cứu:
+
+- xác định renderer/glyph path;
+- executable có wrapper/trampoline liên quan BIOS `B(51h) Krom2RawAdd`, là đầu mối cần trace;
+- kiểm tra font atlas / custom glyph table nếu có;
+- nếu renderer dùng BIOS Shift-JIS, nghiên cứu remap/inject glyph 2-byte cho tiếng Việt.
+
+Visible font test mục tiêu phải nằm **ngay đầu game/menu**, ví dụ:
+
+```text
+TIẾNG VIỆT
+Ă Â Ê Ô Ơ Ư Đ
+Á À Ả Ã Ạ
+Ắ Ằ Ẳ Ẵ Ặ
+Ế Ề Ể Ễ Ệ
+Ớ Ờ Ở Ỡ Ợ
+Ứ Ừ Ử Ữ Ự
+```
+
+Nếu pass, chuyển pipeline từ fallback không dấu sang `vi_full` có dấu.
+
+## Ưu tiên công việc kể từ đây
+
+1. **Font/glyph tiếng Việt có dấu**, test visible ngay đầu game.
+2. Dọn intro để không còn màn Nhật + Việt lẫn nhau.
+3. Xác định và patch graphic/texture main menu + Character Select title.
+4. Tiếp tục mở rộng full translation từ master.
+5. Reverse/repack string table để đưa 230 dòng pending vào game.
+6. Dump/phân loại tiếp `EVCARD.BDP`, `DUELDATA.BDP`, `PC_DATA.BDP`, `SCR_DATA.BDP`.
+7. Cuối cùng phát hành patch, không phân phối BIN game.
+
+## Quy tắc test
+
+- Cold boot mỗi image.
+- Không load save state từ image khác.
+- Builder phải verify BIN SHA1 chuẩn.
+- Mở đúng `.cue` mới sinh.
+- Demo/test mới phải ưu tiên **text visible ngay đầu game**, không bắt tester vào sâu gameplay.
+
+## Trạng thái handoff hiện tại
+
+- Original: **OK**
+- COPY_ONLY: **OK**
+- BDP structure/checksum: **đã reverse và verify**
+- Raw MODE2/Form1 + EDC/ECC: **OK**
+- Full-width Latin Shift-JIS: **OK**
+- ASCII 1-byte: **FAIL runtime / loại**
+- Alpha 0.5.1: **runtime OK**
+- Translation master: **596 vị trí**
+- Alpha 0.6: **366 patch, local verify OK**
+- Alpha 0.6.1 FRONT: **397 patch, runtime có Việt hóa nhưng còn nhiều Nhật + mixed fragments**
+- Next milestone: **Vietnamese diacritics / custom glyph visible test**
