@@ -1,4 +1,4 @@
-# Gaia Master: Kamigami no Board Game (Japan) — Tiến độ reverse-engineering
+# Gaia Master: Kamigami no Board Game (Japan) — Tiến độ Việt hóa
 
 ## Bản game mục tiêu
 
@@ -11,179 +11,146 @@
 
 ## Những gì đã xác định
 
-### 1. Game gốc
+- `SLPS_020.75` chứa nhiều text gameplay/card/menu dạng Shift-JIS.
+- `PRGPACK.BDP` là BDP archive chứa 60 nested BDP.
+- Các nested BDP và top-level BDP dùng cùng cơ chế checksum additive 32-bit.
+- Latin full-width Shift-JIS đã được xác nhận hiển thị trong game.
+- Patcher raw MODE2/Form1 + EDC/ECC đang hoạt động đúng.
 
-Bản BIN/CUE gốc vào gameplay bàn cờ bình thường.
+## Cấu trúc BDP đã reverse
 
-### 2. Text
+Header quan sát được:
 
-Text tiếng Nhật đọc được dưới dạng Shift-JIS, không phải toàn bộ bị nén.
+- `+0x00`: magic `0x000010F0`
+- `+0x04`: checksum 32-bit
+- `+0x08`: TOC size
+- `+0x0C`: entry count
+- sau đó là descriptor `(offset, size)` 8 byte/entry
 
-Hai vùng quan trọng đã tìm thấy:
+Payload base top-level của `PRGPACK.BDP` là `8 + toc_size`.
 
-- `SLPS_020.75`: executable, có ít nhất khoảng 358 chuỗi Nhật rõ.
-- `PRGPACK.BDP`: có khoảng 1.950 chuỗi ứng viên hợp lệ, gồm gameplay/menu/hướng dẫn/đối thoại.
-- Tổng dump ứng viên đã từng thu được khoảng 2.282 chuỗi.
+### Checksum
 
-### 3. Alpha 0.1 thất bại
-
-Thử thay text Nhật bằng ASCII và padding NUL. Game vẫn qua intro/chọn nhân vật nhưng treo khi chuyển vào gameplay.
-
-### 4. Diagnostic 0.1.3 SAFE_SJIS thất bại
-
-Thử dùng Latin full-width trong Shift-JIS, giữ độ dài chuỗi. Game vẫn treo khi load gameplay.
-
-### 5. COPY_ONLY
-
-Chỉ copy BIN, không sửa byte nào.
-
-**Kết quả: OK.**
-
-Điều này xác nhận BIN gốc, CUE mới và thao tác copy không phải nguyên nhân.
-
-## Diagnostic 0.1.6 — kết quả
-
-- A `COMBO_RETEST`: **TREO**
-- B `PRGPACK_TWO_SECTORS`: **TREO**
-- C `SLPS_TWO_SECTORS`: **OK**
-- D `COMBO_ALT`: **OK**
-
-Kết luận: không phải mọi multi-sector patch đều lỗi, không phải mọi cross-file patch đều lỗi, và không phải cứ sửa PRGPACK là lỗi.
-
-## Diagnostic 0.1.7 — kết quả
-
-- A `A_ONLY_FRESH`: **TREO**
-- B `B_ONLY_SAME_SECTOR`: **TREO**
-- C `A_PLUS_B_SAME_SECTOR`: **TREO**
-- D `A_PLUS_C_ADJACENT`: **TREO**
-
-Vùng bị cô lập nằm trong nested BDP tại `PRGPACK.BDP` offset `0xDDA98`.
-
-## Cấu trúc BDP đã reverse được
-
-Các BDP quan sát được có dạng:
-
-- dword `+0x00`: magic `0x000010F0`
-- dword `+0x04`: checksum 32-bit
-- dword `+0x08`: kích thước TOC, theo mẫu `8 + count * 8`
-- dword `+0x0C`: count
-- tiếp theo là các descriptor 8 byte
-
-Nested BDP chứa bảng text gameplay đang nghiên cứu:
-
-- bắt đầu tại PRGPACK offset `0xDDA98`
-- kích thước block: `0x26BC8`
-- checksum gốc: `0x9BC0643F`
-- count = 1
-- bảng text đầu payload có 79 chuỗi
-
-Một số chuỗi quan trọng:
-
-- `0xDDD68`: `ゲームをはじめるよ`
-- `0xDDD7C`: `データがないわよ`
-- `0xDE110`: `ＳＬＯＴをえらんでね`
-
-## Diagnostic 0.1.8 — kết quả
-
-- A `FIRST_STRING_S3122`: **TREO**
-- B `SLOT_S3123`: **TREO**
-- C `CONTROL_OTHER_PACK`: **OK**
-- D `BALANCED_SWAP`: **OK**
-
-### Ý nghĩa
-
-A và B cho thấy thay đổi bất kỳ trong nested BDP mục tiêu đều có thể làm game treo, kể cả khác sector.
-
-C xác nhận patcher raw-sector và EDC/ECC vẫn hoạt động ở BDP khác.
-
-D là phát hiện quyết định: đổi một `よ→ね` và một `ね→よ` trong cùng nested BDP, tức tổng byte không đổi, thì game chạy bình thường.
-
-## Đã reverse được checksum BDP
-
-Với nested BDP mục tiêu, trường 32-bit tại `+0x04` là checksum additive.
-
-Công thức khớp **chính xác** dữ liệu gốc:
+Công thức đã khớp chính xác với **toàn bộ 60 nested BDP** và top-level `PRGPACK.BDP`:
 
 ```text
-sum16 = sum(tất cả byte của BDP, bỏ qua 4 byte checksum tại +0x04..+0x07) & 0xFFFF
+sum16 = sum(all bytes except checksum field +0x04..+0x07) & 0xFFFF
 checksum = ((~sum16 & 0xFFFF) << 16) | sum16
 ```
 
-Với block gốc:
+Nested BDP từng gây treo ở entry 30:
 
-```text
-sum16    = 0x643F
-~sum16   = 0x9BC0
-checksum = 0x9BC0643F
-```
+- bắt đầu tại PRGPACK offset `0xDDA98`
+- size `0x26BC8`
+- checksum gốc `0x9BC0643F`
+- chứa bảng 79 chuỗi ở đầu payload
 
-Đã kiểm tra thêm trên nhiều BDP `count=1` khác trong `PRGPACK.BDP`: low 16-bit của checksum luôn bằng byte-sum modulo 65536, high 16-bit luôn là one's complement của low 16-bit.
+Các test 0.1.8 đã chứng minh patch text nhưng không sửa checksum sẽ treo; `BALANCED_SWAP` chạy vì tổng byte không đổi.
 
-Điều này giải thích hoàn toàn kết quả `BALANCED_SWAP`: tổng byte không đổi nên checksum cũ vẫn hợp lệ.
+## Diagnostic 0.1.9 — ĐÃ CHỐT
 
-## Diagnostic 0.1.9 — kết quả hiện có
-
-Patcher 0.1.9 có khả năng:
-
-1. patch text trong nested BDP mục tiêu;
-2. tự tính lại checksum BDP;
-3. ghi checksum mới vào header;
-4. regenerate EDC/ECC cho mọi raw sector bị thay đổi.
-
-### Kết quả đã xác nhận
+Người dùng đã test:
 
 - A `FIX_A_CHECKSUM`: **OK**
 - B `FIX_SLOT_CHECKSUM`: **OK**
+- C `FIX_FIRST_CHECKSUM`: **OK**
+- D `FULLWIDTH_BATDAU_CHECKSUM`: **OK**
 
-Đây là bằng chứng thực nghiệm rất mạnh rằng checksum BDP chính là nguyên nhân khiến các bản patch trước treo khi vào gameplay.
+Kết luận: nguyên nhân treo của các alpha trước là checksum nested BDP chưa được cập nhật.
 
-### Chưa xác nhận rõ từ lần test hiện tại
+## Visible Menu Test 0.2.1 — ĐÃ CHỐT
 
-Tin nhắn kết quả gần nhất chỉ xác nhận chắc A và B. Các dòng C, D và trạng thái hiển thị `BATDAU!!!` vẫn để nguyên lựa chọn mẫu nên chưa được coi là kết quả hợp lệ.
+Người dùng xác nhận nhìn thấy trực tiếp:
 
-Các test còn cần chốt:
+```text
+ＶＩＥＴＨＯＡＴＥＳＴ！
+```
 
-- C `FIX_FIRST_CHECKSUM`: `OK` hoặc `TREO`
-- D `FULLWIDTH_BATDAU_CHECKSUM`: `OK` hoặc `TREO`
-- Nếu D OK: có nhìn thấy `ＢＡＴＤＡＵ！！！` trong game hay không
+ở màn chọn nhân vật.
 
-### Ý nghĩa nếu C/D đều OK
+Điều này xác nhận:
 
-- cơ chế sửa checksum đã được xác nhận đủ mạnh để dùng làm nền cho patcher thật;
-- nếu D hiển thị được Latin full-width, renderer hỗ trợ bộ ký tự đó;
-- bước sau có thể chuyển từ diagnostic sang prototype Việt hóa menu/gameplay có kiểm soát.
+1. text patch được game đọc thật;
+2. full-width Latin Shift-JIS render được;
+3. checksum repair hoạt động trong menu/setup thực tế.
 
-## Quy tắc test
+## Alpha 0.5 — LARGE BATCH
 
-- Cold boot cho từng image.
-- Không load save state từ image khác.
-- Mỗi BAT dùng BIN gốc SHA1 chuẩn.
-- Mở đúng `.cue` mới sinh.
+Đã tạo `GaiaMaster_Vietnamese_Alpha_0.5` để chuyển khỏi giai đoạn diagnostic nhỏ lẻ.
 
-## Mục tiêu dài hạn
+### Phạm vi
 
-1. dump text có cấu trúc;
-2. xác định pointer table;
-3. xác định font/glyph table;
-4. tạo custom encoding cho tiếng Việt;
-5. thêm `ă â ê ô ơ ư đ` và các dấu;
-6. reinsert text;
-7. build patch thay vì phân phối BIN game.
+- **203 vị trí text** được patch trong một lần build.
+- `SLPS_020.75`: 73 vị trí.
+- `PRGPACK.BDP`: 130 vị trí.
+- 9 nested BDP bị tác động: entries `0, 3, 4, 5, 6, 7, 8, 29, 30`.
+- Text Việt hiện dùng **không dấu + full-width Latin**.
+- Các câu dài được rút gọn để không vượt dung lượng chuỗi gốc.
 
-## Trạng thái handoff hiện tại
+Một số text nhìn dễ:
+
+- `ＣＨＯＮ　ＮＨＡＮＶＡＴ`
+- `ＸＡＣ　ＮＨＡＮ？`
+- `ＮＨＡＮ　ＮＵＴ　Ｏ`
+- `ＢＡＴ　ＤＡＵ！`
+- `ＫＯ　ＤＡＴＡ`
+- `ＣＨＯＮ　ＳＬＯＴ`
+
+### Builder Alpha 0.5
+
+Builder thực hiện tự động:
+
+1. xác minh SHA1 BIN gốc;
+2. xác minh SHA1 `SLPS_020.75` và `PRGPACK.BDP` bên trong image;
+3. patch 203 vị trí exact-byte;
+4. tính lại checksum cho mọi nested BDP bị sửa;
+5. tính lại checksum top-level `PRGPACK.BDP`;
+6. ghi lại user-data vào raw BIN;
+7. regenerate EDC/ECC cho sector MODE2/Form1 bị thay đổi;
+8. tạo BIN/CUE `[VI Alpha 0.5]`.
+
+### Kiểm tra nội bộ trước khi giao test
+
+Builder đã chạy thành công trên BIN SHA1 chuẩn:
+
+- patched locations: `203`
+- touched nested BDP entries: `9`
+- changed raw sectors: `18`
+- output SHA1 test: `2887affb46f0af0c823da2bc365e94b366719c65`
+
+Sau build đã verify:
+
+- 203/203 vị trí có đúng bytes mới;
+- checksum top-level PRGPACK hợp lệ;
+- checksum 60/60 nested BDP hợp lệ;
+- các text visible decode đúng full-width Shift-JIS.
+
+**Trạng thái:** chờ người dùng test Alpha 0.5 trong DuckStation từ menu → gameplay.
+
+## Giới hạn hiện tại
+
+- Chưa phải full translation toàn game.
+- Chưa có tiếng Việt có dấu.
+- Một số title/logo/menu có thể là texture/image chứ không phải text.
+- Chưa repack pointer table để cho phép câu Việt dài tùy ý; Alpha 0.5 vẫn giữ nguyên slot byte của chuỗi gốc.
+
+## Bước sau Alpha 0.5
+
+Nếu Alpha 0.5 chơi ổn:
+
+1. mở rộng batch sang các text còn lại trong SLPS/PRGPACK;
+2. dump + phân loại các pack khác (`EVCARD.BDP`, `DUELDATA.BDP`, `PC_DATA.BDP`, `SCR_DATA.BDP`);
+3. reverse font/glyph table để hướng tới tiếng Việt có dấu;
+4. nghiên cứu repack/pointer table để giảm giới hạn độ dài câu;
+5. cuối cùng xuất patch thay vì phân phối BIN game.
+
+## Trạng thái handoff
 
 - Original: **OK**
 - COPY_ONLY: **OK**
-- 0.1.6 A: **TREO**
-- 0.1.6 B: **TREO**
-- 0.1.6 C: **OK**
-- 0.1.6 D: **OK**
-- 0.1.7 A/B/C/D: **TREO**
-- 0.1.8 A: **TREO**
-- 0.1.8 B: **TREO**
-- 0.1.8 C: **OK**
-- 0.1.8 D: **OK**
-- Checksum BDP: **đã reverse được**
-- 0.1.9 A `FIX_A_CHECKSUM`: **OK**
-- 0.1.9 B `FIX_SLOT_CHECKSUM`: **OK**
-- 0.1.9 C/D và hiển thị `BATDAU!!!`: **đang chờ xác nhận rõ**
+- BDP structure: **đã reverse cơ bản**
+- BDP checksum: **đã reverse + verify 60/60 nested + top-level**
+- EDC/ECC raw patch: **OK**
+- Full-width Latin rendering: **OK**
+- Visible menu test: **OK**
+- Alpha 0.5 large batch: **builder hoàn thành, chờ test gameplay thực tế**
