@@ -1,6 +1,6 @@
 # HANDOFF — Gaia Master PS1 Việt hóa
 
-> Checkpoint để chuyển phiên chat mà không mất mạch làm việc.
+> Checkpoint hiện tại để chuyển phiên chat mà không mất mạch làm việc.
 
 ## Source game
 
@@ -71,138 +71,8 @@ Front offsets quan trọng:
 0xC0274  月も太陽もおおいかくす
 0xC028C  世界はもはや人のものではなくなった
 0xBFC20  武器スキルのデータをロードする？
+0xBFD2C  キャラクターをえらんでね   # visible Character Select probe
 ```
-
-## Font work — những gì đã thử
-
-### Font Test 0.3
-
-Diagnostic riêng dựng từ ROM gốc. Không kế thừa 397 patch Alpha 0.6.1 nên không phù hợp để đánh giá tiến độ Việt hóa. Không coi là PASS/FAIL glyph.
-
-### Alpha 0.6.2 HYBRID FONT
-
-Ý tưởng:
-- hook global wrapper `Krom2RawAdd` tại VA `0x80068208` / SLPS file offset `0x58A08`;
-- custom code `0x85xx` trả glyph từ atlas Việt 16x15;
-- Japanese bình thường vẫn gọi BIOS KROM.
-
-Kết quả runtime: **TREO ngay sau logo PlayStation, trước intro**.
-
-=> Global hook không an toàn theo cách đã implement.
-
-### Alpha 0.6.2.1 HYBRID HOTFIX
-
-Đổi chiến lược:
-- không hook global wrapper;
-- chỉ hook renderer call-site tại SLPS `0x26CF4`;
-- custom code `0x85xx` -> atlas Việt;
-- normal Japanese -> tail jump wrapper gốc.
-
-Kết quả runtime: **vẫn TREO sau logo PlayStation**.
-
-=> Chưa thể kết luận lỗi do custom code/atlas, vì game chết trước khi thấy intro.
-
-### Font Isolation 0.6.2.2
-
-Tách test A/B:
-
-- A: renderer -> stub 8 byte -> wrapper gốc, không custom glyph.
-- B: nếu A boot thì map đúng một mã Shift-JIS hợp lệ `0x889F` (`亜`) thành glyph `Ế`.
-
-User báo **vẫn treo**. Theo flow test (A phải chạy trước và nếu A treo thì không chạy B), hiện ghi nhận **A = TREO**.
-
-Điều này rất quan trọng:
-
-> Ngay cả pass-through stub cũng treo, nên chưa phải lỗi font Việt hay mã `0x85xx`. Nghi vấn lớn chuyển sang vị trí code cave / runtime overwrite / redirect call-site.
-
-## Phát hiện code cave mới
-
-Code cave cũ dùng ở các font test:
-
-```text
-SLPS file offset 0x6FE10
-```
-
-Dù là zero trong file EXE, nó có thể là vùng runtime workspace/BSS-like area bị game ghi đè trước khi renderer gọi tới. Vì vậy patch build đúng trên đĩa nhưng CPU có thể nhảy vào dữ liệu đã bị overwrite.
-
-Đã tìm thấy một vùng zero-padding ngắn hơn nằm giữa các block dữ liệu tĩnh:
-
-```text
-SLPS file offset 0x5C0E0 .. 0x5C2B8
-length 472 bytes
-VA start 0x8006B8E0
-```
-
-Vùng này được ưu tiên làm `SAFE_CAVE` tiếp theo.
-
-## Font Isolation 0.6.2.3 SAFE CAVE — build mới nhất
-
-Package local:
-
-`GaiaMaster_VI_Font_Isolation_0.6.2.3_SAFE_CAVE.zip`
-
-Cả hai test vẫn kế thừa toàn bộ 397 patch Alpha 0.6.1 FRONT.
-
-### TEST A2
-
-`TEST_A2_SAFE_CAVE.bat`
-
-Chỉ làm:
-
-```text
-renderer call-site 0x26CF4
--> JAL safe cave 0x5C0E0
--> J wrapper gốc 0x80068208
-```
-
-Không custom glyph, không atlas, không sửa intro test.
-
-Expected result:
-
-```text
-A2 BOOT
-hoặc
-A2 TREO
-```
-
-Nếu A2 TREO: dừng, không test B2.
-
-### TEST B2
-
-`TEST_B2_SAFE_ONE_GLYPH.bat`
-
-Chỉ chạy nếu A2 BOOT.
-
-- dùng mã Shift-JIS hợp lệ `0x889F` (`亜`), không dùng `0x85xx`;
-- hook riêng mã này sang một glyph custom 16x15 `Ế`;
-- intro đầu đổi thành `TEST + 0x889F`.
-
-Expected:
-
-```text
-B2 HIEN Ế
-B2 HIEN 亜
-B2 TREO
-B2 HIEN KHAC
-```
-
-Local build verification:
-
-```text
-A2 output SHA1 a0f500e9d63cb2f4720eab34a6d24dcb62d2be1a
-B2 output SHA1 a159faeba61e51dbbbd3f1371dc40b91bb93225c
-```
-
-## Renderer notes
-
-Có hai đường glyph đáng chú ý trong executable:
-
-1. Renderer loop quanh `0x80036460` ghép Shift-JIS rồi gọi wrapper `0x80068208`.
-2. Function quanh `0x8003C210` cũng phân loại lead byte SJIS và dùng cùng wrapper khi cần glyph 16x15.
-
-Wrapper gốc `0x80068208` là trampoline BIOS `B(51h) Krom2RawAdd`.
-
-Hiện chưa nên tiếp tục hybrid font lớn cho đến khi A2 xác nhận redirect call-site + safe cave có thể chạy runtime.
 
 ## Graphic candidates
 
@@ -216,6 +86,131 @@ Chưa tìm thấy dưới dạng normal Shift-JIS strings:
 
 Treat as likely graphic/texture until proven otherwise.
 
+## Font work — toàn bộ kết quả tới 0.6.2.6
+
+### Font Test 0.3
+
+Diagnostic riêng dựng từ ROM gốc. Không kế thừa 397 patch Alpha 0.6.1 nên không phù hợp để đánh giá tiến độ Việt hóa. Không coi là PASS/FAIL glyph.
+
+### Alpha 0.6.2 HYBRID FONT
+
+- hook global wrapper `Krom2RawAdd` tại VA `0x80068208` / SLPS file offset `0x58A08`;
+- custom code `0x85xx` -> atlas Việt 16x15;
+- runtime: **TREO ngay sau logo PlayStation**.
+
+### Alpha 0.6.2.1 HYBRID HOTFIX
+
+- bỏ global hook;
+- chỉ hook renderer call-site `0x26CF4`;
+- runtime: **vẫn TREO sau logo**.
+
+### Font Isolation 0.6.2.2
+
+- A: pass-through stub qua code cave cũ `0x6FE10` -> wrapper gốc.
+- A runtime: **TREO**.
+
+Kết luận: chưa phải lỗi glyph Việt; nghi code cave cũ bị runtime overwrite.
+
+### Font Isolation 0.6.2.3 SAFE CAVE
+
+Safe cave mới:
+
+```text
+SLPS file offset 0x5C0E0 .. 0x5C2B8
+VA start 0x8006B8E0
+length 472 bytes
+```
+
+Kết quả user:
+
+- `A2 SAFE PASS`: **BOOT**
+- `B2 SAFE ONE GLYPH`: **BOOT**
+
+User không thấy glyph `Ế` vì probe đặt ở intro không đi qua đúng render path cần quan sát.
+
+=> Safe cave mới được xác nhận runtime an toàn.
+
+### Font Isolation 0.6.2.4 VISIBLE MENU
+
+Probe chuyển sang đúng dòng đã từng nhìn thấy ở Character Select:
+
+```text
+PRGPACK 0xBFD2C
+キャラクターをえらんでね
+```
+
+- C1 text-only: `TEST亜`
+- C2 hook call-site `0x26CF4`, map `0x889F` (`亜`) -> glyph `Ế`
+
+Kết quả:
+
+```text
+C1: HIEN TEST亜
+C2: HIEN TEST亜
+```
+
+=> Call-site `0x26CF4` KHÔNG phải đường glyph của dòng Character Select này.
+
+### Font Isolation 0.6.2.5 SECOND RENDER PATH
+
+Test direct Krom caller thứ hai:
+
+```text
+SLPS file offset 0x2CCA0
+VA 0x8003C4A0
+```
+
+- D1 pass-through: `TEST亜`
+- D2 intercept `0x889F` -> `Ế`
+
+Kết quả:
+
+```text
+D1: HIEN TEST亜
+D2: HIEN TEST亜
+```
+
+=> Direct caller `0x2CCA0` cũng KHÔNG phải đường glyph của Character Select.
+
+### Font Isolation 0.6.2.6 GLOBAL SAFE WRAPPER
+
+Do cả 2 direct caller đều không bắt được, thử lại global wrapper nhưng dùng SAFE CAVE đã xác nhận boot và chỉ intercept 1 mã SJIS hợp lệ `0x889F`.
+
+- E1 global pass-through exact wrapper behavior
+- E2 global wrapper + intercept `0x889F` -> custom glyph `Ế`
+
+Kết quả user:
+
+```text
+E1: BOOT + TEST亜
+E2: HIEN TEST亜
+```
+
+## Kết luận font mới nhất
+
+Kết quả C2 + D2 + E2 rất mạnh:
+
+> Character Select KHÔNG lấy glyph `亜` qua wrapper `Krom2RawAdd` mà ta đã hook, kể cả khi hook global wrapper bằng safe cave.
+
+Do đó **dừng hướng Krom wrapper cho Character Select**. Không cần test thêm direct/global Krom hooks kiểu tương tự.
+
+Khả năng còn lại mạnh nhất:
+
+1. game dùng custom glyph cache/font atlas riêng cho UI này;
+2. glyph đã được preload/copy vào cache/VRAM bằng đường khác, không qua wrapper đang hook;
+3. có renderer khác nhận code Shift-JIS nhưng tra atlas/table riêng.
+
+## Renderer notes
+
+Đã thấy hai direct caller tới wrapper `0x80068208`:
+
+1. quanh `0x80036460` / file `0x26CF4`
+2. quanh `0x8003C210` / call file `0x2CCA0`
+
+Cả hai đều không ảnh hưởng glyph Character Select probe `0xBFD2C`.
+
+Wrapper gốc `0x80068208` là trampoline BIOS `B(51h) Krom2RawAdd`, nhưng Character Select đang đi đường khác hoặc dùng glyph cache đã có sẵn.
+
 ## Windows builder pitfalls
 
 1. `(Japan).bin` trong parenthesized BAT `IF (...)` từng gây `.bin was unexpected at this time.` -> dùng labels/goto.
@@ -223,12 +218,18 @@ Treat as likely graphic/texture until proven otherwise.
 
 ## User testing preference
 
-**Không bắt user vào sâu gameplay để test.** Mọi diagnostic/demo phải nhìn thấy kết quả ngay intro/main menu/character select nếu có thể.
+**Tối ưu thời gian test.**
 
-## NEXT TASK
+- Không bắt user vào sâu gameplay.
+- Ưu tiên test có giá trị thông tin cao nhất trước.
+- Test phụ chỉ chạy khi kết quả chính không phân biệt được nguyên nhân.
+- Mọi probe visible nên ở intro/main menu/Character Select.
 
-1. User test `A2 SAFE CAVE`.
-2. Nếu A2 BOOT -> test `B2 SAFE ONE GLYPH`.
-3. Nếu A2 TREO -> bỏ giả thuyết code cave cũ là nguyên nhân duy nhất; cần reverse chính xác calling convention / renderer target hoặc dùng debugger runtime thay vì tiếp tục đoán hook.
-4. Chỉ khi one-glyph pass mới quay lại custom codepage tiếng Việt đầy đủ.
-5. Sau font: dọn intro mixed Nhật/Việt, patch graphics, tiếp tục full translation và repack 230 pending rows.
+## NEXT TASK — KHÔNG test Krom wrapper nữa
+
+1. Reverse custom font cache/atlas của Character Select/UI.
+2. Tìm vùng RAM/VRAM hoặc asset chứa glyph `亜` / bộ font Nhật đang được UI này sử dụng.
+3. Tìm code reference từ Character Select renderer tới atlas/cache này.
+4. Khi tìm được, tạo **một probe duy nhất**: thay glyph `亜` trong cache/atlas thành `Ế` và giữ text `TEST亜` ở `0xBFD2C`.
+5. Nếu hiện `TESTẾ`, mới mở rộng thành custom Vietnamese glyph table/codepage.
+6. Sau font: dọn intro mixed Nhật/Việt, patch graphics, tiếp tục full translation và repack 230 pending rows.
