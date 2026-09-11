@@ -1,0 +1,101 @@
+file,offset_hex,japanese,vi_full,vi_game_current,status,note
+PRGPACK.BDP,0x68e18,ベントカードが,thẻ sự kiện,THE SK,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68e28,武器カード、イ,thẻ vũ khí/sự kiện,THE VK/SK,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68e38,通過するとお金,đi qua sẽ nhận tiền,QUA: NHAN TIEN,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68e4c,もらえます,sẽ nhận được,SE NHAN,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68e58,トカードが１枚,một thẻ sự kiện,1 THE SK,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68e68,止まるとイベン,khi dừng: sự kiện,DUNG: SU KIEN,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68e78,できます,có thể,CO THE,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68e84,しかけることが,có thể phát động,CO THE MO,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68e94,あいてに戦闘を,chiến đấu với đối thủ,DAU DOI THU,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68ea4,止まると好きな,"khi dừng, tùy chọn",DUNG: TUY CHON,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68eb8,所有者なし,Không có chủ,VO CHU,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68ec4,プール金%5d,Quỹ chung %5d,QUY %5d,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68edc,通行税 %4d,Phí qua đường %4d,PHI %4d,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68ee8,通行税 %+3d％,Phí qua đường %+3d%,PHI %+3d%,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x962c0,%sのラッキー！！,%s gặp may!!,%s MAY MAN!!,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0xb9048,%dゼニーはらってね,Trả %d Zenny,TRA %d ZENNY,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0xbfbec,この設定でいいかしら？,,XAC NHAN?,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0xbfd2c,キャラクターをえらんでね,,CHON NHANVAT,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0xbfe4c,○ボタンをおしてね！,,NHAN NUT O,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0xddd68,ゲームをはじめるよ,,BAT DAU!,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0xddd7c,データがないわよ,,KO DATA,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0xde110,ＳＬＯＴをえらんでね,,CHON SLOT,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x938,%dゼニーあげるね,,+%d ZENNY,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x94c,ＧＯマス,,O GO,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x958,体力が５０回復したよ！,,HOI 50HP!,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x970,%sに止まったよ,,DUNG %s,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x980,%sの土地に,,DAT %s,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x98c,止まっちゃったよ,,DA DUNG!,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x9a0,戦闘マスね,,CHIEN,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x9ac,土地をかけて戦うことができるよ,,CHIEN LAY DAT,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x9cc,酒場マスだよ,,QUAN,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x9dc,武器カードが手に入るわ,,NHAN THE VK,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x9f4,所得税マスにとまっちゃった！,,THUE THU NHAP,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0xa14,所持金の２０％とられるよ,,MAT20% TIEN,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0xa30,土地税マスに止まっちゃった！,,O THUE DAT!,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0xa50,土地代の２０％とられるよ,,MAT20% DAT,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0xa6c,聖地マスに止まったよ！,,O THANH DIA,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0xa84,たまった税金をあげるね！！,,NHAN THUE GOM,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0xaa0,どこにいっちゃうのかしら,,DI DAU DAY?,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0xabc,%sは一回休みよ！,,%s NGHI1,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0xad0,%sの番よ！,,LUOT%s,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0xadc,おまたせ！,,XONG!,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0xae8,ほかの人と同じマスに止まったよ,,TRUNG O NGUOI,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0xb08,戦いをしかけるよね？,,THACH DAU?,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0xdf8,「%s」を捨てて,,BO %s,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0xe08,「%s」を手に入れたよ,,NHAN %s,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0xe20,「%s」を手に入れたけど,,NHAN %s ROI,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0xe38,捨てたよ,,BO!,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0xe54,これでいい？,,DONGY?,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0xe64,はい　　いいえ,,CO/KO,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0xe9c,使用するカードをえらんでね,,CHON THE DUNG,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0xeb8,「%s」を使うね,,DUNG %s,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x1130,サンダー,,SAM,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x1158,ハリケーン,,BAO,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x117c,クロスボウ,,NO,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x11a0,ロングソード,,KIEM,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x11e0,ハンマー,,BUA,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x11ec,運がよければ敵を倒せるかも,,MAY HA DICH,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x1208,特殊　速度６　使い捨て,,DB SPD6 1L,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x1220,いちかばちか,,LIU!,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x1230,あいてのカード一枚を破壊する,,PHA THE DICH,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x1260,ポリタンがみがわりに！？,,POLITAN DO,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x127c,防御　速度７　使い捨て,,DEF SPD7 1L,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x1294,みがわり,,DON,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x13b0,封いんされた魔法,,PHONGAN,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x13e0,ダークメテオ,,METEOR,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x1408,伝説の聖剣,,KIEM,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x142c,エクスカリバー,,EXCAL,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x143c,死亡するとＨＰ１００で復活,,HOISINH100HP,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x1458,復活の霊薬,,HSINH,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x1464,最強の魔法,,PHEP+,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x148c,メテオフォール,,METEOR,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x149c,最強の弓,,CUNG,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x14c0,ほのおの弓,,LUA,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x14cc,最強の魔剣,,MAKI,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x14f0,魔剣ムラマサ,,MURAMA,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x1500,あいての命中率を落とす,,GIAM CX,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x1518,まどわしの玉,,NGOCME,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x1528,指定武器カード１枚を盗む,,CUOP THE VK,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x1560,盗賊のオーブ,,DAO,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x158c,アースクエイク,,DONGDAT,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x15b4,ストームソード,,KIEMBAO,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x15c4,攻撃力を２倍にアップさせる,,ATK X2,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x15e0,力の指輪,,NHAN,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x15ec,ＨＰを６０回復する,,HOI60HP,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x1600,いやしのうた,,CHUAHP,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x1628,フェザーレイ,,FEATHR,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x1638,ダメージの１／２を奪う,,HUT 1/2 DMG,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x1668,ブラッドスピア,,GIAOMAU,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x1678,アイテムを使えなくする,,KHOA DO,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x1690,使い捨てアイテム,,DO 1 LAN,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x16a4,アイテム封じ,,KHOADO,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x16b4,クリティカルがでやすい,,DE CHI MANG,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x16e8,スノーストーム,Bão tuyết,BAOTUYET,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x16f8,速度が速い,Tốc độ cao,TOCDO,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x171c,せつなの剣,Kiếm chớp nhoáng,KIEMNHANH,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x1728,ダメージを１／２にへらす,Giảm một nửa sát thương,GIAM1/2DMG,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x1744,使い捨て防御アイテム,Vật phẩm phòng thủ dùng một lần,THU 1 LAN,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x175c,シールド,Khiên,KHIEN,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x1768,ＨＰを３０回復する,Hồi 30 HP,HOI30HP,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
