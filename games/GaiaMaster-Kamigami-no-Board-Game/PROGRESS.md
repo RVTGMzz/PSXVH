@@ -23,172 +23,134 @@ Hai vùng quan trọng đã tìm thấy:
 
 - `SLPS_020.75`: executable, có ít nhất khoảng 358 chuỗi Nhật rõ.
 - `PRGPACK.BDP`: có khoảng 1.950 chuỗi ứng viên hợp lệ, gồm gameplay/menu/hướng dẫn/đối thoại.
-
-Tổng dump ứng viên đã từng thu được khoảng 2.282 chuỗi.
+- Tổng dump ứng viên đã từng thu được khoảng 2.282 chuỗi.
 
 ### 3. Alpha 0.1 thất bại
 
 Thử thay text Nhật bằng ASCII và padding NUL. Game vẫn qua intro/chọn nhân vật nhưng treo khi chuyển vào gameplay.
 
-Kết luận: không được giả định renderer/parser chấp nhận ASCII 1-byte + padding `00`.
-
 ### 4. Diagnostic 0.1.3 SAFE_SJIS thất bại
 
 Thử dùng Latin full-width trong Shift-JIS, giữ độ dài chuỗi. Game vẫn treo khi load gameplay.
 
-### 5. Diagnostic 0.1.4 JP_MARKER
-
-Chỉ thay hai chuỗi Nhật bằng chuỗi Nhật khác, cùng Shift-JIS và cùng chính xác số byte:
-
-- `PRGPACK.BDP`: `ゲームをはじめるよ` → `ゲームをはじめるね`.
-- `SLPS_020.75`: `%sの番よ！` → `%sの番だ！`.
-
-Kết quả: treo khi vào gameplay.
-
-### 6. COPY_ONLY
+### 5. COPY_ONLY
 
 Chỉ copy BIN, không sửa byte nào.
 
-Kết quả: gameplay bình thường.
+**Kết quả: OK.**
 
 Điều này xác nhận BIN gốc, CUE mới và thao tác copy không phải nguyên nhân.
 
-### 7. Diagnostic 0.1.5 cô lập từng file
+## Diagnostic 0.1.6 — kết quả
 
-- `JP_PRGPACK_ONLY`: chỉ patch `ゲームをはじめるよ` → `ゲームをはじめるね` trong `PRGPACK.BDP`: được báo là **OK**.
-- `JP_SLPS_ONLY`: chỉ patch `%sの番よ！` → `%sの番だ！` trong `SLPS_020.75`: **OK**.
-
-Kết quả PRGPACK_ONLY sau đó mâu thuẫn với các test 0.1.6/0.1.7, nên hiện xem đây là một false negative/stale-image khả dĩ và không dùng nó làm bằng chứng rằng offset 908648 an toàn.
-
-## Diagnostic 0.1.6 — KẾT QUẢ
-
-### A. `COMBO_RETEST`
-
-- PRGPACK offset `908648`: `ゲームをはじめるよ` → `ゲームをはじめるね`.
-- SLPS offset `2768`: `%sの番よ！` → `%sの番だ！`.
-- **Kết quả: TREO.**
-
-### B. `PRGPACK_TWO_SECTORS`
-
-- PRGPACK offset `908648`: `ゲームをはじめるよ` → `ゲームをはじめるね`.
-- PRGPACK offset `0x510`: `やるね` → `やるよ`.
-- **Kết quả: TREO.**
-
-### C. `SLPS_TWO_SECTORS`
-
-Hai patch đều trong `SLPS_020.75`.
-
-- **Kết quả: OK.**
-
-### D. `COMBO_ALT`
-
-Patch khác trong PRGPACK + patch khác trong SLPS.
-
-- **Kết quả: OK.**
+- A `COMBO_RETEST`: **TREO**
+- B `PRGPACK_TWO_SECTORS`: **TREO**
+- C `SLPS_TWO_SECTORS`: **OK**
+- D `COMBO_ALT`: **OK**
 
 Kết luận: không phải mọi multi-sector patch đều lỗi, không phải mọi cross-file patch đều lỗi, và không phải cứ sửa PRGPACK là lỗi.
 
-## Diagnostic 0.1.7 — KẾT QUẢ
-
-Bốn test đều liên quan đến hai chuỗi nằm tại vùng raw sector `3122` của `PRGPACK.BDP`.
+## Diagnostic 0.1.7 — kết quả
 
 - A `A_ONLY_FRESH`: **TREO**
 - B `B_ONLY_SAME_SECTOR`: **TREO**
 - C `A_PLUS_B_SAME_SECTOR`: **TREO**
 - D `A_PLUS_C_ADJACENT`: **TREO**
 
-Điều này xác nhận chắc hơn rằng riêng thay đổi tại vùng dữ liệu chứa offset `908648` / sector `3122` là trigger ổn định. Kết quả 0.1.5 PRGPACK_ONLY trước đó không còn được coi là đáng tin để kết luận vùng này an toàn.
+Vùng bị cô lập nằm trong nested BDP tại `PRGPACK.BDP` offset `0xDDA98`.
 
-## Phát hiện cấu trúc BDP mới sau 0.1.7
+## Cấu trúc BDP đã reverse được
 
-`PRGPACK.BDP` không phải một blob phẳng. Nó là một archive BDP chứa nhiều BDP con.
+Các BDP quan sát được có dạng:
 
-Header BDP quan sát được:
+- dword `+0x00`: magic `0x000010F0`
+- dword `+0x04`: checksum 32-bit
+- dword `+0x08`: kích thước TOC, theo mẫu `8 + count * 8`
+- dword `+0x0C`: count
+- tiếp theo là các descriptor 8 byte
 
-- dword 0: `0x000010F0` lặp lại ở các BDP.
-- dword 1: giá trị 32-bit chưa xác định chức năng.
-- dword 2: kích thước TOC theo mẫu `8 + count * 8`.
-- dword 3: số entry.
-- tiếp theo là các cặp `(offset, size)` 8 byte/entry.
-- offset entry tính từ base sau bảng TOC.
+Nested BDP chứa bảng text gameplay đang nghiên cứu:
 
-Với `PRGPACK.BDP`:
+- bắt đầu tại PRGPACK offset `0xDDA98`
+- kích thước block: `0x26BC8`
+- checksum gốc: `0x9BC0643F`
+- count = 1
+- bảng text đầu payload có 79 chuỗi
 
-- count = 60.
-- payload base top-level = `0x1F0` (496).
-- entry 30 có offset tương đối `907432`, size `158664`.
-- nested BDP entry 30 thực sự bắt đầu tại PRGPACK offset `0xDDA98` (907928).
-- nested BDP này có 1 entry.
-- payload nested bắt đầu tại `0xDDAB0`.
-- đầu payload là bảng text với count = 79 chuỗi.
+Một số chuỗi quan trọng:
 
-Hai chuỗi gây treo nằm trong chính bảng text 79 chuỗi này:
+- `0xDDD68`: `ゲームをはじめるよ`
+- `0xDDD7C`: `データがないわよ`
+- `0xDE110`: `ＳＬＯＴをえらんでね`
 
-- index 36, PRGPACK offset `0xDDD68` (908648), raw sector 3122: `ゲームをはじめるよ`.
-- index 37, PRGPACK offset `0xDDD7C` (908668), raw sector 3122: `データがないわよ`.
+## Diagnostic 0.1.8 — kết quả
 
-Một patch PRGPACK khác từng chạy được (`やるね` → `やるよ` tại offset `0x510`) nằm trong một nested BDP khác, nên giả thuyết mới mạnh hơn là **nested BDP entry 30 hoặc vùng đầu của nó có integrity/validation riêng**, không phải toàn bộ PRGPACK bị khóa.
+- A `FIRST_STRING_S3122`: **TREO**
+- B `SLOT_S3123`: **TREO**
+- C `CONTROL_OTHER_PACK`: **OK**
+- D `BALANCED_SWAP`: **OK**
 
-EDC/ECC raw-sector đã được kiểm tra bằng cách regenerate sector gốc và so byte-for-byte; các sector kiểm tra khớp dữ liệu gốc. Chưa có bằng chứng lỗi ECC/EDC.
+### Ý nghĩa
 
-## Diagnostic 0.1.8 — NESTED BDP
+A và B cho thấy thay đổi bất kỳ trong nested BDP mục tiêu đều có thể làm game treo, kể cả khác sector.
 
-Mục tiêu là phân biệt:
+C xác nhận patcher raw-sector và EDC/ECC vẫn hoạt động ở BDP khác.
 
-1. raw sector 3122 có tính chất đặc biệt;
-2. toàn bộ nested BDP entry 30 có integrity/checksum/validation;
-3. có checksum đơn giản phụ thuộc tổng/xor byte;
-4. patcher vẫn hoạt động bình thường ở nested BDP khác.
+D là phát hiện quyết định: đổi một `よ→ね` và một `ね→よ` trong cùng nested BDP, tức tổng byte không đổi, thì game chạy bình thường.
 
-### Test A — `FIRST_STRING_S3122`
+## Đã reverse được checksum BDP
 
-Trong nested entry 30, đổi string index 0:
+Với nested BDP mục tiêu, trường 32-bit tại `+0x04` là checksum additive.
 
-- `あ` → `い`
-- cùng 2 byte Shift-JIS
-- PRGPACK offset `0xDDAB4`
-- raw sector 3122
+Công thức khớp **chính xác** dữ liệu gốc:
 
-### Test B — `SLOT_S3123`
+```text
+sum16 = sum(tất cả byte của BDP, bỏ qua 4 byte checksum tại +0x04..+0x07) & 0xFFFF
+checksum = ((~sum16 & 0xFFFF) << 16) | sum16
+```
 
-Trong cùng nested entry 30 nhưng sector kế tiếp:
+Với block gốc:
 
-- `ＳＬＯＴをえらんでね` → `ＳＬＯＴをえらんでよ`
-- PRGPACK offset `0xDE110`
-- raw sector 3123
+```text
+sum16    = 0x643F
+~sum16   = 0x9BC0
+checksum = 0x9BC0643F
+```
 
-Nếu A treo nhưng B OK, sector 3122 hoặc phần đầu nested archive là vùng đặc biệt.
+Đã kiểm tra thêm trên nhiều BDP `count=1` khác trong `PRGPACK.BDP`: low 16-bit của checksum luôn bằng byte-sum modulo 65536, high 16-bit luôn là one's complement của low 16-bit.
 
-Nếu A và B đều treo, khả năng validation áp trên toàn nested entry 30 tăng mạnh.
+Điều này giải thích hoàn toàn kết quả `BALANCED_SWAP`: tổng byte không đổi nên checksum cũ vẫn hợp lệ.
 
-### Test C — `CONTROL_OTHER_PACK`
+## Diagnostic 0.1.9 — bước hiện tại
 
-Control ở nested BDP khác:
+Đã tạo patcher mới có khả năng:
 
-- `やるね` → `やるよ`
-- PRGPACK offset `0x510`
+1. patch text trong nested BDP mục tiêu;
+2. tự tính lại checksum BDP theo công thức trên;
+3. ghi checksum mới vào header;
+4. regenerate EDC/ECC cho mọi raw sector bị thay đổi.
 
-Nếu C OK trong khi A/B treo, patcher/ECC vẫn hoạt động và lỗi bị cô lập vào nested entry 30.
+Các test cần chạy:
 
-### Test D — `BALANCED_SWAP`
+- A `FIX_A_CHECKSUM`: Nhật → Nhật ở chuỗi từng gây treo, có cập nhật checksum.
+- B `FIX_SLOT_CHECKSUM`: Nhật → Nhật ở sector 3123, có cập nhật checksum.
+- C `FIX_FIRST_CHECKSUM`: sửa chuỗi đầu bảng, có cập nhật checksum.
+- D `FULLWIDTH_BATDAU_CHECKSUM`: đổi `ゲームをはじめるよ` thành full-width `ＢＡＴＤＡＵ！！！`, đúng 18 byte Shift-JIS, đồng thời cập nhật checksum. Đây là test renderer đầu tiên sau khi sửa integrity.
 
-Trong nested entry 30:
+### Kỳ vọng
 
-- `ゲームをはじめるよ` → `ゲームをはじめるね`
-- `ＳＬＯＴをえらんでね` → `ＳＬＯＴをえらんでよ`
+Nếu A/B/C vào gameplay được, nguyên nhân treo đã được giải quyết: checksum BDP là khóa integrity.
 
-Việc đổi một `よ→ね` và một `ね→よ` giữ nguyên histogram byte, tổng byte và XOR byte toàn archive. Nếu D bất ngờ chạy trong khi A/B treo, cần điều tra checksum đơn giản kiểu additive/xor. Nếu D vẫn treo, checksum nếu có nhiều khả năng là CRC/hash/position-sensitive hoặc nguyên nhân không phải checksum đơn giản.
+Nếu D cũng chạy và hiển thị Latin full-width, có thể quay lại prototype Việt hóa UI/menu ngay, rồi mới xử lý custom glyph tiếng Việt có dấu.
 
 ## Quy tắc test
 
-- Cold boot game cho từng image.
-- Không load save state DuckStation từ image khác.
-- Mỗi BAT luôn nhận BIN gốc SHA1 chuẩn.
-- Mở đúng `.cue` mới sinh có nhãn diagnostic tương ứng.
+- Cold boot cho từng image.
+- Không load save state từ image khác.
+- Mỗi BAT dùng BIN gốc SHA1 chuẩn.
+- Mở đúng `.cue` mới sinh.
 
 ## Mục tiêu dài hạn
-
-Sau khi giải quyết được cơ chế ghi dữ liệu ổn định:
 
 1. dump text có cấu trúc;
 2. xác định pointer table;
@@ -200,15 +162,16 @@ Sau khi giải quyết được cơ chế ghi dữ liệu ổn định:
 
 ## Trạng thái handoff hiện tại
 
-- Original: OK
-- COPY_ONLY: OK
-- 0.1.6 A COMBO_RETEST: TREO
-- 0.1.6 B PRGPACK_TWO: TREO
-- 0.1.6 C SLPS_TWO: OK
-- 0.1.6 D COMBO_ALT: OK
-- 0.1.7 A A_ONLY_FRESH: TREO
-- 0.1.7 B B_ONLY_SAME_SECTOR: TREO
-- 0.1.7 C A+B SAME_SECTOR: TREO
-- 0.1.7 D A+C ADJACENT: TREO
-
-Tiếp tục bằng diagnostic 0.1.8. Chưa quay lại ASCII/full-width Latin cho tới khi hiểu cơ chế nested BDP entry 30.
+- Original: **OK**
+- COPY_ONLY: **OK**
+- 0.1.6 A: **TREO**
+- 0.1.6 B: **TREO**
+- 0.1.6 C: **OK**
+- 0.1.6 D: **OK**
+- 0.1.7 A/B/C/D: **TREO**
+- 0.1.8 A: **TREO**
+- 0.1.8 B: **TREO**
+- 0.1.8 C: **OK**
+- 0.1.8 D: **OK**
+- Checksum BDP: **đã reverse được**
+- Tiếp theo: test diagnostic 0.1.9 với checksum tự cập nhật.
