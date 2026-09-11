@@ -28,51 +28,80 @@ TESTẾ
   - linear 94×94 index `1410`
 - Safe executable cave cũ vẫn giữ làm thông tin tham chiếu, nhưng task này không cần thêm Krom hook.
 
-## Tooling mới
+## Scanner 0.1.3 — kết quả thật
 
-Đang dùng forensic scanner riêng cho Gaia Master, chạy trên BIN local của người test. Scanner không sửa game.
-
-Scanner làm ba lớp:
-
-1. Bóc `SLPS_020.75` + `PRGPACK.BDP`, parse nested BDP và xác định entry sở hữu offset Character Select.
-2. Quét TIM trong SLPS/PRGPACK/nested entries, decode PNG, chấm điểm texture có dáng font atlas và tìm tile gần hình `亜`.
-3. Quét raw fixed-stride 1bpp JIS-like atlas ở các layout `16x15/30`, `16x15/32`, `16x16/32`, lấy JIS index 1410 làm tâm contact sheet.
-
-Output chính:
+User đã chạy scanner trên clean BIN đúng SHA1:
 
 ```text
-report.json
-report.txt
-tim/*.png
-raw_jis/*.png
+f4d5298583c90d89c4b7e51d2dde160ee07f2aec
 ```
 
-Scanner tự đóng gói các output forensic thành ZIP và không đưa game BIN/SLPS/PRGPACK vào ZIP.
+Embedded files cũng match source-of-truth:
 
-## Probe builder
+```text
+SLPS_020.75  1dfeb6b7cfda59c108dde2dc0b8abda9a40e6ae5
+PRGPACK.BDP  a9b195b8ae5d8cad7f4f755daa08337d4671632c
+```
 
-Probe builder generic nhận scanner `report.json` và candidate `raw:N` hoặc `tim:N`.
+Scanner xác nhận Character Select offset:
 
-Nó sẽ:
+```text
+PRGPACK + 0xBFD2C
+=> owner nested entry 29
+=> entry29 local +0x580
+```
 
-- ưu tiên baseline `Alpha 0.6.1 FRONT` SHA1 `54d2fb026bc3b71c79861e723caffb4114caa34c` để giữ 397 patch hiện tại;
-- patch Character Select về `TEST亜`;
-- thay đúng candidate glyph bitmap thành glyph chẩn đoán `Ế`;
-- rebuild nested/top-level BDP checksum;
-- ghi lại MODE2/Form1 sectors và regenerate EDC/ECC;
-- xuất BIN + CUE để test ngay ở Character Select.
+### TIM scan
 
-Clean ROM chỉ được dùng khi chủ động bật `--allow-clean`; không dùng clean ROM làm probe chính vì sẽ mất baseline 397 patch.
+Chỉ có 3 TIM candidate điểm thấp, đều thuộc `PRGPACK.entry00`, kích thước `36x80 4bpp`. Visual inspection không cho thấy font atlas / glyph sheet đáng tin cậy.
 
-## Quy trình test tối ưu
+### Raw JIS-like scan
 
-1. Chạy scanner một lần trên BIN Gaia Master local.
-2. Đọc `report.json` + contact sheets, chọn candidate có bằng chứng mạnh nhất.
-3. Build **một probe chính duy nhất** trên Alpha 0.6.1 FRONT.
-4. Vào Character Select.
-5. Nếu hiện `TESTẾ`: atlas/cache path PASS, bắt đầu mở rộng Vietnamese glyph table/codepage.
-6. Nếu vẫn `TEST亜`: loại candidate đó và dùng candidate tiếp theo theo evidence; không quay lại Krom wrapper.
+Top candidates tập trung ở:
 
-## Trạng thái hiện tại
+- `PRGPACK.entry29`
+- `PRGPACK.entry33`
+- `PRGPACK.entry08`
+- `PRGPACK.entry10`
+- `SLPS_020.75`
 
-Tool scanner và generic atlas probe builder đã được dựng và sanity-test bằng synthetic BDP/TIM/raw-atlas data. Repo không chứa ROM/SLPS/PRGPACK binary, nên offset atlas thật chưa được phép đoán tĩnh. Bước cần dữ liệu tiếp theo là chạy scanner trên BIN local để lấy candidate report thật.
+Visual inspection của contact sheets cho thấy các candidate top là structured data/code-like bit patterns, không phải chuỗi glyph Nhật. Không patch `raw:1` hoặc `tim:1` vì hiện không có evidence đủ mạnh và có nguy cơ phá data.
+
+## Kết luận sau scanner
+
+Static flat-atlas hypothesis bị yếu đi đáng kể.
+
+Khả năng mạnh hơn hiện tại:
+
+1. Character Select dựng glyph cache lúc runtime;
+2. font/glyph nằm trong sub-BDP/overlay của entry29 thay vì flat JIS-order atlas;
+3. renderer lookup qua table/overlay riêng rồi upload glyph/tiles lên VRAM;
+4. cache được populate trước khi Character Select draw nên hook Krom trước đó không nhìn thấy code path glyph thực tế.
+
+## Stage 2
+
+Không build probe mù từ scanner 0.1.3.
+
+Bước kế tiếp là reverse trực tiếp:
+
+- `SLPS_020.75`
+- `PRGPACK.BDP`
+- `PRGPACK_entry29.BDP`
+- children của entry29
+
+Một Stage 2 extractor đã được dựng để user chạy trên clean BIN, chỉ trích ~2 MB dữ liệu cần reverse và không sửa game.
+
+Khi nhận `GaiaMaster_FontReverse_STAGE2.zip`, reverse tiếp:
+
+1. parse entry29 recursively;
+2. xác định child/overlay chứa local offset `+0x580`;
+3. disassemble/search MIPS code/data tables liên quan;
+4. lần theo loader/render/VRAM upload path;
+5. chỉ khi tìm được bitmap/cache thật của `0x889F`, tạo **một probe duy nhất** `TEST亜 -> TESTẾ`.
+
+## Quy tắc test
+
+- Không quay lại Krom wrapper diagnostics.
+- Không patch candidate chỉ vì score scanner cao.
+- Không bắt user vào sâu gameplay.
+- Chỉ tạo runtime probe sau khi có static evidence đủ mạnh.
