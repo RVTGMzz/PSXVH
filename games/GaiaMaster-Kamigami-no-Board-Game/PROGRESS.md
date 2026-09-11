@@ -121,27 +121,37 @@ checksum = 0x9BC0643F
 
 Điều này giải thích hoàn toàn kết quả `BALANCED_SWAP`: tổng byte không đổi nên checksum cũ vẫn hợp lệ.
 
-## Diagnostic 0.1.9 — bước hiện tại
+## Diagnostic 0.1.9 — kết quả hiện có
 
-Đã tạo patcher mới có khả năng:
+Patcher 0.1.9 có khả năng:
 
 1. patch text trong nested BDP mục tiêu;
-2. tự tính lại checksum BDP theo công thức trên;
+2. tự tính lại checksum BDP;
 3. ghi checksum mới vào header;
 4. regenerate EDC/ECC cho mọi raw sector bị thay đổi.
 
-Các test cần chạy:
+### Kết quả đã xác nhận
 
-- A `FIX_A_CHECKSUM`: Nhật → Nhật ở chuỗi từng gây treo, có cập nhật checksum.
-- B `FIX_SLOT_CHECKSUM`: Nhật → Nhật ở sector 3123, có cập nhật checksum.
-- C `FIX_FIRST_CHECKSUM`: sửa chuỗi đầu bảng, có cập nhật checksum.
-- D `FULLWIDTH_BATDAU_CHECKSUM`: đổi `ゲームをはじめるよ` thành full-width `ＢＡＴＤＡＵ！！！`, đúng 18 byte Shift-JIS, đồng thời cập nhật checksum. Đây là test renderer đầu tiên sau khi sửa integrity.
+- A `FIX_A_CHECKSUM`: **OK**
+- B `FIX_SLOT_CHECKSUM`: **OK**
 
-### Kỳ vọng
+Đây là bằng chứng thực nghiệm rất mạnh rằng checksum BDP chính là nguyên nhân khiến các bản patch trước treo khi vào gameplay.
 
-Nếu A/B/C vào gameplay được, nguyên nhân treo đã được giải quyết: checksum BDP là khóa integrity.
+### Chưa xác nhận rõ từ lần test hiện tại
 
-Nếu D cũng chạy và hiển thị Latin full-width, có thể quay lại prototype Việt hóa UI/menu ngay, rồi mới xử lý custom glyph tiếng Việt có dấu.
+Tin nhắn kết quả gần nhất chỉ xác nhận chắc A và B. Các dòng C, D và trạng thái hiển thị `BATDAU!!!` vẫn để nguyên lựa chọn mẫu nên chưa được coi là kết quả hợp lệ.
+
+Các test còn cần chốt:
+
+- C `FIX_FIRST_CHECKSUM`: `OK` hoặc `TREO`
+- D `FULLWIDTH_BATDAU_CHECKSUM`: `OK` hoặc `TREO`
+- Nếu D OK: có nhìn thấy `ＢＡＴＤＡＵ！！！` trong game hay không
+
+### Ý nghĩa nếu C/D đều OK
+
+- cơ chế sửa checksum đã được xác nhận đủ mạnh để dùng làm nền cho patcher thật;
+- nếu D hiển thị được Latin full-width, renderer hỗ trợ bộ ký tự đó;
+- bước sau có thể chuyển từ diagnostic sang prototype Việt hóa menu/gameplay có kiểm soát.
 
 ## Quy tắc test
 
@@ -174,4 +184,6 @@ Nếu D cũng chạy và hiển thị Latin full-width, có thể quay lại pro
 - 0.1.8 C: **OK**
 - 0.1.8 D: **OK**
 - Checksum BDP: **đã reverse được**
-- Tiếp theo: test diagnostic 0.1.9 với checksum tự cập nhật.
+- 0.1.9 A `FIX_A_CHECKSUM`: **OK**
+- 0.1.9 B `FIX_SLOT_CHECKSUM`: **OK**
+- 0.1.9 C/D và hiển thị `BATDAU!!!`: **đang chờ xác nhận rõ**
