@@ -1,0 +1,101 @@
+file,offset_hex,japanese,vi_full,vi_game_current,status,note
+PRGPACK.BDP,0x67c78,価値,Giá trị,GIATRI,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x67c80,通行税,Phí qua đường,PHI QD,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x67c88,物件を決めたら、,"Khi đã chọn tài sản,",CHON XONG TS,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x67d50,そんな土地ないじゃない,Không có mảnh đất như vậy,KHONG CO DAT,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x67d68,%sを建てたよ,Đã xây %s,XAY %s,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x67d78,%dゼニーはらってね,Trả %d Zenny,TRA %d ZENNY,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x67d8c,/V%sさん/v,%s,/V%s/v,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x67d98,お金たりないじゃない！,Không đủ tiền!,THIEU TIEN!,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x67db0,不足金額： %dゼニー,Thiếu: %d Zenny,THIEU:%d Z,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x67dc4,あーあぁ,Chán thật,CHAN,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x67dec,%sさんの資産とカードが,Tài sản và thẻ của %s,TS+THE %s,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x67e04,%sさんのものになるよ,sẽ thuộc về %s,THUOC %s,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x67edc,次の武器カードをもらったよ,Nhận thẻ vũ khí sau,NHAN THE VK,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x67ef8,手持ちの武器カードがいっぱいだよ,Thẻ vũ khí đã đầy,THE VK DA DAY,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x67f1c,なにか捨ててね,Hãy bỏ bớt một thẻ,BO BOT THE,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x67f2c,次のイベントカードをもらったよ,Nhận thẻ sự kiện sau,NHAN THE SK,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x67f4c,手持ちのイベントカードがいっぱいで,Thẻ sự kiện đã đầy,THE SK DA DAY,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x67f94,「%s」を捨てて,Bỏ %s,BO %s,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x67fa4,「%s」を手に入れたよ,,NHAN %s,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x67fbc,「%s」を,%s,「%s」,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x67fc8,あきらめたよ,Đã từ bỏ,DA BO,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x67fd8,レベル５裏武器カード,Thẻ vũ khí ẩn cấp 5,THE VK AN LV5,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x67ff0,レベル５表武器カード,Thẻ vũ khí cấp 5,THE VK LV5,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68024,表武器カード,Thẻ vũ khí,THE VK,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68088,そんな土地ないじゃない,Không có mảnh đất như vậy,KHONG CO DAT,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x680a0,%sを売ったよ,Đã bán %s,BAN %s,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68698,もう１回行動できるよ！！,Được hành động thêm một lần!!,THEM 1 LUOT!!,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x686b4,同じマスに止まってる人のお金を,Lấy tiền người cùng ô,LAY TIEN CUNG O,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x686d4,はんぶん盗めるよ！！,Có thể trộm một nửa!!,TROM 1/2!!,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x686ec,通行税なんかふみたおしちゃえ！！,Quỵt luôn phí qua đường!!,QUYT PHI QD!!,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68710,シンボルを一つ壊せるよ,Phá được một biểu tượng,PHA 1 BIEUTUONG,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68728,ダイスの数が４コになるよ！！,Có 4 xúc xắc!!,4 XUCXAC!!,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68748,神さまからのプレゼント！！,Quà từ thần linh!!,QUA THAN!!,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68764,土地を１つもらえるよ！！,Nhận một mảnh đất!!,NHAN 1 DAT!!,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68780,もらえるお金が倍になるよ！！,Tiền nhận được tăng gấp đôi!!,TIEN NHAN X2!!,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x687a0,お店破壊なんてガードしちゃえ！！,Chặn phá cửa hàng!!,CHAN PHA SHOP!!,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x687c4,ほかの人と同じマスに止まったよ,Dừng cùng ô với người khác,TRUNG O NGUOI,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x687e4,戦いをしかけるよ？,Khiêu chiến chứ?,THACH DAU?,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x687f8,お金なんかふみたおしちゃえ！！,Quỵt luôn tiền phải trả!!,QUYT TIEN!!,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68888,飛ばすぜ ！！,Bay đi!!,BAY DI!!,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68898,なにぃ～い 通行税だと？,"Cái gì, phí qua đường à?",PHI QD HA?,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x688b0,何で わしが はらわにゃ ならんのだ！！,Sao ta phải trả chứ!!,SAO TA PHAI TRA!!,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x688d8,かぅぁ～もぉ～ん,Come on!,COME ON,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x688ec,金斗雲,Cân Đẩu Vân,CAN DAU VAN,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68968,あっなんか,"Ơ, hình như",HINH NHU,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68974,多くもらっちゃった,nhận được nhiều hơn,NHAN NHIEU HON,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68988,お金が 持ち切れないみたい,Có vẻ không mang hết tiền,TIEN QUA NHIEU,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x689a4,最大 99999までよ,Tối đa 99999,TOI DA 99999,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x689b8,聖地に 預けておいたから,Đã gửi phần dư ở Thánh địa,GUI O THANH DIA,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x689d0,聖地で 引き落としてね,Hãy rút ở Thánh địa,RUT O THANH DIA,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x689e8,(速い者順),(Theo thứ tự nhanh),(NHANH TRUOC),TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x689f4,我が けんぞくよ,Thuộc hạ của ta,THUOC HA TA,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68a04,退け,Lùi ra,LUI RA,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68a0c,へへん,Hê hê,HE HE,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68a28,我に 近付くとは,Dám lại gần ta,DAM LAI GAN,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68a38,小賢しい,Láu cá,LAU CA,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68a44,ん？,Hử?,HU?,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68a4c,いっちょう やってみっか,Làm một trận nhé,DAU 1 TRAN?,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68a64,勝利者,Kẻ chiến thắng,THANG,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68aa8,俺さまが遊んでやるぜ！,Ta sẽ chơi với ngươi!,TA CHOI VOI NGUOI,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68ae4,%sのラッキー！！,%s gặp may!!,%s MAY MAN!!,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68afc,悪いな%s,Xin lỗi nhé %s,XINLOI %s,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68b08,%dゼニーもらってゆくぜ,Ta lấy %d Zenny đây,LAY %d ZENNY,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68b20,%dゼニー,%d Zenny,%d ZENNY,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68b2c,%sは,%s,%s,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68b9c,は～はっは 破壊じゃ 破壊じゃ,"Ha ha, phá hủy nào!",HAHA PHA HUY,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68bbc,どれを 破壊してくれようぞ！！,Phá cái nào đây!!,PHA CAI NAO!!,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68bdc,この シンボルは,Biểu tượng này,BIEUTUONG NAY,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68bec,ふっ,Hừ,HU,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68bf4,カスが ,Đồ rác rưởi,DO RAC,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68bfc,ぐぬぅ～,Grrr...,GRRR,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68c08,なんか 気がのらん,Ta không có hứng,KHONG CO HUNG,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68c30,墓地,Nghĩa địa,NGHIA,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68c38,浴場,Nhà tắm,NHATAM,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68ca4,施設    %s,Cơ sở %s,COSO %s,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68cb0,所有者  %s,Chủ sở hữu %s,CHU %s,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68cbc,通行税  %4d,Phí qua đường %4d,PHI %4d,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68cc8,価値    %4d,Giá trị %4d,GIA %4d,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68cd4,買えません,Không mua được,KHONG MUA,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68ce0,します,Thực hiện,LAM,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68ce8,どこかにワープ,Dịch chuyển đâu đó,WARP NGAU NHIEN,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68cf8,たまったお金が,Tiền đã tích lũy,TIEN TICH LUY,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68d08,大不幸、不幸で,Do Đại bất hạnh/Bất hạnh,DO XUI,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68d18,所得税、土地税,"Thuế thu nhập, thuế đất",THUE TN/DAT,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68d28,らいます,sẽ nhận,NHAN,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68d34,の２０％をしは,trả 20%,TRA 20%,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68d44,止まると所持金,"khi dừng, tiền đang có",DUNG: TIEN CO,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68d54,としてしはらい,được trả dưới dạng,TRA,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68d64,の２０％を税金,20% thành thuế,20% THANH THUE,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68d74,止まると土地代,"khi dừng, giá đất",DUNG: GIA DAT,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68d84,わります,thay đổi,DOI,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68d90,ルートが切りか,tuyến đường chuyển,DOI TUYEN,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68da0,１ターンごとに,mỗi một lượt,MOI 1 LUOT,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68db0,ます,sẽ,SE,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68db8,を切りかえられ,có thể chuyển,CO THE DOI,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68dc8,止まるとルート,"khi dừng, tuyến đường",DUNG: TUYEN,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68dd8,が手に入ります,sẽ nhận được,SE NHAN,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68de8,てば武器カード,thẻ vũ khí,THE VK,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68df8,ームができ、勝,"có thể chơi, nếu thắng",CHOI VA THANG,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x68e08,止まるとミニゲ,khi dừng có mini game,DUNG: MINI GAME,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
