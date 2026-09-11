@@ -74,12 +74,7 @@ MODE2/Form1 user data ở raw `+24`, 2048 byte. Sau patch phải regenerate EDC/
 
 - 397 patch
 - 26 raw sectors
-- output SHA1 `54d2fb026bc3b71e25f70c7580568fcd7311246`? **Không dùng giá trị này.** Giá trị runtime baseline đúng là:
-
-```text
-54d2fb026bc3b71c79861e723caffb4114caa34c
-```
-
+- output SHA1 `54d2fb026bc3b71c79861e723caffb4114caa34c`
 - user xác nhận nhiều text đầu game đã Việt hóa
 - vẫn còn nhiều Nhật
 - intro có fragment Nhật + Việt lẫn nhau do chưa patch đủ toàn bộ fragment
