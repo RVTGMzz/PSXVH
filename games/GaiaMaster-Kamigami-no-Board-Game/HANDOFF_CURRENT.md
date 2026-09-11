@@ -38,8 +38,97 @@ MODE2/Form1 sector user data starts at raw `+24`, 2048 bytes. Sau patch phải r
 
 - Shift-JIS Japanese: OK.
 - Full-width Latin CP932: **OK runtime**.
-- ASCII 1-byte: **FAIL runtime**, hiện ký hiệu sai dù checksum đúng. Không quay lại hướng này.
+- ASCII 1-byte cũ: **FAIL runtime**, hiện ký hiệu sai dù checksum đúng.
+- Nguyên nhân ASCII fail đã reverse: Japanese build đang ở 2-byte KROM mode, nên byte ASCII bị consume theo cặp.
 - UTF-8 trực tiếp: không dùng.
+
+## Font renderer breakthrough 0.3
+
+Static reverse đã xác định đường render thật trong `SLPS_020.75`.
+
+### Japanese path
+
+Renderer loop quanh `0x80036460`.
+
+Khi global font/region mode = 0, code tại `0x800364E4` đọc 2 byte Shift-JIS, ghép thành 16-bit code rồi gọi wrapper `0x80068208`.
+
+`0x80068208` là trampoline BIOS `B(51h) Krom2RawAdd`.
+
+=> Japanese glyph bình thường lấy từ BIOS KROM 16x15.
+
+### Single-byte path
+
+Khi font/region mode != 0, code dùng base BIOS font:
+
+```text
+BFC7F8DE
+```
+
+và tính:
+
+```text
+glyph = base + (byte - 0x21) * 15
+```
+
+Helper `0x80036788` scan 15 rows, bit7..bit0.
+
+=> single-byte glyph format là 8x15, 15 bytes/glyph.
+
+### Font Test 0.3
+
+Đã build `GaiaMaster_VI_Font_Test_0.3_CUSTOM_GLYPH`.
+
+Diagnostic này:
+
+1. force renderer sang single-byte mode;
+2. redirect font base sang custom atlas trong RAM;
+3. inject atlas 8x15 vào zero cave của executable;
+4. map 67 ký tự Việt HOA có dấu vào custom one-byte codes;
+5. hiển thị test ngay INTRO.
+
+Custom atlas:
+
+```text
+SLPS file offset: 0x6FE10
+RAM address:      0x8007F610
+size:             3345 bytes
+codes:            0x21..0xFF
+```
+
+Visible intro target:
+
+```text
+TIẾNG VIỆT
+Ă Â Ê Ô Ơ Ư Đ
+Á À Ả Ã Ạ
+Ắ Ằ Ẳ Ẵ Ặ
+Ế Ề Ể Ễ Ệ
+Ớ Ờ Ở Ỡ Ợ
+Ứ Ừ Ử Ữ Ự
+```
+
+Local builder verify:
+
+```text
+[OK] GAIA MASTER VI FONT TEST 0.3 BUILD SUCCESS
+Patched text locations: 11
+Touched nested BDP entries: 1 [29]
+Changed raw sectors: 6
+Output SHA1: 5099867923398aad35c59ca177c24409a41514d6
+```
+
+Runtime result: **đang chờ user test**.
+
+Caveat: test 0.3 force single-byte global nên Japanese text sau intro có thể rác. Chỉ đánh giá intro.
+
+Nếu 0.3 pass, next step là hybrid renderer:
+
+- ASCII/custom Vietnamese -> custom single-byte atlas;
+- Japanese Shift-JIS chưa dịch -> KROM 2-byte path.
+
+Điều này vừa cho phép dev build Nhật/Việt lẫn nhau, vừa có thể dùng 1-byte Vietnamese để giảm áp lực slot.
+
+Chi tiết đầy đủ: `FONT_RENDERER_REVERSE_0.3.md`.
 
 ## Important diagnostics
 
@@ -111,37 +200,9 @@ Mọi diagnostic/demo mới phải đặt visible result ngay intro/main menu/ch
 
 ## NEXT TASK — highest priority
 
-### Vietnamese diacritics visible font test
-
-User đã đồng ý test dấu ngay bây giờ.
-
-Goal visible string ngay đầu game:
-
-```text
-TIẾNG VIỆT
-Ă Â Ê Ô Ơ Ư Đ
-Á À Ả Ã Ạ
-Ắ Ằ Ẳ Ẵ Ặ
-Ế Ề Ể Ễ Ệ
-Ớ Ờ Ở Ỡ Ợ
-Ứ Ừ Ử Ữ Ự
-```
-
-Không encode UTF-8 trực tiếp.
-
-Research path:
-
-1. trace text renderer/glyph lookup;
-2. executable có đầu mối wrapper/trampoline BIOS `B(51h) Krom2RawAdd`;
-3. xác nhận runtime có gọi BIOS font path hay font custom;
-4. nếu BIOS path: tìm cách map mã 2-byte không dùng sang custom Vietnamese glyph hoặc hook glyph fetch;
-5. nếu custom atlas: locate atlas/table, replace unused glyph slots và tạo encoder map;
-6. test visible ngay đầu game.
-
-Nếu font test pass:
-
-- chuyển builder sang encode `vi_full` có dấu;
-- dọn intro mixed Nhật/Việt;
-- patch graphic main menu/Character Select;
-- tiếp tục full translation;
-- reverse/repack string table cho 230 pending rows.
+1. User test `Font Test 0.3` ngay intro.
+2. Nếu glyph có dấu hiện đúng: build hybrid renderer.
+3. Chuyển runtime encoder sang custom Vietnamese one-byte path.
+4. Dọn intro mixed Nhật/Việt.
+5. Patch graphic main menu/Character Select.
+6. Tiếp tục full translation + repack 230 pending rows.
