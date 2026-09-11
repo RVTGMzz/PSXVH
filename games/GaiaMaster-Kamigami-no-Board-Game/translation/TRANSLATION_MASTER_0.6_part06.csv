@@ -1,0 +1,97 @@
+file,offset_hex,japanese,vi_full,vi_game_current,status,note
+SLPS_020.75,0x2d40,３マス進めるよ,Tiến 3 ô,TIEN 3 O,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x2d50,「３進む」,Tiến 3,「TIEN3」,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x2d5c,２マス進めるよ,Tiến 2 ô,TIEN 2 O,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x2d6c,「２進む」,Tiến 2,「TIEN2」,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x2d78,１マス進めるよ,Tiến 1 ô,TIEN 1 O,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x2d88,使うとダイスをふるかわりに,Dùng thay cho việc gieo xúc xắc,THAY XUCXAC,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x2da4,「１進む」,Tiến 1,「TIEN1」,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x2db0,ダイスの数が４つになるよ,Số xúc xắc tăng thành 4,XUCXAC X4,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x2dcc,超特急ーーー！,Siêu tốc!,SIEUTOC!,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x2ddc,「ダイス４つ」,4 xúc xắc,「4 XUCXAC」,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x2dec,ダイスの数が３つになるよ,Số xúc xắc tăng thành 3,XUCXAC X3,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x2e08,スピードアップ！,Tăng tốc!,TANGTOC!,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x2e1c,「ダイス３つ」,3 xúc xắc,「3 XUCXAC」,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x2e2c,まわりの通行税が３０％下がるよ！,Phí qua đường xung quanh giảm 30%!,PHI GIAM30%,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x2e50,死神のシンボルを建てると、,Xây biểu tượng Tử thần sẽ,XAY TU THAN,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x2e84,１０％、まわりの通行税ダウン！,Giảm phí xung quanh 10%!,PHI GIAM10%,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x2ea4,沼のシンボルを建てれば、,Xây biểu tượng đầm lầy sẽ,XAY DAM LAY,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x2edc,まわりの通行税が２倍になるよ！,Phí xung quanh tăng gấp đôi!,PHI X2,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x2efc,サーカスのシンボルを建てると、,Xây biểu tượng rạp xiếc sẽ,XAY XIEC,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x2f38,まわりの通行税が３倍になるよ！,Phí xung quanh tăng gấp ba!,PHI X3,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x2f58,大聖堂のシンボルを建てると、,Xây biểu tượng đại thánh đường sẽ,XAY THDUONG,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x2f90,まわりの通行税が７０％上がるよ！,Phí xung quanh tăng 70%!,PHI TANG70%,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x2fb4,庭園のシンボルを建てると、,Xây biểu tượng vườn sẽ,XAY VUON,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x2fe8,まわりの通行税が５０％上がるよ！,Phí xung quanh tăng 50%!,PHI TANG50%,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x300c,女神のシンボルを建てると、,Xây biểu tượng Nữ thần sẽ,XAY NU THAN,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x3040,まわりの通行税が３０％上がるよ！,Phí xung quanh tăng 30%!,PHI TANG30%,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x3064,温泉のシンボルを建てると、,Xây biểu tượng suối nóng sẽ,XAY SUOI,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x3098,まわりの通行税が５０％下がるよ！,Phí xung quanh giảm 50%!,PHI GIAM50%,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x30bc,はかばのシンボルを建てると、,Xây biểu tượng nghĩa địa sẽ,XAY NGHIA,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x30f4,まわりの通行税が７０％下がるよ！,Phí xung quanh giảm 70%!,PHI GIAM70%,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x3118,塔のシンボルを建てると、,Xây biểu tượng tháp sẽ,XAY THAP,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x3150,まわりの通行税が９０％下がるよ！,Phí xung quanh giảm 90%!,PHI GIAM90%,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x3174,邪神のシンボルを建てると、,Xây biểu tượng Tà thần sẽ,XAY TA THAN,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x31a8,邪魔なシンボルを壊せるよ！,Có thể phá biểu tượng cản trở!,PHA BIEUTUONG,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x31c4,このカードを使うと、,Dùng thẻ này sẽ,DUNG THE NAY,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x31dc,「地震」,Động đất,「DONGDAT」,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x31e8,戦闘をしかけることができるよ！,Có thể chủ động khiêu chiến!,CO THE THACHDAU,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x3208,このカードを使えば、ライバルに,Dùng thẻ này có thể với đối thủ,DUNG THE DOI THU,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x3228,「バトルカード」,Thẻ chiến đấu,「THE DAU」,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x323c,土地マスを無効にできるよ,Có thể vô hiệu ô đất,VO HIEU O DAT,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x3258,１ターンのあいだ自分の番だけ、,"Trong 1 lượt, riêng lượt của bạn",1 LUOT RIENG BAN,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x3278,「ふみたおし」,Quỵt tiền,「QUYT」,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x3288,特殊マスが効かなくなっちゃう,Ô đặc biệt tạm mất tác dụng,VO HIEU O DB,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x32a8,氷の女神のくちづけでしばらく,Nụ hôn Nữ thần băng khiến tạm thời,NU THAN BANG,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x32c8,「氷の女神のくちづけ」,Nụ hôn Nữ thần băng,「HON BANG」,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x32e0,を入れかえちゃう,Hoán đổi vị trí,DOI CHO,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x32f4,いたずら好きの時の神がみんなの場所,Thần thời gian tinh nghịch đổi vị trí mọi người,THAN GIO DOI CHO,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x3318,「時の神のいたずら」,Trò đùa Thần thời gian,「THAN GIO」,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x3330,ルートを変えてあげる,Đổi tuyến đường,DOI DUONG,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x3348,全ての分岐マスを切りかえて、,Chuyển tất cả ô rẽ nhánh,DOI CAC NGA RE,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x3368,「ルート変更」,Đổi tuyến đường,「DOI DUONG」,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x3394,「%s」を手に入れたよ,,NHAN %s,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x33ac,手持ちのイベントカードがいっぱいで,Thẻ sự kiện đã đầy,THE SK DA DAY,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x33d0,もう持ち切れないよ,Không thể mang thêm,HET CHO,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x33e4,どれを捨てる？,Bỏ thẻ nào?,BO THE NAO?,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x33f4,「%s」を捨てて,,BO %s,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+SLPS_020.75,0x3404,「%s」をあきらめたよ,Từ bỏ %s,BO %s,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x3758,あいての体力,HP đối thủ,HP DOI THU,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x378c,キャンセル,Hủy,HUY,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x37bc,本当にやめるの？,Thật sự muốn dừng?,DUNG THAT?,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x37d0,お金が足りないけど,Không đủ tiền,THIEU TIEN,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x37e4,何か売っちゃう ？,Bán thứ gì đó?,BAN GI?,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x380c,総資産を見たけど ,Đã xem tổng tài sản,TONG TS,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x3820,これじゃたりないわよ,Vẫn không đủ,VAN THIEU,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x3838,まだお金が足りないけど,Vẫn thiếu tiền,VAN THIEU,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x3850,総資産を見たけど,Đã xem tổng tài sản,TONG TS,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x3864,も～何やってるの？,"Này, đang làm gì vậy?",LAM GI DAY?,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x3878,早く決めてよね！！,Quyết định nhanh lên!!,CHON NHANH!!,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x388c,もうっ！,Trời ơi!,TROI!,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x3898,早く決めてってばぁ～,Nhanh quyết định đi!,CHON NHANH,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x7679c,氷の弓,Cung băng,CUNG BANG,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x767a4,丸薬,Thuốc viên,THUOC,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x767ac,ダーツ,Phi tiêu,PHITIEU,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x767b4,如意棒,Như Ý Bổng,NHUYBONG,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x767c4,クナイ,Kunai,KUNAI,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x767cc,野太刀,Nodachi,NODACHI,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x767d4,メイス,Chùy,CHUY,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x767e0,支援系,Hỗ trợ,HOTRO,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x767e8,回復系,Hồi phục,HOIPHUC,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x767f0,無属性,Vô thuộc tính,VOTHUOC,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x767fc,投射,Tầm xa,TAMXA,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x76804,魔法,Phép,PHEP,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x7681c,ダンテ,Dante,DANTE,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x76824,孫悟空,Tôn Ngộ Không,NGOKHONG,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x7682c,ハヤテ,Hayate,HAYATE,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x76834,ジガー,Jigger,JIGGER,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x7683c,騎士団,Hiệp sĩ đoàn,HIEPSI,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x76844,修道会,Tu viện,TUVIEN,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x7684c,病院,Bệnh viện,BENH,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x76854,武器屋,Tiệm vũ khí,TIEMVK,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x7685c,バンク,Ngân hàng,NGANHANG,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x76868,%sの,của %s,%s CUA,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x76870,%sね,%s nhé,%s NHE,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x768d0,軍資金,Quân quỹ,QUANQUY,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x768d8,資金額,Số vốn,VON,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+SLPS_020.75,0x7690c,%sは,%s thì,%s LA,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
