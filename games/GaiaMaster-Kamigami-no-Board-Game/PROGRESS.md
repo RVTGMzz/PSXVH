@@ -36,99 +36,113 @@ Kết luận: không được giả định renderer/parser chấp nhận ASCII 
 
 Thử dùng Latin full-width trong Shift-JIS, giữ độ dài chuỗi. Game vẫn treo khi load gameplay.
 
-### 5. Diagnostic 0.1.4 JP_MARKER: treo khi sửa đồng thời hai file
+### 5. Diagnostic 0.1.4 JP_MARKER
 
-Chỉ thay hai chuỗi Nhật bằng chuỗi Nhật khác, cùng encoding Shift-JIS và cùng chính xác số byte:
+Chỉ thay hai chuỗi Nhật bằng chuỗi Nhật khác, cùng Shift-JIS và cùng chính xác số byte:
 
-- Trong `PRGPACK.BDP`: đổi ký tự cuối của câu bắt đầu game từ `よ` sang `ね`.
-- Trong `SLPS_020.75`: đổi `よ` sang `だ` trong chuỗi lượt chơi.
+- `PRGPACK.BDP`: `ゲームをはじめるよ` → `ゲームをはじめるね`.
+- `SLPS_020.75`: `%sの番よ！` → `%sの番だ！`.
 
-Không dùng Latin, không NUL padding, không thay pointer.
+Kết quả: treo khi vào gameplay.
 
-**Kết quả lúc test 0.1.4:** treo khi vào gameplay.
+### 6. COPY_ONLY
 
-### 6. COPY_ONLY thành công
+Chỉ copy BIN, không sửa byte nào.
 
-`TEST_0_COPY_ONLY.bat` chỉ copy BIN, không sửa byte nào.
+Kết quả: gameplay bình thường.
 
-**Kết quả:** vào gameplay bình thường.
+Điều này xác nhận BIN gốc, CUE mới và thao tác copy không phải nguyên nhân.
 
-Điều này xác nhận:
+### 7. Diagnostic 0.1.5 cô lập từng file
 
-- file BIN gốc tốt;
-- DuckStation/cấu hình test không phải nguyên nhân;
-- thao tác copy file và CUE mới không gây treo;
-- treo chỉ xuất hiện ở một số dạng thay đổi dữ liệu game.
+- `JP_PRGPACK_ONLY`: chỉ patch `ゲームをはじめるよ` → `ゲームをはじめるね` trong `PRGPACK.BDP`: **OK**.
+- `JP_SLPS_ONLY`: chỉ patch `%sの番よ！` → `%sの番だ！` trong `SLPS_020.75`: **OK**.
 
-### 7. Diagnostic 0.1.5 cô lập từng file: CẢ HAI ĐỀU OK
+Mỗi file đều chấp nhận ít nhất một thay đổi Nhật → Nhật cùng độ dài.
 
-Đã test riêng từng patch Nhật → Nhật, cùng byte:
-
-#### `JP_PRGPACK_ONLY`
-
-- Chỉ sửa `PRGPACK.BDP`.
-- Chỉ thay đúng chuỗi `ゲームをはじめるよ` → `ゲームをはじめるね`.
-- Một sector bị thay đổi.
-
-**Kết quả:** vào gameplay bình thường, không crash.
-
-#### `JP_SLPS_ONLY`
-
-- Chỉ sửa `SLPS_020.75`.
-- Chỉ thay `%sの番よ！` → `%sの番だ！`.
-- Một sector bị thay đổi.
-
-**Kết quả:** vào gameplay bình thường, không crash.
-
-## Kết luận mới nhất
-
-Đây là mốc chẩn đoán rất quan trọng:
-
-- Không thể kết luận `PRGPACK.BDP` tự nó có checksum làm game treo.
-- Không thể kết luận `SLPS_020.75` tự nó có integrity check làm game treo.
-- Mỗi file đều chấp nhận ít nhất một thay đổi Nhật → Nhật cùng độ dài và vẫn chạy.
-- Hiện tượng treo chỉ từng xuất hiện khi **hai thay đổi cùng tồn tại trong một image** ở test 0.1.4.
-
-Do đó giả thuyết cần ưu tiên bây giờ là:
-
-1. lỗi chỉ xảy ra khi patch nhiều sector;
-2. lỗi chỉ xảy ra khi patch đồng thời `PRGPACK.BDP` + `SLPS_020.75`;
-3. cặp chuỗi cụ thể trong test 0.1.4 có tương tác bất ngờ;
-4. hoặc test 0.1.4 đã vô tình mở nhầm/stale image và cần retest với output tên mới.
-
-## Diagnostic 0.1.6 — bước tiếp theo
-
-Bốn test mới được tạo để phân biệt các giả thuyết:
+## Diagnostic 0.1.6 — KẾT QUẢ
 
 ### A. `COMBO_RETEST`
 
-Retest đúng hai patch từng làm 0.1.4 treo, nhưng output tên mới để loại trừ khả năng mở nhầm image cũ.
+Patch:
+- `PRGPACK.BDP` offset `908648`: `ゲームをはじめるよ` → `ゲームをはじめるね`.
+- `SLPS_020.75` offset `2768`: `%sの番よ！` → `%sの番だ！`.
+
+**Kết quả: TREO.**
 
 ### B. `PRGPACK_TWO_SECTORS`
 
-Sửa hai sector khác nhau, đều nằm trong `PRGPACK.BDP`.
+Patch:
+- `PRGPACK.BDP` offset `908648`: `ゲームをはじめるよ` → `ゲームをはじめるね`.
+- `PRGPACK.BDP` offset `0x510`: `やるね` → `やるよ`.
 
-Mục tiêu: kiểm tra bản thân việc thay nhiều hơn một sector có làm patcher/EDC/ECC có vấn đề hay không.
+**Kết quả: TREO.**
 
 ### C. `SLPS_TWO_SECTORS`
 
-Sửa hai sector khác nhau, đều nằm trong `SLPS_020.75`.
+Hai patch đều trong `SLPS_020.75`.
 
-Mục tiêu giống B nhưng cô lập executable.
+**Kết quả: OK.**
 
 ### D. `COMBO_ALT`
 
-Sửa một chuỗi khác trong `PRGPACK.BDP` + một chuỗi khác trong `SLPS_020.75`.
+Patch khác trong `PRGPACK.BDP` + patch khác trong `SLPS_020.75`.
 
-Mục tiêu: xác định liệu **bất kỳ** combo cross-file nào cũng gây treo, hay chỉ cặp chuỗi cũ.
+**Kết quả: OK.**
 
-## Cách đọc kết quả 0.1.6
+## Suy luận mới sau 0.1.6
 
-- Nếu A giờ chạy: rất có thể lần test 0.1.4 đã dùng nhầm/stale file.
-- Nếu A treo nhưng B và C chạy: patch nhiều sector tự nó không phải nguyên nhân; tập trung vào tương tác cross-file hoặc cặp chuỗi cụ thể.
-- Nếu B hoặc C treo: điều tra raw-sector multi-sector patching/EDC/ECC trước khi làm tiếp text.
-- Nếu D cũng treo trong khi B/C chạy: có dấu hiệu bất kỳ image nào cùng sửa cả `PRGPACK` và `SLPS` đều nhạy cảm.
-- Nếu D chạy nhưng A treo: cặp chuỗi cụ thể của 0.1.4 hoặc timing/loading của chúng đáng nghi.
+Điểm chung duy nhất của hai image bị treo A và B là patch sau:
+
+- File: `PRGPACK.BDP`
+- File offset: `908648`
+- Raw sector: `3122`
+- Text: `ゲームをはじめるよ` → `ゲームをはじめるね`
+
+Tuy nhiên patch này **một mình đã từng chạy OK ở diagnostic 0.1.5**. Vì vậy hiện tượng cần giải thích là:
+
+> patch tại sector 3122 có vẻ chỉ gây treo khi tồn tại thêm ít nhất một thay đổi khác trong image.
+
+Điều này bác bỏ các giả thuyết đơn giản sau:
+
+- không phải mọi multi-sector patch đều lỗi, vì `SLPS_TWO_SECTORS` chạy;
+- không phải mọi cross-file patch đều lỗi, vì `COMBO_ALT` chạy;
+- không phải cứ sửa `PRGPACK.BDP` là lỗi, vì `JP_PRGPACK_ONLY` và patch PRGPACK trong `COMBO_ALT` chạy.
+
+EDC/ECC raw-sector cũng đã được kiểm tra bằng cách regenerate các sector gốc và so byte-for-byte; các sector kiểm tra khớp dữ liệu ECC/EDC gốc, nên chưa có bằng chứng thuật toán ECC là nguyên nhân.
+
+## Diagnostic 0.1.7 — Trigger sector 3122
+
+Mục tiêu là xác nhận lại patch nghi vấn và phân biệt lỗi theo số thay đổi hay theo ranh giới sector.
+
+### A. `A_ONLY_FRESH`
+
+Chỉ patch đúng offset `908648` trong PRGPACK, build mới hoàn toàn.
+
+### B. `B_ONLY_SAME_SECTOR`
+
+Patch một chuỗi khác nằm cùng raw sector `3122`, offset `908668`:
+
+`データがないわよ` → `データがないわね`.
+
+### C. `A_PLUS_B_SAME_SECTOR`
+
+Hai thay đổi cùng nằm trong **một raw sector 3122**.
+
+Nếu C treo nhưng A/B riêng lẻ chạy, khả năng cao có logic/chunk validation hoặc hành vi parser liên quan số thay đổi trong vùng dữ liệu này, không phải số sector.
+
+### D. `A_PLUS_C_ADJACENT`
+
+Patch A tại sector `3122` + một patch Nhật → Nhật ở sector kế bên `3123`.
+
+Mục tiêu: kiểm tra xem A có trở thành trigger khi image chứa thêm một modified sector gần nó hay không.
+
+## Quy tắc test từ 0.1.7
+
+- Cold boot game cho từng image.
+- Không load save state DuckStation từ image khác.
+- Mỗi BAT luôn nhận BIN gốc SHA1 chuẩn.
+- Mở đúng `.cue` mới sinh có nhãn diagnostic tương ứng.
 
 ## Mục tiêu dài hạn
 
@@ -142,14 +156,15 @@ Sau khi giải quyết được cơ chế ghi dữ liệu ổn định:
 6. reinsert text;
 7. build patch thay vì phân phối BIN game.
 
-## Lưu ý cho phiên chat sau
-
-Kết quả đã được xác nhận tới 0.1.5:
+## Trạng thái handoff hiện tại
 
 - Original: OK
 - COPY_ONLY: OK
-- JP_PRGPACK_ONLY: OK
-- JP_SLPS_ONLY: OK
-- JP_MARKER 0.1.4 (hai file cùng sửa): TREO theo lần test trước
+- 0.1.5 JP_PRGPACK_ONLY: OK
+- 0.1.5 JP_SLPS_ONLY: OK
+- 0.1.6 A COMBO_RETEST: TREO
+- 0.1.6 B PRGPACK_TWO: TREO
+- 0.1.6 C SLPS_TWO: OK
+- 0.1.6 D COMBO_ALT: OK
 
-Không quay lại ASCII/full-width Latin trước khi kết thúc chuỗi diagnostic 0.1.6.
+Tiếp tục bằng diagnostic 0.1.7. Chưa quay lại ASCII/full-width Latin cho tới khi hiểu rõ trigger tại PRGPACK offset 908648 / raw sector 3122.
