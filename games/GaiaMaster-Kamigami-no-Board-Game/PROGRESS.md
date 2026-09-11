@@ -13,8 +13,9 @@
 
 - `SLPS_020.75` chứa nhiều text gameplay/card/menu dạng Shift-JIS.
 - `PRGPACK.BDP` là BDP archive chứa 60 nested BDP.
-- Các nested BDP và top-level BDP dùng cùng cơ chế checksum additive 32-bit.
-- Latin full-width Shift-JIS đã được xác nhận hiển thị trong game.
+- Nested BDP và top-level BDP dùng checksum additive 32-bit.
+- Full-width Latin Shift-JIS đã được xác nhận hiển thị đúng trong game.
+- ASCII 1-byte đã test sau khi checksum được sửa đúng và **hiển thị ký hiệu sai**, vì vậy không dùng cho bản dịch.
 - Patcher raw MODE2/Form1 + EDC/ECC đang hoạt động đúng.
 
 ## Cấu trúc BDP đã reverse
@@ -27,130 +28,115 @@ Header quan sát được:
 - `+0x0C`: entry count
 - sau đó là descriptor `(offset, size)` 8 byte/entry
 
-Payload base top-level của `PRGPACK.BDP` là `8 + toc_size`.
-
-### Checksum
-
-Công thức đã khớp chính xác với **toàn bộ 60 nested BDP** và top-level `PRGPACK.BDP`:
+Checksum:
 
 ```text
 sum16 = sum(all bytes except checksum field +0x04..+0x07) & 0xFFFF
 checksum = ((~sum16 & 0xFFFF) << 16) | sum16
 ```
 
-Nested BDP từng gây treo ở entry 30:
+Công thức đã verify trên 60/60 nested BDP và top-level `PRGPACK.BDP`.
 
-- bắt đầu tại PRGPACK offset `0xDDA98`
-- size `0x26BC8`
-- checksum gốc `0x9BC0643F`
-- chứa bảng 79 chuỗi ở đầu payload
+## Diagnostic đã chốt
 
-Các test 0.1.8 đã chứng minh patch text nhưng không sửa checksum sẽ treo; `BALANCED_SWAP` chạy vì tổng byte không đổi.
-
-## Diagnostic 0.1.9 — ĐÃ CHỐT
-
-Người dùng đã test:
+### 0.1.9 checksum fix
 
 - A `FIX_A_CHECKSUM`: **OK**
 - B `FIX_SLOT_CHECKSUM`: **OK**
 - C `FIX_FIRST_CHECKSUM`: **OK**
 - D `FULLWIDTH_BATDAU_CHECKSUM`: **OK**
 
-Kết luận: nguyên nhân treo của các alpha trước là checksum nested BDP chưa được cập nhật.
+Kết luận: nguyên nhân treo của các patch trước là checksum nested BDP chưa được cập nhật.
 
-## Visible Menu Test 0.2.1 — ĐÃ CHỐT
+### Visible Menu 0.2.1
 
-Người dùng xác nhận nhìn thấy trực tiếp:
+Người dùng đã nhìn thấy trực tiếp:
 
 ```text
 ＶＩＥＴＨＯＡＴＥＳＴ！
 ```
 
-ở màn chọn nhân vật.
+=> text patch thật sự được game đọc và full-width Latin render đúng.
 
-Điều này xác nhận:
+### ASCII Capacity Test 0.2.2
 
-1. text patch được game đọc thật;
-2. full-width Latin Shift-JIS render được;
-3. checksum repair hoạt động trong menu/setup thực tế.
+ASCII 1-byte build được nhưng khi chạy game **hiện ký hiệu/chữ sai**.
 
-## Alpha 0.5 — LARGE BATCH
+=> loại hướng ASCII. Runtime hiện tiếp tục dùng full-width Latin Shift-JIS.
 
-Đã tạo `GaiaMaster_Vietnamese_Alpha_0.5` để chuyển khỏi giai đoạn diagnostic nhỏ lẻ.
+## Alpha 0.5 — runtime đã xác nhận
+
+- 203 vị trí text.
+- `SLPS_020.75`: 73 vị trí.
+- `PRGPACK.BDP`: 130 vị trí.
+- 9 nested BDP bị tác động: `0, 3, 4, 5, 6, 7, 8, 29, 30`.
+- Người dùng xác nhận **đã thấy bản dịch hoạt động trong game**.
+
+## Translation master 0.6
+
+Master hiện có **596 vị trí** đã đưa vào workflow dịch.
+
+Master giữ song song:
+
+1. tiếng Nhật gốc;
+2. tiếng Việt chuẩn có dấu để làm bản dịch nguồn;
+3. fallback không dấu cho runtime hiện tại.
+
+Mục tiêu là khi custom font/glyph hoàn thành thì đổi encoding mà không phải dịch lại từ đầu.
+
+## Alpha 0.6 — LARGE BATCH
+
+Đã build gói `GaiaMaster_Vietnamese_Alpha_0.6`.
 
 ### Phạm vi
 
-- **203 vị trí text** được patch trong một lần build.
-- `SLPS_020.75`: 73 vị trí.
-- `PRGPACK.BDP`: 130 vị trí.
-- 9 nested BDP bị tác động: entries `0, 3, 4, 5, 6, 7, 8, 29, 30`.
-- Text Việt hiện dùng **không dấu + full-width Latin**.
-- Các câu dài được rút gọn để không vượt dung lượng chuỗi gốc.
+- **366 vị trí text** được patch an toàn với giới hạn slot hiện tại.
+- Alpha 0.5: 203 vị trí.
+- Thêm mới ở Alpha 0.6: **163 vị trí**.
+- `SLPS_020.75`: 158 vị trí trong tổng batch.
+- `PRGPACK.BDP`: 208 vị trí trong tổng batch.
+- 9 nested BDP bị sửa: `0, 3, 4, 5, 6, 7, 8, 29, 30`.
+- **230 vị trí** trong master đã có bản dịch nhưng chưa thể nhét an toàn vì full-width Latin tốn 2 byte/ký tự và vượt slot gốc. Các dòng này được tách riêng để xử lý sau khi reverse/repack string table.
 
-Một số text nhìn dễ:
+### Local verification
 
-- `ＣＨＯＮ　ＮＨＡＮＶＡＴ`
-- `ＸＡＣ　ＮＨＡＮ？`
-- `ＮＨＡＮ　ＮＵＴ　Ｏ`
-- `ＢＡＴ　ＤＡＵ！`
-- `ＫＯ　ＤＡＴＡ`
-- `ＣＨＯＮ　ＳＬＯＴ`
+Builder chạy thành công trên BIN SHA1 chuẩn:
 
-### Builder Alpha 0.5
+```text
+Patched text locations: 366
+Touched nested BDP entries: 9 [0, 3, 4, 5, 6, 7, 8, 29, 30]
+Changed raw sectors: 25
+Output SHA1: 5a12d3209deee065c129945e169e632f4cec9a8e
+```
 
-Builder thực hiện tự động:
+Builder tự động:
 
-1. xác minh SHA1 BIN gốc;
-2. xác minh SHA1 `SLPS_020.75` và `PRGPACK.BDP` bên trong image;
-3. patch 203 vị trí exact-byte;
-4. tính lại checksum cho mọi nested BDP bị sửa;
-5. tính lại checksum top-level `PRGPACK.BDP`;
-6. ghi lại user-data vào raw BIN;
-7. regenerate EDC/ECC cho sector MODE2/Form1 bị thay đổi;
-8. tạo BIN/CUE `[VI Alpha 0.5]`.
+1. verify SHA1 BIN gốc;
+2. verify embedded `SLPS_020.75` / `PRGPACK.BDP`;
+3. patch exact bytes;
+4. cập nhật nested BDP checksum;
+5. cập nhật top-level BDP checksum;
+6. ghi lại user-data;
+7. regenerate Mode2/Form1 EDC/ECC;
+8. tạo BIN/CUE `[VI Alpha 0.6]`.
 
-### Kiểm tra nội bộ trước khi giao test
+**Trạng thái Alpha 0.6:** builder/local verify OK, chờ runtime test trong DuckStation.
 
-Builder đã chạy thành công trên BIN SHA1 chuẩn:
+## Hai bài toán kỹ thuật còn lại
 
-- patched locations: `203`
-- touched nested BDP entries: `9`
-- changed raw sectors: `18`
-- output SHA1 test: `2887affb46f0af0c823da2bc365e94b366719c65`
+### 1. Repack / string table
 
-Sau build đã verify:
+Cần reverse cách tổ chức string table để cho phép câu Việt dài hơn slot Nhật gốc. Đây là chìa khóa để đưa 230 dòng pending và các câu tự nhiên hơn vào game.
 
-- 203/203 vị trí có đúng bytes mới;
-- checksum top-level PRGPACK hợp lệ;
-- checksum 60/60 nested BDP hợp lệ;
-- các text visible decode đúng full-width Shift-JIS.
+### 2. Font tiếng Việt có dấu
 
-**Trạng thái:** chờ người dùng test Alpha 0.5 trong DuckStation từ menu → gameplay.
+Hiện full-width Latin chạy được nhưng các glyph `ă â ê ô ơ ư đ` và dấu thanh chưa có đường render xác nhận. Tiếp tục nghiên cứu font/glyph mapping hoặc hook font renderer.
 
-## Giới hạn hiện tại
+## Hướng tiếp theo
 
-- Chưa phải full translation toàn game.
-- Chưa có tiếng Việt có dấu.
-- Một số title/logo/menu có thể là texture/image chứ không phải text.
-- Chưa repack pointer table để cho phép câu Việt dài tùy ý; Alpha 0.5 vẫn giữ nguyên slot byte của chuỗi gốc.
-
-## Bước sau Alpha 0.5
-
-Nếu Alpha 0.5 chơi ổn:
-
-1. mở rộng batch sang các text còn lại trong SLPS/PRGPACK;
-2. dump + phân loại các pack khác (`EVCARD.BDP`, `DUELDATA.BDP`, `PC_DATA.BDP`, `SCR_DATA.BDP`);
-3. reverse font/glyph table để hướng tới tiếng Việt có dấu;
-4. nghiên cứu repack/pointer table để giảm giới hạn độ dài câu;
-5. cuối cùng xuất patch thay vì phân phối BIN game.
-
-## Trạng thái handoff
-
-- Original: **OK**
-- COPY_ONLY: **OK**
-- BDP structure: **đã reverse cơ bản**
-- BDP checksum: **đã reverse + verify 60/60 nested + top-level**
-- EDC/ECC raw patch: **OK**
-- Full-width Latin rendering: **OK**
-- Visible menu test: **OK**
-- Alpha 0.5 large batch: **builder hoàn thành, chờ test gameplay thực tế**
+1. test runtime Alpha 0.6;
+2. tiếp tục mở rộng master dịch;
+3. reverse/repack string table;
+4. nghiên cứu custom glyph tiếng Việt;
+5. dump/phân loại thêm `EVCARD.BDP`, `DUELDATA.BDP`, `PC_DATA.BDP`, `SCR_DATA.BDP`;
+6. cuối cùng phát hành patch thay vì phân phối BIN game.
