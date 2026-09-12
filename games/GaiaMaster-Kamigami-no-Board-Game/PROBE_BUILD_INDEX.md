@@ -63,56 +63,72 @@ Runtime shows rows10..11 but not the full rows12..15 block.
 
 Used `lhu v0,2(s3)` at `0x8003CCC0`.
 Runtime: TEST vertical + target texture garbage.
-
-Reverse later proved:
-
-```text
-s5 = current 16-byte record base
-s3 = s5 + 15
-```
-
-so `s3+2` is outside the current record and is not glyph metadata.
-
+Reverse proved `s3=s5+15`, so this was not metadata.
 Do not retest.
 
 ### 0.6.3.10 HEIGHT FROM STACK METADATA
-**BUILT / CURRENT PROBE**.
+**RUNTIME COMPLETE / STABLE NEGATIVE**.
 
-Full caller dataflow proves current glyph metadata remains at `sp+16`:
-
-```text
-0x8003CAC0  a2 = sp+16
-0x8003C210  writes metadata
-0x8003CC3C  a1 = sp+16
-0x8003C67C  reads lhu 2(a1) as height_minus_1
-```
-
-Therefore sprite-geometry height source is changed to:
+Used dataflow-proven current glyph height:
 
 ```text
 lhu v0,18(sp)
 0x8003CCC8 addiu v0,v0,1
 ```
 
-Expected:
+Runtime:
+- native layout stable;
+- target looks essentially identical to 0.6.3.7;
+- rows12..15 still not visible as full bright block.
+
+Reverse of final consumer confirms `record+7` really reaches GPU primitive height.
+
+=> visible-height geometry is not the remaining blocker.
+=> do not retest.
+
+### 0.6.3.11 RAM TAIL MIRROR
+**BUILT / CURRENT PROBE**.
+
+Question:
+
+> Do converted rows12..15 actually exist immediately after `0x8003C67C`?
+
+Target identity:
 
 ```text
-native 11+1 = 12px
-target 15+1 = 16px
+metadata source pointer = *(sp+20)
+target source = 0x8007ABFC
 ```
 
-Keeps 0.6.3.7 source sentinel.
+Current converted destination before allocator advance:
+
+```text
+dest = *(s1+100)
+```
+
+Mirror:
+
+```text
+source converted rows12..15: dest+96..127
+copy to visible rows8..11:   dest+64..95
+```
+
+Because rows12..15 source sentinel is solid bright, a successful mirror should create an obvious 4-row bright block higher in the glyph.
+
+Interpretation:
+- bright mirror block => lower converted rows exist; blocker is downstream VRAM/cache placement;
+- no block => converted tail absent/wrong or destination model wrong.
 
 Package:
 
 ```text
-GaiaMaster_FontIsolation_0.6.3.10_HEIGHT_FROM_STACK_METADATA.zip
+GaiaMaster_FontIsolation_0.6.3.11_RAM_TAIL_MIRROR.zip
 ```
 
 Launcher:
 
 ```text
-00_RUN_PROBE_06310.cmd
+00_RUN_PROBE_06311.cmd
 ```
 
 ## Current do-not-repeat
@@ -120,8 +136,8 @@ Launcher:
 - no Krom path;
 - no production 12x12 stacked-accent polishing;
 - no retest 0.6.2.18;
-- no retest 0.6.3.0..0.6.3.9;
+- no retest 0.6.3.0..0.6.3.10;
 - no shared `0x8003CD94..0x8003CDB4` rewrite;
 - no persistent/global flag;
 - no global force-height16;
-- no `s3+2` metadata assumption at `0x8003CCC0`.
+- no `s3+2` metadata assumption.
