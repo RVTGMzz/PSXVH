@@ -1,6 +1,6 @@
 # Gaia Master — trạng thái mới nhất
 
-Cập nhật: **2026-09-12 sau Font Isolation 0.6.2.14**, đang test **0.6.2.15 ACCENT SHAPE**.
+Cập nhật: **2026-09-12 sau Font Isolation 0.6.2.15**, đang test **0.6.2.16 FULL HEIGHT**.
 
 ## Chốt kỹ thuật
 
@@ -21,7 +21,7 @@ owner nested BDP: entry 29
 local offset: +0x580
 ```
 
-Stage 2 reverse đã tìm được custom font thật trong `SLPS_020.75`:
+Custom font trong `SLPS_020.75`:
 
 ```text
 atlas static:   SLPS + 0x5C4EC
@@ -47,39 +47,45 @@ Mapping xác nhận:
 ## Probe timeline quan trọng
 
 ### 0.6.2.13 — BREAKTHROUGH PASS
-Bỏ toàn bộ renderer hook/code cave. Giữ control full-width:
+Bỏ toàn bộ renderer hook/code cave. Giữ control full-width `ＴＥＳＴ亜` và thay trực tiếp static atlas glyph #0 bằng glyph dựng từ `Ｅ` gốc.
 
-```text
-ＴＥＳＴ亜
-```
-
-và thay trực tiếp **static atlas glyph #0** bằng glyph dựng từ `Ｅ` gốc.
-
-Runtime: glyph cuối đã hiện gần như `Ế`, màu/style gần font gốc, text khác bình thường.
+Runtime: glyph cuối hiện gần như `Ế`, màu/style gần font gốc, text khác bình thường.
 
 => **Vietnamese glyph pipeline đã PASS.**
 
-### 0.6.2.14 — result
-Thử chừa headroom và nén thân E, nhưng screenshot vẫn nhìn gần như `É`.
+### 0.6.2.14 — COMPACT FIT
+Nén thân E còn 9 hàng để lấy thêm headroom. Runtime vẫn trông gần như `É`.
 
-Phân tích lại cho thấy nguyên nhân chính không phải clipping: circumflex chỉ cao một row nên nhập vào top bar của E sau khi game render/scale.
+### 0.6.2.15 — ACCENT SHAPE — runtime result
+Dùng 3 hàng cho dấu: sắc / đỉnh mũ / vai mũ và giữ thân E compact 9 hàng.
 
-=> blocker còn lại là **shape của dấu mũ**, không phải renderer/mapping/atlas.
+Runtime screenshot cho thấy phần dấu trên hiện rõ hơn, nhưng glyph vẫn chưa giống `Ế` tự nhiên. Quan trọng hơn, user xác nhận hướng **nén thân chữ làm chữ có dấu trông nhỏ hơn chữ thường**, không chấp nhận cho bản hoàn thiện.
 
-## NEXT — Font Isolation 0.6.2.15 ACCENT SHAPE
+=> **Reject compact-body strategy cho production.**
 
-Không hook renderer nữa. Giữ static-slot strategy đã pass.
+## NEXT — Font Isolation 0.6.2.16 FULL HEIGHT
 
-Layout mới:
+Production rule mới:
+
+> Chữ có dấu phải giữ nguyên kích thước thân chữ native. Không được làm `Ă/Â/Ê/Ô/Ơ/Ư...` thấp hoặc nhỏ hơn chữ thường chỉ để nhường chỗ cho dấu.
+
+`Ｅ` native đã có sẵn hai hàng trống ở trên:
 
 ```text
-row 0 = dấu sắc
-row 1 = đỉnh mũ
-row 2 = hai vai mũ
-row 3..11 = thân E native compact 9 hàng
+row 0 = blank
+row 1 = blank
+row 2..11 = native E body
 ```
 
-Mũ có 2 tầng thật sự để thành hình `^`, tách khỏi top bar.
+0.6.2.16 giữ **row 2..11 byte-for-byte**, và nhét cả circumflex + acute vào đúng hai hàng trống:
+
+```text
+row 0 = circumflex peak + acute upper pixel
+row 1 = circumflex shoulders + acute lower pixel
+row 2..11 = E native nguyên kích thước
+```
+
+Không hook renderer, không Krom hook, không code cave. Vẫn dùng static-slot strategy đã PASS.
 
 Expected Character Select:
 
@@ -87,14 +93,17 @@ Expected Character Select:
 ＴＥＳＴẾ
 ```
 
-Sau khi pass:
+Mục tiêu của 0.6.2.16 không chỉ là "có dấu", mà là **`Ế` phải cao/thân chữ bằng đúng `Ｅ` native**.
 
-1. tạo full Vietnamese glyph inventory;
-2. thiết kế codepage/runtime mapping không phá text Nhật chưa dịch;
-3. encode `vi_full` có dấu;
-4. xử lý 230 dòng overflow/repack;
-5. dọn mixed JP/VI;
-6. patch graphic text menus;
-7. QA full game + build reproducible patch package.
+Sau khi glyph geometry đạt yêu cầu:
+
+1. khóa template full-height cho nhóm nguyên âm có dấu;
+2. tạo full Vietnamese glyph inventory;
+3. thiết kế compact codepage/runtime mapping không phá text Nhật chưa dịch;
+4. encode `vi_full` có dấu;
+5. xử lý 230 dòng overflow/repack;
+6. dọn mixed JP/VI;
+7. patch graphic text menus;
+8. QA full game + build reproducible patch package.
 
 Chi tiết reverse nằm trong `CHARACTER_SELECT_FONT_REVERSE_0.1.md` và `HANDOFF_CURRENT.md`.
