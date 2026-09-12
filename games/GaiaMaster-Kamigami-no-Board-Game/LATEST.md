@@ -1,17 +1,80 @@
 # Gaia Master — trạng thái mới nhất
 
-Cập nhật: **2026-09-12 sau runtime test 0.6.3.3 EOL OVERWRITE TEST**.
+Cập nhật: **2026-09-12 sau runtime test 0.6.3.4 UV WINDOW TEST**.
 
 ## Chốt hiện tại
 
 - 0.6.2.x: custom Vietnamese glyph pipeline đã PASS.
 - Native 12x12 bị loại cho production stacked Vietnamese diacritics vì quá chật.
 - 0.6.3.0 12x16 = **STRUCTURAL PASS**.
-- 0.6.3.1 BASELINE + 16-ROW STRIDE = **UNSAFE FAIL**: global text corruption + freeze. Không retest.
-- 0.6.3.2 BASELINE ONLY = **STABLE PASS**, nhưng đáy glyph extended bị mất/cắt.
-- 0.6.3.3 EOL OVERWRITE TEST = **SAME RESULT AS 0.6.3.2**.
+- 0.6.3.1 shared cache-stride rewrite = **UNSAFE FAIL**: global text corruption + freeze. Không retest.
+- 0.6.3.2 BASELINE ONLY = **STABLE PASS**, nhưng phần đáy target extended mất/cắt.
+- 0.6.3.3 EOL OVERWRITE = **same result**, loại giả thuyết glyph kế tiếp overwrite.
+- 0.6.3.4 UV WINDOW TEST = **negative diagnostic**, `V+4` không phục hồi đáy E một cách đúng/clean.
 
-## 0.6.3.3 runtime result
+## Font path đã chứng minh
+
+```text
+atlas file   = SLPS + 0x5C4EC
+mapping file = SLPS + 0x6B6CC
+atlas RAM    = 0x8006BCEC
+mapping RAM  = 0x8007AECC
+860 glyphs
+native 12x12 / 72-byte / 4bpp / LOW nibble first
+```
+
+Confirmed:
+
+```text
+0x8273 Ｔ -> glyph 481
+0x8264 Ｅ -> glyph 466
+0x8272 Ｓ -> glyph 480
+0x889F 亜 -> glyph 0
+```
+
+## Extended-height reverse mới
+
+Wide custom copy routine:
+
+```text
+0x8003C67C
+```
+
+Geometry:
+
+```text
+6 source bytes/row -> 8 converted/cache bytes/row
+12 rows -> 96 converted bytes
+16 rows -> 128 converted bytes
+```
+
+Metadata `height=15` làm loop xử lý 16 rows.
+
+### VRAM upload page không bị khóa 12 rows
+
+Font-cache initialization quanh:
+
+```text
+0x8003D488..0x8003D5F4
+```
+
+mặc định dùng cache page cao khoảng:
+
+```text
+240 rows
+```
+
+Final flush quanh:
+
+```text
+0x8003DB78..0x8003DBE0
+```
+
+queue RECT cho cả cache page, không phải một RECT glyph 12-row.
+
+=> Không còn nghi upload `RECT.h` đơn giản bị hardcode 12.
+
+## 0.6.3.4 runtime result
 
 Control:
 
@@ -19,124 +82,58 @@ Control:
 ＴＥＳＴ亜
 ```
 
-Target `亜` nằm cuối dòng, không có glyph phía sau.
+Giữ 16-row source/copy/sprite + baseline Y -4, chỉ đổi:
 
-Runtime user screenshot vẫn cho kết quả gần như 0.6.3.2:
+```text
+target texture V += 4
+```
+
+Runtime:
 
 - Japanese header bình thường;
 - `ＴＥＳＴ` bình thường;
-- extended target/baseline vẫn ổn định;
-- không global corruption/freeze;
-- **phần dưới của extended glyph vẫn mất/cắt**.
+- target vẫn malformed/truncated;
+- lower native E không trở lại sạch/đúng;
+- không global corruption/freeze.
 
-=> Giả thuyết “glyph kế tiếp ghi đè 4 hàng cuối” bị **DISPROVEN**.
+=> simple UV/window offset không giải thích lower-row loss.
+=> không retest 0.6.3.4.
 
-Không cần retest 0.6.3.3.
+## CURRENT — 0.6.3.5 POST-COPY RAM SENTINEL
 
-## Reverse mới sau 0.6.3.3
+Mục tiêu: test trực tiếp converted RAM rows 10..15 sau `0x8003C67C`.
 
-Wide-glyph unpack/copy function thật sự là:
-
-```text
-0x8003C67C
-```
-
-Target metadata height 15 => loop xử lý 16 rows.
-
-Wide path mỗi source row:
+Hook sạch sau copy tại:
 
 ```text
-6 source bytes -> 8 converted/cache bytes
+0x8003CC4C
 ```
 
-Native:
+Target `0x889F` only:
 
 ```text
-12 rows -> 96 converted bytes
+rows 10..11 = full palette-index-7 band  # control
+rows 12..15 = full palette-index-1 band  # bright test
 ```
-
-Extended:
-
-```text
-16 rows -> 128 converted bytes
-```
-
-Quan trọng hơn, đã tìm được **VRAM upload queue**:
-
-```text
-0x8003CDE8..0x8003CE24
-```
-
-Nó tạo RECT trên stack rồi gọi:
-
-```text
-0x800406F8
-```
-
-với:
-
-```text
-RECT.x = state + 48
-RECT.y = state + 40
-RECT.w = 4
-RECT.h = (state + 42) - (state + 40) + 1
-source = state + 96
-```
-
-`0x800406F8` chỉ queue `(RECT + RAM source pointer)` cho VRAM upload.
-
-Điều này cho thấy pipeline phải phân biệt rõ 3 tầng:
-
-1. 96-byte 12x16 source glyph;
-2. 128-byte converted/cache glyph;
-3. VRAM upload rectangle + sprite texture UV/window.
-
-## CURRENT — 0.6.3.4 UV WINDOW TEST
-
-0.6.3.4 giữ nguyên stable 0.6.3.3 path và chỉ thay **một biến**:
-
-```text
-target texture V += 4 px
-```
-
-Hook diagnostic tại:
-
-```text
-0x8003CCF0
-```
-
-Native `subu v0,v0,v1` tại `0x8003CCF4` vẫn chạy trong jump delay slot, nên cave nhận đúng native texture-V trước khi target-specific `+4`.
-
-Không đụng:
-
-```text
-0x8003CD94..0x8003CDB4
-```
-
-Không thay cache allocator/shared cursor.
-Target vẫn ở cuối dòng.
-
-### Câu hỏi của probe
-
-Nếu 4 hàng dưới đã tồn tại trong VRAM nhưng visible texture window lấy sai vùng, `V + 4` phải làm phần dưới E xuất hiện, đồng thời top accents dịch/mất.
 
 Interpretation:
 
-- **lower rows xuất hiện** => 16 rows đã vào VRAM; bug nằm ở UV/window/draw sampling.
-- **lower rows vẫn mất/blank/garbage** => truncation xảy ra trước texture sampling, khả năng ở converted cache hoặc VRAM upload content/rectangle.
+- thấy cả 2-row control + 4-row bright bottom => rows 12..15 survive RAM->VRAM->sprite;
+- chỉ thấy control rows10..11 => loss/clipping xảy ra sau converted RAM row11;
+- không thấy cả hai => sentinel hook/target path chưa chạy đúng, không suy luận clipping.
 
-Package local:
+Package:
 
 ```text
-GaiaMaster_FontIsolation_0.6.3.4_UV_WINDOW_TEST.zip
+GaiaMaster_FontIsolation_0.6.3.5_POST_COPY_RAM_SENTINEL.zip
 ```
 
 ## Do not repeat
 
 - Không quay lại Krom path.
-- Không polish stacked accents trong native 12x12.
-- Không retest 0.6.2.18, 0.6.3.0, 0.6.3.1, 0.6.3.2 hoặc 0.6.3.3 trừ khi có lý do reverse mới rất cụ thể.
-- Không patch shared `CD94` cache cursor kiểu 0.6.3.1.
+- Không polish stacked accents production trong 12x12.
+- Không retest 0.6.2.18, 0.6.3.0, 0.6.3.1, 0.6.3.2, 0.6.3.3 hoặc 0.6.3.4.
+- Không patch shared `0x8003CD94..0x8003CDB4` theo kiểu 0.6.3.1.
 
 ## Sau khi extended-height path ổn định
 
