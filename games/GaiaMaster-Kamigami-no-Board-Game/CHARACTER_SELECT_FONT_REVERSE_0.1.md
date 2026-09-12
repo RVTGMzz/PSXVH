@@ -74,7 +74,7 @@ LOW nibble first
 
 `Ｅ` full-width là glyph 466 và được dùng làm style/palette reference.
 
-## Probe timeline
+## Probe timeline — native 12x12
 
 ### 0.6.2.7
 Thay static glyph #0, nhưng control dùng ASCII `TEST亜` -> nhiều ký tự thành `É`. Điều này vẫn chứng minh atlas injection tác động runtime, nhưng ASCII 1-byte không phải control hợp lệ.
@@ -115,53 +115,224 @@ Runtime user result:
 
 => static custom atlas path đã PASS runtime.
 
-### 0.6.2.14 — COMPACT FIT — runtime result
+### 0.6.2.14..0.6.2.20 — production 12x12 rejected
 
-0.6.2.14 hạ dấu xuống và nén thân `Ｅ` để chừa headroom, nhưng runtime screenshot **vẫn nhìn gần như `É`**.
+Nhiều strategy đã thử:
 
-So sánh bitmap offline với screenshot cho thấy chẩn đoán cũ “bị clip trần” chưa chính xác. Nguyên nhân chính là:
+- compact body;
+- full-height body;
+- AA accent;
+- clean accent;
+- six-variant grid;
+- refined sample 2.
 
-- circumflex của 0.6.2.14 chỉ cao **1 hàng pixel**;
-- sau khi game scale/render, hàng mũ này nhập thị giác vào thanh ngang trên của `E`;
-- dấu sắc vẫn thấy, nên glyph trông giống `É` thay vì `Ế`.
+Kết luận production:
 
-Đây là lỗi **glyph design**, không còn là lỗi renderer/mapping/atlas.
+> **12x12 không đủ headroom cho stacked Vietnamese diacritics nếu giữ nguyên cỡ thân chữ native.**
 
-## 0.6.2.15 — ACCENT SHAPE — current probe
-
-Giữ nguyên toàn bộ strategy đã PASS:
-
-- no renderer hook;
-- no Krom hook;
-- no code cave;
-- static atlas glyph #0 replacement;
-- LOW-nibble-first 12x12 4bpp;
-- thân `Ｅ` native compact 9 hàng;
-- palette/shadow lấy từ font gốc.
-
-Chỉ thay geometry dấu:
+Đặc biệt xấu với các ký tự như:
 
 ```text
-row 0 = dấu sắc
-row 1 = đỉnh mũ
-row 2 = hai vai mũ
-row 3..11 = thân E compact từ font gốc
+Ế Ể Ẳ Ỗ Ử Ấ Ố ...
 ```
 
-Mục tiêu là tạo mũ `^` thật sự có **2 tầng**, tách rõ khỏi top bar của E.
+Không quay lại vòng lặp chỉnh từng pixel cho production 12x12.
 
-Expected runtime:
+## Extended-height reverse — 0.6.3.x
+
+### Renderer / metadata
+
+Character renderer:
 
 ```text
-ＴＥＳＴẾ
+0x8003C210
 ```
 
-## Sau khi 0.6.2.15 pass
+Glyph metadata struct relevant fields:
 
-1. khóa template 12x12 cho nhóm nguyên âm có dấu;
-2. build full Vietnamese glyph inventory;
-3. chọn/thiết kế compact codepage;
-4. encoder `vi_full` có dấu;
-5. xử lý 230 dòng overflow/repack;
-6. graphic text + mixed JP/VI cleanup;
-7. QA full ROM.
+```text
++0  glyph width metric
++2  source/copy height metric
++4  source glyph pointer
++8  custom-atlas flag
+```
+
+Descriptor relevant bytes:
+
+```text
++4/+5 = texture UV
++6    = visible width
++7    = visible height
+```
+
+### Wide-glyph unpack/copy
+
+Function:
+
+```text
+0x8003C67C
+```
+
+Per source row:
+
+```text
+6 source bytes -> 8 converted/cache bytes
+```
+
+Therefore:
+
+```text
+12x12 source = 72 bytes
+12 rows converted = 96 bytes
+
+12x16 source = 96 bytes
+16 rows converted = 128 bytes
+```
+
+This distinction between source footprint and converted/cache footprint is critical.
+
+## 0.6.3.0 EXTENDED HEIGHT 12x16 — STRUCTURAL PASS
+
+Initially marked FAIL because the target looked malformed. Pixel-level review later corrected that classification.
+
+Runtime actually shows:
+
+- extra headroom/accent pixels;
+- taller target footprint;
+- full E body shifted downward relative to `TEST`.
+
+That downward shift is exactly what was expected because baseline correction was intentionally absent.
+
+=> **16-row source/copy/display path is structurally proven.**
+
+Do not retest 0.6.3.0.
+
+## 0.6.3.1 BASELINE + 16-ROW STRIDE — UNSAFE FAIL
+
+Added:
+
+1. target Y `-4 px`;
+2. target-specific rewrite of shared converted-cache/VRAM advance around `0x8003CD94..0x8003CDB4`.
+
+Runtime:
+
+- unrelated Japanese text corrupts/repeats;
+- Character Select corrupts;
+- later screen garbles;
+- game freezes.
+
+=> **UNSAFE FAIL**.
+
+Strongest suspect: shared cache/VRAM allocator state was desynchronized.
+
+Do not retest and do not reapply the naive shared `CD94` stride patch.
+
+## 0.6.3.2 BASELINE ONLY — STABLE PASS WITH LOWER-ROW LOSS
+
+Control:
+
+```text
+ＴＥＳＴ亜Ａ
+```
+
+Changes:
+
+- keep 16-row source/copy/display path;
+- apply only target `Y -= 4 px`;
+- leave shared cache pointer + VRAM cursor native.
+
+Runtime:
+
+- Japanese header normal;
+- `ＴＥＳＴ` normal;
+- baseline improved;
+- trailing `Ａ` intact;
+- no global corruption/freeze;
+- lower part of target `Ế` is missing/cut.
+
+=> baseline correction is safe.
+=> 0.6.3.1 regression is tied to shared cache-stride mutation, not baseline correction.
+
+Dedicated note:
+
+```text
+FONT_ISOLATION_0.6.3.2_STABLE_PASS.md
+```
+
+## Current hypothesis — following-glyph overwrite
+
+The target writes:
+
+```text
+16 rows * 8 converted bytes = 128 bytes
+```
+
+but native shared cursor still advances:
+
+```text
+12 rows * 8 converted bytes = 96 bytes
+```
+
+So the following glyph may begin:
+
+```text
+32 bytes / 4 rows too early
+```
+
+and overwrite the bottom four rows of the extended target.
+
+The 0.6.3.2 screenshot fits this pattern, but it is not yet proven.
+
+## 0.6.3.3 EOL OVERWRITE TEST — current probe
+
+Change exactly one variable:
+
+```text
+0.6.3.2: ＴＥＳＴ亜Ａ
+0.6.3.3: ＴＥＳＴ亜
+```
+
+Target is last glyph on the line.
+
+No new hook.
+No cache-stride patch.
+No changed copy/display logic.
+
+Question:
+
+> Does the target bottom return when no following glyph can overwrite it?
+
+Interpretation:
+
+- bottom returns => following-glyph overwrite confirmed;
+- bottom still missing => target copy/upload/display/clipping still truncates rows internally.
+
+Dedicated note:
+
+```text
+FONT_ISOLATION_0.6.3.3_EOL_OVERWRITE_TEST.md
+```
+
+## Current production direction
+
+If 0.6.3.3 confirms overwrite, do **not** mutate the shared global font-cache cursor again.
+
+Prefer:
+
+1. dedicated/isolated converted-cache region for Vietnamese extended glyphs;
+2. target-specific RAM/VRAM destination while preserving native shared allocator state;
+3. separate production extended atlas/cache path.
+
+Then scale to full Vietnamese glyph inventory and codepage.
+
+## Reference files
+
+```text
+HANDOFF_CURRENT.md
+LATEST.md
+PROBE_BUILD_INDEX.md
+PS1_LOCALIZATION_REUSABLE_LESSONS.md
+FONT_ISOLATION_0.6.3.1_UNSAFE_FAIL.md
+FONT_ISOLATION_0.6.3.2_STABLE_PASS.md
+FONT_ISOLATION_0.6.3.3_EOL_OVERWRITE_TEST.md
+```
