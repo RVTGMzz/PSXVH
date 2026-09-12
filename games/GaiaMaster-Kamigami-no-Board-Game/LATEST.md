@@ -1,80 +1,103 @@
 # Gaia Master — trạng thái mới nhất
 
-Cập nhật: **2026-09-12 sau Font Isolation 0.6.2.6**.
+Cập nhật: **2026-09-12 sau Font Isolation 0.6.2.13**.
 
 ## Chốt kỹ thuật
 
 - Checksum BDP đã reverse và verify 60/60 nested + top-level.
 - Raw MODE2/Form1 EDC/ECC patch ổn định.
-- Full-width Latin Shift-JIS hiển thị đúng.
-- ASCII 1-byte hiển thị ký hiệu sai, **đã loại**.
-- Alpha 0.5.1 được user xác nhận Việt hóa hiển thị và game chạy.
-- Alpha 0.6.1 FRONT hiện là nền runtime ổn định để kế thừa: **397 patch**, output SHA1 `54d2fb026bc3b71c79861e723caffb4114caa34c`.
+- Full-width Latin CP932/Shift-JIS hiển thị đúng.
+- ASCII 1-byte hiển thị sai và **không dùng**.
+- Alpha 0.6.1 FRONT là baseline runtime ổn định: **397 patch**, output SHA1 `54d2fb026bc3b71c79861e723caffb4114caa34c`.
+- Translation master: 596 vị trí; 230 dòng pending vì full-width 2-byte vượt slot.
 
-## Translation master
+## Character Select / custom font — breakthrough
 
-- 596 vị trí trong workflow.
-- Giữ song song `vi_full` có dấu + fallback không dấu.
-- 230 dòng đang chờ reverse/repack vì full-width 2-byte vượt slot gốc.
-
-## Font isolation — kết quả mới nhất
-
-### Safe cave
-
-Code cave cũ `0x6FE10` gây treo ở pass-through test. Safe cave mới đã runtime xác nhận boot:
+Visible probe:
 
 ```text
-SLPS file offset 0x5C0E0 .. 0x5C2B8
-VA start 0x8006B8E0
-length 472 bytes
+PRGPACK.BDP + 0xBFD2C
+owner nested BDP: entry 29
+local offset: +0x580
 ```
 
-### Visible probe
+Krom2RawAdd đã bị loại cho Character Select sau C2/D2/E2.
 
-Character Select probe chắc chắn nhìn thấy:
+Stage 2 reverse đã tìm được custom font thật trong `SLPS_020.75`:
 
 ```text
-PRGPACK 0xBFD2C
-キャラクターをえらんでね
+atlas static:   SLPS + 0x5C4EC
+mapping static: SLPS + 0x6B6CC
+atlas RAM:      0x8006BCEC
+mapping RAM:    0x8007AECC
+860 glyphs
+72 bytes/glyph
+12x12 pixels
+4bpp
+LOW nibble first
 ```
 
-Text-only probe hiện đúng `TEST亜`.
+Mapping xác nhận:
 
-### Krom2RawAdd path đã bị loại cho Character Select
+```text
+0x8273 Ｔ -> glyph 481
+0x8264 Ｅ -> glyph 466
+0x8272 Ｓ -> glyph 480
+0x889F 亜 -> glyph 0
+```
 
-Đã thử intercept mã Shift-JIS hợp lệ `0x889F` (`亜`) thành glyph custom `Ế` theo nhiều vị trí:
+## Probe timeline quan trọng
 
-- C2: direct caller `0x26CF4` -> vẫn `TEST亜`.
-- D2: direct caller `0x2CCA0` -> vẫn `TEST亜`.
-- E2: global wrapper `Krom2RawAdd` + safe cave -> vẫn `TEST亜`.
+### 0.6.2.7
+Thay glyph index 0 nhưng control dùng ASCII `TEST亜` -> runtime hiện nhiều glyph `É`. Kết luận: atlas injection có tác động runtime nhưng ASCII control không hợp lệ.
 
-Control/pass-through đều boot:
+### 0.6.2.10
+Hook quá sớm trong mapping pipeline -> toàn bộ text bị collapse thành cùng một glyph. Strategy bị loại.
 
-- A2: BOOT
-- B2: BOOT
-- C1: `TEST亜`
-- D1: `TEST亜`
-- E1: BOOT + `TEST亜`
+### 0.6.2.11
+Post-lookup hook cô lập được ký tự cuối:
 
-Kết luận hiện tại:
+```text
+ＴＥＳＴ?
+```
 
-> Character Select không lấy glyph `亜` qua wrapper `Krom2RawAdd` mà ta đã hook. Không tiếp tục test thêm các biến thể Krom wrapper tương tự.
+=> mapping isolation PASS, nhưng custom cave glyph không phải đường tối ưu để finalize.
 
-## Hướng font tiếp theo
+### 0.6.2.13 — BREAKTHROUGH
+Bỏ toàn bộ renderer hook/code cave. Giữ control full-width:
 
-Ưu tiên reverse **custom glyph cache/font atlas** của UI:
+```text
+ＴＥＳＴ亜
+```
 
-1. tìm vùng RAM/VRAM hoặc asset chứa glyph `亜` / bộ font Nhật đang hiển thị ở Character Select;
-2. tìm renderer/index table trỏ tới atlas/cache đó;
-3. làm đúng một probe: giữ text `TEST亜` nhưng thay bitmap glyph `亜` thành `Ế`;
-4. nếu hiện `TESTẾ`, mở rộng thành bảng glyph tiếng Việt có dấu;
-5. sau đó chuyển builder sang encode `vi_full`.
+và thay trực tiếp **static atlas glyph #0** bằng glyph dựng từ `Ｅ` gốc.
 
-## Sau khi font pass
+Runtime user result: glyph cuối đã hiện **gần như `Ế`**, màu/style khớp tốt hơn, text khác bình thường. Vấn đề còn lại chỉ là **dấu phía trên bị clip/cắt**.
 
-1. dọn intro mixed Nhật/Việt;
-2. patch graphic main menu/Character Select title;
-3. tiếp tục full translation;
-4. reverse/repack 230 dòng pending.
+Kết luận:
 
-Chi tiết font isolation được lưu riêng trong `FONT_ISOLATION_0.6.2x.md` và checkpoint đầy đủ nằm ở `HANDOFF_CURRENT.md`.
+> **Vietnamese glyph pipeline đã PASS.** Character Select render được glyph custom từ static atlas gốc. Blocker hiện tại không còn là renderer/mapping, mà là fit glyph Việt vào ô 12x12.
+
+## NEXT — Font Isolation 0.6.2.14
+
+Không hook renderer nữa.
+
+Mục tiêu 0.6.2.14:
+
+1. tiếp tục static-slot strategy từ 0.6.2.13;
+2. giữ row 0 trống để tránh top clipping;
+3. đặt dấu sắc + mũ thấp hơn trong glyph;
+4. nén thân `Ｅ` gốc theo chiều dọc đủ để chừa headroom nhưng giữ palette/style native;
+5. expected Character Select: `ＴＥＳＴẾ` đầy đủ, không cắt dấu.
+
+Sau khi 0.6.2.14 pass:
+
+1. tạo full Vietnamese glyph inventory;
+2. thiết kế codepage/runtime mapping không phá text Nhật chưa dịch;
+3. encode `vi_full` có dấu;
+4. xử lý 230 dòng overflow/repack;
+5. dọn mixed JP/VI;
+6. patch graphic text menus;
+7. QA full game + build reproducible patch package.
+
+Chi tiết reverse nằm trong `CHARACTER_SELECT_FONT_REVERSE_0.1.md`, `FONT_ISOLATION_0.6.2x.md`, và `HANDOFF_CURRENT.md`.
