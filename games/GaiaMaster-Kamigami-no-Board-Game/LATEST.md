@@ -1,6 +1,6 @@
 # Gaia Master — trạng thái mới nhất
 
-Cập nhật: **2026-09-12 sau runtime test 0.6.3.4 UV WINDOW TEST**.
+Cập nhật: **2026-09-12 sau runtime test 0.6.3.5 POST-COPY RAM SENTINEL**.
 
 ## Chốt hiện tại
 
@@ -10,7 +10,8 @@ Cập nhật: **2026-09-12 sau runtime test 0.6.3.4 UV WINDOW TEST**.
 - 0.6.3.1 shared cache-stride rewrite = **UNSAFE FAIL**: global text corruption + freeze. Không retest.
 - 0.6.3.2 BASELINE ONLY = **STABLE PASS**, nhưng phần đáy target extended mất/cắt.
 - 0.6.3.3 EOL OVERWRITE = **same result**, loại giả thuyết glyph kế tiếp overwrite.
-- 0.6.3.4 UV WINDOW TEST = **negative diagnostic**, `V+4` không phục hồi đáy E một cách đúng/clean.
+- 0.6.3.4 UV WINDOW TEST = **negative diagnostic**, `V+4` không phục hồi đáy E đúng/clean.
+- 0.6.3.5 POST-COPY RAM SENTINEL = **sentinel not observed**; không được dùng để kết luận clipping vì late hook nhận diện target bằng `s0` chưa được chứng minh còn hợp lệ.
 
 ## Font path đã chứng minh
 
@@ -32,7 +33,7 @@ Confirmed:
 0x889F 亜 -> glyph 0
 ```
 
-## Extended-height reverse mới
+## Extended-height facts
 
 Wide custom copy routine:
 
@@ -48,33 +49,11 @@ Geometry:
 16 rows -> 128 converted bytes
 ```
 
-Metadata `height=15` làm loop xử lý 16 rows.
+Metadata `height=15` makes the loop process 16 rows.
 
-### VRAM upload page không bị khóa 12 rows
+Font cache/upload page itself is much taller than 12 rows (roughly 240-row page), so missing rows are not explained by a glyph-only upload RECT hardcoded to 12.
 
-Font-cache initialization quanh:
-
-```text
-0x8003D488..0x8003D5F4
-```
-
-mặc định dùng cache page cao khoảng:
-
-```text
-240 rows
-```
-
-Final flush quanh:
-
-```text
-0x8003DB78..0x8003DBE0
-```
-
-queue RECT cho cả cache page, không phải một RECT glyph 12-row.
-
-=> Không còn nghi upload `RECT.h` đơn giản bị hardcode 12.
-
-## 0.6.3.4 runtime result
+## 0.6.3.5 runtime result
 
 Control:
 
@@ -82,57 +61,68 @@ Control:
 ＴＥＳＴ亜
 ```
 
-Giữ 16-row source/copy/sprite + baseline Y -4, chỉ đổi:
+Intended sentinel after copy:
 
 ```text
-target texture V += 4
+rows 10..11 = dark/gray band
+rows 12..15 = bright white band
 ```
 
-Runtime:
+Runtime screenshot:
 
-- Japanese header bình thường;
-- `ＴＥＳＴ` bình thường;
-- target vẫn malformed/truncated;
-- lower native E không trở lại sạch/đúng;
-- không global corruption/freeze.
+- Japanese header normal;
+- `ＴＥＳＴ` normal;
+- target resembles previous truncated glyph;
+- no clear gray band;
+- no clear white lower band;
+- no global corruption/freeze.
 
-=> simple UV/window offset không giải thích lower-row loss.
-=> không retest 0.6.3.4.
+=> 0.6.3.5 did not prove anything about row12..15 survival.
+=> strongest issue: late hook at `0x8003CC4C` checked `s0 == 0x889F`, but `s0` is not proven to still be the original character code at that stage.
 
-## CURRENT — 0.6.3.5 POST-COPY RAM SENTINEL
+Do not retest 0.6.3.5.
 
-Mục tiêu: test trực tiếp converted RAM rows 10..15 sau `0x8003C67C`.
+## CURRENT — 0.6.3.6 EARLY-FLAG POST-COPY SENTINEL
 
-Hook sạch sau copy tại:
+Same stable extended path and same sentinel pattern, but target identity is now decided **early** at the proven metadata hook:
 
 ```text
-0x8003CC4C
+target 0x889F -> FLAG = 1
+other glyph    -> FLAG = 0
 ```
 
-Target `0x889F` only:
+The post-copy hook reads only FLAG and never trusts late-stage `s0`.
+
+Sentinel remains:
 
 ```text
-rows 10..11 = full palette-index-7 band  # control
-rows 12..15 = full palette-index-1 band  # bright test
+rows 10..11 = dark/gray full band  # control
+rows 12..15 = bright white full band  # test
 ```
 
 Interpretation:
 
-- thấy cả 2-row control + 4-row bright bottom => rows 12..15 survive RAM->VRAM->sprite;
-- chỉ thấy control rows10..11 => loss/clipping xảy ra sau converted RAM row11;
-- không thấy cả hai => sentinel hook/target path chưa chạy đúng, không suy luận clipping.
+- gray + white visible => rows12..15 survive converted RAM -> VRAM -> sprite;
+- gray visible but white absent => rows12..15 are lost after converted RAM;
+- neither visible => our assumed post-copy destination/path is wrong; do not infer clipping.
 
 Package:
 
 ```text
-GaiaMaster_FontIsolation_0.6.3.5_POST_COPY_RAM_SENTINEL.zip
+GaiaMaster_FontIsolation_0.6.3.6_EARLY_FLAG_POST_COPY_SENTINEL.zip
+```
+
+Launcher:
+
+```text
+00_RUN_PROBE_0636.cmd
 ```
 
 ## Do not repeat
 
 - Không quay lại Krom path.
 - Không polish stacked accents production trong 12x12.
-- Không retest 0.6.2.18, 0.6.3.0, 0.6.3.1, 0.6.3.2, 0.6.3.3 hoặc 0.6.3.4.
+- Không retest 0.6.2.18, 0.6.3.0, 0.6.3.1, 0.6.3.2, 0.6.3.3, 0.6.3.4 hoặc 0.6.3.5.
 - Không patch shared `0x8003CD94..0x8003CDB4` theo kiểu 0.6.3.1.
 
 ## Sau khi extended-height path ổn định
