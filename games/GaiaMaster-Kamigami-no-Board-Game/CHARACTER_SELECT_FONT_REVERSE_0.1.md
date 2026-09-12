@@ -14,7 +14,7 @@ Mục tiêu cuối:
 ＴＥＳＴẾ
 ```
 
-Không quay lại hook `Krom2RawAdd`: direct caller #1, direct caller #2 và global safe wrapper đều đã không chạm glyph Character Select.
+Không quay lại hook `Krom2RawAdd`: direct caller #1, direct caller #2 và global safe wrapper đều không chạm glyph Character Select.
 
 ## Source-of-truth
 
@@ -26,11 +26,10 @@ Không quay lại hook `Krom2RawAdd`: direct caller #1, direct caller #2 và glo
 - owner nested BDP: entry 29
 - local offset: `+0x580`
 
-## Stage 2 breakthrough — custom atlas path
+## Custom atlas path
 
-Renderer function around `0x8003C210` có hai nguồn glyph.
-
-Character Select dùng custom mapping/atlas branch quanh:
+Renderer function around `0x8003C210` has two glyph sources.
+Character Select uses custom mapping/atlas branch:
 
 ```text
 0x8003C4DC sll  v0,v0,1
@@ -53,7 +52,7 @@ atlas file  = SLPS + 0x5C4EC
 mapping file= SLPS + 0x6B6CC
 ```
 
-Mapping đã xác nhận:
+Mapping confirmed:
 
 ```text
 0x8273 Ｔ -> glyph 481
@@ -62,7 +61,7 @@ Mapping đã xác nhận:
 0x889F 亜 -> glyph 0
 ```
 
-## Atlas format — final corrected finding
+## Atlas format
 
 ```text
 860 glyphs
@@ -72,100 +71,36 @@ Mapping đã xác nhận:
 LOW nibble first
 ```
 
-`Ｅ` full-width là glyph 466 và được dùng làm style/palette reference.
+`Ｅ` full-width = glyph 466 and is style/palette reference.
 
-## Probe timeline — native 12x12
+## Native 12x12 probe conclusion
 
-### 0.6.2.7
-Thay static glyph #0, nhưng control dùng ASCII `TEST亜` -> nhiều ký tự thành `É`. Điều này vẫn chứng minh atlas injection tác động runtime, nhưng ASCII 1-byte không phải control hợp lệ.
+### 0.6.2.13 STATIC SLOT / NO HOOK — PASS
 
-### 0.6.2.10
-Hook sớm ở mapping branch làm nhiều/all text collapse thành một glyph. Strategy bị loại.
+Direct static atlas replacement works at runtime while other text stays normal.
 
-### 0.6.2.11
-Post-lookup hook giữ text thường bình thường và chỉ đổi ký tự cuối:
+=> custom Vietnamese glyph pipeline is proven.
 
-```text
-ＴＥＳＴ?
-```
+### 0.6.2.14..0.6.2.20
 
-=> target isolation PASS, nhưng custom cave glyph pointer không phải strategy tối ưu.
+Multiple compact/full-height/AA/variant-grid attempts showed that production stacked Vietnamese marks do not fit cleanly in native 12x12 while preserving base-letter size.
 
-### 0.6.2.12
-Đổi nibble order nhưng runtime vẫn `ＴＥＳＴ?` -> loại hướng tiếp tục đoán cave glyph packing.
-
-### 0.6.2.13 — STATIC SLOT / NO HOOK — PASS
-
-Bỏ hoàn toàn renderer hook/code cave/pointer override.
-
-Control:
-
-```text
-ＴＥＳＴ亜
-```
-
-Thay trực tiếp static atlas glyph #0 (`亜`) bằng glyph `Ế` dựng từ full-width `Ｅ` gốc.
-
-Runtime user result:
-
-- text khác bình thường;
-- bốn chữ `ＴＥＳＴ` đúng;
-- glyph cuối hiện gần như `Ế`;
-- màu/style thân glyph gần khớp font gốc.
-
-=> static custom atlas path đã PASS runtime.
-
-### 0.6.2.14..0.6.2.20 — production 12x12 rejected
-
-Nhiều strategy đã thử:
-
-- compact body;
-- full-height body;
-- AA accent;
-- clean accent;
-- six-variant grid;
-- refined sample 2.
-
-Kết luận production:
-
-> **12x12 không đủ headroom cho stacked Vietnamese diacritics nếu giữ nguyên cỡ thân chữ native.**
-
-Đặc biệt xấu với các ký tự như:
-
-```text
-Ế Ể Ẳ Ỗ Ử Ấ Ố ...
-```
-
-Không quay lại vòng lặp chỉnh từng pixel cho production 12x12.
+Reject native 12x12 for production `Ế, Ể, Ẳ, Ỗ, Ử, Ấ, Ố...`.
 
 ## Extended-height reverse — 0.6.3.x
 
-### Renderer / metadata
+### Glyph metadata
 
-Character renderer:
-
-```text
-0x8003C210
-```
-
-Glyph metadata struct relevant fields:
+Relevant struct fields:
 
 ```text
-+0  glyph width metric
++0  width metric
 +2  source/copy height metric
 +4  source glyph pointer
 +8  custom-atlas flag
 ```
 
-Descriptor relevant bytes:
-
-```text
-+4/+5 = texture UV
-+6    = visible width
-+7    = visible height
-```
-
-### Wide-glyph unpack/copy
+### Wide custom copy/unpack
 
 Function:
 
@@ -173,11 +108,16 @@ Function:
 0x8003C67C
 ```
 
-Per source row:
+Two branches exist based on width metric, but both advance source 6 bytes per row and destination 8 bytes per row.
+
+Wide branch core:
 
 ```text
-6 source bytes -> 8 converted/cache bytes
+row source: 3 halfwords = 6 bytes
+row dest:   3 halfwords + zero halfword = 8 bytes
 ```
+
+Loop count comes from metadata `+2` as `(heightMetric + 1)`.
 
 Therefore:
 
@@ -189,141 +129,149 @@ Therefore:
 16 rows converted = 128 bytes
 ```
 
-This distinction between source footprint and converted/cache footprint is critical.
-
-## 0.6.3.0 EXTENDED HEIGHT 12x16 — STRUCTURAL PASS
-
-Initially marked FAIL because the target looked malformed. Pixel-level review later corrected that classification.
-
-Runtime actually shows:
-
-- extra headroom/accent pixels;
-- taller target footprint;
-- full E body shifted downward relative to `TEST`.
-
-That downward shift is exactly what was expected because baseline correction was intentionally absent.
-
-=> **16-row source/copy/display path is structurally proven.**
-
-Do not retest 0.6.3.0.
-
-## 0.6.3.1 BASELINE + 16-ROW STRIDE — UNSAFE FAIL
-
-Added:
-
-1. target Y `-4 px`;
-2. target-specific rewrite of shared converted-cache/VRAM advance around `0x8003CD94..0x8003CDB4`.
-
-Runtime:
-
-- unrelated Japanese text corrupts/repeats;
-- Character Select corrupts;
-- later screen garbles;
-- game freezes.
-
-=> **UNSAFE FAIL**.
-
-Strongest suspect: shared cache/VRAM allocator state was desynchronized.
-
-Do not retest and do not reapply the naive shared `CD94` stride patch.
-
-## 0.6.3.2 BASELINE ONLY — STABLE PASS WITH LOWER-ROW LOSS
-
-Control:
+### Descriptor fields
 
 ```text
-ＴＥＳＴ亜Ａ
++4/+5 = texture U/V
++6    = visible width
++7    = visible height
 ```
 
-Changes:
+## 0.6.3.0 — structural 12x16 pass
 
-- keep 16-row source/copy/display path;
-- apply only target `Y -= 4 px`;
-- leave shared cache pointer + VRAM cursor native.
+A 12x16 / 96-byte target with metadata height=15 produces a taller target footprint. Baseline was intentionally not corrected.
 
-Runtime:
+Do not retest.
 
-- Japanese header normal;
-- `ＴＥＳＴ` normal;
-- baseline improved;
-- trailing `Ａ` intact;
-- no global corruption/freeze;
-- lower part of target `Ế` is missing/cut.
+## 0.6.3.1 — unsafe shared-stride failure
 
-=> baseline correction is safe.
-=> 0.6.3.1 regression is tied to shared cache-stride mutation, not baseline correction.
-
-Dedicated note:
+Target baseline correction plus rewriting shared cache RAM/VRAM cursor advance around:
 
 ```text
-FONT_ISOLATION_0.6.3.2_STABLE_PASS.md
+0x8003CD94..0x8003CDB4
 ```
 
-## Current hypothesis — following-glyph overwrite
+caused global Japanese corruption and later freeze.
 
-The target writes:
+=> never repeat naive shared cursor rewrite.
+
+## 0.6.3.2 — stable baseline-only pass
+
+Keeps 16-row target path, adds only Y -4.
+
+Stable runtime, trailing A sentinel intact, but target lower rows missing.
+
+## 0.6.3.3 — EOL overwrite disproven
+
+Target moved to end-of-line. Lower rows still missing.
+
+=> following glyph does not overwrite target bottom.
+
+## 0.6.3.4 — UV +4 negative diagnostic
+
+Only target texture V was shifted +4.
+
+Runtime remained stable but lower native E did not reappear cleanly/correctly.
+
+=> simple wrong texture-V/window model is insufficient.
+
+Do not retest.
+
+## VRAM/cache page reverse after 0.6.3.4
+
+Font cache initialization function begins around:
 
 ```text
-16 rows * 8 converted bytes = 128 bytes
+0x8003D3EC
 ```
 
-but native shared cursor still advances:
+Default parameters when no custom config is supplied include:
 
 ```text
-12 rows * 8 converted bytes = 96 bytes
+sp+0x1A = 256   # VRAM/cache Y base
+sp+0x1C = 32    # cache page width parameter
+sp+0x1E = 240   # cache page height
 ```
 
-So the following glyph may begin:
+State setup:
 
 ```text
-32 bytes / 4 rows too early
+state+40 = page start Y
+state+42 = state+40 + pageHeight - 1
+state+48 = page start X
+state+50 = current cache Y cursor
+state+96 = upload RAM base
+state+100 = current converted-cache write pointer
 ```
 
-and overwrite the bottom four rows of the extended target.
-
-The 0.6.3.2 screenshot fits this pattern, but it is not yet proven.
-
-## 0.6.3.3 EOL OVERWRITE TEST — current probe
-
-Change exactly one variable:
+Per-character copy calls:
 
 ```text
-0.6.3.2: ＴＥＳＴ亜Ａ
-0.6.3.3: ＴＥＳＴ亜
+0x8003CC38  jal 0x8003C67C
 ```
 
-Target is last glyph on the line.
+with destination:
 
-No new hook.
-No cache-stride patch.
-No changed copy/display logic.
+```text
+state+100
+```
 
-Question:
+### Final page flush
 
-> Does the target bottom return when no following glyph can overwrite it?
+Function around:
+
+```text
+0x8003DB78..0x8003DBE0
+```
+
+queues VRAM upload only when cache contains glyph data.
+
+RECT uses:
+
+```text
+x = state+48
+y = state+40
+w = 4
+h = state+42 - state+40 + 1
+source = state+96
+```
+
+With default setup this is a cache-page upload roughly 240 rows high, not a single 12-row glyph upload.
+
+=> lower-row loss is not explained by `RECT.h` being hardcoded to native glyph height.
+
+## CURRENT — 0.6.3.5 POST-COPY RAM SENTINEL
+
+Clean hook site after successful `0x8003C67C` copy:
+
+```text
+0x8003CC4C
+```
+
+Target `0x889F` only, using current converted destination `state+100`.
+
+Overwrite converted rows:
+
+```text
+rows 10..11 = full palette-index-7 band  # control
+rows 12..15 = full palette-index-1 band  # bright test
+```
+
+Purpose:
+
+> Determine whether converted RAM rows 12..15 survive into VRAM/sprite display.
 
 Interpretation:
 
-- bottom returns => following-glyph overwrite confirmed;
-- bottom still missing => target copy/upload/display/clipping still truncates rows internally.
+- both bands visible => post-copy RAM rows12..15 survive; investigate source/copy glyph construction;
+- only rows10..11 control visible => loss occurs after converted RAM row11;
+- neither visible => sentinel hook/target condition did not execute, no clipping conclusion.
 
-Dedicated note:
+Package:
 
 ```text
-FONT_ISOLATION_0.6.3.3_EOL_OVERWRITE_TEST.md
+GaiaMaster_FontIsolation_0.6.3.5_POST_COPY_RAM_SENTINEL.zip
 ```
-
-## Current production direction
-
-If 0.6.3.3 confirms overwrite, do **not** mutate the shared global font-cache cursor again.
-
-Prefer:
-
-1. dedicated/isolated converted-cache region for Vietnamese extended glyphs;
-2. target-specific RAM/VRAM destination while preserving native shared allocator state;
-3. separate production extended atlas/cache path.
-
-Then scale to full Vietnamese glyph inventory and codepage.
 
 ## Reference files
 
@@ -331,8 +279,9 @@ Then scale to full Vietnamese glyph inventory and codepage.
 HANDOFF_CURRENT.md
 LATEST.md
 PROBE_BUILD_INDEX.md
-PS1_LOCALIZATION_REUSABLE_LESSONS.md
 FONT_ISOLATION_0.6.3.1_UNSAFE_FAIL.md
 FONT_ISOLATION_0.6.3.2_STABLE_PASS.md
 FONT_ISOLATION_0.6.3.3_EOL_OVERWRITE_TEST.md
+FONT_ISOLATION_0.6.3.4_UV_WINDOW_TEST.md
+FONT_ISOLATION_0.6.3.5_POST_COPY_RAM_SENTINEL.md
 ```
