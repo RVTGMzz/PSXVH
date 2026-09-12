@@ -1,114 +1,132 @@
-# Gaia Master — Font Isolation 0.6.3.0 EXTENDED HEIGHT 12x16 — FAIL
+# Gaia Master — Font Isolation 0.6.3.0 EXTENDED HEIGHT 12x16 — RECLASSIFIED
 
 Runtime test date: **2026-09-12**
 
-## Goal
+> Historical filename still says `FAIL`, but the technical conclusion has been corrected after pixel-level review of the runtime screenshot.
 
-Test whether Character Select can render a single Vietnamese glyph at **12x16 / 96 bytes** while leaving untouched Japanese/Latin glyphs on the native **12x12 / 72-byte** path.
+## Corrected result
 
-Control string:
+0.6.3.0 is **NOT a structural 12x16 failure**.
+
+The runtime screenshot shows:
+
+- surrounding `ＴＥＳＴ` remains native and normal;
+- the target glyph has a taller visible footprint;
+- extra accent/headroom pixels are visible above the base letter;
+- the native E body appears lower than surrounding text, exactly as expected because 0.6.3.0 intentionally had **no baseline correction**;
+- the full E body is present rather than being reduced to the first 12 source rows.
+
+Therefore the primary diagnostic question:
+
+> Can Gaia Master process/display a target glyph taller than the native 12-row cell?
+
+is answered **YES**.
+
+Reclassification:
 
 ```text
-ＴＥＳＴ亜
+0.6.3.0 = STRUCTURAL 12x16 PASS
+           + production layout/cache-stride incomplete
 ```
 
-Target:
+## What 0.6.3.0 proved
 
-```text
-ＴＥＳＴẾ
-```
+Target-only path used:
 
-The extended glyph allocated extra headroom for Vietnamese stacked diacritics so characters such as `Ế`, `Ể`, `Ẳ`, `Ỗ`, `Ử`, `Ấ`, `Ố` would not have to compress the native base-letter body.
+- source glyph: 12x16 / 96 bytes;
+- target code: `0x889F`;
+- custom source slot: 850;
+- source-copy metadata height: 16 rows;
+- visible sprite height: 16 pixels;
+- untouched Japanese/Latin remained native 12x12.
 
-## Runtime result
-
-**FAIL.**
-
-User screenshot shows normal `ＴＥＳＴ` followed by a malformed/insufficient accented glyph. The expected clearly extended 16-row `Ế` was **not** observed.
-
-Important:
-
-- game still boots;
-- surrounding `ＴＥＳＴ` remains normal;
-- failure is target-glyph rendering/extended-height behavior, not a global text corruption;
-- do **not** treat 12x16 as proven yet.
-
-## What remains proven from 0.6.2.x
-
-Native custom atlas:
+Native custom font facts remain:
 
 ```text
 atlas file   = SLPS + 0x5C4EC
 mapping file = SLPS + 0x6B6CC
 atlas RAM    = 0x8006BCEC
 mapping RAM  = 0x8007AECC
-860 glyphs
-72 bytes/glyph
-12x12
-4bpp
-LOW nibble first
+native glyph = 12x12, 4bpp, 72 bytes
 ```
 
-Confirmed mappings:
+## Reverse finding after the screenshot review
+
+The full render path was traced farther.
+
+### Source copy/unpack
+
+`0x8003C67C` consumes the glyph metadata struct built by `0x8003C210`.
+
+For wide glyphs it reads **6 source bytes per row** and writes **8 destination bytes per row**:
 
 ```text
-0x8273 Ｔ -> glyph 481
-0x8264 Ｅ -> glyph 466
-0x8272 Ｓ -> glyph 480
-0x889F 亜 -> glyph 0
+native 12 rows -> 12 * 8 = 96-byte converted footprint
+extended 16 rows -> 16 * 8 = 128-byte converted footprint
 ```
 
-`0.6.2.13 STATIC SLOT / NO HOOK` proved that direct static-atlas replacement renders a custom Vietnamese glyph at runtime without breaking other text.
+The row loop count comes from glyph metadata `+2`, so the 0.6.3.0 16-row metadata hook can genuinely make this routine process 16 rows.
 
-Therefore the Vietnamese font pipeline itself is real; the unresolved problem is **vertical capacity / extended-height rendering**.
+### Missing production stride in 0.6.3.0
 
-## 0.6.3.0 design that failed
-
-The experiment attempted target-only extended rendering:
-
-- remap `0x889F` to diagnostic slot 850;
-- place a 12x16 / 96-byte `Ế` beginning at the normal slot-850 address;
-- target-only hook to set source/copy height to 16 rows;
-- target-only hook to set visible sprite height to 16;
-- leave untouched glyphs at native 12x12.
-
-Native atlas pointer math is still hardcoded around:
+After the copy, native code still advances two cache/allocation cursors from the global font height at `s1+64`:
 
 ```text
-0x8003C4F8  sll  v0,v1,3
-0x8003C4FC  addu v0,v0,v1
-0x8003C500  sll  a1,v0,3
+0x8003CD94 .. 0x8003CDA4
+    converted-glyph RAM pointer += (fontHeight+1) * 8
+
+0x8003CDA8 .. 0x8003CDB4
+    VRAM glyph Y cursor += (fontHeight+1)
 ```
 
-which computes `glyph_index * 72`.
-
-## Do not assume the cause yet
-
-Possible causes to investigate next, **not yet proven**:
-
-1. one of the height hooks did not reach the actual Character Select copy/draw path;
-2. source row count changed but an intermediate buffer is still sized for the native path;
-3. visible primitive/sprite is still clipping to native height elsewhere;
-4. 96-byte source placed inside the 72-byte-stride atlas is not safe for the way the renderer fetches/caches the glyph;
-5. converted glyph buffer footprint or row pitch differs from the assumption used by 0.6.3.0;
-6. there is an additional height/UV/texture-window field not yet patched.
-
-Do not return to endless 12x12 accent pixel polishing. The user explicitly prefers solving the structural height limitation because stacked Vietnamese marks such as `Ể` and `Ẳ` are not production-quality inside two spare rows.
-
-## NEXT TASK FOR NEW CHAT
-
-Start from `HANDOFF_CURRENT.md` on branch:
+For Character Select native height is 12 rows, so 0.6.3.0 still advanced:
 
 ```text
-gaia-character-select-font-atlas-reverse-01
+RAM:  96 bytes
+VRAM: 12 rows
 ```
 
-Then:
+while the target glyph actually needs:
 
-1. inspect/reconstruct the exact 0.6.3.0 builder/hook locations;
-2. disassemble the full target render path from final glyph pointer through copy/unpack to GPU primitive creation;
-3. identify every field controlling source rows, destination buffer size, sprite height, row pitch and clipping;
-4. build the next probe only after proving where the 16-row path failed;
-5. keep the next runtime test at Character Select and maximize information per test.
+```text
+RAM:  128 bytes
+VRAM: 16 rows
+```
 
-Do **not** ask the user to retest 0.6.3.0.
+This is harmless enough for a single last diagnostic glyph to show, but it is not production-safe for following glyphs.
+
+### Baseline
+
+Native `Ｅ` body starts at source row 2.
+Extended diagnostic `Ế` body starts at row 6.
+
+Difference:
+
+```text
++4 rows
+```
+
+So the target visible Y must be shifted **up 4 px** to align the base-letter body with native surrounding text.
+
+## Next probe — 0.6.3.1
+
+Do not retest 0.6.3.0.
+
+0.6.3.1 keeps the proven 16-row source/copy/sprite path and adds only the two missing production-layout fixes:
+
+1. target descriptor Y `-4 px` baseline correction;
+2. target cache allocation stride = 16 rows / 128 converted bytes.
+
+Control line is extended to:
+
+```text
+ＴＥＳＴ亜Ａ
+```
+
+Expected:
+
+```text
+ＴＥＳＴẾＡ
+```
+
+The trailing native `Ａ` checks that a glyph following the 16-row target is not overlapped/corrupted by a stale 12-row cache stride.
