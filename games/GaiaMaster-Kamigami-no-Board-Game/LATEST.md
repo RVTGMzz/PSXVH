@@ -1,6 +1,6 @@
 # Gaia Master — trạng thái mới nhất
 
-Cập nhật: **2026-09-12 sau 0.6.2.19/0.6.2.20**, chuyển hướng sang **0.6.3.0 EXTENDED HEIGHT 12x16**.
+Cập nhật: **2026-09-12 sau runtime test 0.6.3.0 EXTENDED HEIGHT 12x16 — FAIL**.
 
 ## Chốt kỹ thuật
 
@@ -8,10 +8,10 @@ Cập nhật: **2026-09-12 sau 0.6.2.19/0.6.2.20**, chuyển hướng sang **0.6
 - MODE2/Form1 patcher + EDC/ECC ổn định.
 - Full-width Latin CP932/Shift-JIS: OK.
 - ASCII 1-byte: FAIL/mis-render, không dùng.
-- Alpha 0.6.1 FRONT là baseline runtime ổn định: 397 patch, SHA1 `54d2fb026bc3b71c79861e723caffb4114caa34c`.
-- Translation master: 596 vị trí; 230 dòng pending vì full-width 2-byte overflow slot.
+- Alpha 0.6.1 FRONT là baseline runtime ổn định: **397 patch**, SHA1 `54d2fb026bc3b71c79861e723caffb4114caa34c`.
+- Translation master: **596 vị trí**; **230 dòng pending** vì full-width 2-byte overflow slot.
 
-## Custom font path
+## Custom font path đã reverse
 
 Visible probe:
 
@@ -47,93 +47,84 @@ Mapping confirmed:
 ## 0.6.2.x conclusion
 
 ### 0.6.2.13 — BREAKTHROUGH PASS
-Static atlas replacement works at runtime. Vietnamese glyph pipeline is real; other text stays normal.
+Direct static-atlas replacement renders a Vietnamese custom glyph at runtime while other text stays normal.
 
-### 0.6.2.14 / 0.6.2.15
-Compact-body strategy rejected because accented capitals become visibly smaller.
+=> **Vietnamese glyph pipeline PASS.**
 
-### 0.6.2.16 / 0.6.2.17 / 0.6.2.18
-Full-height body retained, but stacked marks must fit inside only two spare rows. `Ế` can be made recognizable, but quality remains poor/awkward.
+### 0.6.2.14–0.6.2.20
+Tried many full-height/compact accent geometries inside native 12x12.
 
-### 0.6.2.19 VARIANT GRID
-Six variants shown in one runtime line. User selected **sample 2 from the left** as best base shape, but noted:
-- too thin;
-- lacks shadow/weight;
-- circumflex slightly off-center;
-- circumflex too attached to E top bar.
+Final production conclusion:
 
-### 0.6.2.20 SAMPLE2 REFINED
-Refined sample 2 with more weight and centering. Runtime/preview exposed the real production blocker:
+> **12x12 is structurally too cramped for stacked Vietnamese diacritics** if the native base-letter body must remain full-size.
 
-> **12x12 itself is too small for Vietnamese stacked diacritics.**
+This is especially problematic for `Ế`, `Ể`, `Ẳ`, `Ỗ`, `Ử`, `Ấ`, `Ố`, etc.
 
-This becomes severe not only for `Ế`, but also `Ể`, `Ẳ`, `Ỗ`, `Ử`, `Ấ`, `Ố`, etc.
+=> Stop polishing production stacked marks inside 12x12.
 
-=> **Stop spending time polishing stacked Vietnamese marks inside 12x12.**
+## 0.6.3.0 EXTENDED HEIGHT 12x16 — runtime result
 
-## New reverse finding — extended height is architecturally possible
+Goal: prove that one target Vietnamese glyph can use **12x16 / 96 bytes** while untouched Japanese/Latin remains native 12x12.
 
-Renderer function around `0x8003C210` stores glyph pointer/metrics separately.
+Runtime screenshot:
 
-Native atlas pointer math is explicitly hardcoded as:
+- `ＴＥＳＴ` remains normal;
+- final target glyph is malformed / still does not show a clearly extended 16-row `Ế`;
+- game boots, so failure is localized to extended target-glyph behavior.
 
-```text
-0x8003C4F8  sll  v0,v1,3
-0x8003C4FC  addu v0,v0,v1
-0x8003C500  sll  a1,v0,3
-```
+=> **0.6.3.0 FAIL. 12x16 is NOT proven yet.**
 
-which computes:
+Do not ask user to retest 0.6.3.0.
+
+Full failure note:
 
 ```text
-glyph_index * 72
+FONT_ISOLATION_0.6.3.0_FAIL.md
 ```
 
-Downstream glyph copy uses a **separate per-glyph height field**. The visible GPU sprite height is also assigned separately in the caller.
+## What 0.6.3.0 attempted
 
-Therefore one diagnostic glyph can be tested at:
+- remap `0x889F` to diagnostic slot 850;
+- write a 12x16 / 96-byte `Ế` at the slot-850 source position;
+- target-only height hook for 16 copied source rows;
+- target-only visible sprite-height hook for 16 pixels;
+- leave all untouched glyphs native 12x12.
+
+Native atlas stride math remains hardcoded as `glyph_index * 72` around:
 
 ```text
-12x16
-4bpp
-96 bytes/glyph
+0x8003C4F8
+0x8003C4FC
+0x8003C500
 ```
 
-without converting the entire Japanese font immediately.
+## Immediate next reverse task
 
-## NEXT — 0.6.3.0 EXTENDED HEIGHT 12x16
+Do **not** guess another height patch yet.
 
-First extended-height diagnostic:
+Next chat should trace the complete target render path after final glyph pointer generation and identify every field controlling:
 
-- remap `0x889F` to diagnostic atlas slot 850;
-- put a 12x16 / 96-byte Vietnamese `Ế` there;
-- use target-only safe-cave hooks to make only `0x889F` copy **16 source rows** and draw a **16-pixel-high sprite**;
-- leave every untouched Japanese/Latin glyph on the native 12x12 path.
+1. source row count;
+2. source row pitch / 4bpp unpacking;
+3. converted glyph buffer size;
+4. destination/cache allocation;
+5. visible sprite/primitive height;
+6. UV/texture-window/clipping behavior.
 
-12x16 test layout:
+Main possibilities still unresolved:
 
-```text
-rows 0..5  = dedicated Vietnamese diacritic headroom
-rows 6..15 = native E body at original pixel size
-```
+- target height hook may not affect the actual Character Select copy path;
+- intermediate buffer may still be native-sized;
+- GPU primitive may still clip at native height;
+- 96-byte source inside a 72-byte-stride atlas may be unsuitable;
+- another metric/height field may exist.
 
-0.6.3.0 intentionally does **not** correct baseline yet. If successful, final E body may sit ~4 pixels too low. This is acceptable for the first probe.
-
-Primary question:
-
-> Can Gaia Master actually copy and display all 16 rows for a target glyph?
-
-If YES, 0.6.3.1 will handle:
-- y-offset/baseline correction;
-- expanded glyph buffer accounting;
-- production extended-height Vietnamese atlas/codepage.
-
-## After extended-height font passes
+## After extended-height path is truly solved
 
 1. build full Vietnamese glyph inventory;
-2. compact runtime codepage/mapping;
+2. design compact runtime codepage/mapping;
 3. encode `vi_full` with accents;
 4. solve/repack 230 pending overflow rows;
 5. clean mixed JP/VI;
-6. patch graphic menus/title text;
+6. patch graphic menu/title text;
 7. full runtime QA + reproducible final build.
