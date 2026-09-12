@@ -1,6 +1,6 @@
 # HANDOFF — Gaia Master PS1 Việt hóa
 
-> Current source-of-truth sau Font Isolation **0.6.2.14**, đang test **0.6.2.15 ACCENT SHAPE**.
+> Current source-of-truth sau runtime test **0.6.2.16 FULL HEIGHT**, next là **0.6.2.17 FULL HEIGHT AA ACCENT**.
 
 ## Source game
 
@@ -13,8 +13,6 @@
 - stable translation baseline: Alpha 0.6.1 FRONT SHA1 `54d2fb026bc3b71c79861e723caffb4114caa34c`
 
 ## BDP / raw sector
-
-BDP:
 
 ```text
 magic    +0x00 = 0x000010F0
@@ -43,11 +41,11 @@ Raw disc: MODE2/Form1, user data raw `+24`, 2048 bytes; modified sectors phải 
 - Alpha 0.6.1 FRONT: 397 patch, runtime stable.
 - vẫn còn mixed JP/VI + graphic text cần xử lý sau font.
 
-## Encoding rules đã chốt
+## Encoding rules
 
 - Shift-JIS Japanese: OK.
 - Full-width Latin CP932: OK.
-- ASCII 1-byte: FAIL/mis-render trong Japanese renderer, **không dùng làm control/runtime text**.
+- ASCII 1-byte: FAIL/mis-render, không dùng làm runtime control text.
 - UTF-8 trực tiếp: không dùng.
 
 ## Character Select visible probe
@@ -65,29 +63,15 @@ Probe chuẩn:
 82 73 82 64 82 72 82 73 88 9F
 ```
 
-## Krom path đã loại
+## Custom atlas path đã reverse
 
-Các probe C2/D2/E2 đều cho `TEST亜`, nên Character Select không lấy glyph qua Krom2RawAdd path đã hook. Không quay lại direct/global Krom hooks.
-
-## Stage 2 breakthrough — custom atlas thật
-
-Character Select đi custom mapping/atlas branch quanh `0x8003C4DC` trong renderer `0x8003C210`.
-
-Default pointers:
+Character Select đi custom mapping/atlas branch của renderer `0x8003C210`.
 
 ```text
 atlas RAM   = 0x8006BCEC
 mapping RAM = 0x8007AECC
 atlas file  = SLPS + 0x5C4EC
 mapping file= SLPS + 0x6B6CC
-```
-
-Final glyph pointer calculation:
-
-```text
-mapping code -> glyph index
-glyph byte offset = index * 72
-final pointer = atlas base + offset
 ```
 
 Mapping confirmed:
@@ -99,7 +83,7 @@ Mapping confirmed:
 0x889F 亜 -> glyph 0
 ```
 
-## Atlas format — FINAL CURRENT FINDING
+Atlas:
 
 ```text
 860 glyphs
@@ -109,26 +93,17 @@ Mapping confirmed:
 LOW nibble first
 ```
 
-Full-width `Ｅ` = glyph index 466, dùng làm style/palette reference.
+`Ｅ` native = glyph index 466, dùng làm style reference.
 
-## Probe history mới nhất
+## Probe history quan trọng
 
-### 0.6.2.7
-Static glyph #0 replacement + ASCII control -> `É É É É É`. Chứng minh atlas injection có runtime effect, nhưng ASCII control sai.
-
-### 0.6.2.10
-Early mapping hook -> toàn text collapse về cùng glyph. Reject strategy.
-
-### 0.6.2.11
-Post-lookup hook -> `ＴＥＳＴ?`. Isolation target PASS, nhưng cave glyph strategy chưa sạch.
-
-### 0.6.2.12
-Đổi nibble assumption -> vẫn `ＴＥＳＴ?`; dừng đoán cave packing.
+### Krom path rejected
+C2/D2/E2 không chạm Character Select. Không quay lại Krom wrapper.
 
 ### 0.6.2.13 STATIC SLOT / NO HOOK — BREAKTHROUGH PASS
 
-Không hook renderer, không code cave.
-
+- không hook renderer;
+- không code cave;
 - giữ text `ＴＥＳＴ亜`;
 - thay trực tiếp static atlas glyph #0 (`亜`) bằng glyph Việt dựng từ `Ｅ` gốc.
 
@@ -136,60 +111,76 @@ Runtime:
 
 - text khác bình thường;
 - `ＴＥＳＴ` đúng;
-- glyph cuối hiện gần như `Ế`;
+- glyph cuối gần như `Ế`;
 - màu/style gần font gốc.
 
 => **Vietnamese glyph pipeline PASS**.
 
-### 0.6.2.14 COMPACT FIT — result
+### 0.6.2.14 / 0.6.2.15 — compact body rejected
+Nén thân E còn 9 hàng để lấy thêm headroom. Runtime cho thấy chữ có dấu nhìn nhỏ hơn chữ thường. User không chấp nhận cho production.
 
-Thử chừa row 0 trống, hạ dấu sắc + mũ và nén thân E xuống 9 hàng. Runtime screenshot vẫn nhìn gần như `É`.
+=> Production rule: không thu nhỏ body native.
 
-Phân tích lại bitmap + screenshot cho thấy vấn đề chính không còn là top clipping. Circumflex của 0.6.2.14 chỉ cao **1 row**, nên khi game render/scale nó nhập thị giác với top bar của E. Dấu sắc vẫn thấy, vì vậy ký tự trông như `É`.
+### 0.6.2.16 FULL HEIGHT — runtime result
 
-=> blocker hiện tại là **glyph accent geometry**, không phải renderer/mapping/atlas.
-
-## 0.6.2.15 ACCENT SHAPE — task hiện tại
-
-Không thay renderer/mapping.
-
-Giữ static-slot strategy đã PASS và chỉ làm mũ rõ hơn:
+Giữ body `Ｅ` nguyên vẹn:
 
 ```text
-row 0 = dấu sắc
-row 1 = đỉnh mũ
-row 2 = hai vai mũ
-row 3..11 = thân E native compact 9 hàng
+row 0..1 = dấu
+row 2..11 = native E body byte-for-byte
 ```
 
-Mũ giờ có 2 tầng pixel thật sự để tạo hình `^`, tách khỏi thanh ngang trên của E.
+Runtime screenshot:
 
-Expected runtime:
+- thân E đúng size/baseline/style;
+- phần dấu hiện nhiều hơn;
+- nhưng tổng thể vẫn gần `É`, circumflex chưa đọc tự nhiên thành `^`;
+- user xác nhận kích thước body full-height là đúng hướng.
+
+=> Blocker hiện tại chỉ còn **accent geometry trong 2 blank rows**.
+
+## NEXT — 0.6.2.17 FULL HEIGHT AA ACCENT
+
+Không thay renderer/mapping/atlas strategy.
+
+Giữ body `Ｅ` 100% byte-for-byte.
+
+Thiết kế lại 2 hàng dấu:
+
+- row 0: bright circumflex peak + acute upper pixel;
+- row 1: darker/anti-aliased circumflex shoulders + acute lower pixel;
+- dùng chính palette indices native `1/4/7` của glyph `Ｅ` để dấu không hòa vào top bar;
+- body row 2..11 không đổi.
+
+Expected:
 
 ```text
 ＴＥＳＴẾ
 ```
 
-## Sau 0.6.2.15 PASS
+Mục tiêu là full-height, không thu nhỏ thân chữ, và mắt đọc rõ `^ + ´`.
 
-1. khóa template glyph 12x12;
+## Sau khi geometry PASS
+
+1. khóa template full-height cho A/E/O/U family;
 2. build full Vietnamese glyph inventory;
 3. thiết kế compact runtime codepage/mapping;
 4. chuyển `vi_full` sang encoder có dấu;
 5. giải 230 pending overflow rows;
 6. dọn mixed JP/VI;
-7. patch graphic menu/title text;
-8. full runtime QA + reproducible final patch/build.
+7. patch graphic menus/title;
+8. full runtime QA + reproducible final build.
 
 ## Windows builder pitfalls
 
-- Tránh parse `(Japan).bin` trong parenthesized BAT block.
-- Launcher nên ASCII + CRLF, gọi trực tiếp `C:\Python312\python.exe` trên máy test hiện tại.
-- JSON tiếng Nhật: `ensure_ascii=True` hoặc UTF-8 explicit.
+- tránh parse `(Japan).bin` trong parenthesized BAT block;
+- launcher ASCII + CRLF;
+- máy test hiện tại có `C:\Python312\python.exe`;
+- JSON Nhật: UTF-8 explicit hoặc `ensure_ascii=True`.
 
 ## User testing preference
 
-- test visible ở intro/main menu/Character Select;
-- không bắt đi sâu gameplay khi chưa cần;
-- một probe có giá trị thông tin cao mỗi vòng;
-- khi font pipeline đã pass, ưu tiên tiến thẳng sang production glyph/codepage thay vì lặp diagnostic không cần thiết.
+- probe visible ở Character Select;
+- không bắt đi sâu gameplay;
+- mỗi vòng chỉ một thay đổi có giá trị thông tin cao;
+- không quay lại nhánh kỹ thuật đã loại.
