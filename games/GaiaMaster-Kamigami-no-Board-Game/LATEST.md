@@ -1,6 +1,6 @@
 # Gaia Master — trạng thái mới nhất
 
-Cập nhật: **2026-09-12 sau Font Isolation 0.6.2.15**, đang test **0.6.2.16 FULL HEIGHT**.
+Cập nhật: **2026-09-12 sau runtime test 0.6.2.16 FULL HEIGHT**.
 
 ## Chốt kỹ thuật
 
@@ -53,49 +53,42 @@ Runtime: glyph cuối hiện gần như `Ế`, màu/style gần font gốc, text
 
 => **Vietnamese glyph pipeline đã PASS.**
 
-### 0.6.2.14 — COMPACT FIT
-Nén thân E còn 9 hàng để lấy thêm headroom. Runtime vẫn trông gần như `É`.
+### 0.6.2.14 / 0.6.2.15 — compact-body strategy rejected
+Nén thân E để lấy thêm headroom cho dấu làm chữ có dấu nhỏ hơn chữ thường. Runtime feedback xác nhận không phù hợp production.
 
-### 0.6.2.15 — ACCENT SHAPE — runtime result
-Dùng 3 hàng cho dấu: sắc / đỉnh mũ / vai mũ và giữ thân E compact 9 hàng.
+=> Không dùng chiến lược thu nhỏ thân chữ.
 
-Runtime screenshot cho thấy phần dấu trên hiện rõ hơn, nhưng glyph vẫn chưa giống `Ế` tự nhiên. Quan trọng hơn, user xác nhận hướng **nén thân chữ làm chữ có dấu trông nhỏ hơn chữ thường**, không chấp nhận cho bản hoàn thiện.
+### 0.6.2.16 FULL HEIGHT — runtime result
+Giữ `Ｅ` native nguyên kích thước, row 2..11 byte-for-byte. Nhét circumflex + acute vào đúng hai hàng trống row 0..1.
 
-=> **Reject compact-body strategy cho production.**
+Runtime:
 
-## NEXT — Font Isolation 0.6.2.16 FULL HEIGHT
+- thân `Ｅ` đúng kích thước, baseline/style đúng;
+- dấu trên hiện được nhiều hơn;
+- glyph vẫn chưa đọc tự nhiên thành `Ế`, trông gần `É` với các điểm/nhánh dấu chưa rõ.
 
-Production rule mới:
+=> **Full-height strategy là hướng đúng.** Blocker hiện tại chỉ còn **2-row accent geometry**, không còn là renderer/mapping/size.
 
-> Chữ có dấu phải giữ nguyên kích thước thân chữ native. Không được làm `Ă/Â/Ê/Ô/Ơ/Ư...` thấp hoặc nhỏ hơn chữ thường chỉ để nhường chỗ cho dấu.
+## NEXT — 0.6.2.17 FULL HEIGHT AA ACCENT
 
-`Ｅ` native đã có sẵn hai hàng trống ở trên:
+Giữ nguyên body `Ｅ` 100%.
 
-```text
-row 0 = blank
-row 1 = blank
-row 2..11 = native E body
-```
+Chỉ thay hai hàng dấu bằng thiết kế pixel-font rõ hơn:
 
-0.6.2.16 giữ **row 2..11 byte-for-byte**, và nhét cả circumflex + acute vào đúng hai hàng trống:
+- circumflex peak dùng bright native index;
+- circumflex shoulders dùng darker native anti-alias/shadow indices để không nhập vào top bar `E`;
+- acute đặt tách bên phải, cũng dùng 2 mức sáng/tối;
+- body rows 2..11 giữ nguyên byte-for-byte.
 
-```text
-row 0 = circumflex peak + acute upper pixel
-row 1 = circumflex shoulders + acute lower pixel
-row 2..11 = E native nguyên kích thước
-```
-
-Không hook renderer, không Krom hook, không code cave. Vẫn dùng static-slot strategy đã PASS.
-
-Expected Character Select:
+Mục tiêu runtime:
 
 ```text
 ＴＥＳＴẾ
 ```
 
-Mục tiêu của 0.6.2.16 không chỉ là "có dấu", mà là **`Ế` phải cao/thân chữ bằng đúng `Ｅ` native**.
+với thân chữ bằng đúng `Ｅ` gốc và dấu `^ + ´` đọc được rõ trong 2 hàng headroom.
 
-Sau khi glyph geometry đạt yêu cầu:
+Sau khi geometry đạt yêu cầu:
 
 1. khóa template full-height cho nhóm nguyên âm có dấu;
 2. tạo full Vietnamese glyph inventory;
@@ -105,5 +98,3 @@ Sau khi glyph geometry đạt yêu cầu:
 6. dọn mixed JP/VI;
 7. patch graphic text menus;
 8. QA full game + build reproducible patch package.
-
-Chi tiết reverse nằm trong `CHARACTER_SELECT_FONT_REVERSE_0.1.md` và `HANDOFF_CURRENT.md`.
