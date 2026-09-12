@@ -1,6 +1,6 @@
 # HANDOFF — Gaia Master PS1 Việt hóa
 
-> Current source-of-truth sau Font Isolation **0.6.2.13 PASS**, đang làm **0.6.2.14 COMPACT FIT**.
+> Current source-of-truth sau Font Isolation **0.6.2.14**, đang test **0.6.2.15 ACCENT SHAPE**.
 
 ## Source game
 
@@ -132,34 +132,45 @@ Không hook renderer, không code cave.
 - giữ text `ＴＥＳＴ亜`;
 - thay trực tiếp static atlas glyph #0 (`亜`) bằng glyph Việt dựng từ `Ｅ` gốc.
 
-Runtime user screenshot/result:
+Runtime:
 
 - text khác bình thường;
 - `ＴＥＳＴ` đúng;
-- glyph cuối hiện gần như **`Ế`**;
-- màu/style gần font gốc;
-- chỉ còn lỗi **dấu phía trên bị clip/cắt**.
+- glyph cuối hiện gần như `Ế`;
+- màu/style gần font gốc.
 
-Kết luận quan trọng:
+=> **Vietnamese glyph pipeline PASS**.
 
-> **Vietnamese glyph pipeline đã PASS.** Không còn blocker renderer/mapping. Immediate blocker chỉ là fit dấu Việt trong cell 12x12.
+### 0.6.2.14 COMPACT FIT — result
 
-## 0.6.2.14 COMPACT FIT — task hiện tại
+Thử chừa row 0 trống, hạ dấu sắc + mũ và nén thân E xuống 9 hàng. Runtime screenshot vẫn nhìn gần như `É`.
 
-Không thay renderer/mapping nữa.
+Phân tích lại bitmap + screenshot cho thấy vấn đề chính không còn là top clipping. Circumflex của 0.6.2.14 chỉ cao **1 row**, nên khi game render/scale nó nhập thị giác với top bar của E. Dấu sắc vẫn thấy, vì vậy ký tự trông như `É`.
 
-Thiết kế target glyph `Ế`:
+=> blocker hiện tại là **glyph accent geometry**, không phải renderer/mapping/atlas.
 
-- static-slot glyph #0, giống 0.6.2.13;
-- row 0 để trống để tránh clip sát trần;
-- row 1 = dấu sắc;
-- row 2 = mũ;
-- thân `Ｅ` bắt đầu row 3;
-- nén body 10 hàng xuống 9 hàng bằng cách bỏ một vertical duplicate row;
-- giữ các palette indices/shadow style lấy từ glyph `Ｅ` native;
-- expected runtime: `ＴＥＳＴẾ`, dấu đầy đủ không bị cắt.
+## 0.6.2.15 ACCENT SHAPE — task hiện tại
 
-## Sau 0.6.2.14 PASS
+Không thay renderer/mapping.
+
+Giữ static-slot strategy đã PASS và chỉ làm mũ rõ hơn:
+
+```text
+row 0 = dấu sắc
+row 1 = đỉnh mũ
+row 2 = hai vai mũ
+row 3..11 = thân E native compact 9 hàng
+```
+
+Mũ giờ có 2 tầng pixel thật sự để tạo hình `^`, tách khỏi thanh ngang trên của E.
+
+Expected runtime:
+
+```text
+ＴＥＳＴẾ
+```
+
+## Sau 0.6.2.15 PASS
 
 1. khóa template glyph 12x12;
 2. build full Vietnamese glyph inventory;
