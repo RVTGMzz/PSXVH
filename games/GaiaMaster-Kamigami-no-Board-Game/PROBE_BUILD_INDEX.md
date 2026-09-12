@@ -1,6 +1,6 @@
 # Gaia Master — probe/build index
 
-Updated: **2026-09-12**
+Updated: **2026-09-13**
 
 Purpose: prevent checkpoint confusion and accidental retesting.
 
@@ -20,112 +20,120 @@ Alpha 0.6.1 FRONT SHA1
 **BREAKTHROUGH PASS**. Static custom Vietnamese atlas path works.
 
 ### 0.6.2.14..0.6.2.20
-Geometry/cosmetic experiments. Production conclusion: native 12x12 is too cramped for stacked Vietnamese diacritics.
+One-glyph geometry/cosmetic experiments. Conclusion: full Vietnamese stacked marks do not fit cleanly in one native 12x12 cell while preserving full base body.
 
-## 0.6.3.x extended-height
+## 0.6.3.x extended-height research
 
-### 0.6.3.0 EXTENDED HEIGHT 12x16
-Historical structural evidence. Do not retest.
+### 0.6.3.0
+Historical 12x16 structural evidence. Do not retest.
 
-### 0.6.3.1 BASELINE + 16-ROW STRIDE
-**UNSAFE FAIL**. Global corruption + later freeze. Never retest.
+### 0.6.3.1
+**UNSAFE FAIL**. Shared stride/cursor mutation caused corruption + freeze.
 
-### 0.6.3.2 BASELINE ONLY
-**STABLE PASS WITH LOWER-ROW LOSS**. Do not retest.
+### 0.6.3.2
+Stable with lower-row loss.
 
-### 0.6.3.3 EOL OVERWRITE
-**RUNTIME COMPLETE**. Following-glyph overwrite disproven. Do not retest.
+### 0.6.3.3
+Following-glyph overwrite disproven.
 
-### 0.6.3.4 UV WINDOW
-**RUNTIME COMPLETE / NEGATIVE**. Do not retest.
+### 0.6.3.4
+UV-window diagnostic negative.
 
-### 0.6.3.5 POST-COPY RAM SENTINEL
-**RUNTIME COMPLETE / NO SENTINEL**. Late `s0` identity unreliable. Do not retest.
+### 0.6.3.5
+Late-s0 sentinel inconclusive.
 
-### 0.6.3.6 EARLY-FLAG SENTINEL
-**UNSAFE FAIL / BOOT FREEZE**. Persistent/global flag rejected. Never retest.
+### 0.6.3.6
+**UNSAFE FAIL**. Persistent/global flag caused boot freeze.
 
-### 0.6.3.7 SOURCE ROW SENTINEL
-**RUNTIME COMPLETE / HIGH-VALUE RESULT**.
+### 0.6.3.7
+High-value source-row sentinel: rows10..11 visible, rows12..15 not fully visible.
 
-```text
-rows10..11 dark/gray full band
-rows12..15 bright white full band
-```
+### 0.6.3.8
+**DIAGNOSTIC FAIL**. Global height16 broke layout.
 
-Runtime shows rows10..11 but not the full rows12..15 block.
+### 0.6.3.9
+**DIAGNOSTIC FAIL**. False `s3+2` metadata assumption.
 
-### 0.6.3.8 FORCE SPRITE HEIGHT16
-**DIAGNOSTIC FAIL**. Global height override breaks layout. Do not retest.
+### 0.6.3.10
+**STABLE NEGATIVE**. Proven `sp+18` height did not recover lower rows.
 
-### 0.6.3.9 HEIGHT FROM METADATA
-**DIAGNOSTIC FAIL**. `s3+2` was not metadata; runtime vertical TEST/garbage. Do not retest.
+### 0.6.3.11
+Inconclusive mirror negative.
 
-### 0.6.3.10 HEIGHT FROM STACK METADATA
-**RUNTIME COMPLETE / STABLE NEGATIVE**.
-Uses proven `lhu v0,18(sp)`. Runtime stable but target still same as 0.6.3.7. Final primitive height is not the main blocker. Do not retest.
+### 0.6.3.12
+**DIAGNOSTIC FAIL / LAYOUT CORRUPTION**. Post-copy write probe made TEST vertical/target garbage. Never retest.
 
-### 0.6.3.11 RAM TAIL MIRROR
-**RUNTIME COMPLETE / INCONCLUSIVE NEGATIVE**.
-No bright mirror block, but no independent control proved hook/destination correctness. Do not retest.
+### Reverse dump 0.1 result
 
-### 0.6.3.12 CONTROLLED RAM TAIL MIRROR
-**DIAGNOSTIC FAIL / LAYOUT CORRUPTION**.
-
-Runtime:
-- `TEST` becomes vertical;
-- target becomes texture/block garbage;
-- control/mirror cannot be interpreted;
-- post-copy write itself is perturbing live state/layout.
-
-Conclusion:
-- do not infer anything about rows12..15 from 0.6.3.12;
-- do not write through `state+100` again until raw executable dataflow is re-verified;
-- never retest 0.6.3.12.
-
-## CURRENT — READ-ONLY REVERSE DUMP
-
-No runtime game probe is current.
-
-Tool:
+Read-only executable dump proves:
 
 ```text
-GaiaMaster_063_REVERSE_DUMP_0.1.zip
-00_RUN_REVERSE_DUMP.cmd
+0x8003CC34  a2 = state+100 current converted start
+0x8003CC38  jal 0x8003C67C
+...
+0x8003CD94  state+100 advance begins
 ```
 
-Output:
+So state+100 has not advanced immediately after the copy call. 0.6.3.12 failed for a deeper live-state/register reason.
+
+Reverse dump 0.2 remains available for completing old extended-height documentation.
+
+## 0.6.4.x composite accent pivot
+
+External reference study: `2ez4gcx/yugioh-mcbb-vi-patch` is a finished Japanese PS1 -> Vietnamese patch whose public README describes translated text, redrawn font and a few code-adjustment bytes. The repo does not expose development source, so no exact technique is attributed to it. Strategic lesson: prefer targeted font/compositor changes over broad renderer redesign when possible.
+
+### 0.6.4.0 COMPOSITE ACCENT OVERLAY — **CURRENT PROBE**
+
+Internal text:
 
 ```text
-GaiaMaster_063_REVERSE_DUMP.txt
+ＴＥＳＴＥ亜
 ```
 
-This tool does not patch the ROM and does not require emulator/game boot.
-
-It dumps the exact MIPS code around:
+Expected visual:
 
 ```text
-0x8003C180..0x8003C780
-0x8003C880..0x8003CE80
-0x8003D380..0x8003D540
-0x8003D980..0x8003DAA0
-0x8003DB40..0x8003DC40
+ＴＥＳＴẾ
 ```
 
-Next runtime build is forbidden until the dump resolves:
-- true destination register inside `0x8003C67C`;
-- lifetime of `state+100` across the call;
-- cache-page placement and per-glyph Y;
-- exact path from converted rows to record U/V/H.
+Design:
+- native full-size E unchanged;
+- glyph #0 becomes transparent circumflex+acute overlay;
+- overlay native 12x12 descriptor is shifted `X -= 12`, `Y -= 4`;
+- overlay therefore sits over preceding E;
+- no 12x16 geometry/cache path is involved.
+
+Package:
+
+```text
+GaiaMaster_FontIsolation_0.6.4.0_COMPOSITE_ACCENT_OVERLAY.zip
+```
+
+Launcher:
+
+```text
+00_RUN_PROBE_0640.cmd
+```
+
+Pass question:
+
+> Do the stacked marks appear cleanly above the full-size native E?
+
+If PASS, production next steps:
+- neutralize overlay horizontal advance for inline use;
+- define top-accent overlay families;
+- define bottom-mark overlay family;
+- design text encoder that expands one Vietnamese character into base+overlay internal sequence;
+- keep native 12x12 cache/VRAM pipeline.
 
 ## Current do-not-repeat
 
 - no Krom path;
-- no production 12x12 stacked-accent polishing;
+- no production one-glyph stacked-accent polishing in 12x12;
 - no retest 0.6.2.18;
 - no retest 0.6.3.0..0.6.3.12;
-- no shared `0x8003CD94..0x8003CDB4` rewrite;
+- no shared CD94 rewrite;
 - no persistent/global flag;
 - no global force-height16;
 - no `s3+2` metadata assumption;
-- no post-copy write through `state+100` until reverse proves its lifetime.
+- no post-copy RAM write diagnostic like 0.6.3.12.
