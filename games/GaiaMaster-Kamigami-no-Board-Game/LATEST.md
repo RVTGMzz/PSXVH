@@ -1,6 +1,6 @@
 # Gaia Master — trạng thái mới nhất
 
-Cập nhật: **2026-09-12 sau runtime test 0.6.2.18 CLEAN ACCENT**, next là **0.6.2.19 VARIANT GRID**.
+Cập nhật: **2026-09-12 sau 0.6.2.19/0.6.2.20**, chuyển hướng sang **0.6.3.0 EXTENDED HEIGHT 12x16**.
 
 ## Chốt kỹ thuật
 
@@ -11,7 +11,7 @@ Cập nhật: **2026-09-12 sau runtime test 0.6.2.18 CLEAN ACCENT**, next là **
 - Alpha 0.6.1 FRONT là baseline runtime ổn định: 397 patch, SHA1 `54d2fb026bc3b71c79861e723caffb4114caa34c`.
 - Translation master: 596 vị trí; 230 dòng pending vì full-width 2-byte overflow slot.
 
-## Character Select / custom font
+## Custom font path
 
 Visible probe:
 
@@ -21,7 +21,7 @@ owner nested BDP: entry 29
 local offset: +0x580
 ```
 
-Custom font:
+Native custom font:
 
 ```text
 atlas static:    SLPS + 0x5C4EC
@@ -44,56 +44,96 @@ Mapping confirmed:
 0x889F 亜 -> glyph 0
 ```
 
-## Font probe timeline
+## 0.6.2.x conclusion
 
 ### 0.6.2.13 — BREAKTHROUGH PASS
-No hook/code cave. Static atlas glyph replacement works at runtime. Text khác bình thường, glyph cuối gần `Ế`.
-
-=> **Vietnamese glyph pipeline PASS.**
+Static atlas replacement works at runtime. Vietnamese glyph pipeline is real; other text stays normal.
 
 ### 0.6.2.14 / 0.6.2.15
-Compact-body strategy rejected vì accented capitals nhìn nhỏ hơn native capitals.
+Compact-body strategy rejected because accented capitals become visibly smaller.
 
-### 0.6.2.16 FULL HEIGHT
-Giữ body `Ｅ` rows 2..11 byte-for-byte; dấu chỉ dùng rows 0..1. Runtime body size/baseline đúng, nhưng circumflex chưa đọc tự nhiên.
+### 0.6.2.16 / 0.6.2.17 / 0.6.2.18
+Full-height body retained, but stacked marks must fit inside only two spare rows. `Ế` can be made recognizable, but quality remains poor/awkward.
 
-### 0.6.2.17 FULL HEIGHT AA ACCENT
-Accent geometry gần hơn nhưng phần mũ + sắc bị loang/shadow tối, user thấy phần cần sáng chưa rõ.
+### 0.6.2.19 VARIANT GRID
+Six variants shown in one runtime line. User selected **sample 2 from the left** as best base shape, but noted:
+- too thin;
+- lacks shadow/weight;
+- circumflex slightly off-center;
+- circumflex too attached to E top bar.
 
-### 0.6.2.18 CLEAN ACCENT — runtime result
-Bỏ dark AA/shadow ở dấu, chỉ dùng bright strokes. Runtime vẫn chưa đạt thẩm mỹ: glyph nhìn gần `Ế` nhưng circumflex/acute vẫn chưa đủ tự nhiên và sạch.
+### 0.6.2.20 SAMPLE2 REFINED
+Refined sample 2 with more weight and centering. Runtime/preview exposed the real production blocker:
 
-=> Không test tiếp kiểu một ROM / một tweak.
+> **12x12 itself is too small for Vietnamese stacked diacritics.**
 
-## NEXT — 0.6.2.19 VARIANT GRID
+This becomes severe not only for `Ế`, but also `Ể`, `Ẳ`, `Ỗ`, `Ử`, `Ấ`, `Ố`, etc.
 
-Một ROM sẽ hiển thị **6 mẫu `Ế` full-height cùng lúc**, từ trái sang phải = mẫu 1..6.
+=> **Stop spending time polishing stacked Vietnamese marks inside 12x12.**
 
-Implementation diagnostic:
+## New reverse finding — extended height is architecturally possible
 
-- giữ native `Ｅ` body rows 2..11 byte-for-byte ở cả 6 mẫu;
-- chỉ thay rows 0..1;
-- tạm map 6 SJIS codes hợp lệ `889F,88A0,88A1,88A2,88A3,88A5` tới atlas slots `850..855`;
-- Character Select probe = full-width `ＴＥＳＴ` + 6 glyph variants;
-- không renderer hook / không Krom hook / không code cave.
+Renderer function around `0x8003C210` stores glyph pointer/metrics separately.
 
-6 mẫu:
+Native atlas pointer math is explicitly hardcoded as:
 
-1. clean compact
-2. narrow / less clutter
-3. wide circumflex
-4. light native-edge shading
-5. minimal sparse
-6. left-shifted circumflex
+```text
+0x8003C4F8  sll  v0,v1,3
+0x8003C4FC  addu v0,v0,v1
+0x8003C500  sll  a1,v0,3
+```
 
-User chỉ cần chọn mẫu đẹp nhất từ trái sang phải. Sau đó khóa style đó cho full Vietnamese glyph family.
+which computes:
 
-## Sau khi chọn geometry
+```text
+glyph_index * 72
+```
+
+Downstream glyph copy uses a **separate per-glyph height field**. The visible GPU sprite height is also assigned separately in the caller.
+
+Therefore one diagnostic glyph can be tested at:
+
+```text
+12x16
+4bpp
+96 bytes/glyph
+```
+
+without converting the entire Japanese font immediately.
+
+## NEXT — 0.6.3.0 EXTENDED HEIGHT 12x16
+
+First extended-height diagnostic:
+
+- remap `0x889F` to diagnostic atlas slot 850;
+- put a 12x16 / 96-byte Vietnamese `Ế` there;
+- use target-only safe-cave hooks to make only `0x889F` copy **16 source rows** and draw a **16-pixel-high sprite**;
+- leave every untouched Japanese/Latin glyph on the native 12x12 path.
+
+12x16 test layout:
+
+```text
+rows 0..5  = dedicated Vietnamese diacritic headroom
+rows 6..15 = native E body at original pixel size
+```
+
+0.6.3.0 intentionally does **not** correct baseline yet. If successful, final E body may sit ~4 pixels too low. This is acceptable for the first probe.
+
+Primary question:
+
+> Can Gaia Master actually copy and display all 16 rows for a target glyph?
+
+If YES, 0.6.3.1 will handle:
+- y-offset/baseline correction;
+- expanded glyph buffer accounting;
+- production extended-height Vietnamese atlas/codepage.
+
+## After extended-height font passes
 
 1. build full Vietnamese glyph inventory;
-2. thiết kế compact runtime codepage/mapping;
-3. encode `vi_full` có dấu;
-4. giải 230 pending overflow rows;
-5. dọn mixed JP/VI;
-6. patch graphic text menus/title;
+2. compact runtime codepage/mapping;
+3. encode `vi_full` with accents;
+4. solve/repack 230 pending overflow rows;
+5. clean mixed JP/VI;
+6. patch graphic menus/title text;
 7. full runtime QA + reproducible final build.
