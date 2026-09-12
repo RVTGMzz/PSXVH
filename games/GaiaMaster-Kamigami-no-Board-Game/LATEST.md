@@ -1,80 +1,67 @@
 # Gaia Master — trạng thái mới nhất
 
-Cập nhật: **2026-09-12 sau pixel-level review của runtime 0.6.3.0**.
+Cập nhật: **2026-09-12 sau runtime test 0.6.3.1 BASELINE + 16-ROW STRIDE — UNSAFE FAIL**.
 
-## Chốt mới nhất
+## Chốt kỹ thuật hiện tại
 
 - 0.6.2.x đã chứng minh custom Vietnamese glyph pipeline hoạt động.
-- Native production 12x12 bị loại cho stacked Vietnamese diacritics vì quá chật.
-- **0.6.3.0 EXTENDED HEIGHT 12x16 được reclassify thành STRUCTURAL PASS**, không phải renderer failure.
+- Native 12x12 bị loại cho production stacked diacritics vì quá chật.
+- 0.6.3.0 12x16 vẫn được giữ là **STRUCTURAL PASS**: target glyph có footprint cao hơn, extra rows thực sự xuất hiện, body E tụt xuống đúng như probe chưa baseline-correct.
+- **0.6.3.1 FAIL nặng**: global text corruption + later game freeze.
 
-## Vì sao 0.6.3.0 được reclassify
+## 0.6.3.1 runtime failure
 
-Runtime screenshot cho thấy:
+User screenshots show:
 
-- `ＴＥＳＴ` native bình thường;
-- target glyph có footprint cao hơn;
-- vùng dấu nằm cao hơn;
-- thân E đầy đủ nằm thấp xuống so với surrounding text.
+- unrelated Japanese text becomes corrupted/repeated;
+- Character Select header corrupts;
+- probe line no longer behaves as an isolated target (`Ａ/Ｅ`-like corruption appears across the line);
+- later screen becomes garbled and game freezes.
 
-Đó chính là hành vi expected của probe đầu tiên vì 0.6.3.0 cố tình chưa sửa baseline.
+=> 0.6.3.1 is **unsafe**. Do not retest.
 
-=> Gaia Master **có thể copy/display target 16-row glyph**.
+## Diff 0.6.3.0 -> 0.6.3.1
 
-## Renderer reverse mới
+0.6.3.1 added only two structural experiments on top of 0.6.3.0:
 
-Native atlas:
+1. target baseline Y correction `-4 px` near `0x8003CD08`;
+2. target-specific cache/VRAM advance hook near `0x8003CD94` intended to change native 12-row advance to 16 rows.
 
-```text
-atlas file   = SLPS + 0x5C4EC
-mapping file = SLPS + 0x6B6CC
-860 glyphs
-12x12
-4bpp
-72 bytes/glyph
-LOW nibble first
-```
-
-Wide-glyph unpack/copy routine:
+The strongest regression suspect is the `0x8003CD94` cache-advance hook because it mutates shared font-cache state:
 
 ```text
-0x8003C67C
+converted RAM pointer
+VRAM glyph Y cursor
 ```
 
-For each source row:
+Once that shared state is desynchronized, all later glyphs can read/write the wrong cache locations, matching the observed global corruption and freeze.
+
+## Important native code around the suspect block
+
+Native sequence:
 
 ```text
-6 source bytes -> 8 converted/cache bytes
+0x8003CD94  lw    v0,100(s1)
+0x8003CD98  sll   v1,v1,3
+0x8003CD9C  addu  v0,v0,v1
+0x8003CDA4  sw    v0,100(s1)
+0x8003CDA8  lhu   v0,50(s1)
+0x8003CDAC  addiu v1,v1,1
+0x8003CDB0  addu  v0,v0,v1
+0x8003CDB4  sh    v0,50(s1)
 ```
 
-Therefore:
+This shared allocator/cursor logic is more global than the 0.6.3.1 assumption allowed.
 
-```text
-12 rows = 96-byte converted footprint
-16 rows = 128-byte converted footprint
-```
+## NEXT — 0.6.3.2 BASELINE ONLY
 
-0.6.3.0 changed target source-copy height and visible sprite height to 16, but native post-copy allocation still used global 12-row height at:
+High-information rollback probe:
 
-```text
-0x8003CD94..0x8003CDA4  # destination RAM pointer advance
-0x8003CDA8..0x8003CDB4  # VRAM Y cursor advance
-```
-
-So the next production-safe extended glyph needs target-specific 16-row stride.
-
-## Baseline finding
-
-Native E body begins at row 2.
-Extended diagnostic E body begins at row 6.
-
-=> target glyph needs visible Y correction:
-
-```text
--4 px
-```
-
-## NEXT — 0.6.3.1 BASELINE + 16-ROW STRIDE
+- start from the structurally safe 0.6.3.0 extended-height path;
+- keep 16-row source/copy + visible sprite height;
+- add **only** target baseline Y `-4 px`;
+- **do not patch `0x8003CD94` cache stride/advance at all**;
+- add trailing full-width `Ａ` sentinel.
 
 Control:
 
@@ -82,21 +69,19 @@ Control:
 ＴＥＳＴ亜Ａ
 ```
 
-Expected:
+Expected diagnostic goal:
 
 ```text
 ＴＥＳＴẾＡ
 ```
 
-0.6.3.1 keeps the proven extended path and adds:
+Interpretation:
 
-1. target descriptor Y `-4 px`;
-2. target converted-buffer pointer advance `16*8 = 128 bytes`;
-3. target VRAM Y advance `16 rows`.
+- if unrelated text stays normal and game no longer freezes, CD94 advance hook is confirmed as the regression source;
+- if `Ａ` after target is damaged but the rest of game remains stable, extended target footprint still needs a safer cache/storage solution;
+- if global text corrupts again, stop immediately and revisit earlier 0.6.3.0 assumptions.
 
-The trailing native full-width `Ａ` is deliberate. It verifies the glyph after an extended target is not overlapped/corrupted.
-
-## Long-term after 0.6.3.1
+## Long-term after a stable 12x16 path
 
 1. production-safe external/extended Vietnamese atlas storage;
 2. full Vietnamese glyph inventory;
