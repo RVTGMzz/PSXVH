@@ -1,6 +1,6 @@
 # HANDOFF — Gaia Master PS1 Việt hóa
 
-> **Current source-of-truth:** custom Vietnamese glyph pipeline is proven. Native 12x12 is rejected for production stacked diacritics. 0.6.3.0 proves target 12x16 structurally. 0.6.3.1 shared cache-stride rewrite is unsafe. 0.6.3.2 is stable with lower-row loss. 0.6.3.3 disproved following-glyph overwrite. 0.6.3.4 UV+4 is negative. 0.6.3.5 sentinel did not fire because late `s0` identity was unreliable. **0.6.3.6 EARLY-FLAG is UNSAFE and freezes immediately after Sony logo.** Next work must identify the target inside the copy pipeline using existing source/metadata pointer state, without persistent/global flags.
+> **Current source-of-truth:** custom Vietnamese glyph pipeline is proven. Native 12x12 is rejected for production stacked diacritics. 0.6.3.0 proves target 12x16 structurally. 0.6.3.1 shared cache-stride rewrite is unsafe. 0.6.3.2 is stable with lower-row loss. 0.6.3.3 disproved following-glyph overwrite. 0.6.3.4 UV+4 is negative. 0.6.3.5 sentinel did not fire because late `s0` identity was unreliable. 0.6.3.6 EARLY-FLAG is **UNSAFE and freezes immediately after Sony logo**. Current probe is **0.6.3.7 SOURCE ROW SENTINEL**, which removes late hooks/flags and bakes diagnostic bands directly into the target source glyph.
 
 ## Source / baseline
 
@@ -160,9 +160,7 @@ Target texture V+4 does not restore lower native E cleanly.
 
 ### 0.6.3.5 POST-COPY RAM SENTINEL — NO SENTINEL
 
-Late hook at `0x8003CC4C` tried target detection with `s0==0x889F`.
-
-Runtime stable but neither control nor test band appears.
+Late hook at `0x8003CC4C` tried target detection with `s0==0x889F`. Runtime stable but neither control nor test band appears.
 
 Conclusion: late `s0` identity is not trustworthy. This build says nothing about row12..15 survival.
 
@@ -173,19 +171,19 @@ Changed target identity strategy:
 ```text
 metadata stage: target 0x889F -> FLAG=1
 other glyphs -> FLAG=0
-late sentinel hook reads FLAG
+late post-copy hook reads FLAG
 ```
 
-Runtime result:
+Runtime repeated twice:
 
-- Sony logo appears;
-- game freezes immediately afterward, before Character Select;
-- repeated test gives the same freeze.
+```text
+Sony logo appears
+-> immediate freeze
+-> Character Select never reached
+```
 
 => no sentinel result exists.
-=> 0.6.3.6 must never be retested.
-
-Strongest new suspect: introducing persistent mutable runtime state in the cave / enlarging the metadata hook changed boot-time behavior. A zero-filled file region is not automatically safe as long-lived runtime storage.
+=> never retest 0.6.3.6.
 
 Dedicated note:
 
@@ -193,38 +191,69 @@ Dedicated note:
 FONT_ISOLATION_0.6.3.6_UNSAFE_FAIL.md
 ```
 
-## NEXT TASK — REVERSE BEFORE BUILDING
+Strong lesson: do not carry target identity with persistent/global mutable state in the cave.
 
-Do not immediately build 0.6.3.7 from another guessed state flag.
+## CURRENT PROBE — 0.6.3.7 SOURCE ROW SENTINEL
 
-Return to the stable 0.6.3.5/0.6.3.3 architecture and reverse exact live arguments/registers around the actual copy call into `0x8003C67C`.
+0.6.3.7 avoids all target-identity hooks after the proven metadata stage.
 
-Goal: identify the extended target using data that already exists in the local pipeline, preferably:
+Keep the stable extended path:
 
-1. unique 12x16 source glyph pointer;
-2. metadata `+4` source pointer;
-3. target-specific height/source combination;
-4. a register/stack argument inside `0x8003C67C` itself.
+- 12x16 / 96-byte target source;
+- metadata copy height = 16 rows;
+- visible sprite height = 16;
+- baseline Y -= 4;
+- target at end-of-line;
+- no UV+4;
+- no `CD94` allocator rewrite.
 
-Preferred diagnostic after this reverse:
+Remove:
 
-- hook inside or immediately adjacent to `0x8003C67C` where source pointer is proven live;
-- compare that source pointer against the unique extended target source address;
-- write sentinel only for that call;
-- no late `s0` check;
-- no persistent FLAG;
-- no shared cache allocator mutation.
+- post-copy hook;
+- late `s0` target check;
+- persistent FLAG/global state.
 
-The next runtime probe should answer one question only: do converted rows 12..15 exist after the copy routine?
+Bake sentinel directly into the diagnostic target source glyph:
+
+```text
+source rows 10..11 = full palette-index-7 dark/gray band
+source rows 12..15 = full palette-index-1 bright white band
+```
+
+Interpretation:
+
+A. Gray + white both visible:
+
+> rows12..15 survive source -> copy -> cache -> VRAM -> sprite.
+
+B. Gray control visible, white bottom absent:
+
+> structural lower-row loss is confirmed somewhere in copy/cache/upload/display.
+
+C. Neither visible:
+
+> current source/slot/copy-path assumption is wrong; reverse target source pointer/slot layout further.
+
+Package:
+
+```text
+GaiaMaster_FontIsolation_0.6.3.7_SOURCE_ROW_SENTINEL.zip
+```
+
+Launcher:
+
+```text
+00_RUN_PROBE_0637.cmd
+```
 
 ## Hard do-not-repeat rules
 
 - no Krom path;
 - no production 12x12 stacked-accent polishing;
 - no retest 0.6.2.18;
-- no retest any 0.6.3.0..0.6.3.6 build;
+- no retest 0.6.3.0..0.6.3.6;
 - no `CD94` shared allocator/cursor rewrite;
-- no 0.6.3.6-style persistent early FLAG.
+- no 0.6.3.6-style persistent FLAG.
 
 ## Long-term after extended-height path is stable
 
