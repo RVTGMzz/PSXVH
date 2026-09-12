@@ -82,6 +82,30 @@ Prefer one of:
 2. target-specific isolated cache allocation with original shared state preserved;
 3. separate production extended atlas/cache path.
 
+## Saved checkpoint files
+
+The following files now preserve the full work trail and prevent retest/checkpoint confusion:
+
+```text
+HANDOFF_CURRENT.md
+CHARACTER_SELECT_FONT_REVERSE_0.1.md
+PROBE_BUILD_INDEX.md
+FONT_ISOLATION_0.6.3.1_UNSAFE_FAIL.md
+FONT_ISOLATION_0.6.3.2_STABLE_PASS.md
+FONT_ISOLATION_0.6.3.3_EOL_OVERWRITE_TEST.md
+PS1_LOCALIZATION_REUSABLE_LESSONS.md
+NEXT_CHAT_PROMPT.md
+```
+
+Current local test package names:
+
+```text
+GaiaMaster_FontIsolation_0.6.3.2_BASELINE_ONLY.zip
+GaiaMaster_FontIsolation_0.6.3.3_EOL_OVERWRITE_TEST.zip
+```
+
+`PS1_LOCALIZATION_REUSABLE_LESSONS.md` also records reusable methodology for future PS1 projects and the conclusion that US/EU Latin games are often easier than Japanese Shift-JIS/custom-font games, while still having engine-specific exceptions.
+
 ## Long-term after stable extended-height path
 
 1. production-safe external/extended Vietnamese atlas/cache storage;
