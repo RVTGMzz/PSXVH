@@ -1,103 +1,118 @@
 # Gaia Master — trạng thái mới nhất
 
-Cập nhật: **2026-09-12 sau runtime 0.6.3.6 UNSAFE FAIL; current probe = 0.6.3.7 SOURCE ROW SENTINEL**.
+Cập nhật: **2026-09-12 sau runtime 0.6.3.8; current probe = 0.6.3.9 HEIGHT FROM METADATA**.
 
 ## Chốt hiện tại
 
-- 0.6.2.x: custom Vietnamese glyph pipeline đã PASS.
-- Native 12x12 bị loại cho production stacked Vietnamese diacritics vì quá chật.
+- 0.6.2.x: custom Vietnamese glyph pipeline PASS.
+- Native 12x12 bị loại cho production stacked Vietnamese diacritics.
 - 0.6.3.0 12x16 = **STRUCTURAL PASS**.
-- 0.6.3.1 shared cache-stride rewrite = **UNSAFE FAIL**.
-- 0.6.3.2 = **STABLE PASS** nhưng lower rows mất/cắt.
-- 0.6.3.3 = following-glyph overwrite disproven.
-- 0.6.3.4 = UV+4 negative diagnostic.
-- 0.6.3.5 = post-copy sentinel not observed; late `s0` identity unreliable.
-- 0.6.3.6 = **UNSAFE FAIL: freezes immediately after Sony logo**.
+- 0.6.3.1 = **UNSAFE FAIL**, global text corruption + freeze.
+- 0.6.3.2 = stable, baseline tốt hơn nhưng lower rows mất/cắt.
+- 0.6.3.3 = loại giả thuyết following-glyph overwrite.
+- 0.6.3.4 = UV+4 negative.
+- 0.6.3.5 = post-copy sentinel không quan sát được vì late `s0` unreliable.
+- 0.6.3.6 = **UNSAFE FAIL**, freeze ngay sau Sony logo. Không retest.
+- 0.6.3.7 SOURCE ROW SENTINEL = **RUNTIME COMPLETE**.
+- 0.6.3.8 FORCE SPRITE HEIGHT16 = **DIAGNOSTIC FAIL** vì ép height toàn cục phá layout text.
 
-## 0.6.3.6 lesson
+## 0.6.3.7 runtime result
 
-0.6.3.6 introduced a persistent early target FLAG stored in cave memory. Runtime freezes before Character Select, repeated twice.
-
-=> never retest.
-=> do not carry target identity with persistent/global mutable state.
-
-Dedicated note:
+Sentinel được bake trực tiếp vào source glyph 12x16:
 
 ```text
-FONT_ISOLATION_0.6.3.6_UNSAFE_FAIL.md
+rows 10..11 = dark/gray full band
+rows 12..15 = bright white full band
 ```
 
-## Current probe — 0.6.3.7 SOURCE ROW SENTINEL
+Runtime screenshot:
 
-0.6.3.7 avoids all late target-identity machinery.
+- Japanese header/TEST ổn;
+- dải tối rows 10..11 hiện rõ;
+- rows 12..15 không hiện thành khối trắng 4 hàng, chỉ còn mép sáng rất mỏng.
 
-Start from stable extended path:
+=> source 12x16 được đọc tới vùng đáy, nhưng 4 hàng cuối không được hiển thị đầy đủ.
+=> đây không còn là lỗi late flag/hook vì sentinel nằm trực tiếp trong source.
 
-- target 12x16 / 96-byte source;
-- copy height = 16 rows;
-- sprite height = 16;
-- baseline Y -= 4;
-- target at EOL;
-- no `CD94` allocator rewrite;
-- no UV+4;
-- no post-copy sentinel hook;
-- no persistent FLAG;
-- no late `s0` test.
+## 0.6.3.8 runtime result
 
-Diagnostic is baked directly into the **source glyph**:
+0.6.3.8 ép visible sprite height=16 cho mọi glyph tại `0x8003CCC0`.
+
+Runtime:
+
+- textbox có thể trống;
+- `TEST` bị xếp dọc;
+- layout text bị phá toàn cục.
+
+=> global force-height16 không hợp lệ.
+=> hook sprite-height ảnh hưởng layout/primitive nhiều hơn một window đơn giản.
+=> không retest 0.6.3.8.
+
+## Current hypothesis
+
+Ở metadata stage, mỗi glyph đã có per-glyph height tại:
 
 ```text
-source rows 10..11 = full palette-index-7 dark/gray band
-source rows 12..15 = full palette-index-1 bright white band
+metadata +2 = height_minus_1
+native = 11
+extended target = 15
 ```
 
-Interpretation:
+Late sprite-height path hiện dùng global/native value `lbu v0,64(s1)` và các probe target-specific trước đây dựa vào late `s0`, vốn không đáng tin.
 
-- gray + white visible => rows12..15 survive source -> copy -> cache -> VRAM -> sprite;
-- gray visible but white absent => structural lower-row loss confirmed;
-- neither visible => source/slot/copy-path assumption still wrong.
+## CURRENT — 0.6.3.9 HEIGHT FROM METADATA
 
-Package:
+0.6.3.9 giữ source sentinel của 0.6.3.7 và thay sprite-height source bằng:
 
 ```text
-GaiaMaster_FontIsolation_0.6.3.7_SOURCE_ROW_SENTINEL.zip
+lhu v0,2(s3)   # current glyph metadata height_minus_1
+```
+
+sau đó để native `0x8003CCC8 addiu v0,v0,1` chạy tiếp.
+
+Expected:
+
+```text
+native glyphs: 11+1 = 12 px
+extended target: 15+1 = 16 px
+```
+
+Không dùng:
+
+- late `s0` target check cho sprite height;
+- global force-height16;
+- persistent flag;
+- post-copy hook;
+- shared CD94 allocator rewrite;
+- UV diagnostic.
+
+Câu hỏi runtime duy nhất:
+
+> TEST/native có trở lại layout bình thường và target có hiện đủ khối trắng rows 12..15 hay không?
+
+Package local:
+
+```text
+GaiaMaster_FontIsolation_0.6.3.9_HEIGHT_FROM_METADATA.zip
 ```
 
 Launcher:
 
 ```text
-00_RUN_PROBE_0637.cmd
+00_RUN_PROBE_0639.cmd
 ```
 
-## Proven font facts retained
+## Do not repeat
 
-```text
-atlas file   = SLPS + 0x5C4EC
-mapping file = SLPS + 0x6B6CC
-atlas RAM    = 0x8006BCEC
-mapping RAM  = 0x8007AECC
-native 12x12 / 72-byte / 4bpp / LOW nibble first
-```
+- không quay lại Krom;
+- không polish production stacked accents trong 12x12;
+- không retest 0.6.2.18;
+- không retest 0.6.3.0..0.6.3.8;
+- không patch shared `0x8003CD94..0x8003CDB4` kiểu 0.6.3.1;
+- không persistent/global FLAG kiểu 0.6.3.6;
+- không force height16 global kiểu 0.6.3.8.
 
-Wide custom copy routine:
-
-```text
-0x8003C67C
-6 source bytes/row -> 8 converted bytes/row
-12 rows -> 96 converted bytes
-16 rows -> 128 converted bytes
-```
-
-## Hard do-not-repeat
-
-- no Krom path;
-- no production 12x12 stacked-accent polishing;
-- no retest 0.6.2.18;
-- no retest 0.6.3.0..0.6.3.6;
-- no shared `0x8003CD94..0x8003CDB4` allocator rewrite;
-- no persistent early FLAG like 0.6.3.6.
-
-## After extended-height path is stable
+## Sau khi extended-height path ổn định
 
 1. production-safe Vietnamese extended atlas/cache storage;
 2. full Vietnamese glyph inventory;
