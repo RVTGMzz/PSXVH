@@ -25,7 +25,7 @@ Geometry/cosmetic experiments. Production conclusion: native 12x12 is too crampe
 ## 0.6.3.x extended-height
 
 ### 0.6.3.0 EXTENDED HEIGHT 12x16
-**STRUCTURAL PASS**. Do not retest.
+**STRUCTURAL EVIDENCE / historical pass classification.** Do not retest. Later visible-height probes show that some interpretation of the late display path must be revisited.
 
 ### 0.6.3.1 BASELINE + 16-ROW STRIDE
 **UNSAFE FAIL**. Global corruption + later freeze. Never retest.
@@ -43,10 +43,10 @@ Geometry/cosmetic experiments. Production conclusion: native 12x12 is too crampe
 **RUNTIME COMPLETE / NO SENTINEL**. Late `s0` identity unreliable. Do not retest.
 
 ### 0.6.3.6 EARLY-FLAG POST-COPY SENTINEL
-**UNSAFE FAIL / BOOT FREEZE**. Repeatable freeze after Sony logo. Persistent/global flag strategy rejected. Never retest.
+**UNSAFE FAIL / BOOT FREEZE**. Persistent/global flag strategy rejected. Never retest.
 
 ### 0.6.3.7 SOURCE ROW SENTINEL
-**RUNTIME COMPLETE**.
+**RUNTIME COMPLETE / HIGH-VALUE RESULT**.
 
 Source target contains:
 
@@ -56,60 +56,70 @@ rows12..15 bright white full band
 ```
 
 Runtime:
-
 - Japanese/TEST normal;
 - dark rows10..11 visible;
-- rows12..15 do not appear as a thick white 4-row block;
-- only a thin bright edge remains.
+- rows12..15 do not appear as thick white 4-row block;
+- only thin bright edge remains.
 
 => lower four source rows are not fully visible.
 
 ### 0.6.3.8 FORCE SPRITE HEIGHT16
 **DIAGNOSTIC FAIL**.
 
-Forced height=16 for every glyph. Runtime textbox can go blank and TEST stacks vertically. Global height override breaks layout. Do not retest.
+Global force-height16 causes blank textbox / vertical TEST layout. `0x8003CCC0` path is not a simple safe global visible-height override. Do not retest.
 
 ### 0.6.3.9 HEIGHT FROM METADATA
-**BUILT / CURRENT PROBE**.
+**DIAGNOSTIC FAIL / RUNTIME COMPLETE**.
 
-Start from 0.6.3.7. At `0x8003CCC0`, visible height now comes from current glyph metadata:
+Probe replaced the load at `0x8003CCC0` with:
 
 ```text
 lhu v0,2(s3)
-0x8003CCC8 addiu v0,v0,1
 ```
 
-Expected:
+assuming `s3+2` still held current glyph `height_minus_1`.
+
+Runtime:
+- TEST stacks vertically;
+- target becomes noisy/garbled texture block;
+- normal layout does not return;
+- lower source white block is not recovered.
+
+Conclusion:
 
 ```text
-native metadata 11 -> 12px
-extended target metadata 15 -> 16px
+s3 at 0x8003CCC0 is NOT proven to be the original glyph metadata pointer
 ```
 
-Keeps source sentinel. No late s0, no global force-height, no flag, no post-copy hook, no CD94 allocator rewrite.
+Do not retest and do not derive another height patch from `s3+2` without register/dataflow proof.
 
-Package:
+## CURRENT STATUS
+
+**NO CURRENT USER PROBE.**
+
+Reverse-only phase before 0.6.3.10.
+
+Required reverse target:
 
 ```text
-GaiaMaster_FontIsolation_0.6.3.9_HEIGHT_FROM_METADATA.zip
+0x8003CCA0 .. 0x8003CD20
 ```
 
-Launcher:
+Questions to answer before another build:
 
-```text
-00_RUN_PROBE_0639.cmd
-```
-
-Question:
-
-> Does normal layout return while target shows the complete bright rows12..15 block?
+1. lifetime/meaning of `s1`, `s2`, `s3` at this stage;
+2. exact semantic meaning of `lbu 64(s1)` at `0x8003CCC0`;
+3. exact store/consumer of the value after `0x8003CCC8 addiu`;
+4. distinguish glyph visible texture height from advance/layout/line metric;
+5. locate the true per-current-glyph draw height field by dataflow, not register-name assumption.
 
 ## Current do-not-repeat
 
 - no Krom path;
 - no production 12x12 stacked-accent polishing;
 - no retest 0.6.2.18;
-- no retest 0.6.3.0..0.6.3.8;
+- no retest 0.6.3.0..0.6.3.9;
 - no shared `0x8003CD94..0x8003CDB4` rewrite;
 - no persistent/global flag;
-- no global force-height16.
+- no global force-height16;
+- no `s3+2` metadata assumption at `0x8003CCC0` without proof.
