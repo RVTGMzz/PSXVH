@@ -1,116 +1,84 @@
 # Gaia Master — trạng thái mới nhất
 
-Cập nhật: **2026-09-12 sau runtime 0.6.3.8; current probe = 0.6.3.9 HEIGHT FROM METADATA**.
+Cập nhật: **2026-09-12 sau runtime 0.6.3.9 HEIGHT FROM METADATA**.
 
 ## Chốt hiện tại
 
 - 0.6.2.x: custom Vietnamese glyph pipeline PASS.
 - Native 12x12 bị loại cho production stacked Vietnamese diacritics.
-- 0.6.3.0 12x16 = **STRUCTURAL PASS**.
-- 0.6.3.1 = **UNSAFE FAIL**, global text corruption + freeze.
+- 0.6.3.0 12x16 = structural evidence useful, nhưng các kết luận về visible-height phải được xem lại sau các probe mới.
+- 0.6.3.1 = UNSAFE FAIL, global text corruption + freeze.
 - 0.6.3.2 = stable, baseline tốt hơn nhưng lower rows mất/cắt.
 - 0.6.3.3 = loại giả thuyết following-glyph overwrite.
 - 0.6.3.4 = UV+4 negative.
 - 0.6.3.5 = post-copy sentinel không quan sát được vì late `s0` unreliable.
-- 0.6.3.6 = **UNSAFE FAIL**, freeze ngay sau Sony logo. Không retest.
-- 0.6.3.7 SOURCE ROW SENTINEL = **RUNTIME COMPLETE**.
-- 0.6.3.8 FORCE SPRITE HEIGHT16 = **DIAGNOSTIC FAIL** vì ép height toàn cục phá layout text.
+- 0.6.3.6 = UNSAFE FAIL, repeatable freeze ngay sau Sony logo.
+- 0.6.3.7 SOURCE ROW SENTINEL = runtime complete; rows10..11 hiện, rows12..15 không hiện đủ.
+- 0.6.3.8 FORCE SPRITE HEIGHT16 = diagnostic fail, phá layout toàn cục.
+- **0.6.3.9 HEIGHT FROM METADATA = diagnostic fail.**
 
-## 0.6.3.7 runtime result
+## 0.6.3.9 runtime result
 
-Sentinel được bake trực tiếp vào source glyph 12x16:
+Probe thay load tại `0x8003CCC0` bằng:
 
 ```text
-rows 10..11 = dark/gray full band
-rows 12..15 = bright white full band
+lhu v0,2(s3)
 ```
+
+với giả thuyết `s3+2` tại stage này vẫn là per-glyph `height_minus_1`.
 
 Runtime screenshot:
 
-- Japanese header/TEST ổn;
-- dải tối rows 10..11 hiện rõ;
-- rows 12..15 không hiện thành khối trắng 4 hàng, chỉ còn mép sáng rất mỏng.
+- `TEST` bị xếp dọc thành cột;
+- target trở thành block/texture nhiễu;
+- layout text vẫn bị phá tương tự hướng force-height;
+- không thu được thick white rows12..15 theo mong đợi.
 
-=> source 12x16 được đọc tới vùng đáy, nhưng 4 hàng cuối không được hiển thị đầy đủ.
-=> đây không còn là lỗi late flag/hook vì sentinel nằm trực tiếp trong source.
+=> **Giả thuyết `s3+2` ở `0x8003CCC0` là current glyph metadata height bị loại.**
+=> `s3` ở stage này không được phép xem là metadata pointer của `0x8003C210` nếu chưa chứng minh register lifetime.
+=> Không build 0.6.3.10 từ suy đoán này.
 
-## 0.6.3.8 runtime result
+## Kết luận quan trọng từ 0.6.3.7..0.6.3.9
 
-0.6.3.8 ép visible sprite height=16 cho mọi glyph tại `0x8003CCC0`.
-
-Runtime:
-
-- textbox có thể trống;
-- `TEST` bị xếp dọc;
-- layout text bị phá toàn cục.
-
-=> global force-height16 không hợp lệ.
-=> hook sprite-height ảnh hưởng layout/primitive nhiều hơn một window đơn giản.
-=> không retest 0.6.3.8.
-
-## Current hypothesis
-
-Ở metadata stage, mỗi glyph đã có per-glyph height tại:
+0.6.3.7 là probe sạch nhất về lower rows vì sentinel được bake trực tiếp vào source 12x16:
 
 ```text
-metadata +2 = height_minus_1
-native = 11
-extended target = 15
+rows10..11 = dark/gray full band
+rows12..15 = bright white full band
 ```
 
-Late sprite-height path hiện dùng global/native value `lbu v0,64(s1)` và các probe target-specific trước đây dựa vào late `s0`, vốn không đáng tin.
+Runtime chỉ hiện rõ rows10..11, không hiện đủ khối trắng rows12..15.
 
-## CURRENT — 0.6.3.9 HEIGHT FROM METADATA
+0.6.3.8 và 0.6.3.9 chứng minh rằng block quanh `0x8003CCC0` **không thể được sửa bằng cách coi nó là một visible-height field đơn giản**. Cả global force16 lẫn đọc `s3+2` đều làm layout text chuyển thành vertical/blank behavior.
 
-0.6.3.9 giữ source sentinel của 0.6.3.7 và thay sprite-height source bằng:
+## CURRENT ACTION — REVERSE ONLY, NO USER PROBE YET
+
+Không gửi thêm build ngay.
+
+Reverse chính xác:
 
 ```text
-lhu v0,2(s3)   # current glyph metadata height_minus_1
+0x8003CCA0 .. 0x8003CD20
 ```
 
-sau đó để native `0x8003CCC8 addiu v0,v0,1` chạy tiếp.
+Mục tiêu:
 
-Expected:
-
-```text
-native glyphs: 11+1 = 12 px
-extended target: 15+1 = 16 px
-```
-
-Không dùng:
-
-- late `s0` target check cho sprite height;
-- global force-height16;
-- persistent flag;
-- post-copy hook;
-- shared CD94 allocator rewrite;
-- UV diagnostic.
-
-Câu hỏi runtime duy nhất:
-
-> TEST/native có trở lại layout bình thường và target có hiện đủ khối trắng rows 12..15 hay không?
-
-Package local:
-
-```text
-GaiaMaster_FontIsolation_0.6.3.9_HEIGHT_FROM_METADATA.zip
-```
-
-Launcher:
-
-```text
-00_RUN_PROBE_0639.cmd
-```
+1. trace lifetime của `s1/s2/s3` từ caller tới block này;
+2. xác định `lbu 64(s1)` tại `0x8003CCC0` thực sự đại diện cho gì;
+3. xác định các store sau `0x8003CCC8` đi vào descriptor/primitive field nào;
+4. phân biệt visible texture height, glyph advance, line/layout metric và cache geometry;
+5. chỉ build probe mới sau khi có một field/consumer được chứng minh bằng disassembly/dataflow.
 
 ## Do not repeat
 
 - không quay lại Krom;
 - không polish production stacked accents trong 12x12;
 - không retest 0.6.2.18;
-- không retest 0.6.3.0..0.6.3.8;
+- không retest 0.6.3.0..0.6.3.9;
 - không patch shared `0x8003CD94..0x8003CDB4` kiểu 0.6.3.1;
 - không persistent/global FLAG kiểu 0.6.3.6;
-- không force height16 global kiểu 0.6.3.8.
+- không force height16 global kiểu 0.6.3.8;
+- không dùng `s3+2` tại `0x8003CCC0` như height metadata nếu chưa chứng minh register lifetime.
 
 ## Sau khi extended-height path ổn định
 
