@@ -1,25 +1,16 @@
 # HANDOFF — Gaia Master PS1 Việt hóa
 
-> **Current source-of-truth:** custom Vietnamese atlas path is proven. Native 12x12 is rejected for production stacked diacritics. Extended-height 12x16 remains the production direction. 0.6.3.7 proved lower source rows are not fully visible. 0.6.3.10 ruled out final primitive height as the main blocker. 0.6.3.11 mirror was inconclusive. 0.6.3.12 post-copy controlled mirror corrupted layout (`TEST` vertical + target garbage), so the `state+100` post-copy destination assumption is not trusted. **Current phase is reverse-only. No runtime probe is current.**
+> **Current source-of-truth:** custom Vietnamese atlas path is proven. One-glyph stacked Vietnamese accents do not fit production-quality in native 12x12, but the 0.6.3.x attempt to enlarge cache cells to 12x16 crossed too much shared renderer state and produced repeated diagnostic failures. After studying the public PS1 Vietnamese patch repo `2ez4gcx/yugioh-mcbb-vi-patch`, the current production experiment is a lower-risk **composite accent overlay**. Current runtime probe: **0.6.4.0 COMPOSITE ACCENT OVERLAY**.
 
-## Source / baseline
+## Baseline
 
 - Game: `GaiaMaster - Kamigami no Board Game (Japan).bin`
-- MODE2/2352, serial `SLPS-02075`
+- serial `SLPS-02075`
 - clean BIN SHA1 `f4d5298583c90d89c4b7e51d2dde160ee07f2aec`
 - Alpha 0.6.1 FRONT SHA1 `54d2fb026bc3b71c79861e723caffb4114caa34c`
-- executable `SLPS_020.75`
-- main archive `PRGPACK.BDP`
 - branch `gaia-character-select-font-atlas-reverse-01`
 
-## Translation status
-
-- master 596 rows, `vi_full` accented source-of-truth;
-- Alpha 0.6.1 FRONT has 397 runtime-stable patches;
-- 230 rows pending because full-width 2-byte text overflows fixed slots;
-- mixed JP/VI + graphic text remain after font work.
-
-## Proven atlas / encoding facts
+## Proven atlas facts
 
 ```text
 atlas RAM    = 0x8006BCEC
@@ -30,7 +21,7 @@ mapping file = SLPS + 0x6B6CC
 native 12x12 / 72-byte / 4bpp / LOW nibble first
 ```
 
-Confirmed:
+Confirmed mappings:
 
 ```text
 0x8273 Ｔ -> glyph 481
@@ -39,7 +30,7 @@ Confirmed:
 0x889F 亜 -> glyph 0
 ```
 
-Character Select probe:
+Character Select probe location:
 
 ```text
 PRGPACK.BDP + 0xBFD2C
@@ -47,177 +38,147 @@ owner nested BDP = entry 29
 local offset = +0x580
 ```
 
-## Production direction
+## What 0.6.2.x proved
 
-0.6.2.13 proved static custom-atlas Vietnamese rendering.
-0.6.2.14..20 proved stacked Vietnamese marks such as `Ế/Ể/Ẳ/Ỗ/Ử/Ấ/Ố` do not fit production-quality inside native 12x12 without shrinking the base body.
+### 0.6.2.13
+Direct static custom-atlas replacement PASS.
 
-=> Keep extended-height work. Do not resume 12x12 polish.
+### 0.6.2.14..20
+Trying to draw `Ế` as one native 12x12 glyph while preserving full-size E body is cosmetically unacceptable for production stacked marks (`Ế/Ể/Ẳ/Ỗ/Ử/Ấ/Ố...`).
 
-## Extended-height proven facts
+This does **not** mean native 12x12 rendering itself is unusable. It means one cell cannot hold both full base body and stacked marks cleanly.
 
-Renderer entry:
+## What 0.6.3.x proved
 
-```text
-0x8003C210
-```
+Extended-height 12x16 research touched:
+- source height/stride;
+- converted cache stride;
+- shared Y cursor;
+- VRAM page placement;
+- sprite/primitive geometry;
+- allocator state.
 
-Glyph metadata:
+High-value facts:
+- metadata struct `+2` drives source-row count;
+- `0x8003C67C` is custom copy routine;
+- final record `+7` really reaches primitive height;
+- 0.6.3.10 ruled out final visible height as the main lower-row blocker;
+- 0.6.3.12 post-copy RAM write probe corrupted layout and is rejected.
 
-```text
-+0 width metric
-+2 source/copy height_minus_1
-+4 source glyph pointer
-+8 custom-atlas flag
-```
-
-Caller metadata lifetime:
-
-```text
-0x8003CAC0  a2 = sp+16
-0x8003C210  builds metadata there
-0x8003CC3C  a1 = sp+16
-0x8003C67C  consumes same metadata
-```
-
-Therefore:
+Reverse dump 0.1 further proved:
 
 ```text
-current height_minus_1 = lhu 18(sp)
-current source pointer  = *(sp+20)
+0x8003CC34  a2 = *(s1+100)
+0x8003CC38  jal 0x8003C67C
+...
+0x8003CD94  state+100 advance begins
 ```
 
-Wide copy routine:
+So `state+100` still points to current converted start immediately after the copy call. The 0.6.3.12 failure therefore came from a deeper live-state/register interaction, not simply "state+100 already moved".
+
+## External reference study — Yu-Gi-Oh! MCBB Vietnamese PS1 patch
+
+Reference:
+
+`https://github.com/2ez4gcx/yugioh-mcbb-vi-patch`
+
+Public repo contains release PPF3, patch applier, screenshots and README, not development/reverse source.
+
+README explicitly states the release patch includes:
+- Vietnamese translated text;
+- redrawn font;
+- a few code-adjustment bytes;
+- Vietnamese characters on the naming screen.
+
+Do **not** claim the author used Gaia's composite method. Their exact implementation is not public.
+
+Strategic lesson only: a finished Japanese PS1 -> Vietnamese patch can succeed with targeted font/code changes rather than a large global renderer redesign.
+
+Full note:
+
+`YUGIOH_MCBB_REFERENCE_PIVOT.md`
+
+## CURRENT — 0.6.4.0 COMPOSITE ACCENT OVERLAY
+
+Core idea:
+
+> Keep base Latin glyph native and full-size. Render Vietnamese marks as a second native 12x12 sprite positioned on top of it.
+
+Probe internal text:
 
 ```text
-0x8003C67C
-6 source bytes/row -> 8 converted bytes/row
+ＴＥＳＴＥ亜
 ```
 
-Target metadata height=15 requests 16 source rows:
+Expected visual:
 
 ```text
-12 rows -> 96 converted bytes
-16 rows -> 128 converted bytes
+ＴＥＳＴẾ
 ```
 
-Final 16-byte glyph output record is consumed around `0x8003D9FC..0x8003DA50`:
+Implementation:
+- native `Ｅ` untouched;
+- static glyph #0 (`亜`) replaced by transparent accent-only `mũ + sắc`;
+- target overlay uses proven late descriptor-position neighborhood at `0x8003CD08`;
+- target overlay descriptor gets:
 
 ```text
-record+4 -> texture U
-record+5 -> texture V
-record+6 -> primitive width
-record+7 -> primitive height
+X -= 12
+Y -= 4
 ```
 
-0.6.3.10 confirmed changing final visible height from proven stack metadata does not recover rows12..15.
+Thus the second glyph is drawn backward over the preceding E and above its native cell.
 
-## High-value runtime history
+No:
+- extended 12x16 source;
+- 96-byte glyph;
+- source/cache stride change;
+- CD94 allocator patch;
+- sprite-height patch;
+- persistent/global target flag;
+- post-copy RAM writes.
 
-### 0.6.3.7 SOURCE ROW SENTINEL
-
-Target source:
+Package:
 
 ```text
-rows10..11 = full 0x77 dark/gray
-rows12..15 = full 0x11 bright white
+GaiaMaster_FontIsolation_0.6.4.0_COMPOSITE_ACCENT_OVERLAY.zip
 ```
 
-Runtime:
-- Japanese/TEST normal;
-- rows10..11 visible;
-- rows12..15 not fully visible;
-- only thin bright edge remains below.
-
-### 0.6.3.10 HEIGHT FROM STACK METADATA
-
-Uses proven `lhu 18(sp)` for geometry. Runtime stable but visually unchanged from 0.6.3.7.
-
-=> final primitive height is not the main blocker.
-
-### 0.6.3.11 RAM TAIL MIRROR
-
-No bright mirror appeared, but there was no independent control proving the post-copy hook and `state+100` current-destination model.
-
-=> inconclusive negative; do not retest.
-
-### 0.6.3.12 CONTROLLED RAM TAIL MIRROR — DIAGNOSTIC FAIL
-
-Intended:
+Launcher:
 
 ```text
-CONTROL rows6..7 = dark band
-MIRROR rows12..15 -> rows8..11
+00_RUN_PROBE_0640.cmd
 ```
 
-Runtime:
-- `TEST` becomes vertical;
-- target becomes texture/block garbage;
-- result cannot be interpreted as a RAM-tail answer.
+Runtime question:
 
-=> post-copy writes via `*(s1+100)` perturb live layout/state.
-=> either `state+100` is not current converted destination at that moment, or the hook clobbers live register/state not yet restored.
-=> **do not write through `state+100` again until raw code/dataflow is re-verified.**
-=> never retest 0.6.3.12.
+> Do the circumflex + acute appear cleanly above the full-size native E?
 
-## CURRENT — REVERSE-ONLY DUMP
+If PASS:
+- composite rendering becomes production path;
+- 0.6.3.x extended-height work becomes optional/background reverse;
+- next tasks are zero/neutral overlay advance for in-line use, accent families, bottom marks and encoding/export rules.
 
-No runtime game probe is current.
+## Reverse dump 0.2
 
-Use:
-
-```text
-GaiaMaster_063_REVERSE_DUMP_0.1.zip
-00_RUN_REVERSE_DUMP.cmd
-```
-
-This is READ ONLY:
-- no ROM patch;
-- no CUE creation;
-- no emulator/game boot.
-
-It outputs:
-
-```text
-GaiaMaster_063_REVERSE_DUMP.txt
-```
-
-Dump ranges:
-
-```text
-0x8003C180..0x8003C780  renderer metadata + copy routine
-0x8003C880..0x8003CE80  caller/cache/record path
-0x8003D380..0x8003D540  cache page init
-0x8003D980..0x8003DAA0  final primitive consumer
-0x8003DB40..0x8003DC40  page flush/upload
-```
-
-## Reverse questions that MUST be answered before next runtime build
-
-1. Exact register holding the destination pointer inside `0x8003C67C`.
-2. Whether `state+100` still points to current glyph destination after `jal` returns.
-3. Whether callee returns/advances destination in another register/value.
-4. Exact per-glyph cache Y assignment feeding record texture V.
-5. Whether rows12..15 are contiguous, wrapped, rebased, or clipped during conversion/cache placement.
-6. Which caller registers are live across `0x8003CC4C`, so any future hook preserves them.
+Read-only `GaiaMaster_063_REVERSE_DUMP_0.2.zip` remains useful for documenting the old 12x16 path, but it is not required before testing 0.6.4.0.
 
 ## Hard do-not-repeat
 
 - no Krom path;
-- no production 12x12 stacked-accent polishing;
+- no production one-glyph 12x12 stacked-accent polishing;
 - no retest 0.6.2.18;
 - no retest 0.6.3.0..0.6.3.12;
 - no naive shared `0x8003CD94..0x8003CDB4` rewrite;
 - no persistent/global target flag;
 - no global force-height16;
 - no `s3+2` metadata assumption;
-- no post-copy write through `state+100` until raw dataflow proves it safe.
+- no post-copy RAM write diagnostic through state+100.
 
 ## User testing preference
 
 - minimize emulator tests;
-- prefer read-only scanners/reverse reports when possible;
-- maximize information per runtime test;
+- maximize information per test;
 - never repeat tested builds;
-- stop on true freeze/global corruption;
-- reverse first, probe second.
+- reverse first unless a probe is isolated and low-risk;
+- stop on true freeze/global corruption.
