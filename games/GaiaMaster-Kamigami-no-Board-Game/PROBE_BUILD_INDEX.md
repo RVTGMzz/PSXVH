@@ -59,76 +59,77 @@ Runtime shows rows10..11 but not the full rows12..15 block.
 **DIAGNOSTIC FAIL**. Global height override breaks layout. Do not retest.
 
 ### 0.6.3.9 HEIGHT FROM METADATA
-**DIAGNOSTIC FAIL / RUNTIME COMPLETE**.
-
-Used `lhu v0,2(s3)` at `0x8003CCC0`.
-Runtime: TEST vertical + target texture garbage.
-Reverse proved `s3=s5+15`, so this was not metadata.
-Do not retest.
+**DIAGNOSTIC FAIL**. `s3+2` was not metadata; runtime vertical TEST/garbage. Do not retest.
 
 ### 0.6.3.10 HEIGHT FROM STACK METADATA
 **RUNTIME COMPLETE / STABLE NEGATIVE**.
 
-Used dataflow-proven current glyph height:
+Uses proven:
 
 ```text
 lhu v0,18(sp)
-0x8003CCC8 addiu v0,v0,1
+```
+
+Runtime stable but target still same as 0.6.3.7. Final primitive height is not the main blocker. Do not retest.
+
+### 0.6.3.11 RAM TAIL MIRROR
+**RUNTIME COMPLETE / INCONCLUSIVE NEGATIVE**.
+
+Attempted:
+
+```text
+converted rows12..15 dest+96..127
+-> rows8..11 dest+64..95
 ```
 
 Runtime:
-- native layout stable;
-- target looks essentially identical to 0.6.3.7;
-- rows12..15 still not visible as full bright block.
+- header/TEST stable;
+- no obvious bright 4-row mirror block;
+- target essentially unchanged.
 
-Reverse of final consumer confirms `record+7` really reaches GPU primitive height.
+Problem: no independent visual control proved hook execution and current destination pointer.
 
-=> visible-height geometry is not the remaining blocker.
+=> no conclusion yet about whether tail is absent.
 => do not retest.
 
-### 0.6.3.11 RAM TAIL MIRROR
+### 0.6.3.12 CONTROLLED RAM TAIL MIRROR
 **BUILT / CURRENT PROBE**.
-
-Question:
-
-> Do converted rows12..15 actually exist immediately after `0x8003C67C`?
 
 Target identity:
 
 ```text
-metadata source pointer = *(sp+20)
-target source = 0x8007ABFC
+lhu 18(sp) == 15
 ```
 
-Current converted destination before allocator advance:
+At post-copy hook:
 
 ```text
 dest = *(s1+100)
 ```
 
-Mirror:
+Two visual signals:
 
 ```text
-source converted rows12..15: dest+96..127
-copy to visible rows8..11:   dest+64..95
+CONTROL rows6..7 = full 0x77 dark/gray
+MIRROR  rows12..15 -> rows8..11
 ```
 
-Because rows12..15 source sentinel is solid bright, a successful mirror should create an obvious 4-row bright block higher in the glyph.
-
 Interpretation:
-- bright mirror block => lower converted rows exist; blocker is downstream VRAM/cache placement;
-- no block => converted tail absent/wrong or destination model wrong.
+
+- dark control + bright mirror => converted tail exists; blocker downstream in cache/VRAM placement;
+- dark control + no bright mirror => hook/dest correct but tail content missing/wrong immediately after copy; reverse `0x8003C67C`;
+- no dark control => hook/destination model still wrong.
 
 Package:
 
 ```text
-GaiaMaster_FontIsolation_0.6.3.11_RAM_TAIL_MIRROR.zip
+GaiaMaster_FontIsolation_0.6.3.12_CONTROLLED_RAM_TAIL_MIRROR.zip
 ```
 
 Launcher:
 
 ```text
-00_RUN_PROBE_06311.cmd
+00_RUN_PROBE_06312.cmd
 ```
 
 ## Current do-not-repeat
@@ -136,7 +137,7 @@ Launcher:
 - no Krom path;
 - no production 12x12 stacked-accent polishing;
 - no retest 0.6.2.18;
-- no retest 0.6.3.0..0.6.3.10;
+- no retest 0.6.3.0..0.6.3.11;
 - no shared `0x8003CD94..0x8003CDB4` rewrite;
 - no persistent/global flag;
 - no global force-height16;
