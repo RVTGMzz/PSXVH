@@ -1,6 +1,6 @@
 # HANDOFF — Gaia Master PS1 Việt hóa
 
-> **Current source-of-truth:** custom Vietnamese atlas path is proven. Native 12x12 is rejected for production stacked diacritics. Extended-height 12x16 remains the production direction. 0.6.3.7 proved lower source rows are not fully visible. 0.6.3.10 ruled out final primitive height as the main blocker. 0.6.3.11 RAM TAIL MIRROR showed no bright mirrored tail, but lacked an independent control proving the post-copy hook/destination model. Current probe is **0.6.3.12 CONTROLLED RAM TAIL MIRROR**.
+> **Current source-of-truth:** custom Vietnamese atlas path is proven. Native 12x12 is rejected for production stacked diacritics. Extended-height 12x16 remains the production direction. 0.6.3.7 proved lower source rows are not fully visible. 0.6.3.10 ruled out final primitive height as the main blocker. 0.6.3.11 mirror was inconclusive. 0.6.3.12 post-copy controlled mirror corrupted layout (`TEST` vertical + target garbage), so the `state+100` post-copy destination assumption is not trusted. **Current phase is reverse-only. No runtime probe is current.**
 
 ## Source / baseline
 
@@ -50,7 +50,7 @@ local offset = +0x580
 ## Production direction
 
 0.6.2.13 proved static custom-atlas Vietnamese rendering.
-0.6.2.14..20 proved stacked Vietnamese diacritics do not fit production-quality inside native 12x12 without shrinking the base letter.
+0.6.2.14..20 proved stacked Vietnamese marks such as `Ế/Ể/Ẳ/Ỗ/Ử/Ấ/Ố` do not fit production-quality inside native 12x12 without shrinking the base body.
 
 => Keep extended-height work. Do not resume 12x12 polish.
 
@@ -71,7 +71,7 @@ Glyph metadata:
 +8 custom-atlas flag
 ```
 
-Caller lifetime:
+Caller metadata lifetime:
 
 ```text
 0x8003CAC0  a2 = sp+16
@@ -101,23 +101,7 @@ Target metadata height=15 requests 16 source rows:
 16 rows -> 128 converted bytes
 ```
 
-Before copy:
-
-```text
-0x8003CC34  a2 = *(s1+100)
-```
-
-Native allocator later advances around:
-
-```text
-0x8003CD94..0x8003CDB4
-```
-
-Never rewrite that shared block naively; 0.6.3.1 caused global corruption/freeze.
-
-VRAM upload is page-based, not a per-glyph hardcoded 12-row RECT.
-
-Final 16-byte glyph record is consumed around `0x8003D9FC..0x8003DA50`:
+Final 16-byte glyph output record is consumed around `0x8003D9FC..0x8003DA50`:
 
 ```text
 record+4 -> texture U
@@ -126,7 +110,9 @@ record+6 -> primitive width
 record+7 -> primitive height
 ```
 
-## High-value probe history
+0.6.3.10 confirmed changing final visible height from proven stack metadata does not recover rows12..15.
+
+## High-value runtime history
 
 ### 0.6.3.7 SOURCE ROW SENTINEL
 
@@ -139,112 +125,99 @@ rows12..15 = full 0x11 bright white
 
 Runtime:
 - Japanese/TEST normal;
-- dark rows10..11 visible;
-- bright rows12..15 not visible as full 4-row block;
-- only thin bright edge below.
+- rows10..11 visible;
+- rows12..15 not fully visible;
+- only thin bright edge remains below.
 
 ### 0.6.3.10 HEIGHT FROM STACK METADATA
 
-Uses proven `lhu 18(sp)` for final geometry. Runtime stable but visually same as 0.6.3.7.
+Uses proven `lhu 18(sp)` for geometry. Runtime stable but visually unchanged from 0.6.3.7.
 
-=> primitive visible height is not the main blocker.
+=> final primitive height is not the main blocker.
 
-### 0.6.3.11 RAM TAIL MIRROR — RUNTIME COMPLETE / INCONCLUSIVE NEGATIVE
+### 0.6.3.11 RAM TAIL MIRROR
 
-Mirrored:
+No bright mirror appeared, but there was no independent control proving the post-copy hook and `state+100` current-destination model.
 
-```text
-converted rows12..15 dest+96..127
--> rows8..11 dest+64..95
-```
+=> inconclusive negative; do not retest.
 
-Runtime screenshot:
-- TEST/header normal;
-- no obvious bright 4-row mirror block;
-- target essentially same as earlier stable probes.
+### 0.6.3.12 CONTROLLED RAM TAIL MIRROR — DIAGNOSTIC FAIL
 
-But 0.6.3.11 had no visual control proving its post-copy hook and `state+100` destination assumption were both correct.
-
-=> do not yet conclude rows12..15 are absent.
-=> do not retest 0.6.3.11.
-
-## CURRENT — 0.6.3.12 CONTROLLED RAM TAIL MIRROR
-
-Purpose: resolve 0.6.3.11 ambiguity in one screenshot.
-
-Target identity now uses only proven metadata:
+Intended:
 
 ```text
-lhu 18(sp) == 15
+CONTROL rows6..7 = dark band
+MIRROR rows12..15 -> rows8..11
 ```
 
-At hook `0x8003CC4C` before native allocator advance:
+Runtime:
+- `TEST` becomes vertical;
+- target becomes texture/block garbage;
+- result cannot be interpreted as a RAM-tail answer.
+
+=> post-copy writes via `*(s1+100)` perturb live layout/state.
+=> either `state+100` is not current converted destination at that moment, or the hook clobbers live register/state not yet restored.
+=> **do not write through `state+100` again until raw code/dataflow is re-verified.**
+=> never retest 0.6.3.12.
+
+## CURRENT — REVERSE-ONLY DUMP
+
+No runtime game probe is current.
+
+Use:
 
 ```text
-dest = *(s1+100)
+GaiaMaster_063_REVERSE_DUMP_0.1.zip
+00_RUN_REVERSE_DUMP.cmd
 ```
 
-### CONTROL
+This is READ ONLY:
+- no ROM patch;
+- no CUE creation;
+- no emulator/game boot.
 
-Write:
+It outputs:
 
 ```text
-converted rows6..7 = full 0x77 dark/gray
+GaiaMaster_063_REVERSE_DUMP.txt
 ```
 
-These rows are safely inside the visible region.
-
-### MIRROR
-
-Copy:
+Dump ranges:
 
 ```text
-converted rows12..15 -> rows8..11
+0x8003C180..0x8003C780  renderer metadata + copy routine
+0x8003C880..0x8003CE80  caller/cache/record path
+0x8003D380..0x8003D540  cache page init
+0x8003D980..0x8003DAA0  final primitive consumer
+0x8003DB40..0x8003DC40  page flush/upload
 ```
 
-Since source rows12..15 are full `0x11`, a valid converted tail should mirror as a bright 4-row block immediately below the dark control.
+## Reverse questions that MUST be answered before next runtime build
 
-### Interpret exactly
-
-A. **Dark control + bright mirror**
-
-> Hook fires, destination is correct, rows12..15 exist after conversion. Continue downstream into cache/VRAM placement.
-
-B. **Dark control but no bright mirror**
-
-> Hook fires and destination is correct, but converted rows12..15 do not contain expected tail immediately after `0x8003C67C`. Reverse the copy routine/loop state/source-to-dest writes.
-
-C. **No dark control**
-
-> Hook or `state+100` destination model is still wrong. Do not infer tail loss.
-
-Package:
-
-```text
-GaiaMaster_FontIsolation_0.6.3.12_CONTROLLED_RAM_TAIL_MIRROR.zip
-```
-
-Launcher:
-
-```text
-00_RUN_PROBE_06312.cmd
-```
+1. Exact register holding the destination pointer inside `0x8003C67C`.
+2. Whether `state+100` still points to current glyph destination after `jal` returns.
+3. Whether callee returns/advances destination in another register/value.
+4. Exact per-glyph cache Y assignment feeding record texture V.
+5. Whether rows12..15 are contiguous, wrapped, rebased, or clipped during conversion/cache placement.
+6. Which caller registers are live across `0x8003CC4C`, so any future hook preserves them.
 
 ## Hard do-not-repeat
 
 - no Krom path;
 - no production 12x12 stacked-accent polishing;
 - no retest 0.6.2.18;
-- no retest 0.6.3.0..0.6.3.11;
-- no shared `0x8003CD94..0x8003CDB4` rewrite;
+- no retest 0.6.3.0..0.6.3.12;
+- no naive shared `0x8003CD94..0x8003CDB4` rewrite;
 - no persistent/global target flag;
 - no global force-height16;
-- no `s3+2` metadata assumption.
+- no `s3+2` metadata assumption;
+- no post-copy write through `state+100` until raw dataflow proves it safe.
 
 ## User testing preference
 
-- Character Select visible probes only when needed;
-- maximize information per test;
+- minimize emulator tests;
+- prefer read-only scanners/reverse reports when possible;
+- maximize information per runtime test;
 - never repeat tested builds;
-- stop on real freeze/global corruption;
+- stop on true freeze/global corruption;
 - reverse first, probe second.
