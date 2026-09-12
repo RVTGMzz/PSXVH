@@ -1,6 +1,6 @@
 # HANDOFF — Gaia Master PS1 Việt hóa
 
-> **Current source-of-truth:** custom Vietnamese glyph pipeline is proven. Native 12x12 is rejected for production stacked diacritics. Extended-height reverse reached 0.6.3.9, which failed because the assumed per-glyph height source at `s3+2` near `0x8003CCC0` was wrong. There is currently **NO user probe to test**. Next phase is reverse-only around `0x8003CCA0..0x8003CD20` before building 0.6.3.10.
+> **Current source-of-truth:** custom Vietnamese glyph pipeline is proven. Native 12x12 is rejected for production stacked diacritics. Extended-height reverse reached 0.6.3.9, whose `s3+2` height assumption was disproven by runtime and by full caller dataflow. New proven path: current glyph metadata lives at caller `sp+16`, so its `height_minus_1` is `lhu 18(sp)` at the sprite-geometry stage. Current probe is **0.6.3.10 HEIGHT FROM STACK METADATA**.
 
 ## Source / baseline
 
@@ -19,38 +19,15 @@
 - 230 rows pending because full-width 2-byte text overflows fixed slots;
 - mixed JP/VI + graphic text remain after font work.
 
-## Encoding facts
-
-- Shift-JIS Japanese OK.
-- Full-width Latin CP932 OK runtime.
-- ASCII 1-byte fails/mis-renders in this renderer.
-- UTF-8 direct not used.
-
-## Character Select probe
-
-```text
-PRGPACK.BDP + 0xBFD2C
-owner nested BDP = entry 29
-local offset = +0x580
-```
-
-## Proven custom atlas path
+## Encoding / atlas facts
 
 ```text
 atlas RAM    = 0x8006BCEC
 mapping RAM  = 0x8007AECC
 atlas file   = SLPS + 0x5C4EC
 mapping file = SLPS + 0x6B6CC
-```
-
-Native atlas:
-
-```text
 860 glyphs
-72 bytes/glyph
-12x12
-4bpp
-LOW nibble first
+native 12x12 / 72-byte / 4bpp / LOW nibble first
 ```
 
 Confirmed mappings:
@@ -62,25 +39,29 @@ Confirmed mappings:
 0x889F 亜 -> glyph 0
 ```
 
-Native `Ｅ` glyph 466 is style reference.
+Character Select visible probe:
+
+```text
+PRGPACK.BDP + 0xBFD2C
+owner nested BDP = entry 29
+local offset = +0x580
+```
 
 ## Native 12x12 conclusion
 
-`0.6.2.13 STATIC SLOT / NO HOOK` proved direct static-atlas Vietnamese rendering works. 0.6.2.14..20 proved stacked Vietnamese marks do not fit production-quality inside 12x12 without shrinking the base letter.
+0.6.2.13 proved static custom-atlas Vietnamese rendering. 0.6.2.14..20 proved production stacked Vietnamese marks do not fit cleanly in native 12x12 without shrinking the base body.
 
-=> production needs an extended-height path.
+=> production direction remains extended height.
 
-## Extended-height facts proven so far
+## Extended-height proven facts
 
-Character renderer:
+Renderer entry:
 
 ```text
 0x8003C210
 ```
 
-Native custom-atlas pointer math near `0x8003C4F8..0x8003C500` computes `glyph_index * 72`.
-
-Early glyph metadata struct produced in the `0x8003C210` path:
+Early glyph metadata struct:
 
 ```text
 +0 width metric
@@ -89,7 +70,7 @@ Early glyph metadata struct produced in the `0x8003C210` path:
 +8 custom-atlas flag
 ```
 
-Wide custom copy routine:
+Wide copy routine:
 
 ```text
 0x8003C67C
@@ -103,35 +84,27 @@ Therefore:
 16 rows -> 128 converted bytes
 ```
 
-Metadata height=15 genuinely drives 16 source-row loop iterations at the copy stage.
+Metadata height=15 genuinely drives 16 source-row iterations.
 
-Font cache page is much taller than 12 rows, so a simple fixed 12-row page/upload rectangle is not enough to explain the missing lower rows.
+## High-value probe history
 
-## Probe history — 0.6.3.x
+### 0.6.3.1 — UNSAFE FAIL
+Shared cache/VRAM stride mutation around `0x8003CD94..0x8003CDB4` caused global corruption + freeze. Never repeat.
 
-### 0.6.3.0 EXTENDED HEIGHT
-Historical structural evidence that taller source/copy behavior is possible. Do not retest. Later late-stage display assumptions must be revalidated.
+### 0.6.3.2 — STABLE WITH LOWER-ROW LOSS
+Baseline-only path stable; target bottom still missing.
 
-### 0.6.3.1 BASELINE + 16-ROW STRIDE — UNSAFE FAIL
-Naive shared cache/VRAM advance rewrite around `0x8003CD94..0x8003CDB4` caused global text corruption + freeze. Never repeat.
-
-### 0.6.3.2 BASELINE ONLY — STABLE WITH LOWER-ROW LOSS
-Control `ＴＥＳＴ亜Ａ`. Japanese/TEST stable, A sentinel intact, lower target rows still missing.
-
-### 0.6.3.3 EOL OVERWRITE — OVERWRITE DISPROVEN
+### 0.6.3.3 — overwrite disproven
 Target at end-of-line still loses same lower rows.
 
-### 0.6.3.4 UV WINDOW — NEGATIVE
-Target texture `V+4` does not recover the lower E cleanly.
+### 0.6.3.4 — UV+4 negative
+Simple texture-V shift does not recover lower rows cleanly.
 
-### 0.6.3.5 POST-COPY SENTINEL — NO SENTINEL
-Late `s0` target identity was unreliable; no conclusion about rows12..15.
+### 0.6.3.6 — UNSAFE FAIL
+Persistent/global early flag causes repeatable freeze just after Sony logo. Never reuse.
 
-### 0.6.3.6 EARLY-FLAG SENTINEL — UNSAFE FAIL
-Persistent/global flag causes repeatable freeze just after Sony logo. Never retest and never reuse this flag strategy.
-
-### 0.6.3.7 SOURCE ROW SENTINEL — HIGH-VALUE RESULT
-Sentinel is baked directly into the target 12x16 source:
+### 0.6.3.7 — SOURCE ROW SENTINEL / HIGH-VALUE RESULT
+Target source contains:
 
 ```text
 rows10..11 = dark/gray full band
@@ -139,53 +112,111 @@ rows12..15 = bright white full band
 ```
 
 Runtime:
-- Japanese header and TEST normal;
-- dark rows10..11 clearly visible;
-- bright rows12..15 do not appear as a thick four-row block;
-- only a thin bright edge remains.
+- Japanese header/TEST normal;
+- rows10..11 visible;
+- rows12..15 not fully visible as thick 4-row block;
+- only thin bright edge remains.
 
-=> lower source rows are genuinely not fully visible. This result does not depend on late target detection.
+=> lower source rows are genuinely not fully visible.
 
-### 0.6.3.8 FORCE SPRITE HEIGHT16 — DIAGNOSTIC FAIL
-Forcing height16 globally causes blank textbox / vertical TEST layout. Therefore the block at `0x8003CCC0` is not a simple safe global visible-height field.
+### 0.6.3.8 — DIAGNOSTIC FAIL
+Global visible-height=16 makes textbox blank / TEST appear vertically corrupted. Never repeat.
 
-### 0.6.3.9 HEIGHT FROM METADATA — DIAGNOSTIC FAIL
-Probe used:
+### 0.6.3.9 — DIAGNOSTIC FAIL
+Used `lhu 2(s3)` at `0x8003CCC0` under the false assumption `s3` still pointed to glyph metadata. Runtime: TEST vertical + target texture garbage.
 
-```text
-lhu v0,2(s3)
-```
+## Reverse breakthrough after 0.6.3.9
 
-at `0x8003CCC0`, assuming `s3` still pointed to the early current-glyph metadata struct.
-
-Runtime screenshot:
-- TEST stacks vertically;
-- target becomes noisy/garbled texture block;
-- layout remains broken;
-- thick bright rows12..15 still not recovered.
-
-=> assumption is false. `s3` at `0x8003CCC0` is not proven to be the original glyph metadata pointer.
-
-## CURRENT PHASE — REVERSE ONLY
-
-**Do not ask the user to test another build yet.**
-
-Reverse exact range:
+Full caller disassembly around `0x8003C8BC..0x8003CD20` proves:
 
 ```text
-0x8003CCA0 .. 0x8003CD20
+s5 = current 16-byte output/cache record base
+s3 = s5 + 15
 ```
 
-Required questions before 0.6.3.10:
+So at `0x8003CCC0`, `s3+2` is outside the current record and cannot be metadata height.
 
-1. trace lifetime/meaning of `s1`, `s2`, `s3` entering this block;
-2. identify what `lbu 64(s1)` at `0x8003CCC0` really means;
-3. identify every consumer/store of the value after `0x8003CCC8 addiu v0,v0,1`;
-4. determine whether this value is texture height, glyph advance, line metric, tile/cache dimension, or something else;
-5. identify the actual descriptor/primitive field controlling vertical texture sampling for the current glyph by dataflow, not register-name inference;
-6. re-check the earlier claim that descriptor byte `+7` is visible height and prove where/when that descriptor exists.
+### Proven current-glyph metadata lifetime
 
-Only after those are resolved should a new runtime probe be built.
+Caller creates metadata buffer:
+
+```text
+0x8003CAC0  a2 = sp+16
+0x8003C210  writes metadata into sp+16
+```
+
+Later in the same caller frame:
+
+```text
+0x8003CC3C  a1 = sp+16
+0x8003C67C  copy routine
+```
+
+The copy routine reads:
+
+```text
+lhu 2(a1)
+```
+
+as source-row `height_minus_1`.
+
+Therefore at `0x8003CCC0` the dataflow-proven current-glyph height is:
+
+```text
+lhu v0,18(sp)   # (sp+16)+2
+```
+
+Expected:
+
+```text
+native metadata 11 -> native +1 -> 12 px
+target metadata 15 -> native +1 -> 16 px
+```
+
+## CURRENT PROBE — 0.6.3.10 HEIGHT FROM STACK METADATA
+
+Start from stable 0.6.3.7 source-sentinel build.
+
+At `0x8003CCC0`, replace native global height load with:
+
+```text
+lhu v0,18(sp)
+```
+
+Then resume native:
+
+```text
+0x8003CCC8 addiu v0,v0,1
+```
+
+No late target-code check is needed.
+
+Unchanged:
+- source sentinel;
+- 16-row target metadata/copy;
+- baseline Y -4;
+- target at EOL;
+- no global force-height;
+- no persistent flag;
+- no post-copy hook;
+- no UV patch;
+- no shared CD94 allocator rewrite.
+
+Package:
+
+```text
+GaiaMaster_FontIsolation_0.6.3.10_HEIGHT_FROM_STACK_METADATA.zip
+```
+
+Launcher:
+
+```text
+00_RUN_PROBE_06310.cmd
+```
+
+Runtime question:
+
+> Does TEST/native stay normal while the target finally shows the full bright rows12..15 block?
 
 ## Hard do-not-repeat
 
@@ -196,25 +227,12 @@ Only after those are resolved should a new runtime probe be built.
 - no naive shared `0x8003CD94..0x8003CDB4` rewrite;
 - no persistent/global target flag;
 - no global force-height16;
-- no late `s0` target identity without proof;
-- no `s3+2` height assumption at `0x8003CCC0` without register-lifetime proof.
-
-## After extended-height path is stable
-
-1. production-safe Vietnamese extended atlas/cache storage;
-2. full Vietnamese glyph inventory;
-3. compact runtime codepage/mapping;
-4. encode `vi_full` có dấu;
-5. solve/repack 230 pending rows;
-6. clean mixed JP/VI;
-7. patch graphic menu/title text;
-8. full runtime QA + reproducible build.
+- no `s3+2` height assumption at `0x8003CCC0`.
 
 ## User testing preference
 
 - Character Select visible probes only when needed;
-- no deep gameplay unless necessary;
 - maximize information per runtime test;
 - never repeat tested builds;
-- stop immediately on true global corruption/freeze;
+- stop immediately on real freeze/global corruption;
 - reverse first, probe second.
