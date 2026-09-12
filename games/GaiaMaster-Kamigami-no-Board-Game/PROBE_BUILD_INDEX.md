@@ -28,7 +28,7 @@ Production conclusion: native 12x12 is too cramped for stacked Vietnamese diacri
 
 ### 0.6.3.0 EXTENDED HEIGHT 12x16
 Status: **STRUCTURAL PASS**.
-12x16 target source and 16-row path visibly work. Do not retest.
+Do not retest.
 
 ### 0.6.3.1 BASELINE + 16-ROW STRIDE
 Status: **UNSAFE FAIL**.
@@ -36,24 +36,24 @@ Global text corruption + later freeze. Never retest.
 
 ### 0.6.3.2 BASELINE ONLY
 Status: **STABLE PASS WITH LOWER-ROW LOSS**.
-Japanese stable, target baseline improved, lower extended rows missing. Do not retest.
+Do not retest.
 
 ### 0.6.3.3 EOL OVERWRITE TEST
 Status: **RUNTIME COMPLETE — overwrite disproven**.
-Target still truncated at end-of-line. Do not retest.
+Do not retest.
 
 ### 0.6.3.4 UV WINDOW TEST
 Status: **RUNTIME COMPLETE — negative diagnostic**.
-`V+4` does not restore lower E cleanly. Do not retest.
+Do not retest.
 
 ### 0.6.3.5 POST-COPY RAM SENTINEL
 Status: **RUNTIME COMPLETE — SENTINEL NOT OBSERVED**.
-Late `s0` identity is unreliable; no clipping conclusion. Do not retest.
+Late `s0` identity unreliable. Do not retest.
 
 ### 0.6.3.6 EARLY-FLAG POST-COPY SENTINEL
 Status: **UNSAFE FAIL — BOOT FREEZE**.
 
-Runtime:
+Repeated runtime:
 
 ```text
 Sony logo appears
@@ -61,24 +61,43 @@ Sony logo appears
 -> Character Select never reached
 ```
 
-Repeated test gives the same result.
-
-New strategy that caused the regression:
-
-```text
-early metadata stage sets persistent FLAG
-late post-copy hook reads FLAG
-```
-
-No sentinel conclusion is valid because the game never reaches the probe.
-
 Never retest.
+Do not use persistent/global cave flag to carry target identity.
 
 Dedicated note:
 
 ```text
 FONT_ISOLATION_0.6.3.6_UNSAFE_FAIL.md
 ```
+
+### 0.6.3.7 SOURCE ROW SENTINEL
+Status: **BUILT / awaiting runtime result**.
+
+Package:
+
+```text
+GaiaMaster_FontIsolation_0.6.3.7_SOURCE_ROW_SENTINEL.zip
+```
+
+Launcher:
+
+```text
+00_RUN_PROBE_0637.cmd
+```
+
+No post-copy hook and no target flag.
+Diagnostic is baked directly into the unique 12x16 source glyph:
+
+```text
+source rows 10..11 = dark/gray full band
+source rows 12..15 = bright white full band
+```
+
+Interpretation:
+
+- gray + white visible => rows12..15 survive source->display;
+- gray visible, white absent => structural lower-row truncation confirmed;
+- neither visible => source/slot/copy-path assumption needs further reverse.
 
 ## Current do-not-repeat list
 
@@ -91,14 +110,4 @@ FONT_ISOLATION_0.6.3.6_UNSAFE_FAIL.md
 
 ## Current next action
 
-**Reverse before building.**
-
-Inspect the live arguments/registers around the call to `0x8003C67C` and identify the extended target using its unique source glyph pointer or existing metadata state.
-
-Next probe must:
-
-- avoid late `s0`;
-- avoid persistent/global flags;
-- avoid shared allocator mutation;
-- identify target locally from source pointer / metadata pointer;
-- answer only whether converted rows 12..15 exist after the copy routine.
+Runtime-test **0.6.3.7 SOURCE ROW SENTINEL** at Character Select only.
