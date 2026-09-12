@@ -1,94 +1,83 @@
 # Gaia Master — trạng thái mới nhất
 
-Cập nhật: **2026-09-12 sau runtime 0.6.3.10 và reverse consumer cuối của glyph record**.
+Cập nhật: **2026-09-12 sau runtime 0.6.3.11 RAM TAIL MIRROR**.
 
 ## Chốt hiện tại
 
-- Custom Vietnamese atlas path PASS từ 0.6.2.13.
+- Custom Vietnamese atlas path đã PASS từ 0.6.2.13.
 - Native 12x12 bị loại cho production stacked Vietnamese diacritics.
-- 0.6.3.7 SOURCE ROW SENTINEL vẫn là bằng chứng sạch nhất: rows10..11 hiện, rows12..15 không hiện đủ.
-- 0.6.3.8/0.6.3.9 là diagnostic fail vì chạm sai/global vào sprite-height path.
-- 0.6.3.10 dùng **stack metadata thật** tại `sp+18`; runtime **ổn nhưng kết quả target y hệt 0.6.3.7**.
+- Extended-height 12x16 vẫn là hướng production.
+- 0.6.3.7 SOURCE ROW SENTINEL: rows10..11 hiện, rows12..15 không hiện đủ.
+- 0.6.3.10 dùng per-glyph height thật tại `sp+18`; runtime ổn nhưng target y hệt 0.6.3.7, nên final primitive height không còn là blocker chính.
+- 0.6.3.11 RAM TAIL MIRROR: **runtime không xuất hiện bright 4-row mirror block**; target gần như y hệt 0.6.3.7/0.6.3.10.
 
-=> **visible sprite height không còn là blocker hàng đầu**.
+## Vì sao 0.6.3.11 vẫn chưa kết luận tail bị mất
 
-## Reverse mới sau 0.6.3.10
-
-Caller và draw consumer đã được reverse sâu hơn.
-
-### 1. Copy routine thật sự đọc đủ 12-pixel width
-
-`0x8003C67C` chọn wide path khi metadata width >= 9.
-Target custom-atlas có metadata width 12, nên mỗi source row đọc đủ:
+0.6.3.11 mirror:
 
 ```text
-6 source bytes -> 8 converted/cache bytes
+converted rows12..15: dest+96..127
+-> rows8..11:         dest+64..95
 ```
 
-Với height=15:
+Nhưng probe này không có visual control độc lập để chứng minh cả hai việc:
+
+1. post-copy hook đã chạy đúng target;
+2. `*(s1+100)` tại hook thật sự là current converted destination.
+
+Vì vậy `no mirror` còn mơ hồ giữa:
+
+- lower converted rows thật sự không chứa expected bright tail;
+- hoặc hook/destination assumption chưa đúng.
+
+## CURRENT — 0.6.3.12 CONTROLLED RAM TAIL MIRROR
+
+Start từ 0.6.3.11 nhưng target identity đổi sang field đã dataflow-proven:
 
 ```text
-16 rows -> 128 converted bytes
+lhu 18(sp) == 15
 ```
 
-### 2. Final cache upload không hardcode glyph height=12
-
-Cache dùng một page cao hơn nhiều glyph. Flush page tại `0x8003CDE8..0x8003CE24` / cleanup `0x8003DBA4..0x8003DBE0` upload một RECT page, không phải một glyph-RECT 12-row riêng.
-
-### 3. Record byte +7 thật sự đi tới GPU primitive height
-
-Record 16-byte được build quanh `0x8003CC..`.
-Consumer cuối tại `0x8003DA48` đọc:
+Tại `0x8003CC4C`, trước allocator advance:
 
 ```text
-record+7 -> primitive height
+dest = *(s1+100)
 ```
 
-nên 0.6.3.10 negative cho thấy việc mở height lên 16 không phục hồi rows12..15. Lower-row loss xảy ra trước final primitive sampling hoặc trong cache/VRAM placement.
+Probe tạo hai tín hiệu trong cùng target:
 
-## CURRENT — 0.6.3.11 RAM TAIL MIRROR
-
-Mục tiêu: hỏi trực tiếp liệu converted RAM rows12..15 có tồn tại ngay sau `0x8003C67C` hay không.
-
-Không dùng late `s0`, không global flag.
-Target identity dựa trên **source pointer thật trong caller metadata**:
+### CONTROL
 
 ```text
-metadata base = sp+16
-source pointer = *(sp+20)
-target source = 0x8007ABFC
+converted rows6..7 = full 0x77 dark/gray band
 ```
 
-Sau copy, trước allocator advance:
+Rows6..7 nằm chắc trong vùng đang nhìn thấy.
+
+### MIRROR
 
 ```text
-current converted dest = *(s1+100)
-rows12..15 = dest+96 .. dest+127
+converted rows12..15 -> rows8..11
 ```
 
-0.6.3.11 mirror 32 byte này lên vùng chắc chắn nhìn thấy:
-
-```text
-rows8..11 = dest+64 .. dest+95
-```
-
-Source sentinel vẫn có rows12..15 = bright white.
+Source rows12..15 vẫn là full `0x11` bright white.
 
 ### Interpretation
 
-- **Bright 4-row block xuất hiện cao hơn trong glyph** => rows12..15 tồn tại đúng trong converted RAM; loss nằm downstream ở VRAM placement/cache coordinates.
-- **Không có bright mirror block** => rows12..15 không tồn tại như expected ngay sau copy, hoặc destination pointer model sai.
+- **dark control + bright 4-row mirror** => hook/dest đúng và tail tồn tại sau conversion; blocker nằm downstream cache/VRAM placement.
+- **dark control nhưng không bright mirror** => hook/dest đúng, nhưng rows12..15 không có expected content ngay sau copy; reverse tiếp `0x8003C67C` / loop state / destination writes.
+- **không dark control** => hook/destination model vẫn sai; chưa được kết luận tail loss.
 
 Package:
 
 ```text
-GaiaMaster_FontIsolation_0.6.3.11_RAM_TAIL_MIRROR.zip
+GaiaMaster_FontIsolation_0.6.3.12_CONTROLLED_RAM_TAIL_MIRROR.zip
 ```
 
 Launcher:
 
 ```text
-00_RUN_PROBE_06311.cmd
+00_RUN_PROBE_06312.cmd
 ```
 
 ## Do not repeat
@@ -96,8 +85,8 @@ Launcher:
 - Không quay lại Krom.
 - Không polish production stacked accents trong 12x12.
 - Không retest 0.6.2.18.
-- Không retest 0.6.3.0..0.6.3.10.
+- Không retest 0.6.3.0..0.6.3.11.
 - Không patch shared `0x8003CD94..0x8003CDB4` kiểu 0.6.3.1.
 - Không persistent/global flag kiểu 0.6.3.6.
-- Không force sprite height global kiểu 0.6.3.8.
+- Không force height16 global kiểu 0.6.3.8.
 - Không dùng `s3+2` như glyph metadata.
