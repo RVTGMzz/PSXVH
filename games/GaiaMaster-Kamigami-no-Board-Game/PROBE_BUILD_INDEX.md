@@ -36,7 +36,7 @@ Do not return to endless 12x12 accent polishing.
 Status: **STRUCTURAL PASS**.
 
 - 12x16 / 96-byte target source;
-- target copy path can be driven at 16 rows;
+- target copy path can run 16 rows;
 - taller target footprint observed;
 - baseline intentionally not fixed in first probe.
 
@@ -46,13 +46,12 @@ Do not retest.
 Status: **UNSAFE FAIL**.
 
 Runtime:
-
 - unrelated Japanese corrupts/repeats;
 - Character Select corrupts;
 - later screen garbles;
 - game freezes.
 
-Strongest regression source:
+Likely regression source:
 
 ```text
 shared cache/VRAM advance rewrite around 0x8003CD94..0x8003CDB4
@@ -82,79 +81,95 @@ Control:
 ＴＥＳＴ亜
 ```
 
-Result remains essentially same as 0.6.3.2 despite no following glyph.
-
-=> following-glyph overwrite is false.
+Same lower-row loss despite no following glyph.
 
 Do not retest.
 
 ### 0.6.3.4 UV WINDOW TEST
 Status: **RUNTIME COMPLETE — negative diagnostic**.
 
-Only new change:
+Only change:
 
 ```text
 target texture V += 4
 ```
 
 Result:
-
-- surrounding Japanese/TEST stable;
+- Japanese/TEST stable;
 - target still malformed/truncated;
 - lower native E not restored cleanly;
 - no global corruption/freeze.
 
-=> simple UV/window offset is insufficient.
+=> simple UV offset insufficient.
 
 Do not retest.
 
-### Reverse after 0.6.3.4
-
-Wide copy:
-
-```text
-0x8003C67C
-6 source bytes/row -> 8 converted bytes/row
-```
-
-Font cache/upload page is not 12 rows tall.
-Default cache page setup is roughly:
-
-```text
-width 32
-height 240
-VRAM Y 256
-```
-
-Final flush uploads the cache page, so missing rows are not explained by upload RECT height being 12.
-
 ### 0.6.3.5 POST-COPY RAM SENTINEL
+Status: **RUNTIME COMPLETE — SENTINEL NOT OBSERVED**.
+
+Intended post-copy pattern:
+
+```text
+rows 10..11 = dark/gray band
+rows 12..15 = bright white band
+```
+
+Runtime:
+- Japanese/TEST stable;
+- target looks like prior truncated glyph;
+- neither obvious band visible.
+
+Conclusion:
+
+```text
+late s0 target check at 0x8003CC4C is unreliable
+```
+
+Do not infer clipping from this build and do not retest.
+
+Dedicated note:
+
+```text
+FONT_ISOLATION_0.6.3.5_POST_COPY_RAM_SENTINEL.md
+```
+
+### 0.6.3.6 EARLY-FLAG POST-COPY SENTINEL
 Status: **BUILT / awaiting runtime result**.
 
 Package:
 
 ```text
-GaiaMaster_FontIsolation_0.6.3.5_POST_COPY_RAM_SENTINEL.zip
+GaiaMaster_FontIsolation_0.6.3.6_EARLY_FLAG_POST_COPY_SENTINEL.zip
 ```
 
-Control remains:
+Launcher:
 
 ```text
-ＴＥＳＴ亜
+00_RUN_PROBE_0636.cmd
 ```
 
-After successful copy, target only:
+Key change:
+
+At early metadata stage where `s0` is proven trustworthy:
 
 ```text
-rows 10..11 = dark/gray full band  # control
-rows 12..15 = bright white full band  # test
+target 0x889F -> FLAG=1
+other glyph    -> FLAG=0
+```
+
+Late post-copy hook reads FLAG only, never `s0`.
+
+Sentinel pattern is unchanged:
+
+```text
+rows 10..11 = gray/dark control
+rows 12..15 = bright white test
 ```
 
 Interpretation:
-
-- both bands visible => rows12..15 survive RAM->VRAM->sprite;
-- control visible but bottom white absent => loss after converted RAM row11;
-- neither band => hook/path issue, no clipping conclusion.
+- gray + white => rows12..15 survive RAM->VRAM->sprite;
+- gray only => rows12..15 lost after converted RAM;
+- neither => assumed post-copy destination/path wrong.
 
 ## Current do-not-repeat list
 
@@ -162,10 +177,10 @@ Interpretation:
 - do not retest 0.6.2.18;
 - do not retest 0.6.3.0;
 - never retest unsafe 0.6.3.1;
-- do not retest 0.6.3.2 / 0.6.3.3 / 0.6.3.4;
+- do not retest 0.6.3.2 / 0.6.3.3 / 0.6.3.4 / 0.6.3.5;
 - do not naively rewrite shared `0x8003CD94..0x8003CDB4`;
 - do not resume production 12x12 stacked-diacritic polishing.
 
 ## Current next action
 
-Runtime-test **0.6.3.5 POST-COPY RAM SENTINEL** at Character Select only.
+Runtime-test **0.6.3.6 EARLY-FLAG POST-COPY SENTINEL** at Character Select only.
