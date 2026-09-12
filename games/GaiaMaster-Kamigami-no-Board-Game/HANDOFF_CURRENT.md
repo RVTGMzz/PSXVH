@@ -1,33 +1,32 @@
 # HANDOFF — Gaia Master PS1 Việt hóa
 
-> **Current source-of-truth:** custom Vietnamese glyph pipeline is proven. Native 12x12 is rejected for production stacked diacritics. 0.6.3.0 proves 12x16 structurally. 0.6.3.1 shared cache-stride rewrite is unsafe and caused global corruption/freeze. 0.6.3.2 BASELINE ONLY is stable, but the extended target loses its lower rows when a native glyph follows. Current diagnostic: **0.6.3.3 EOL OVERWRITE TEST**.
+> **Current source-of-truth:** custom Vietnamese glyph pipeline is proven. Native 12x12 is rejected for production stacked diacritics. 0.6.3.0 proves target 12x16 structurally. 0.6.3.1 shared cache-stride rewrite is unsafe and caused global corruption/freeze. 0.6.3.2 BASELINE ONLY is stable but lower target rows are missing. 0.6.3.3 EOL test gives the same lower-row loss, disproving following-glyph overwrite. Current diagnostic is **0.6.3.4 UV WINDOW TEST**.
 
-## Source game
+## Source / baseline
 
-- `GaiaMaster - Kamigami no Board Game (Japan).bin`
-- MODE2/2352
-- serial `SLPS-02075`
-- clean BIN SHA1 `f4d5298583c90d89c4b7e51d2dde160ee07f2aec`
-- executable `SLPS_020.75`
-- main archive `PRGPACK.BDP`
-- stable translation baseline: Alpha 0.6.1 FRONT SHA1 `54d2fb026bc3b71c79861e723caffb4114caa34c`
-- working branch: `gaia-character-select-font-atlas-reverse-01`
+- Game: `GaiaMaster - Kamigami no Board Game (Japan).bin`
+- MODE2/2352, serial `SLPS-02075`
+- clean BIN SHA1: `f4d5298583c90d89c4b7e51d2dde160ee07f2aec`
+- stable Alpha 0.6.1 FRONT SHA1: `54d2fb026bc3b71c79861e723caffb4114caa34c`
+- executable: `SLPS_020.75`
+- main archive: `PRGPACK.BDP`
+- branch: `gaia-character-select-font-atlas-reverse-01`
 
 ## Translation status
 
 - Master: 596 rows, `vi_full` = accented source-of-truth.
 - Alpha 0.6.1 FRONT: 397 runtime-stable patches.
-- 230 rows pending due fixed-slot/full-width overflow.
-- mixed JP/VI + graphic text remain after font work.
+- 230 rows pending because full-width 2-byte text overflows fixed slots.
+- mixed JP/VI fragments + graphic text remain after font work.
 
-## Encoding rules
+## Encoding facts
 
 - Shift-JIS Japanese: OK.
 - Full-width Latin CP932: OK runtime.
-- ASCII 1-byte: FAIL/mis-render; do not use runtime control text.
+- ASCII 1-byte: FAIL/mis-render in this renderer. Do not use for control text.
 - UTF-8 direct: not used.
 
-## Character Select probe
+## Character Select visible probe
 
 ```text
 PRGPACK.BDP + 0xBFD2C
@@ -49,7 +48,7 @@ Native atlas:
 ```text
 860 glyphs
 72 bytes/glyph
-12x12 pixels
+12x12
 4bpp
 LOW nibble first
 ```
@@ -65,22 +64,24 @@ Confirmed mappings:
 
 Native full-width `Ｅ` = glyph 466 style reference.
 
-## Rejected / do-not-repeat paths
+## Hard do-not-repeat rules
 
-- Krom2RawAdd direct/global wrapper does not control Character Select target glyph.
-- Do not return to Krom hooks.
-- Do not return to endless stacked-diacritic polishing inside 12x12.
+- Krom2RawAdd path does not control Character Select target. Do not return to Krom hooks.
+- Do not resume endless stacked-diacritic polishing inside native 12x12.
 - 0.6.2.18 already tested; never retest.
 - 0.6.3.0 already tested; never retest.
 - 0.6.3.1 is unsafe; never retest.
+- 0.6.3.2 already tested; do not repeat without a new structural reason.
+- 0.6.3.3 already tested; do not repeat.
+- Never repeat the 0.6.3.1 shared cache-advance rewrite around `0x8003CD94..0x8003CDB4`.
 
 ## 0.6.2.x conclusion
 
 ### 0.6.2.13 STATIC SLOT / NO HOOK — BREAKTHROUGH PASS
-Direct static-atlas replacement renders custom Vietnamese glyph data while surrounding text remains normal.
+Direct static-atlas replacement visibly renders custom Vietnamese glyph data while surrounding text remains normal.
 
 ### 0.6.2.14..0.6.2.20
-12x12 cannot comfortably hold stacked Vietnamese marks while keeping the native base-letter body full-size.
+12x12 cannot comfortably hold stacked Vietnamese marks while preserving native base-letter size.
 
 => reject native 12x12 for production `Ế, Ể, Ẳ, Ỗ, Ử, Ấ, Ố...`.
 
@@ -92,7 +93,7 @@ Character renderer:
 0x8003C210
 ```
 
-Native atlas pointer math hardcodes `glyph_index * 72` near:
+Custom atlas pointer math near:
 
 ```text
 0x8003C4F8
@@ -100,59 +101,71 @@ Native atlas pointer math hardcodes `glyph_index * 72` near:
 0x8003C500
 ```
 
-Glyph metadata struct produced by renderer includes:
+computes:
 
 ```text
-+0  glyph width metric
-+2  source/copy height metric
+glyph_index * 72
+```
+
+Glyph metadata struct:
+
+```text
++0  width metric
++2  source/copy height metric (height-1)
 +4  source glyph pointer
 +8  custom-atlas flag
 ```
 
-Wide-glyph unpack/copy:
+### Wide-glyph unpack/copy
+
+Function:
 
 ```text
 0x8003C67C
 ```
 
-Each row:
+For each row on the wide custom path:
 
 ```text
 6 source bytes -> 8 converted/cache bytes
 ```
 
-Therefore:
+So:
 
 ```text
-native 12 rows -> 96 converted bytes
-extended 16 rows -> 128 converted bytes
+12 source rows -> 96 converted bytes
+16 source rows -> 128 converted bytes
 ```
 
-Descriptor relevant bytes:
+Target metadata height=15 genuinely makes the loop process 16 rows.
+
+### Sprite descriptor
+
+Relevant descriptor bytes:
 
 ```text
-+4/+5 = texture UV
++4/+5 = texture U/V
 +6    = visible width
 +7    = visible height
 ```
 
+Target visible height=16 is architecturally possible and already exercised.
+
 ## 0.6.3.0 EXTENDED HEIGHT 12x16 — STRUCTURAL PASS
 
-- target source 12x16 / 96 bytes;
+- target source = 12x16 / 96 bytes;
 - target source/copy height = 16 rows;
 - target visible sprite height = 16;
 - native glyphs remain 12x12.
 
-Runtime review shows extra headroom + full E body lower than surrounding text, exactly matching an extended glyph before baseline correction.
-
-=> 16-row copy/display is structurally proven.
+Runtime shows extra headroom and taller target footprint; body appears lower because baseline correction was intentionally absent.
 
 ## 0.6.3.1 BASELINE + 16-ROW STRIDE — UNSAFE FAIL
 
 Added:
 
 1. target Y `-4 px`;
-2. shared cache/VRAM advance rewrite around `0x8003CD94` to reserve 16 rows.
+2. target-specific rewrite of shared cache RAM pointer/VRAM Y advance near `0x8003CD94`.
 
 Runtime:
 
@@ -161,15 +174,7 @@ Runtime:
 - later screen garbled;
 - game freezes.
 
-=> shared cache allocator/cursor mutation is unsafe.
-
-Strongest suspect block:
-
-```text
-0x8003CD94 .. 0x8003CDB4
-```
-
-Do not patch this block globally/naively again.
+=> unsafe. Strongest cause is mutation of shared cache allocator/cursor state.
 
 ## 0.6.3.2 BASELINE ONLY — STABLE PASS WITH LOWER-ROW LOSS
 
@@ -179,98 +184,132 @@ Control:
 ＴＥＳＴ亜Ａ
 ```
 
-Changes from 0.6.3.0:
+Keeps 16-row copy/display path, adds only target `Y -= 4`, leaves shared cache stride native.
 
-- keep 16-row source/copy/display path;
-- add only target Y `-4 px`;
-- leave shared cache RAM pointer and VRAM Y cursor native.
-
-Runtime user result:
+Runtime:
 
 - Japanese header normal;
 - `ＴＥＳＴ` normal;
-- extended target baseline improved;
+- target baseline improved;
 - trailing `Ａ` intact;
-- no global text corruption;
+- no global corruption/freeze;
+- lower part of extended target missing/cut.
+
+=> baseline hook itself is safe.
+
+## 0.6.3.3 EOL OVERWRITE TEST — SAME RESULT, OVERWRITE DISPROVEN
+
+Control:
+
+```text
+ＴＥＳＴ亜
+```
+
+Target ends the line, so there is no following glyph that can overwrite its converted footprint.
+
+Runtime screenshot is essentially the same as 0.6.3.2:
+
+- surrounding text normal;
+- target stable;
 - no freeze;
-- but the lower part of `Ế` is missing/cut.
+- lower target rows still missing.
 
-=> baseline-only hook is safe.
-=> 0.6.3.1 regression comes from cache-stride/shared-state experiment, not baseline correction.
+=> The hypothesis “following native glyph overwrites last 4 rows” is **false**.
+=> The loss happens inside target copy/upload/window/display behavior itself.
 
-## Strong hypothesis after 0.6.3.2 — following glyph overwrites target bottom
+## New reverse finding — VRAM upload queue identified
 
-Target writes 16 converted rows = 128 bytes, but native shared cursor still advances only 12 rows = 96 bytes.
-
-Thus the following native glyph may start 4 rows too early and overwrite the target's last 4 rows.
-
-The runtime pattern fits this: target upper/body region exists, lower region disappears, while following `Ａ` itself remains intact.
-
-This is NOT yet proven.
-
-## CURRENT PROBE — 0.6.3.3 EOL OVERWRITE TEST
-
-Change exactly one variable:
+At:
 
 ```text
-0.6.3.2: ＴＥＳＴ亜Ａ
-0.6.3.3: ＴＥＳＴ亜
+0x8003CDE8 .. 0x8003CE24
 ```
 
-Target deliberately ends the line.
-
-No new renderer hook.
-No cache-stride/CD94 hook.
-No changed copy/display logic.
-
-Diagnostic question:
-
-> Does the bottom of the 16-row `Ế` return when there is no following glyph to overwrite it?
-
-Interpretation:
-
-- bottom returns => following-glyph cache overwrite confirmed;
-- bottom still missing => target's own copy/display/clipping path still truncates lower rows.
-
-## Production direction if overwrite is confirmed
-
-Do NOT advance the shared global font-cache cursor differently for one glyph.
-
-Preferred next reverse:
-
-1. identify a dedicated/isolated converted-cache region for extended Vietnamese glyphs;
-2. use target-specific RAM/VRAM destination addresses while preserving native shared allocator state;
-3. or build a separate extended Vietnamese cache/atlas path;
-4. then test multiple extended Vietnamese glyphs followed by native glyphs.
-
-## Saved checkpoint / archive map
-
-The following files must be preserved and read before continuing in a future chat:
+the renderer builds a PS1 RECT on stack and queues an upload through:
 
 ```text
-LATEST.md
-HANDOFF_CURRENT.md
-CHARACTER_SELECT_FONT_REVERSE_0.1.md
-PROBE_BUILD_INDEX.md
-FONT_ISOLATION_0.6.3.1_UNSAFE_FAIL.md
-FONT_ISOLATION_0.6.3.2_STABLE_PASS.md
-FONT_ISOLATION_0.6.3.3_EOL_OVERWRITE_TEST.md
-PS1_LOCALIZATION_REUSABLE_LESSONS.md
-NEXT_CHAT_PROMPT.md
+jal 0x800406F8
 ```
 
-Local packages referenced by the current checkpoint:
+RECT fields:
 
 ```text
-GaiaMaster_FontIsolation_0.6.3.2_BASELINE_ONLY.zip
-GaiaMaster_FontIsolation_0.6.3.3_EOL_OVERWRITE_TEST.zip
+x = lhu state+48
+y = lhu state+40
+w = 4
+h = (lhu state+42) - (lhu state+40) + 1
 ```
 
-`PROBE_BUILD_INDEX.md` is the authoritative anti-confusion index for old probe statuses and package names.
+Source pointer:
 
-`PS1_LOCALIZATION_REUSABLE_LESSONS.md` preserves methodology reusable across future PS1 projects, including the conclusion that Japanese Shift-JIS/custom-font titles are often harder than US/EU Latin titles, though engine-specific exceptions remain.
+```text
+state+96
+```
 
-## Long-term after stable extended-height path
+`0x800406F8` records exactly `(x,y,w,h,source)` into an upload queue.
+
+This is important because the font pipeline now has three distinct geometries:
+
+1. source glyph: 12x16 = 96 bytes;
+2. converted RAM/cache: 16 rows × 8 bytes = 128 bytes;
+3. VRAM texture upload + sprite UV/window.
+
+## CURRENT PROBE — 0.6.3.4 UV WINDOW TEST
+
+Start from stable 0.6.3.3.
+
+Target still ends line:
+
+```text
+ＴＥＳＴ亜
+```
+
+New diagnostic changes **only**:
+
+```text
+target texture V += 4
+```
+
+Hook site:
+
+```text
+0x8003CCF0
+```
+
+Native:
+
+```text
+0x8003CCF4 subu v0,v0,v1
+```
+
+remains in jump delay slot, so cave receives the exact native V coordinate. Cave adds 4 only when `s0 & 0xFFFF == 0x889F`, stores descriptor V, then resumes at `0x8003CCFC`.
+
+No change to:
+
+- metadata 16-row hook;
+- target visible height 16;
+- baseline Y -4;
+- shared cache allocator;
+- `CD94` block;
+- source glyph bytes.
+
+### Interpretation
+
+If target lower rows **appear after V+4** while top accents shift/disappear:
+
+> all 16 rows exist in VRAM; unresolved bug is UV/window/draw sampling.
+
+If lower rows **remain missing / blank / garbage**:
+
+> truncation occurs before texture sampling, most likely converted cache contents or VRAM upload content/rectangle.
+
+Package:
+
+```text
+GaiaMaster_FontIsolation_0.6.3.4_UV_WINDOW_TEST.zip
+```
+
+## Long-term after extended-height path is stable
 
 1. production-safe extended Vietnamese atlas/cache storage;
 2. full Vietnamese glyph inventory;
@@ -279,7 +318,7 @@ GaiaMaster_FontIsolation_0.6.3.3_EOL_OVERWRITE_TEST.zip
 5. solve/repack 230 pending rows;
 6. clean mixed JP/VI;
 7. patch graphic menus/title text;
-8. full runtime QA + reproducible build.
+8. full runtime QA + reproducible final build.
 
 ## Windows builder pitfalls
 
@@ -290,9 +329,9 @@ GaiaMaster_FontIsolation_0.6.3.3_EOL_OVERWRITE_TEST.zip
 
 ## User testing preference
 
-- visible Character Select probes;
+- Character Select visible probes;
 - no deep gameplay unless necessary;
 - maximize information per test;
 - never repeat already-tested builds;
 - stop immediately on global corruption/freeze;
-- prefer structural fixes over cosmetic one-pixel iteration.
+- structural fixes preferred over cosmetic pixel iteration.
