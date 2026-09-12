@@ -25,7 +25,7 @@ Geometry/cosmetic experiments. Production conclusion: native 12x12 is too crampe
 ## 0.6.3.x extended-height
 
 ### 0.6.3.0 EXTENDED HEIGHT 12x16
-**STRUCTURAL EVIDENCE / historical pass classification.** Do not retest. Later visible-height probes show that some interpretation of the late display path must be revisited.
+Historical structural evidence. Do not retest.
 
 ### 0.6.3.1 BASELINE + 16-ROW STRIDE
 **UNSAFE FAIL**. Global corruption + later freeze. Never retest.
@@ -37,81 +37,83 @@ Geometry/cosmetic experiments. Production conclusion: native 12x12 is too crampe
 **RUNTIME COMPLETE**. Following-glyph overwrite disproven. Do not retest.
 
 ### 0.6.3.4 UV WINDOW
-**RUNTIME COMPLETE / NEGATIVE**. V+4 does not restore lower rows. Do not retest.
+**RUNTIME COMPLETE / NEGATIVE**. Do not retest.
 
 ### 0.6.3.5 POST-COPY RAM SENTINEL
 **RUNTIME COMPLETE / NO SENTINEL**. Late `s0` identity unreliable. Do not retest.
 
-### 0.6.3.6 EARLY-FLAG POST-COPY SENTINEL
-**UNSAFE FAIL / BOOT FREEZE**. Persistent/global flag strategy rejected. Never retest.
+### 0.6.3.6 EARLY-FLAG SENTINEL
+**UNSAFE FAIL / BOOT FREEZE**. Persistent/global flag rejected. Never retest.
 
 ### 0.6.3.7 SOURCE ROW SENTINEL
 **RUNTIME COMPLETE / HIGH-VALUE RESULT**.
-
-Source target contains:
 
 ```text
 rows10..11 dark/gray full band
 rows12..15 bright white full band
 ```
 
-Runtime:
-- Japanese/TEST normal;
-- dark rows10..11 visible;
-- rows12..15 do not appear as thick white 4-row block;
-- only thin bright edge remains.
-
-=> lower four source rows are not fully visible.
+Runtime shows rows10..11 but not the full rows12..15 block.
 
 ### 0.6.3.8 FORCE SPRITE HEIGHT16
-**DIAGNOSTIC FAIL**.
-
-Global force-height16 causes blank textbox / vertical TEST layout. `0x8003CCC0` path is not a simple safe global visible-height override. Do not retest.
+**DIAGNOSTIC FAIL**. Global height override breaks layout. Do not retest.
 
 ### 0.6.3.9 HEIGHT FROM METADATA
 **DIAGNOSTIC FAIL / RUNTIME COMPLETE**.
 
-Probe replaced the load at `0x8003CCC0` with:
+Used `lhu v0,2(s3)` at `0x8003CCC0`.
+Runtime: TEST vertical + target texture garbage.
+
+Reverse later proved:
 
 ```text
-lhu v0,2(s3)
+s5 = current 16-byte record base
+s3 = s5 + 15
 ```
 
-assuming `s3+2` still held current glyph `height_minus_1`.
+so `s3+2` is outside the current record and is not glyph metadata.
 
-Runtime:
-- TEST stacks vertically;
-- target becomes noisy/garbled texture block;
-- normal layout does not return;
-- lower source white block is not recovered.
+Do not retest.
 
-Conclusion:
+### 0.6.3.10 HEIGHT FROM STACK METADATA
+**BUILT / CURRENT PROBE**.
+
+Full caller dataflow proves current glyph metadata remains at `sp+16`:
 
 ```text
-s3 at 0x8003CCC0 is NOT proven to be the original glyph metadata pointer
+0x8003CAC0  a2 = sp+16
+0x8003C210  writes metadata
+0x8003CC3C  a1 = sp+16
+0x8003C67C  reads lhu 2(a1) as height_minus_1
 ```
 
-Do not retest and do not derive another height patch from `s3+2` without register/dataflow proof.
-
-## CURRENT STATUS
-
-**NO CURRENT USER PROBE.**
-
-Reverse-only phase before 0.6.3.10.
-
-Required reverse target:
+Therefore sprite-geometry height source is changed to:
 
 ```text
-0x8003CCA0 .. 0x8003CD20
+lhu v0,18(sp)
+0x8003CCC8 addiu v0,v0,1
 ```
 
-Questions to answer before another build:
+Expected:
 
-1. lifetime/meaning of `s1`, `s2`, `s3` at this stage;
-2. exact semantic meaning of `lbu 64(s1)` at `0x8003CCC0`;
-3. exact store/consumer of the value after `0x8003CCC8 addiu`;
-4. distinguish glyph visible texture height from advance/layout/line metric;
-5. locate the true per-current-glyph draw height field by dataflow, not register-name assumption.
+```text
+native 11+1 = 12px
+target 15+1 = 16px
+```
+
+Keeps 0.6.3.7 source sentinel.
+
+Package:
+
+```text
+GaiaMaster_FontIsolation_0.6.3.10_HEIGHT_FROM_STACK_METADATA.zip
+```
+
+Launcher:
+
+```text
+00_RUN_PROBE_06310.cmd
+```
 
 ## Current do-not-repeat
 
@@ -122,4 +124,4 @@ Questions to answer before another build:
 - no shared `0x8003CD94..0x8003CDB4` rewrite;
 - no persistent/global flag;
 - no global force-height16;
-- no `s3+2` metadata assumption at `0x8003CCC0` without proof.
+- no `s3+2` metadata assumption at `0x8003CCC0`.
