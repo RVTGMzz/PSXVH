@@ -1,17 +1,17 @@
 # Gaia Master — trạng thái mới nhất
 
-Cập nhật: **2026-09-12 sau runtime test 0.6.2.16 FULL HEIGHT**.
+Cập nhật: **2026-09-12 sau runtime test 0.6.2.18 CLEAN ACCENT**, next là **0.6.2.19 VARIANT GRID**.
 
 ## Chốt kỹ thuật
 
-- Checksum BDP đã reverse và verify 60/60 nested + top-level.
-- Raw MODE2/Form1 EDC/ECC patch ổn định.
-- Full-width Latin CP932/Shift-JIS hiển thị đúng.
-- ASCII 1-byte hiển thị sai và **không dùng**.
-- Alpha 0.6.1 FRONT là baseline runtime ổn định: **397 patch**, output SHA1 `54d2fb026bc3b71c79861e723caffb4114caa34c`.
-- Translation master: 596 vị trí; 230 dòng pending vì full-width 2-byte vượt slot.
+- BDP checksum reverse + verify 60/60 nested + top-level.
+- MODE2/Form1 patcher + EDC/ECC ổn định.
+- Full-width Latin CP932/Shift-JIS: OK.
+- ASCII 1-byte: FAIL/mis-render, không dùng.
+- Alpha 0.6.1 FRONT là baseline runtime ổn định: 397 patch, SHA1 `54d2fb026bc3b71c79861e723caffb4114caa34c`.
+- Translation master: 596 vị trí; 230 dòng pending vì full-width 2-byte overflow slot.
 
-## Character Select / custom font — breakthrough
+## Character Select / custom font
 
 Visible probe:
 
@@ -21,13 +21,13 @@ owner nested BDP: entry 29
 local offset: +0x580
 ```
 
-Custom font trong `SLPS_020.75`:
+Custom font:
 
 ```text
-atlas static:   SLPS + 0x5C4EC
-mapping static: SLPS + 0x6B6CC
-atlas RAM:      0x8006BCEC
-mapping RAM:    0x8007AECC
+atlas static:    SLPS + 0x5C4EC
+mapping static:  SLPS + 0x6B6CC
+atlas RAM:       0x8006BCEC
+mapping RAM:     0x8007AECC
 860 glyphs
 72 bytes/glyph
 12x12 pixels
@@ -35,7 +35,7 @@ mapping RAM:    0x8007AECC
 LOW nibble first
 ```
 
-Mapping xác nhận:
+Mapping confirmed:
 
 ```text
 0x8273 Ｔ -> glyph 481
@@ -44,57 +44,56 @@ Mapping xác nhận:
 0x889F 亜 -> glyph 0
 ```
 
-## Probe timeline quan trọng
+## Font probe timeline
 
 ### 0.6.2.13 — BREAKTHROUGH PASS
-Bỏ toàn bộ renderer hook/code cave. Giữ control full-width `ＴＥＳＴ亜` và thay trực tiếp static atlas glyph #0 bằng glyph dựng từ `Ｅ` gốc.
+No hook/code cave. Static atlas glyph replacement works at runtime. Text khác bình thường, glyph cuối gần `Ế`.
 
-Runtime: glyph cuối hiện gần như `Ế`, màu/style gần font gốc, text khác bình thường.
+=> **Vietnamese glyph pipeline PASS.**
 
-=> **Vietnamese glyph pipeline đã PASS.**
+### 0.6.2.14 / 0.6.2.15
+Compact-body strategy rejected vì accented capitals nhìn nhỏ hơn native capitals.
 
-### 0.6.2.14 / 0.6.2.15 — compact-body strategy rejected
-Nén thân E để lấy thêm headroom cho dấu làm chữ có dấu nhỏ hơn chữ thường. Runtime feedback xác nhận không phù hợp production.
+### 0.6.2.16 FULL HEIGHT
+Giữ body `Ｅ` rows 2..11 byte-for-byte; dấu chỉ dùng rows 0..1. Runtime body size/baseline đúng, nhưng circumflex chưa đọc tự nhiên.
 
-=> Không dùng chiến lược thu nhỏ thân chữ.
+### 0.6.2.17 FULL HEIGHT AA ACCENT
+Accent geometry gần hơn nhưng phần mũ + sắc bị loang/shadow tối, user thấy phần cần sáng chưa rõ.
 
-### 0.6.2.16 FULL HEIGHT — runtime result
-Giữ `Ｅ` native nguyên kích thước, row 2..11 byte-for-byte. Nhét circumflex + acute vào đúng hai hàng trống row 0..1.
+### 0.6.2.18 CLEAN ACCENT — runtime result
+Bỏ dark AA/shadow ở dấu, chỉ dùng bright strokes. Runtime vẫn chưa đạt thẩm mỹ: glyph nhìn gần `Ế` nhưng circumflex/acute vẫn chưa đủ tự nhiên và sạch.
 
-Runtime:
+=> Không test tiếp kiểu một ROM / một tweak.
 
-- thân `Ｅ` đúng kích thước, baseline/style đúng;
-- dấu trên hiện được nhiều hơn;
-- glyph vẫn chưa đọc tự nhiên thành `Ế`, trông gần `É` với các điểm/nhánh dấu chưa rõ.
+## NEXT — 0.6.2.19 VARIANT GRID
 
-=> **Full-height strategy là hướng đúng.** Blocker hiện tại chỉ còn **2-row accent geometry**, không còn là renderer/mapping/size.
+Một ROM sẽ hiển thị **6 mẫu `Ế` full-height cùng lúc**, từ trái sang phải = mẫu 1..6.
 
-## NEXT — 0.6.2.17 FULL HEIGHT AA ACCENT
+Implementation diagnostic:
 
-Giữ nguyên body `Ｅ` 100%.
+- giữ native `Ｅ` body rows 2..11 byte-for-byte ở cả 6 mẫu;
+- chỉ thay rows 0..1;
+- tạm map 6 SJIS codes hợp lệ `889F,88A0,88A1,88A2,88A3,88A5` tới atlas slots `850..855`;
+- Character Select probe = full-width `ＴＥＳＴ` + 6 glyph variants;
+- không renderer hook / không Krom hook / không code cave.
 
-Chỉ thay hai hàng dấu bằng thiết kế pixel-font rõ hơn:
+6 mẫu:
 
-- circumflex peak dùng bright native index;
-- circumflex shoulders dùng darker native anti-alias/shadow indices để không nhập vào top bar `E`;
-- acute đặt tách bên phải, cũng dùng 2 mức sáng/tối;
-- body rows 2..11 giữ nguyên byte-for-byte.
+1. clean compact
+2. narrow / less clutter
+3. wide circumflex
+4. light native-edge shading
+5. minimal sparse
+6. left-shifted circumflex
 
-Mục tiêu runtime:
+User chỉ cần chọn mẫu đẹp nhất từ trái sang phải. Sau đó khóa style đó cho full Vietnamese glyph family.
 
-```text
-ＴＥＳＴẾ
-```
+## Sau khi chọn geometry
 
-với thân chữ bằng đúng `Ｅ` gốc và dấu `^ + ´` đọc được rõ trong 2 hàng headroom.
-
-Sau khi geometry đạt yêu cầu:
-
-1. khóa template full-height cho nhóm nguyên âm có dấu;
-2. tạo full Vietnamese glyph inventory;
-3. thiết kế compact codepage/runtime mapping không phá text Nhật chưa dịch;
-4. encode `vi_full` có dấu;
-5. xử lý 230 dòng overflow/repack;
-6. dọn mixed JP/VI;
-7. patch graphic text menus;
-8. QA full game + build reproducible patch package.
+1. build full Vietnamese glyph inventory;
+2. thiết kế compact runtime codepage/mapping;
+3. encode `vi_full` có dấu;
+4. giải 230 pending overflow rows;
+5. dọn mixed JP/VI;
+6. patch graphic text menus/title;
+7. full runtime QA + reproducible final build.
