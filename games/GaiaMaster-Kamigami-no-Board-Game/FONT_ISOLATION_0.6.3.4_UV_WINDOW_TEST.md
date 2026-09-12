@@ -1,54 +1,15 @@
 # Gaia Master — Font Isolation 0.6.3.4 UV WINDOW TEST
 
-## Why this probe exists
+Runtime test date: **2026-09-12**
+Status: **NEGATIVE DIAGNOSTIC / DO NOT RETEST**
 
-0.6.3.3 placed the extended target glyph at end-of-line so no following glyph could overwrite it.
+## Why this probe existed
 
-Runtime result was essentially unchanged from 0.6.3.2: lower target rows still missing.
+0.6.3.3 placed the extended target at end-of-line and still showed the same lower-row loss as 0.6.3.2, disproving following-glyph overwrite.
 
-Therefore:
+0.6.3.4 tested whether the missing lower rows already existed in VRAM but the sprite sampled the wrong vertical texture window.
 
-> following-glyph overwrite is disproven.
-
-The unresolved loss is inside the target's own copy/upload/window/display path.
-
-## New reverse finding
-
-VRAM upload queue is built around:
-
-```text
-0x8003CDE8..0x8003CE24
-```
-
-and queued by:
-
-```text
-0x800406F8
-```
-
-RECT:
-
-```text
-x = state+48
-y = state+40
-w = 4
-h = state+42 - state+40 + 1
-```
-
-RAM source pointer:
-
-```text
-state+96
-```
-
-Wide converted glyph geometry remains:
-
-```text
-6 source bytes/row -> 8 cache bytes/row
-16 rows -> 128 converted bytes
-```
-
-## 0.6.3.4 design
+## Probe design
 
 Start from stable 0.6.3.3:
 
@@ -58,11 +19,13 @@ Start from stable 0.6.3.3:
 
 Keep:
 
-- 16-row metadata/copy path;
-- visible sprite height 16;
-- baseline Y -4;
-- target at EOL;
-- native shared cache allocator/stride untouched.
+- 12x16 / 96-byte target source;
+- metadata copy height = 16 rows;
+- visible sprite height request = 16;
+- baseline Y `-4`;
+- target at end-of-line;
+- native shared cache allocator untouched;
+- no `CD94` rewrite.
 
 Change only:
 
@@ -70,32 +33,85 @@ Change only:
 target texture V += 4
 ```
 
-Hook:
+Hook site:
 
 ```text
 0x8003CCF0
 ```
 
-Native `subu v0,v0,v1` at `0x8003CCF4` runs in the jump delay slot. The cave then conditionally adds 4 for `0x889F`, stores texture V to descriptor byte `-10(s3)`, and resumes at `0x8003CCFC`.
+## Runtime result
 
-## Interpretation
+User screenshot shows:
 
-### If lower E rows appear
+- Japanese header normal;
+- `ＴＥＳＴ` normal;
+- target remains malformed/truncated rather than becoming a clean full lower-E view;
+- no global corruption/freeze;
+- shifting texture V did **not** recover the missing native E bottom in a useful/clean way.
 
-The final rows exist in VRAM. The bug is texture-window / UV / draw sampling.
+=> A simple wrong-V/window explanation is **not sufficient**.
+=> Do not repeat 0.6.3.4.
 
-Expected side effect: top accents move upward/out of the sampled window or disappear because sampling starts 4 rows lower.
+## Reverse after runtime result
 
-### If lower E rows remain missing / blank / garbage
+### Wide copy loop is still structurally 16-row capable
 
-The last rows are already absent before texture sampling. Continue reverse in converted-cache or VRAM-upload content/rectangle, not sprite windowing.
-
-## Safety
-
-0.6.3.4 does **not** patch the unsafe shared cache advance block:
+Function:
 
 ```text
-0x8003CD94..0x8003CDB4
+0x8003C67C
 ```
 
-Stop immediately if unrelated Japanese corrupts or the game freezes.
+For custom wide glyphs:
+
+```text
+6 source bytes/row -> 8 converted/cache bytes/row
+```
+
+Metadata `height=15` makes the loop process 16 rows.
+
+### VRAM upload rectangle is NOT a 12-row glyph rectangle
+
+Font-cache initialization shows default cache page geometry:
+
+```text
+cache page width parameter  = 32
+cache page height parameter = 240
+VRAM base Y                 = 256
+```
+
+State setup around:
+
+```text
+0x8003D488..0x8003D5F4
+```
+
+creates:
+
+```text
+state+40 = VRAM page start Y
+state+42 = state+40 + pageHeight - 1
+```
+
+Final flush around:
+
+```text
+0x8003DB78..0x8003DBE0
+```
+
+queues a RECT covering the full cache page height, not a native 12-row glyph-only upload.
+
+Therefore the missing four rows are **not explained by RECT.h being hardcoded to 12**.
+
+## Next diagnostic
+
+Use **0.6.3.5 POST-COPY RAM SENTINEL**.
+
+Immediately after `0x8003C67C` returns successfully, target `0x889F` only will overwrite converted RAM rows:
+
+```text
+rows 10..11 = palette-index-7 full band  # control
+rows 12..15 = palette-index-1 full band  # test
+```
+
+This directly answers whether converted rows 12..15 survive the RAM -> VRAM -> sprite path.
