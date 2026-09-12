@@ -1,6 +1,6 @@
 # HANDOFF — Gaia Master PS1 Việt hóa
 
-> **Current source-of-truth:** custom Vietnamese glyph pipeline is proven. Native 12x12 is rejected for production stacked diacritics. 0.6.3.0 proves 12x16 structurally. 0.6.3.1 shared cache-stride rewrite is unsafe. 0.6.3.2 is stable with lower-row loss. 0.6.3.3 disproved following-glyph overwrite. 0.6.3.4 UV+4 was negative. 0.6.3.5 late-s0 sentinel did not fire. 0.6.3.6 persistent early-flag froze after Sony logo. 0.6.3.7 source-row sentinel finally proved rows 10..11 display while rows 12..15 do not fully display. 0.6.3.8 global force-height16 broke layout. Current probe is **0.6.3.9 HEIGHT FROM METADATA**.
+> **Current source-of-truth:** custom Vietnamese glyph pipeline is proven. Native 12x12 is rejected for production stacked diacritics. Extended-height reverse reached 0.6.3.9, which failed because the assumed per-glyph height source at `s3+2` near `0x8003CCC0` was wrong. There is currently **NO user probe to test**. Next phase is reverse-only around `0x8003CCA0..0x8003CD20` before building 0.6.3.10.
 
 ## Source / baseline
 
@@ -68,9 +68,9 @@ Native `Ｅ` glyph 466 is style reference.
 
 `0.6.2.13 STATIC SLOT / NO HOOK` proved direct static-atlas Vietnamese rendering works. 0.6.2.14..20 proved stacked Vietnamese marks do not fit production-quality inside 12x12 without shrinking the base letter.
 
-=> Production direction is extended height.
+=> production needs an extended-height path.
 
-## Extended-height facts
+## Extended-height facts proven so far
 
 Character renderer:
 
@@ -80,7 +80,7 @@ Character renderer:
 
 Native custom-atlas pointer math near `0x8003C4F8..0x8003C500` computes `glyph_index * 72`.
 
-Glyph metadata struct:
+Early glyph metadata struct produced in the `0x8003C210` path:
 
 ```text
 +0 width metric
@@ -103,151 +103,101 @@ Therefore:
 16 rows -> 128 converted bytes
 ```
 
-Metadata height=15 genuinely runs 16 source rows.
+Metadata height=15 genuinely drives 16 source-row loop iterations at the copy stage.
 
-Sprite descriptor relevant bytes:
+Font cache page is much taller than 12 rows, so a simple fixed 12-row page/upload rectangle is not enough to explain the missing lower rows.
 
-```text
-+4/+5 texture U/V
-+6 visible width
-+7 visible height
-```
+## Probe history — 0.6.3.x
 
-Font cache page itself is far taller than 12 rows, so a simple page/upload-height=12 explanation is insufficient.
-
-## Probe history
-
-### 0.6.3.0 EXTENDED HEIGHT — STRUCTURAL PASS
-
-12x16 source + 16-row copy + taller footprint is real. Baseline intentionally not corrected. Do not retest.
+### 0.6.3.0 EXTENDED HEIGHT
+Historical structural evidence that taller source/copy behavior is possible. Do not retest. Later late-stage display assumptions must be revalidated.
 
 ### 0.6.3.1 BASELINE + 16-ROW STRIDE — UNSAFE FAIL
-
-Naive shared cache/VRAM advance rewrite around `0x8003CD94..0x8003CDB4` caused global corruption and freeze. Never repeat.
+Naive shared cache/VRAM advance rewrite around `0x8003CD94..0x8003CDB4` caused global text corruption + freeze. Never repeat.
 
 ### 0.6.3.2 BASELINE ONLY — STABLE WITH LOWER-ROW LOSS
-
-Control `ＴＥＳＴ亜Ａ`. Japanese/TEST stable, A sentinel intact, baseline improved, lower target rows missing.
+Control `ＴＥＳＴ亜Ａ`. Japanese/TEST stable, A sentinel intact, lower target rows still missing.
 
 ### 0.6.3.3 EOL OVERWRITE — OVERWRITE DISPROVEN
-
 Target at end-of-line still loses same lower rows.
 
 ### 0.6.3.4 UV WINDOW — NEGATIVE
-
-Target texture `V+4` does not restore lower E cleanly.
+Target texture `V+4` does not recover the lower E cleanly.
 
 ### 0.6.3.5 POST-COPY SENTINEL — NO SENTINEL
-
-Late `s0` target check at `0x8003CC4C` was unreliable. No conclusion about rows12..15.
+Late `s0` target identity was unreliable; no conclusion about rows12..15.
 
 ### 0.6.3.6 EARLY-FLAG SENTINEL — UNSAFE FAIL
+Persistent/global flag causes repeatable freeze just after Sony logo. Never retest and never reuse this flag strategy.
 
-Persistent/global early flag causes repeatable freeze immediately after Sony logo. Never retest. Never use global mutable cave flag for target identity.
-
-### 0.6.3.7 SOURCE ROW SENTINEL — RUNTIME COMPLETE
-
-Diagnostic baked directly into target 12x16 source:
+### 0.6.3.7 SOURCE ROW SENTINEL — HIGH-VALUE RESULT
+Sentinel is baked directly into the target 12x16 source:
 
 ```text
-rows 10..11 = full dark/gray band
-rows 12..15 = full bright white band
+rows10..11 = dark/gray full band
+rows12..15 = bright white full band
 ```
 
 Runtime:
-
 - Japanese header and TEST normal;
 - dark rows10..11 clearly visible;
-- rows12..15 do not appear as a thick 4-row white block;
-- only a thin bright edge remains below.
+- bright rows12..15 do not appear as a thick four-row block;
+- only a thin bright edge remains.
 
-=> source reaches at least rows10..11 and the lower four source rows are not fully visible.
-=> this result is independent of late target identity because sentinel is source data.
+=> lower source rows are genuinely not fully visible. This result does not depend on late target detection.
 
 ### 0.6.3.8 FORCE SPRITE HEIGHT16 — DIAGNOSTIC FAIL
+Forcing height16 globally causes blank textbox / vertical TEST layout. Therefore the block at `0x8003CCC0` is not a simple safe global visible-height field.
 
-Forced visible sprite height=16 for every glyph.
-
-Runtime:
-
-- textbox can become blank;
-- `TEST` stacks vertically;
-- global text layout is disturbed.
-
-=> `0x8003CCC0`/height path is not safe to force globally.
-=> do not retest.
-
-## Current hypothesis
-
-The early metadata stage already stores per-glyph height:
+### 0.6.3.9 HEIGHT FROM METADATA — DIAGNOSTIC FAIL
+Probe used:
 
 ```text
-metadata +2 = height_minus_1
-native = 11
-extended target = 15
+lhu v0,2(s3)
 ```
 
-Earlier target-specific sprite-height probes used late `s0`, which is not trustworthy. 0.6.3.8 removed `s0` but wrongly forced all glyphs to 16.
+at `0x8003CCC0`, assuming `s3` still pointed to the early current-glyph metadata struct.
 
-A cleaner solution is to derive final visible height from the current glyph metadata itself.
+Runtime screenshot:
+- TEST stacks vertically;
+- target becomes noisy/garbled texture block;
+- layout remains broken;
+- thick bright rows12..15 still not recovered.
 
-## CURRENT — 0.6.3.9 HEIGHT FROM METADATA
+=> assumption is false. `s3` at `0x8003CCC0` is not proven to be the original glyph metadata pointer.
 
-Start from stable 0.6.3.7 source-sentinel build.
+## CURRENT PHASE — REVERSE ONLY
 
-At sprite-height hook `0x8003CCC0`, replace global/native height load with:
+**Do not ask the user to test another build yet.**
+
+Reverse exact range:
 
 ```text
-lhu v0,2(s3)   # current glyph metadata height_minus_1
+0x8003CCA0 .. 0x8003CD20
 ```
 
-then resume at native:
+Required questions before 0.6.3.10:
 
-```text
-0x8003CCC8 addiu v0,v0,1
-```
+1. trace lifetime/meaning of `s1`, `s2`, `s3` entering this block;
+2. identify what `lbu 64(s1)` at `0x8003CCC0` really means;
+3. identify every consumer/store of the value after `0x8003CCC8 addiu v0,v0,1`;
+4. determine whether this value is texture height, glyph advance, line metric, tile/cache dimension, or something else;
+5. identify the actual descriptor/primitive field controlling vertical texture sampling for the current glyph by dataflow, not register-name inference;
+6. re-check the earlier claim that descriptor byte `+7` is visible height and prove where/when that descriptor exists.
 
-Expected:
-
-```text
-native glyphs: 11+1 = 12px
-extended target: 15+1 = 16px
-```
-
-No late `s0`, no global force-height16, no flag, no post-copy hook, no UV patch, no shared allocator patch.
-
-Source sentinel remains:
-
-```text
-rows10..11 dark/gray
-rows12..15 bright white
-```
-
-Runtime question:
-
-> Does TEST/native layout return to normal AND does the target finally show a thick 4-row white lower block?
-
-Package:
-
-```text
-GaiaMaster_FontIsolation_0.6.3.9_HEIGHT_FROM_METADATA.zip
-```
-
-Launcher:
-
-```text
-00_RUN_PROBE_0639.cmd
-```
+Only after those are resolved should a new runtime probe be built.
 
 ## Hard do-not-repeat
 
 - no Krom path;
 - no production 12x12 stacked-accent polishing;
 - no retest 0.6.2.18;
-- no retest 0.6.3.0..0.6.3.8;
-- no naive shared `CD94` allocator/cursor rewrite;
-- no persistent/global flag like 0.6.3.6;
-- no global force-height16 like 0.6.3.8.
+- no retest 0.6.3.0..0.6.3.9;
+- no naive shared `0x8003CD94..0x8003CDB4` rewrite;
+- no persistent/global target flag;
+- no global force-height16;
+- no late `s0` target identity without proof;
+- no `s3+2` height assumption at `0x8003CCC0` without register-lifetime proof.
 
 ## After extended-height path is stable
 
@@ -262,9 +212,9 @@ Launcher:
 
 ## User testing preference
 
-- Character Select visible probes;
+- Character Select visible probes only when needed;
 - no deep gameplay unless necessary;
 - maximize information per runtime test;
 - never repeat tested builds;
 - stop immediately on true global corruption/freeze;
-- structural fixes over cosmetic iteration.
+- reverse first, probe second.
