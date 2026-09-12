@@ -1,6 +1,6 @@
 # HANDOFF — Gaia Master PS1 Việt hóa
 
-> **Current source-of-truth:** custom Vietnamese glyph pipeline is proven. Native 12x12 is rejected for production stacked diacritics. 0.6.3.0 proves target 12x16 structurally. 0.6.3.1 shared cache-stride rewrite is unsafe and caused global corruption/freeze. 0.6.3.2 is stable with lower-row loss. 0.6.3.3 disproved following-glyph overwrite. 0.6.3.4 UV+4 did not recover the lower E correctly. Current probe: **0.6.3.5 POST-COPY RAM SENTINEL**.
+> **Current source-of-truth:** custom Vietnamese glyph pipeline is proven. Native 12x12 is rejected for production stacked diacritics. 0.6.3.0 proves target 12x16 structurally. 0.6.3.1 shared cache-stride rewrite is unsafe and caused global corruption/freeze. 0.6.3.2 is stable with lower-row loss. 0.6.3.3 disproved following-glyph overwrite. 0.6.3.4 UV+4 did not recover the lower E. 0.6.3.5 post-copy sentinel showed no sentinel because target identification at the late hook was unreliable. Current probe: **0.6.3.6 EARLY-FLAG POST-COPY SENTINEL**.
 
 ## Source / baseline
 
@@ -71,22 +71,14 @@ Native full-width `Ｅ` = glyph 466 style reference.
 - 0.6.2.18 already tested; never retest.
 - 0.6.3.0 already tested; never retest.
 - 0.6.3.1 unsafe; never retest.
-- 0.6.3.2 already tested; do not repeat.
-- 0.6.3.3 already tested; do not repeat.
-- 0.6.3.4 already tested; do not repeat.
+- 0.6.3.2 / 0.6.3.3 / 0.6.3.4 / 0.6.3.5 already tested; do not repeat.
 - Never repeat naive shared cache/VRAM cursor rewrite at `0x8003CD94..0x8003CDB4`.
 
-## 0.6.2.x conclusion
+## Native 12x12 conclusion
 
-### 0.6.2.13 STATIC SLOT / NO HOOK — breakthrough pass
+`0.6.2.13 STATIC SLOT / NO HOOK` proved direct static-atlas Vietnamese glyph rendering works. Later 12x12 geometry experiments showed stacked marks such as `Ế, Ể, Ẳ, Ỗ, Ử, Ấ, Ố` do not have enough headroom without shrinking the native base-letter body.
 
-Direct static-atlas replacement renders custom Vietnamese glyph data while surrounding text remains normal.
-
-### 0.6.2.14..0.6.2.20 — production 12x12 rejected
-
-12x12 cannot comfortably hold stacked Vietnamese marks while preserving native base-letter size.
-
-Reject for production `Ế, Ể, Ẳ, Ỗ, Ử, Ấ, Ố...`.
+=> production must use an extended-height path.
 
 ## Extended-height renderer facts
 
@@ -127,14 +119,14 @@ Per source row:
 6 source bytes -> 8 converted/cache bytes
 ```
 
-So:
+Therefore:
 
 ```text
 12 rows -> 96 converted bytes
 16 rows -> 128 converted bytes
 ```
 
-Metadata height=15 genuinely makes the loop iterate 16 rows.
+Metadata height=15 genuinely drives 16 loop iterations.
 
 ### Sprite descriptor
 
@@ -146,24 +138,23 @@ Metadata height=15 genuinely makes the loop iterate 16 rows.
 
 Target visible-height hook requests 16.
 
-## 0.6.3.0 EXTENDED HEIGHT — structural pass
+### Cache/upload page
 
-12x16 source + 16-row copy + taller target footprint is real. Baseline was intentionally not corrected in that build.
+Font cache initialization uses a page much taller than 12 rows, roughly 240 rows. Final flush uploads the cache page, so missing target rows are not explained by a glyph-only VRAM upload RECT hardcoded to 12.
 
-## 0.6.3.1 BASELINE + 16-ROW STRIDE — unsafe fail
+## Probe history — 0.6.3.x
 
-Added baseline Y -4 plus target rewrite of shared cache RAM/VRAM advance around `CD94`.
+### 0.6.3.0 EXTENDED HEIGHT — structural pass
 
-Runtime:
+12x16 source + 16-row copy + taller target footprint is real. Baseline was intentionally not corrected.
 
-- unrelated Japanese corrupt/repeat;
-- Character Select corrupt;
-- later screen garbled;
-- freeze.
+### 0.6.3.1 BASELINE + 16-ROW STRIDE — unsafe fail
 
-=> shared allocator/cursor rewrite is unsafe.
+Target-specific mutation of shared cache RAM/VRAM advance around `CD94` caused unrelated Japanese corruption, Character Select corruption, later garbling and freeze.
 
-## 0.6.3.2 BASELINE ONLY — stable pass with lower-row loss
+=> never repeat shared allocator/cursor rewrite.
+
+### 0.6.3.2 BASELINE ONLY — stable pass with lower-row loss
 
 Control:
 
@@ -171,115 +162,103 @@ Control:
 ＴＥＳＴ亜Ａ
 ```
 
-Runtime stable, `Ａ` intact, baseline improved, but lower extended target rows missing/cut.
+Runtime stable, baseline improved, trailing A intact, but lower extended target rows missing/cut.
 
-## 0.6.3.3 EOL OVERWRITE — overwrite disproven
+### 0.6.3.3 EOL OVERWRITE — overwrite disproven
 
-Control:
+Target at end-of-line still loses same lower rows.
+
+=> following glyph is not overwriting the bottom.
+
+### 0.6.3.4 UV WINDOW TEST — negative
+
+Target texture `V += 4` did not restore lower E rows correctly.
+
+=> simple UV/window offset is insufficient.
+
+### 0.6.3.5 POST-COPY RAM SENTINEL — sentinel not observed
+
+Intended post-copy diagnostic at `0x8003CC4C`:
 
 ```text
-ＴＥＳＴ亜
+rows 10..11 = dark/gray band
+rows 12..15 = bright white band
 ```
 
-Target at EOL still loses the same lower rows.
-
-=> following glyph does not cause the loss.
-
-## 0.6.3.4 UV WINDOW TEST — negative diagnostic
-
-Kept stable EOL path and changed only:
-
-```text
-target texture V += 4
-```
-
-Runtime user screenshot:
+Runtime:
 
 - Japanese header normal;
 - TEST normal;
-- target remains malformed/truncated;
-- lower native E does not return cleanly/correctly;
+- target resembles previous truncated glyph;
+- neither obvious gray nor white full-width band is visible;
 - no global corruption/freeze.
 
-=> a simple bad texture-V/window explanation is insufficient.
+=> do **not** infer clipping.
 
-Do not retest 0.6.3.4.
+Strongest issue: 0.6.3.5 checked target using late-stage `s0 & 0xFFFF == 0x889F`. At `0x8003CC4C`, `s0` is not proven to still be the original Shift-JIS code.
 
-## New reverse after 0.6.3.4
+## CURRENT PROBE — 0.6.3.6 EARLY-FLAG POST-COPY SENTINEL
 
-### Font cache page/upload is not native-12-row-sized
+Purpose: rerun the exact same RAM sentinel question with reliable target identity.
 
-Initialization around:
+### Early target flag
 
-```text
-0x8003D488..0x8003D5F4
-```
-
-uses default cache page parameters roughly:
+At the metadata hook, where `s0` is already proven trustworthy:
 
 ```text
-width  = 32
-height = 240
-VRAM Y = 256
+0x889F -> FLAG = 1
+other  -> FLAG = 0
 ```
 
-State:
+A dedicated runtime flag word is stored in the proven executable safe-cave region.
 
-```text
-state+40 = page start Y
-state+42 = page start Y + pageHeight - 1
-```
+The late post-copy hook at `0x8003CC4C` reads only FLAG. It never checks `s0`.
 
-Final flush around:
+### Sentinel remains unchanged
 
-```text
-0x8003DB78..0x8003DBE0
-```
-
-queues a RECT for the full cache page using source `state+96`.
-
-Therefore missing target rows are **not explained by VRAM upload RECT.h being hardcoded to 12**.
-
-## CURRENT PROBE — 0.6.3.5 POST-COPY RAM SENTINEL
-
-Purpose: directly test converted RAM rows 10..15 immediately after `0x8003C67C` returns.
-
-Clean hook site:
-
-```text
-0x8003CC4C
-```
-
-Target `0x889F` only, current converted destination = `state+100`.
-
-Overwrite:
+For FLAG=1 only:
 
 ```text
 rows 10..11 = full palette-index-7 band  # dark/gray CONTROL
-rows 12..15 = full palette-index-1 band  # bright TEST
+rows 12..15 = full palette-index-1 band  # bright white TEST
 ```
 
-Interpretation:
+### Interpretation
 
-### A — both bands visible
-Rows 12..15 survive RAM -> VRAM -> sprite. Old missing bottom was due source/copy glyph contents/construction.
+A. Gray + white bands visible:
 
-### B — control rows10..11 visible, bright rows12..15 absent
-Hook executed, but rows12..15 are lost after converted RAM. Focus on post-copy cache/upload/draw geometry.
+> rows12..15 survive converted RAM -> VRAM -> sprite. Previous lower-row loss is caused by source/copy glyph contents/construction, not downstream clipping.
 
-### C — neither band visible
-Do not infer clipping. Sentinel hook/target condition failed or did not reach visible target.
+B. Gray control visible, white bottom absent:
+
+> rows12..15 are lost after converted RAM; reverse post-copy cache/upload/draw geometry.
+
+C. Neither visible:
+
+> the assumed current converted destination/path is still wrong. Do not infer clipping.
+
+### Safety
+
+Unchanged from stable path:
+
+- 12x16 target source;
+- 16-row metadata/copy path;
+- visible height 16;
+- baseline Y -4;
+- target at end-of-line;
+- no UV +4;
+- no `CD94` shared allocator patch.
 
 Package:
 
 ```text
-GaiaMaster_FontIsolation_0.6.3.5_POST_COPY_RAM_SENTINEL.zip
+GaiaMaster_FontIsolation_0.6.3.6_EARLY_FLAG_POST_COPY_SENTINEL.zip
 ```
 
 Launcher:
 
 ```text
-00_RUN_PROBE_0635.cmd
+00_RUN_PROBE_0636.cmd
 ```
 
 ## After extended-height path is truly stable
