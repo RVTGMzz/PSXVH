@@ -63,82 +63,69 @@ Runtime shows rows10..11 but not the full rows12..15 block.
 
 ### 0.6.3.10 HEIGHT FROM STACK METADATA
 **RUNTIME COMPLETE / STABLE NEGATIVE**.
-
-Uses proven:
-
-```text
-lhu v0,18(sp)
-```
-
-Runtime stable but target still same as 0.6.3.7. Final primitive height is not the main blocker. Do not retest.
+Uses proven `lhu v0,18(sp)`. Runtime stable but target still same as 0.6.3.7. Final primitive height is not the main blocker. Do not retest.
 
 ### 0.6.3.11 RAM TAIL MIRROR
 **RUNTIME COMPLETE / INCONCLUSIVE NEGATIVE**.
-
-Attempted:
-
-```text
-converted rows12..15 dest+96..127
--> rows8..11 dest+64..95
-```
-
-Runtime:
-- header/TEST stable;
-- no obvious bright 4-row mirror block;
-- target essentially unchanged.
-
-Problem: no independent visual control proved hook execution and current destination pointer.
-
-=> no conclusion yet about whether tail is absent.
-=> do not retest.
+No bright mirror block, but no independent control proved hook/destination correctness. Do not retest.
 
 ### 0.6.3.12 CONTROLLED RAM TAIL MIRROR
-**BUILT / CURRENT PROBE**.
+**DIAGNOSTIC FAIL / LAYOUT CORRUPTION**.
 
-Target identity:
+Runtime:
+- `TEST` becomes vertical;
+- target becomes texture/block garbage;
+- control/mirror cannot be interpreted;
+- post-copy write itself is perturbing live state/layout.
 
-```text
-lhu 18(sp) == 15
-```
+Conclusion:
+- do not infer anything about rows12..15 from 0.6.3.12;
+- do not write through `state+100` again until raw executable dataflow is re-verified;
+- never retest 0.6.3.12.
 
-At post-copy hook:
+## CURRENT — READ-ONLY REVERSE DUMP
 
-```text
-dest = *(s1+100)
-```
+No runtime game probe is current.
 
-Two visual signals:
-
-```text
-CONTROL rows6..7 = full 0x77 dark/gray
-MIRROR  rows12..15 -> rows8..11
-```
-
-Interpretation:
-
-- dark control + bright mirror => converted tail exists; blocker downstream in cache/VRAM placement;
-- dark control + no bright mirror => hook/dest correct but tail content missing/wrong immediately after copy; reverse `0x8003C67C`;
-- no dark control => hook/destination model still wrong.
-
-Package:
+Tool:
 
 ```text
-GaiaMaster_FontIsolation_0.6.3.12_CONTROLLED_RAM_TAIL_MIRROR.zip
+GaiaMaster_063_REVERSE_DUMP_0.1.zip
+00_RUN_REVERSE_DUMP.cmd
 ```
 
-Launcher:
+Output:
 
 ```text
-00_RUN_PROBE_06312.cmd
+GaiaMaster_063_REVERSE_DUMP.txt
 ```
+
+This tool does not patch the ROM and does not require emulator/game boot.
+
+It dumps the exact MIPS code around:
+
+```text
+0x8003C180..0x8003C780
+0x8003C880..0x8003CE80
+0x8003D380..0x8003D540
+0x8003D980..0x8003DAA0
+0x8003DB40..0x8003DC40
+```
+
+Next runtime build is forbidden until the dump resolves:
+- true destination register inside `0x8003C67C`;
+- lifetime of `state+100` across the call;
+- cache-page placement and per-glyph Y;
+- exact path from converted rows to record U/V/H.
 
 ## Current do-not-repeat
 
 - no Krom path;
 - no production 12x12 stacked-accent polishing;
 - no retest 0.6.2.18;
-- no retest 0.6.3.0..0.6.3.11;
+- no retest 0.6.3.0..0.6.3.12;
 - no shared `0x8003CD94..0x8003CDB4` rewrite;
 - no persistent/global flag;
 - no global force-height16;
-- no `s3+2` metadata assumption.
+- no `s3+2` metadata assumption;
+- no post-copy write through `state+100` until reverse proves its lifetime.
