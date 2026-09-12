@@ -243,6 +243,33 @@ Preferred next reverse:
 3. or build a separate extended Vietnamese cache/atlas path;
 4. then test multiple extended Vietnamese glyphs followed by native glyphs.
 
+## Saved checkpoint / archive map
+
+The following files must be preserved and read before continuing in a future chat:
+
+```text
+LATEST.md
+HANDOFF_CURRENT.md
+CHARACTER_SELECT_FONT_REVERSE_0.1.md
+PROBE_BUILD_INDEX.md
+FONT_ISOLATION_0.6.3.1_UNSAFE_FAIL.md
+FONT_ISOLATION_0.6.3.2_STABLE_PASS.md
+FONT_ISOLATION_0.6.3.3_EOL_OVERWRITE_TEST.md
+PS1_LOCALIZATION_REUSABLE_LESSONS.md
+NEXT_CHAT_PROMPT.md
+```
+
+Local packages referenced by the current checkpoint:
+
+```text
+GaiaMaster_FontIsolation_0.6.3.2_BASELINE_ONLY.zip
+GaiaMaster_FontIsolation_0.6.3.3_EOL_OVERWRITE_TEST.zip
+```
+
+`PROBE_BUILD_INDEX.md` is the authoritative anti-confusion index for old probe statuses and package names.
+
+`PS1_LOCALIZATION_REUSABLE_LESSONS.md` preserves methodology reusable across future PS1 projects, including the conclusion that Japanese Shift-JIS/custom-font titles are often harder than US/EU Latin titles, though engine-specific exceptions remain.
+
 ## Long-term after stable extended-height path
 
 1. production-safe extended Vietnamese atlas/cache storage;
