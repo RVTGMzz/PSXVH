@@ -1,6 +1,6 @@
 # HANDOFF — Gaia Master PS1 Việt hóa
 
-> **Current source-of-truth:** custom Vietnamese atlas path is proven. Native 12x12 is rejected for production stacked diacritics. 0.6.3.7 proved lower source rows are not fully visible. 0.6.3.10 used the dataflow-proven current glyph height from `sp+18` and runtime stayed stable but looked identical to 0.6.3.7, so final visible sprite height is not the remaining blocker. Reverse now places the blocker before final primitive sampling, in converted RAM / cache / VRAM placement. Current probe: **0.6.3.11 RAM TAIL MIRROR**.
+> **Current source-of-truth:** custom Vietnamese atlas path is proven. Native 12x12 is rejected for production stacked diacritics. Extended-height 12x16 remains the production direction. 0.6.3.7 proved lower source rows are not fully visible. 0.6.3.10 ruled out final primitive height as the main blocker. 0.6.3.11 RAM TAIL MIRROR showed no bright mirrored tail, but lacked an independent control proving the post-copy hook/destination model. Current probe is **0.6.3.12 CONTROLLED RAM TAIL MIRROR**.
 
 ## Source / baseline
 
@@ -19,7 +19,7 @@
 - 230 rows pending because full-width 2-byte text overflows fixed slots;
 - mixed JP/VI + graphic text remain after font work.
 
-## Atlas facts
+## Proven atlas / encoding facts
 
 ```text
 atlas RAM    = 0x8006BCEC
@@ -30,7 +30,7 @@ mapping file = SLPS + 0x6B6CC
 native 12x12 / 72-byte / 4bpp / LOW nibble first
 ```
 
-Confirmed mappings:
+Confirmed:
 
 ```text
 0x8273 Ｔ -> glyph 481
@@ -49,12 +49,12 @@ local offset = +0x580
 
 ## Production direction
 
-0.6.2.13 proved direct custom-atlas rendering.
-0.6.2.14..20 proved stacked Vietnamese marks such as `Ế/Ể/Ẳ/Ỗ/Ử/Ấ/Ố` do not fit production-quality inside native 12x12 without shrinking the base body.
+0.6.2.13 proved static custom-atlas Vietnamese rendering.
+0.6.2.14..20 proved stacked Vietnamese diacritics do not fit production-quality inside native 12x12 without shrinking the base letter.
 
-=> Production direction remains extended height.
+=> Keep extended-height work. Do not resume 12x12 polish.
 
-## Extended-height renderer facts
+## Extended-height proven facts
 
 Renderer entry:
 
@@ -62,7 +62,7 @@ Renderer entry:
 0x8003C210
 ```
 
-Glyph metadata struct:
+Glyph metadata:
 
 ```text
 +0 width metric
@@ -71,176 +71,163 @@ Glyph metadata struct:
 +8 custom-atlas flag
 ```
 
-### Source/copy
+Caller lifetime:
+
+```text
+0x8003CAC0  a2 = sp+16
+0x8003C210  builds metadata there
+0x8003CC3C  a1 = sp+16
+0x8003C67C  consumes same metadata
+```
+
+Therefore:
+
+```text
+current height_minus_1 = lhu 18(sp)
+current source pointer  = *(sp+20)
+```
 
 Wide copy routine:
 
 ```text
 0x8003C67C
+6 source bytes/row -> 8 converted bytes/row
 ```
 
-For target custom-atlas metadata width=12, it uses the wide path:
+Target metadata height=15 requests 16 source rows:
 
 ```text
-6 source bytes per row -> 8 converted/cache bytes per row
-12 rows -> 96 bytes
-16 rows -> 128 bytes
+12 rows -> 96 converted bytes
+16 rows -> 128 converted bytes
 ```
-
-Height=15 genuinely drives 16 iterations.
-
-### Caller metadata lifetime
-
-```text
-0x8003CAC0  a2 = sp+16
-0x8003C210  writes metadata there
-0x8003CC3C  a1 = sp+16
-0x8003C67C  consumes same metadata
-```
-
-Current source pointer is therefore `*(sp+20)`.
-Current height_minus_1 is `lhu 18(sp)`.
-
-### Converted cache state
 
 Before copy:
 
 ```text
-0x8003CC34  a2 = *(s1+100)   # current converted destination
+0x8003CC34  a2 = *(s1+100)
 ```
 
-Native allocator later advances at:
+Native allocator later advances around:
 
 ```text
 0x8003CD94..0x8003CDB4
 ```
 
-Do not rewrite this block naively; 0.6.3.1 proved that unsafe.
+Never rewrite that shared block naively; 0.6.3.1 caused global corruption/freeze.
 
-### VRAM upload
+VRAM upload is page-based, not a per-glyph hardcoded 12-row RECT.
 
-Page upload queue around:
-
-```text
-0x8003CDE8..0x8003CE24
-```
-
-Cleanup/final page upload around:
+Final 16-byte glyph record is consumed around `0x8003D9FC..0x8003DA50`:
 
 ```text
-0x8003DBA4..0x8003DBE0
+record+4 -> texture U
+record+5 -> texture V
+record+6 -> primitive width
+record+7 -> primitive height
 ```
-
-Upload is page-based, not a hardcoded per-glyph 12-row RECT.
-
-### Final primitive consumer
-
-16-byte glyph output record is consumed around `0x8003D9FC..0x8003DA50`.
-
-Confirmed:
-
-```text
-record+4  -> texture U
-record+5  -> texture V
-record+6  -> primitive width
-record+7  -> primitive height
-```
-
-Thus sprite record height really reaches final GPU primitive.
 
 ## High-value probe history
 
-### 0.6.3.1 — UNSAFE FAIL
-Naive shared cache/VRAM cursor stride rewrite caused global corruption + freeze. Never repeat.
+### 0.6.3.7 SOURCE ROW SENTINEL
 
-### 0.6.3.2 — STABLE WITH LOWER-ROW LOSS
-Stable baseline correction, target bottom still missing.
-
-### 0.6.3.3 — EOL OVERWRITE DISPROVEN
-Target at end-of-line still loses same bottom.
-
-### 0.6.3.4 — UV+4 NEGATIVE
-Texture V shift does not recover bottom.
-
-### 0.6.3.6 — UNSAFE FAIL
-Persistent early/global target flag freezes after Sony logo. Never reuse.
-
-### 0.6.3.7 — SOURCE ROW SENTINEL / HIGH VALUE
-Target source rows:
+Target source:
 
 ```text
-rows10..11 = dark/gray full band
-rows12..15 = bright white full band
+rows10..11 = full 0x77 dark/gray
+rows12..15 = full 0x11 bright white
 ```
 
 Runtime:
-- header/TEST normal;
+- Japanese/TEST normal;
 - dark rows10..11 visible;
-- rows12..15 do not appear as full 4-row white block;
+- bright rows12..15 not visible as full 4-row block;
 - only thin bright edge below.
 
-### 0.6.3.8 — DIAGNOSTIC FAIL
-Global force-height16 breaks layout.
+### 0.6.3.10 HEIGHT FROM STACK METADATA
 
-### 0.6.3.9 — DIAGNOSTIC FAIL
-`s3+2` false metadata assumption; runtime vertical TEST/garbage. Reverse proved `s3=s5+15`.
+Uses proven `lhu 18(sp)` for final geometry. Runtime stable but visually same as 0.6.3.7.
 
-### 0.6.3.10 — STABLE NEGATIVE
-Uses proven `lhu 18(sp)` per-current-glyph height. Runtime is **same as 0.6.3.7**.
+=> primitive visible height is not the main blocker.
 
-=> final primitive height is not the missing-row blocker.
-=> do not retest 0.6.3.10.
+### 0.6.3.11 RAM TAIL MIRROR — RUNTIME COMPLETE / INCONCLUSIVE NEGATIVE
 
-## CURRENT — 0.6.3.11 RAM TAIL MIRROR
-
-Question:
-
-> Do converted rows12..15 exist in RAM immediately after `0x8003C67C` returns?
-
-Target identity does not use late `s0` and does not use global flag.
-
-Use source pointer from current metadata:
+Mirrored:
 
 ```text
-*(sp+20) == 0x8007ABFC
+converted rows12..15 dest+96..127
+-> rows8..11 dest+64..95
 ```
 
-where:
+Runtime screenshot:
+- TEST/header normal;
+- no obvious bright 4-row mirror block;
+- target essentially same as earlier stable probes.
+
+But 0.6.3.11 had no visual control proving its post-copy hook and `state+100` destination assumption were both correct.
+
+=> do not yet conclude rows12..15 are absent.
+=> do not retest 0.6.3.11.
+
+## CURRENT — 0.6.3.12 CONTROLLED RAM TAIL MIRROR
+
+Purpose: resolve 0.6.3.11 ambiguity in one screenshot.
+
+Target identity now uses only proven metadata:
 
 ```text
-0x8007ABFC = atlas RAM 0x8006BCEC + slot850 * 72
+lhu 18(sp) == 15
 ```
 
-At hook `0x8003CC4C`, before native allocator advance:
+At hook `0x8003CC4C` before native allocator advance:
 
 ```text
 dest = *(s1+100)
-rows12..15 = dest+96..127
 ```
 
-Mirror them to visible native area:
+### CONTROL
+
+Write:
 
 ```text
-rows8..11 = dest+64..95
+converted rows6..7 = full 0x77 dark/gray
 ```
 
-Because source rows12..15 are solid bright sentinel, successful mirror should create an obvious bright 4-row block higher inside the target.
+These rows are safely inside the visible region.
 
-Interpretation:
+### MIRROR
 
-- bright mirror block appears => converted rows12..15 exist; downstream VRAM/cache placement is the blocker;
-- no bright mirror block => lower rows are absent/wrong immediately after conversion, or destination model is wrong.
+Copy:
+
+```text
+converted rows12..15 -> rows8..11
+```
+
+Since source rows12..15 are full `0x11`, a valid converted tail should mirror as a bright 4-row block immediately below the dark control.
+
+### Interpret exactly
+
+A. **Dark control + bright mirror**
+
+> Hook fires, destination is correct, rows12..15 exist after conversion. Continue downstream into cache/VRAM placement.
+
+B. **Dark control but no bright mirror**
+
+> Hook fires and destination is correct, but converted rows12..15 do not contain expected tail immediately after `0x8003C67C`. Reverse the copy routine/loop state/source-to-dest writes.
+
+C. **No dark control**
+
+> Hook or `state+100` destination model is still wrong. Do not infer tail loss.
 
 Package:
 
 ```text
-GaiaMaster_FontIsolation_0.6.3.11_RAM_TAIL_MIRROR.zip
+GaiaMaster_FontIsolation_0.6.3.12_CONTROLLED_RAM_TAIL_MIRROR.zip
 ```
 
 Launcher:
 
 ```text
-00_RUN_PROBE_06311.cmd
+00_RUN_PROBE_06312.cmd
 ```
 
 ## Hard do-not-repeat
@@ -248,8 +235,8 @@ Launcher:
 - no Krom path;
 - no production 12x12 stacked-accent polishing;
 - no retest 0.6.2.18;
-- no retest 0.6.3.0..0.6.3.10;
-- no naive shared `0x8003CD94..0x8003CDB4` rewrite;
+- no retest 0.6.3.0..0.6.3.11;
+- no shared `0x8003CD94..0x8003CDB4` rewrite;
 - no persistent/global target flag;
 - no global force-height16;
 - no `s3+2` metadata assumption.
@@ -257,7 +244,7 @@ Launcher:
 ## User testing preference
 
 - Character Select visible probes only when needed;
-- maximize information per runtime test;
+- maximize information per test;
 - never repeat tested builds;
-- stop on true freeze/global corruption;
+- stop on real freeze/global corruption;
 - reverse first, probe second.
