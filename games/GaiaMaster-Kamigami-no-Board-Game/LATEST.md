@@ -1,6 +1,6 @@
 # Gaia Master — trạng thái mới nhất
 
-Cập nhật: **2026-09-12 sau Font Isolation 0.6.2.13**.
+Cập nhật: **2026-09-12 sau Font Isolation 0.6.2.14**, đang test **0.6.2.15 ACCENT SHAPE**.
 
 ## Chốt kỹ thuật
 
@@ -20,8 +20,6 @@ PRGPACK.BDP + 0xBFD2C
 owner nested BDP: entry 29
 local offset: +0x580
 ```
-
-Krom2RawAdd đã bị loại cho Character Select sau C2/D2/E2.
 
 Stage 2 reverse đã tìm được custom font thật trong `SLPS_020.75`:
 
@@ -48,22 +46,7 @@ Mapping xác nhận:
 
 ## Probe timeline quan trọng
 
-### 0.6.2.7
-Thay glyph index 0 nhưng control dùng ASCII `TEST亜` -> runtime hiện nhiều glyph `É`. Kết luận: atlas injection có tác động runtime nhưng ASCII control không hợp lệ.
-
-### 0.6.2.10
-Hook quá sớm trong mapping pipeline -> toàn bộ text bị collapse thành cùng một glyph. Strategy bị loại.
-
-### 0.6.2.11
-Post-lookup hook cô lập được ký tự cuối:
-
-```text
-ＴＥＳＴ?
-```
-
-=> mapping isolation PASS, nhưng custom cave glyph không phải đường tối ưu để finalize.
-
-### 0.6.2.13 — BREAKTHROUGH
+### 0.6.2.13 — BREAKTHROUGH PASS
 Bỏ toàn bộ renderer hook/code cave. Giữ control full-width:
 
 ```text
@@ -72,25 +55,39 @@ Bỏ toàn bộ renderer hook/code cave. Giữ control full-width:
 
 và thay trực tiếp **static atlas glyph #0** bằng glyph dựng từ `Ｅ` gốc.
 
-Runtime user result: glyph cuối đã hiện **gần như `Ế`**, màu/style khớp tốt hơn, text khác bình thường. Vấn đề còn lại chỉ là **dấu phía trên bị clip/cắt**.
+Runtime: glyph cuối đã hiện gần như `Ế`, màu/style gần font gốc, text khác bình thường.
 
-Kết luận:
+=> **Vietnamese glyph pipeline đã PASS.**
 
-> **Vietnamese glyph pipeline đã PASS.** Character Select render được glyph custom từ static atlas gốc. Blocker hiện tại không còn là renderer/mapping, mà là fit glyph Việt vào ô 12x12.
+### 0.6.2.14 — result
+Thử chừa headroom và nén thân E, nhưng screenshot vẫn nhìn gần như `É`.
 
-## NEXT — Font Isolation 0.6.2.14
+Phân tích lại cho thấy nguyên nhân chính không phải clipping: circumflex chỉ cao một row nên nhập vào top bar của E sau khi game render/scale.
 
-Không hook renderer nữa.
+=> blocker còn lại là **shape của dấu mũ**, không phải renderer/mapping/atlas.
 
-Mục tiêu 0.6.2.14:
+## NEXT — Font Isolation 0.6.2.15 ACCENT SHAPE
 
-1. tiếp tục static-slot strategy từ 0.6.2.13;
-2. giữ row 0 trống để tránh top clipping;
-3. đặt dấu sắc + mũ thấp hơn trong glyph;
-4. nén thân `Ｅ` gốc theo chiều dọc đủ để chừa headroom nhưng giữ palette/style native;
-5. expected Character Select: `ＴＥＳＴẾ` đầy đủ, không cắt dấu.
+Không hook renderer nữa. Giữ static-slot strategy đã pass.
 
-Sau khi 0.6.2.14 pass:
+Layout mới:
+
+```text
+row 0 = dấu sắc
+row 1 = đỉnh mũ
+row 2 = hai vai mũ
+row 3..11 = thân E native compact 9 hàng
+```
+
+Mũ có 2 tầng thật sự để thành hình `^`, tách khỏi top bar.
+
+Expected Character Select:
+
+```text
+ＴＥＳＴẾ
+```
+
+Sau khi pass:
 
 1. tạo full Vietnamese glyph inventory;
 2. thiết kế codepage/runtime mapping không phá text Nhật chưa dịch;
@@ -100,4 +97,4 @@ Sau khi 0.6.2.14 pass:
 6. patch graphic text menus;
 7. QA full game + build reproducible patch package.
 
-Chi tiết reverse nằm trong `CHARACTER_SELECT_FONT_REVERSE_0.1.md`, `FONT_ISOLATION_0.6.2x.md`, và `HANDOFF_CURRENT.md`.
+Chi tiết reverse nằm trong `CHARACTER_SELECT_FONT_REVERSE_0.1.md` và `HANDOFF_CURRENT.md`.
