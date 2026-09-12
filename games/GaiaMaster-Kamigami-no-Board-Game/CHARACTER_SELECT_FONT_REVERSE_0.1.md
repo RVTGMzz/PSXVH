@@ -72,8 +72,6 @@ Mapping đã xác nhận:
 LOW nibble first
 ```
 
-Lưu ý: note `HIGH nibble first` ở checkpoint cũ là sai. Static-slot probe 0.6.2.13 và visual reconstruction xác nhận packing dùng cho builder hiện tại là **LOW nibble first**.
-
 `Ｅ` full-width là glyph 466 và được dùng làm style/palette reference.
 
 ## Probe timeline
@@ -113,31 +111,52 @@ Runtime user result:
 - text khác bình thường;
 - bốn chữ `ＴＥＳＴ` đúng;
 - glyph cuối hiện gần như `Ế`;
-- màu/style thân glyph gần khớp font gốc;
-- lỗi còn lại: phần dấu phía trên bị clip/cắt.
+- màu/style thân glyph gần khớp font gốc.
 
-Kết luận:
+=> static custom atlas path đã PASS runtime.
 
-> **Static custom atlas path đã PASS runtime. Vietnamese glyph injection đã được chứng minh.**
+### 0.6.2.14 — COMPACT FIT — runtime result
 
-Không cần reverse renderer thêm để chứng minh khả năng Việt hóa có dấu.
+0.6.2.14 hạ dấu xuống và nén thân `Ｅ` để chừa headroom, nhưng runtime screenshot **vẫn nhìn gần như `É`**.
 
-## 0.6.2.14 — COMPACT FIT
+So sánh bitmap offline với screenshot cho thấy chẩn đoán cũ “bị clip trần” chưa chính xác. Nguyên nhân chính là:
 
-Mục tiêu chỉ còn fit glyph vào cell 12x12.
+- circumflex của 0.6.2.14 chỉ cao **1 hàng pixel**;
+- sau khi game scale/render, hàng mũ này nhập thị giác vào thanh ngang trên của `E`;
+- dấu sắc vẫn thấy, nên glyph trông giống `É` thay vì `Ế`.
 
-Thiết kế:
+Đây là lỗi **glyph design**, không còn là lỗi renderer/mapping/atlas.
 
-1. giữ static-slot strategy của 0.6.2.13;
-2. không hook code;
-3. row 0 để trống làm headroom chống clip;
-4. dấu sắc nằm row 1;
-5. mũ nằm row 2;
-6. thân `Ｅ` bắt đầu row 3;
-7. nén thân E từ 10 hàng xuống 9 hàng bằng cách bỏ một hàng vertical duplicate, vẫn giữ palette/shadow native;
-8. expected runtime: `ＴＥＳＴẾ` với dấu đầy đủ, không chạm trần.
+## 0.6.2.15 — ACCENT SHAPE — current probe
 
-## Sau khi 0.6.2.14 pass
+Giữ nguyên toàn bộ strategy đã PASS:
+
+- no renderer hook;
+- no Krom hook;
+- no code cave;
+- static atlas glyph #0 replacement;
+- LOW-nibble-first 12x12 4bpp;
+- thân `Ｅ` native compact 9 hàng;
+- palette/shadow lấy từ font gốc.
+
+Chỉ thay geometry dấu:
+
+```text
+row 0 = dấu sắc
+row 1 = đỉnh mũ
+row 2 = hai vai mũ
+row 3..11 = thân E compact từ font gốc
+```
+
+Mục tiêu là tạo mũ `^` thật sự có **2 tầng**, tách rõ khỏi top bar của E.
+
+Expected runtime:
+
+```text
+ＴＥＳＴẾ
+```
+
+## Sau khi 0.6.2.15 pass
 
 1. khóa template 12x12 cho nhóm nguyên âm có dấu;
 2. build full Vietnamese glyph inventory;
