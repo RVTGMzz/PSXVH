@@ -1,118 +1,150 @@
 # Gaia Master — trạng thái mới nhất
 
-Cập nhật: **2026-09-12 sau runtime test 0.6.3.2 BASELINE ONLY — STABLE PASS, nhưng target 12x16 bị mất 4 hàng đáy khi có glyph theo sau.**
+Cập nhật: **2026-09-12 sau runtime test 0.6.3.3 EOL OVERWRITE TEST**.
 
-## Chốt kỹ thuật hiện tại
+## Chốt hiện tại
 
-- 0.6.2.x đã chứng minh custom Vietnamese glyph pipeline hoạt động.
-- Native 12x12 bị loại cho production stacked diacritics vì quá chật.
+- 0.6.2.x: custom Vietnamese glyph pipeline đã PASS.
+- Native 12x12 bị loại cho production stacked Vietnamese diacritics vì quá chật.
 - 0.6.3.0 12x16 = **STRUCTURAL PASS**.
-- 0.6.3.1 BASELINE + 16-ROW STRIDE = **UNSAFE FAIL** vì global text corruption + freeze; không retest.
-- 0.6.3.2 BASELINE ONLY = **STABLE PASS**: global text bình thường, game không treo, baseline cải thiện, trailing `Ａ` còn nguyên.
+- 0.6.3.1 BASELINE + 16-ROW STRIDE = **UNSAFE FAIL**: global text corruption + freeze. Không retest.
+- 0.6.3.2 BASELINE ONLY = **STABLE PASS**, nhưng đáy glyph extended bị mất/cắt.
+- 0.6.3.3 EOL OVERWRITE TEST = **SAME RESULT AS 0.6.3.2**.
 
-## 0.6.3.2 runtime result
+## 0.6.3.3 runtime result
 
 Control:
 
 ```text
-ＴＥＳＴ亜Ａ
+ＴＥＳＴ亜
 ```
 
-Runtime:
+Target `亜` nằm cuối dòng, không có glyph phía sau.
 
-- header Japanese normal;
-- `ＴＥＳＴ` normal;
-- target extended glyph visible và baseline tốt hơn;
-- trailing `Ａ` intact;
-- không có global corruption/freeze như 0.6.3.1;
-- nhưng phần **đáy của extended `Ế` bị mất/cắt**.
+Runtime user screenshot vẫn cho kết quả gần như 0.6.3.2:
 
-=> Baseline hook tự nó an toàn. Regression của 0.6.3.1 gần như chắc chắn nằm ở shared cache-advance rewrite quanh `0x8003CD94`.
+- Japanese header bình thường;
+- `ＴＥＳＴ` bình thường;
+- extended target/baseline vẫn ổn định;
+- không global corruption/freeze;
+- **phần dưới của extended glyph vẫn mất/cắt**.
 
-## New strong hypothesis — following-glyph overwrite
+=> Giả thuyết “glyph kế tiếp ghi đè 4 hàng cuối” bị **DISPROVEN**.
 
-Known copy geometry:
+Không cần retest 0.6.3.3.
+
+## Reverse mới sau 0.6.3.3
+
+Wide-glyph unpack/copy function thật sự là:
 
 ```text
-wide glyph source row: 6 bytes
-converted/cache row:   8 bytes
-native 12 rows:        96 bytes
-extended 16 rows:      128 bytes
+0x8003C67C
 ```
 
-0.6.3.2 cho target copy 16 rows, nhưng shared cache cursor vẫn advance native 12 rows.
+Target metadata height 15 => loop xử lý 16 rows.
 
-Therefore the following native glyph can begin **4 rows too early** and overwrite the extended target's last 4 converted/cache rows.
-
-This matches the runtime screenshot: target top/body appears, but lower portion is lost while following `Ａ` itself remains intact.
-
-This is still a hypothesis until isolated.
-
-## NEXT — 0.6.3.3 EOL OVERWRITE TEST
-
-One-variable probe:
+Wide path mỗi source row:
 
 ```text
-0.6.3.2: ＴＥＳＴ亜Ａ
-0.6.3.3: ＴＥＳＴ亜
+6 source bytes -> 8 converted/cache bytes
 ```
 
-Target is intentionally the **last glyph on the line**.
+Native:
 
-No new renderer hook.
-No CD94 cache-stride patch.
-No code-path change.
+```text
+12 rows -> 96 converted bytes
+```
 
-Question:
+Extended:
 
-> Does the bottom of Ế return when no following glyph can overwrite its cache footprint?
+```text
+16 rows -> 128 converted bytes
+```
+
+Quan trọng hơn, đã tìm được **VRAM upload queue**:
+
+```text
+0x8003CDE8..0x8003CE24
+```
+
+Nó tạo RECT trên stack rồi gọi:
+
+```text
+0x800406F8
+```
+
+với:
+
+```text
+RECT.x = state + 48
+RECT.y = state + 40
+RECT.w = 4
+RECT.h = (state + 42) - (state + 40) + 1
+source = state + 96
+```
+
+`0x800406F8` chỉ queue `(RECT + RAM source pointer)` cho VRAM upload.
+
+Điều này cho thấy pipeline phải phân biệt rõ 3 tầng:
+
+1. 96-byte 12x16 source glyph;
+2. 128-byte converted/cache glyph;
+3. VRAM upload rectangle + sprite texture UV/window.
+
+## CURRENT — 0.6.3.4 UV WINDOW TEST
+
+0.6.3.4 giữ nguyên stable 0.6.3.3 path và chỉ thay **một biến**:
+
+```text
+target texture V += 4 px
+```
+
+Hook diagnostic tại:
+
+```text
+0x8003CCF0
+```
+
+Native `subu v0,v0,v1` tại `0x8003CCF4` vẫn chạy trong jump delay slot, nên cave nhận đúng native texture-V trước khi target-specific `+4`.
+
+Không đụng:
+
+```text
+0x8003CD94..0x8003CDB4
+```
+
+Không thay cache allocator/shared cursor.
+Target vẫn ở cuối dòng.
+
+### Câu hỏi của probe
+
+Nếu 4 hàng dưới đã tồn tại trong VRAM nhưng visible texture window lấy sai vùng, `V + 4` phải làm phần dưới E xuất hiện, đồng thời top accents dịch/mất.
 
 Interpretation:
 
-- bottom returns => following-glyph cache overwrite confirmed;
-- bottom still missing => clipping/copy/display issue remains inside target path itself.
+- **lower rows xuất hiện** => 16 rows đã vào VRAM; bug nằm ở UV/window/draw sampling.
+- **lower rows vẫn mất/blank/garbage** => truncation xảy ra trước texture sampling, khả năng ở converted cache hoặc VRAM upload content/rectangle.
 
-## Production direction if overwrite is confirmed
-
-Do NOT mutate the shared cache cursor globally again.
-
-Prefer one of:
-
-1. dedicated extended Vietnamese cache/storage region;
-2. target-specific isolated cache allocation with original shared state preserved;
-3. separate production extended atlas/cache path.
-
-## Saved checkpoint files
-
-The following files now preserve the full work trail and prevent retest/checkpoint confusion:
+Package local:
 
 ```text
-HANDOFF_CURRENT.md
-CHARACTER_SELECT_FONT_REVERSE_0.1.md
-PROBE_BUILD_INDEX.md
-FONT_ISOLATION_0.6.3.1_UNSAFE_FAIL.md
-FONT_ISOLATION_0.6.3.2_STABLE_PASS.md
-FONT_ISOLATION_0.6.3.3_EOL_OVERWRITE_TEST.md
-PS1_LOCALIZATION_REUSABLE_LESSONS.md
-NEXT_CHAT_PROMPT.md
+GaiaMaster_FontIsolation_0.6.3.4_UV_WINDOW_TEST.zip
 ```
 
-Current local test package names:
+## Do not repeat
 
-```text
-GaiaMaster_FontIsolation_0.6.3.2_BASELINE_ONLY.zip
-GaiaMaster_FontIsolation_0.6.3.3_EOL_OVERWRITE_TEST.zip
-```
+- Không quay lại Krom path.
+- Không polish stacked accents trong native 12x12.
+- Không retest 0.6.2.18, 0.6.3.0, 0.6.3.1, 0.6.3.2 hoặc 0.6.3.3 trừ khi có lý do reverse mới rất cụ thể.
+- Không patch shared `CD94` cache cursor kiểu 0.6.3.1.
 
-`PS1_LOCALIZATION_REUSABLE_LESSONS.md` also records reusable methodology for future PS1 projects and the conclusion that US/EU Latin games are often easier than Japanese Shift-JIS/custom-font games, while still having engine-specific exceptions.
+## Sau khi extended-height path ổn định
 
-## Long-term after stable extended-height path
-
-1. production-safe external/extended Vietnamese atlas/cache storage;
+1. production-safe Vietnamese extended atlas/cache storage;
 2. full Vietnamese glyph inventory;
 3. compact runtime codepage/mapping;
-4. encode `vi_full` with accents;
+4. encode `vi_full` có dấu;
 5. solve/repack 230 pending rows;
 6. clean mixed JP/VI;
-7. patch graphic menu/title text;
+7. graphic menu/title patch;
 8. full runtime QA + reproducible build.
