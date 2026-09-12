@@ -1,6 +1,6 @@
 # HANDOFF — Gaia Master PS1 Việt hóa
 
-> Current source-of-truth: **0.6.2.x Vietnamese 12x12 pipeline PASS, but 12x12 is rejected as production geometry for stacked Vietnamese diacritics. Next probe: 0.6.3.0 EXTENDED HEIGHT 12x16.**
+> **Current source-of-truth:** 0.6.2.x proved the custom Vietnamese glyph pipeline works, but native 12x12 is rejected for production stacked diacritics. First 12x16 experiment **0.6.3.0 EXTENDED HEIGHT failed at runtime**. Next chat must reverse the full copy/unpack/sprite path before building another height probe.
 
 ## Source game
 
@@ -11,8 +11,11 @@
 - executable `SLPS_020.75`
 - main archive `PRGPACK.BDP`
 - stable translation baseline: Alpha 0.6.1 FRONT SHA1 `54d2fb026bc3b71c79861e723caffb4114caa34c`
+- working branch: `gaia-character-select-font-atlas-reverse-01`
 
-## BDP / raw sector
+## BDP / raw-sector facts
+
+BDP:
 
 ```text
 magic    +0x00 = 0x000010F0
@@ -30,21 +33,22 @@ checksum = ((~sum16 & 0xFFFF) << 16) | sum16
 ```
 
 Verified 60/60 nested BDP + top-level PRGPACK.
-Raw disc MODE2/Form1; modified sectors regenerate EDC/ECC.
+Raw disc MODE2/Form1; changed sectors require regenerated EDC/ECC.
 
 ## Translation status
 
-- Alpha 0.5.1: 203 patch, runtime confirmed.
-- Master 0.6: 596 rows, `vi_full` source-of-truth có dấu.
-- Alpha 0.6: 366 patch; 230 rows pending do full-width 2-byte overflow slot.
+- Alpha 0.5.1: 203 patch, runtime user-confirmed.
+- Master 0.6: 596 rows, `vi_full` is source-of-truth with accents.
+- Alpha 0.6: 366 patch.
 - Alpha 0.6.1 FRONT: 397 patch, runtime stable.
-- mixed JP/VI + graphic text xử lý sau font.
+- 230 rows still pending because full-width 2-byte text overflows original slots.
+- mixed JP/VI fragments + graphic-text menus remain for later.
 
 ## Encoding rules
 
 - Shift-JIS Japanese: OK.
-- Full-width Latin CP932: OK.
-- ASCII 1-byte: FAIL/mis-render; do not use for runtime control text.
+- Full-width Latin CP932: OK runtime.
+- ASCII 1-byte: FAIL/mis-render in Japanese renderer; do not use as control/runtime text.
 - UTF-8 direct: not used.
 
 ## Character Select visible probe
@@ -55,7 +59,18 @@ owner nested BDP = entry 29
 local offset = +0x580
 ```
 
-## Custom atlas path
+Useful control:
+
+```text
+ＴＥＳＴ亜
+82 73 82 64 82 72 82 73 88 9F
+```
+
+## Krom path — rejected for Character Select
+
+C2/D2/E2 did not affect visible `亜` at Character Select. Do not return to Krom2RawAdd direct/global-wrapper experiments.
+
+## Custom Character Select atlas — proven
 
 ```text
 atlas RAM    = 0x8006BCEC
@@ -74,7 +89,7 @@ Native atlas:
 LOW nibble first
 ```
 
-Mapping confirmed:
+Confirmed mappings:
 
 ```text
 0x8273 Ｔ -> glyph 481
@@ -83,57 +98,64 @@ Mapping confirmed:
 0x889F 亜 -> glyph 0
 ```
 
-Native full-width `Ｅ` = glyph 466 style reference.
+Native full-width `Ｅ` = glyph 466 and is the style/palette reference.
 
-## Probe history — important conclusions
-
-### Krom path rejected
-C2/D2/E2 did not affect Character Select. Do not return to Krom wrapper hooks.
+## Critical probe history
 
 ### 0.6.2.13 STATIC SLOT / NO HOOK — BREAKTHROUGH PASS
-- full-width control text
-- direct static atlas replacement
-- other text normal
-- Vietnamese accented glyph visibly renders
 
-=> **Vietnamese glyph pipeline PASS.**
+- no renderer hook;
+- no code cave;
+- full-width control text;
+- direct static atlas glyph replacement.
+
+Runtime:
+
+- all surrounding text normal;
+- target glyph visibly changes into a Vietnamese accented-E-like glyph.
+
+=> **Custom Vietnamese glyph pipeline is proven.**
 
 ### 0.6.2.14 / 0.6.2.15 — compact body rejected
-Shrinking the native body to gain accent rows makes accented capitals too small. Production must preserve native base-letter size.
 
-### 0.6.2.16 / 0.6.2.17 / 0.6.2.18 — full-height inside 12x12
-Kept native E body full size and used only two spare top rows. `Ế` became increasingly recognizable, but stacked marks remain cramped/dirty because only two rows are available.
+Compressing base `E` to gain accent headroom makes accented capitals visibly smaller. Not acceptable for production.
 
-### 0.6.2.19 VARIANT GRID — runtime result
-One ROM showed six full-height `Ế` variants in one line. User selected **sample 2 from the left** as the best base shape, but feedback:
+### 0.6.2.16 / 0.6.2.17 / 0.6.2.18 — full-height 12x12
+
+Kept native base-letter body size and used only two spare rows above it. Runtime became increasingly recognizable but accents remain cramped/awkward.
+
+Important: **0.6.2.18 has already been tested. Never ask user to retest it.**
+
+### 0.6.2.19 VARIANT GRID
+
+Six `Ế` variants shown in one Character Select line. User selected **sample 2 from the left** as best base shape, but noted:
 
 - too thin;
-- no shadow/weight;
+- lacks shadow/weight;
 - circumflex not centered enough;
-- circumflex feels attached to the E top bar.
+- circumflex too visually attached to top bar of E.
 
-### 0.6.2.20 SAMPLE2 REFINED — production blocker identified
-Refined sample 2 with more weight/centering. User then inspected the glyph preview and identified the structural issue correctly:
+### 0.6.2.20 SAMPLE2 REFINED
 
-> A 12x12 cell simply does not provide enough vertical room for stacked Vietnamese marks while keeping the native capital body untouched.
+Refined sample 2, then user inspected preview/runtime and correctly identified the structural blocker:
 
-This will be worse for `Ể`, `Ẳ`, `Ỗ`, `Ử`, `Ấ`, `Ố`, etc.
+> A 12x12 cell cannot comfortably support stacked Vietnamese diacritics while keeping the native capital body at full size.
 
-=> **Stop trying to perfect production Vietnamese stacked marks inside 12x12.**
+This is worse for `Ể`, `Ẳ`, `Ỗ`, `Ử`, `Ấ`, `Ố`, etc.
 
-## New reverse finding — renderer can likely support target-only extended height
+=> **Stop production work inside 12x12.**
 
-Character renderer around `0x8003C210` separates:
+## Native renderer reverse relevant to extended height
+
+Character renderer around `0x8003C210` separates several stages:
 
 1. character code -> mapping -> glyph index;
-2. glyph index -> atlas pointer;
-3. per-glyph metadata including source height;
-4. downstream bitmap copy;
-5. visible GPU sprite height.
+2. glyph index -> atlas source pointer;
+3. glyph metrics / source height;
+4. bitmap copy/unpack;
+5. visible GPU primitive/sprite metrics.
 
-### Native stride is explicitly hardcoded
-
-At:
+Native atlas stride is explicitly hardcoded near:
 
 ```text
 0x8003C4F8  sll  v0,v1,3
@@ -141,72 +163,100 @@ At:
 0x8003C500  sll  a1,v0,3
 ```
 
-result is:
+which computes:
 
 ```text
 glyph_index * 72
 ```
 
-### Per-glyph height is separate
+A separate height field exists later in the render/copy path, which motivated the 12x16 experiment. However, **12x16 support is not yet proven**.
 
-Renderer tail writes a glyph-struct height field at `s3+2`.
-Downstream function `0x8003C67C` loops using that field, so native 12 rows are not the only possible loop count.
+## 0.6.3.0 EXTENDED HEIGHT 12x16 — RUNTIME FAIL
 
-Caller later assigns visible sprite height separately near:
+Goal:
+
+- keep normal Japanese/Latin on native 12x12;
+- make only target `0x889F` use a 12x16 / 96-byte `Ế`;
+- prove all 16 rows can be copied and displayed.
+
+Diagnostic design attempted:
+
+- remap `0x889F` to high atlas slot 850;
+- write 96-byte / 16-row glyph beginning at that target source location;
+- target-only hook to request 16 copied rows;
+- target-only hook to request a 16-pixel visible sprite;
+- no baseline correction in first probe.
+
+Runtime user screenshot result:
+
+- `ＴＥＳＴ` still renders normally;
+- final target glyph remains malformed/insufficient;
+- clearly expanded 16-row Vietnamese glyph was **not** observed;
+- game boots, so this is not a global renderer crash.
+
+=> **0.6.3.0 = FAIL.**
+
+Do **not** ask user to test 0.6.3.0 again.
+
+Dedicated failure note:
 
 ```text
-0x8003CCC0  lbu v0,64(s1)
-0x8003CCC8  addiu v0,v0,1
+FONT_ISOLATION_0.6.3.0_FAIL.md
 ```
 
-Therefore a target-specific 16-row diagnostic is feasible without converting every native glyph.
+## Cause is NOT yet proven
 
-## NEXT — 0.6.3.0 EXTENDED HEIGHT 12x16
+Do not claim that 12x16 is impossible. The failed probe does not isolate which stage is still native-sized.
 
-Diagnostic design:
+Main possibilities for next reverse:
 
-- keep Character Select full-width `ＴＥＳＴ亜` control;
-- remap `0x889F` to high diagnostic atlas slot `850`;
-- write a **12x16 / 96-byte** Vietnamese `Ế` beginning at `slot850*72`;
-- use target-only safe-cave hook at renderer tail so only `0x889F` gets glyph metadata height `15` => 16 copied rows;
-- use second target-only safe-cave hook so only `0x889F` gets visible sprite height `16`;
-- untouched Japanese/Latin remains native 12x12.
+1. 16-row metadata hook did not affect the actual Character Select copy path;
+2. intermediate converted-glyph buffer remains native-sized;
+3. row pitch / unpack loop still assumes 12-row/72-byte geometry;
+4. visible GPU primitive remains clipped elsewhere despite one height patch;
+5. 96-byte source embedded in a 72-byte-stride static atlas is unsafe for cache/fetch behavior;
+6. another source-height/destination-height/UV/texture-window field exists;
+7. target glyph source pointer is correct but downstream copy consumes a different footprint than assumed.
 
-Diagnostic glyph layout:
+## NEXT TASK — START HERE IN NEW CHAT
 
-```text
-rows 0..5  = dedicated diacritic/headroom
-rows 6..15 = native E body at original pixel size
-```
+**Do not build another blind 12x16 probe immediately.**
 
-### Important scope of 0.6.3.0
+First reverse the entire target path from final glyph pointer to GPU primitive:
 
-Do **not** judge baseline yet.
+1. reconstruct exact 0.6.3.0 patch/hook locations;
+2. disassemble after final glyph pointer generation through bitmap copy/unpack;
+3. identify exact source row count and row pitch;
+4. identify converted glyph destination-buffer footprint/allocation;
+5. identify all per-glyph width/height metrics;
+6. identify visible sprite/primitive height and any UV/texture-window/clipping fields;
+7. determine whether an external production-safe extended atlas should be used instead of overlapping a 96-byte glyph inside the native 72-byte-stride atlas;
+8. only then build the next high-information Character Select probe.
 
-The expanded E body is expected to sit about 4 px lower because the first probe does not yet shift the sprite upward.
+The next probe should answer one precise question, not mix multiple uncertain assumptions.
 
-Primary test question only:
+## Long-term path after extended-height problem is solved
 
-> Does the final glyph visibly use all 16 rows, with substantially more room for circumflex + tone mark?
-
-If YES, next is **0.6.3.1**:
-
-- shift target sprite up ~4 px so native E baseline matches surrounding text;
-- fix expanded output-buffer accounting (16 rows = 128-byte converted buffer footprint instead of native 96-byte footprint where applicable);
-- move from diagnostic overlapped slot to production-safe extended Vietnamese atlas storage;
-- then build the full Vietnamese glyph/codepage family.
+1. full Vietnamese glyph inventory;
+2. compact runtime codepage/mapping without breaking untranslated Japanese;
+3. encode `vi_full` with accents;
+4. solve/repack 230 pending rows;
+5. clean mixed JP/VI;
+6. patch graphic main-menu/Character-Select text;
+7. full runtime QA;
+8. reproducible final patch/build package.
 
 ## Windows builder pitfalls
 
 - avoid parsing `(Japan).bin` inside parenthesized BAT blocks;
-- launchers ASCII + CRLF;
+- use ASCII + CRLF launcher;
 - current test PC Python: `C:\Python312\python.exe`;
 - Japanese JSON: explicit UTF-8 or `ensure_ascii=True`.
 
 ## User testing preference
 
-- Character Select visible probes;
+- visible probes at intro/main menu/Character Select;
 - no deep gameplay unless necessary;
 - maximize information per test;
 - never repeat already-tested builds;
-- stop pixel-art iteration when a renderer-level fix solves the whole glyph family better.
+- avoid long sequences of one-pixel cosmetic ROM probes when a structural renderer fix is the real issue.
