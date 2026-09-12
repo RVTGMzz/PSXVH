@@ -1,6 +1,6 @@
 # HANDOFF — Gaia Master PS1 Việt hóa
 
-> **Current source-of-truth:** native 12x12 Vietnamese glyph pipeline is proven but rejected for production stacked diacritics. 0.6.3.0 12x16 was initially marked FAIL, then reclassified after pixel-level review as a **STRUCTURAL EXTENDED-HEIGHT PASS**. Current probe is **0.6.3.1 BASELINE + 16-ROW STRIDE**.
+> **Current source-of-truth:** native 12x12 Vietnamese glyph pipeline is proven but rejected for production stacked diacritics. 0.6.3.0 12x16 remains a structural extended-height pass. 0.6.3.1 BASELINE + 16-ROW STRIDE caused global text corruption and a later game freeze, so it is an **UNSAFE FAIL**. Next probe is **0.6.3.2 BASELINE ONLY**.
 
 ## Source game
 
@@ -74,21 +74,21 @@ Native full-width `Ｅ` = glyph 466 style reference.
 
 ## Rejected paths
 
-- Krom2RawAdd direct/global wrapper path does not control Character Select target glyph.
+- Krom2RawAdd direct/global wrapper does not control Character Select target glyph.
 - Do not return to Krom hooks.
 - Do not return to endless stacked-diacritic pixel polishing inside native 12x12.
 - 0.6.2.18 has already been tested; never request a retest.
+- 0.6.3.0 has already been tested; never request a retest.
+- 0.6.3.1 is unsafe; never request a retest.
 
 ## 0.6.2.x conclusion
 
 ### 0.6.2.13 STATIC SLOT / NO HOOK — BREAKTHROUGH PASS
-
 Direct static-atlas glyph replacement visibly renders custom Vietnamese data while surrounding text remains normal.
 
 => Vietnamese custom glyph pipeline is proven.
 
 ### 0.6.2.14..0.6.2.20
-
 Production stacked marks inside 12x12 remain cramped. Compact-body strategy makes accented capitals too small; full-height body leaves only two accent rows.
 
 => Native 12x12 is rejected for production stacked Vietnamese marks such as `Ế`, `Ể`, `Ẳ`, `Ỗ`, `Ử`, `Ấ`, `Ố`.
@@ -161,9 +161,9 @@ The character descriptor is 16 bytes. Relevant bytes:
 +7    = visible height
 ```
 
-Draw path later copies descriptor +6/+7 into the variable-size sprite primitive, so a target-specific visible height 16 is architecturally valid.
+Draw path later copies descriptor +6/+7 into the variable-size sprite primitive, so target-specific visible height 16 is architecturally valid.
 
-## 0.6.3.0 EXTENDED HEIGHT 12x16 — RECLASSIFIED STRUCTURAL PASS
+## 0.6.3.0 EXTENDED HEIGHT 12x16 — STRUCTURAL PASS
 
 0.6.3.0 used:
 
@@ -172,99 +172,93 @@ Draw path later copies descriptor +6/+7 into the variable-size sprite primitive,
 - target visible sprite height = 16;
 - native glyphs untouched at 12x12.
 
-It was initially called FAIL because the glyph looked wrong. Pixel-level review of the screenshot shows the opposite technical result:
+Pixel-level review of runtime screenshot shows:
 
-- extra headroom/accent pixels are visible;
-- target footprint is taller;
-- the complete E body appears lower than surrounding `TEST`;
-- that body shift is exactly expected because baseline correction was intentionally omitted.
+- extra headroom/accent pixels visible;
+- target footprint taller;
+- complete E body lower than surrounding `TEST`;
+- body shift matches the intentional absence of baseline correction.
 
-=> **12x16 source/copy/display path is structurally proven.**
+=> 12x16 source/copy/display path is structurally proven.
 
-Historical file `FONT_ISOLATION_0.6.3.0_FAIL.md` has been updated with the correction.
+## 0.6.3.1 BASELINE + 16-ROW STRIDE — UNSAFE FAIL
 
-Do not retest 0.6.3.0.
+0.6.3.1 added two experiments on top of 0.6.3.0:
 
-## Missing production fixes found after deeper reverse
+1. target descriptor Y shift `-4 px` near `0x8003CD08`;
+2. target-specific cache/VRAM advance rewrite near `0x8003CD94` intended to reserve 16 rows / 128 converted bytes.
 
-### 1. Baseline
+Runtime result from user:
 
-Native E body begins at source row 2.
-Extended E body in the diagnostic begins at row 6.
+- unrelated Japanese text becomes corrupted/repeated;
+- Character Select header corrupts;
+- probe line shows repeated/misplaced `Ａ/Ｅ`-like glyphs rather than an isolated target;
+- a later screen is visibly garbled;
+- game then freezes.
 
-Difference:
+=> 0.6.3.1 is **UNSAFE FAIL**.
 
-```text
-+4 rows
-```
+### Strongest regression suspect: `0x8003CD94` cache-advance hook
 
-So the extended target descriptor Y must be shifted **-4 px**.
-
-Descriptor Y source/store is around:
-
-```text
-0x8003CD08 .. 0x8003CD10
-```
-
-### 2. Converted RAM / VRAM cache stride
-
-0.6.3.0 copied 16 rows but native post-copy allocator still used the global 12-row font height.
-
-Native advances:
+Native shared allocator/cursor sequence:
 
 ```text
-0x8003CD94 .. 0x8003CDA4
-    converted-glyph pointer += (fontHeight+1) * 8
-
-0x8003CDA8 .. 0x8003CDB4
-    VRAM glyph Y += (fontHeight+1)
+0x8003CD94  lw    v0,100(s1)
+0x8003CD98  sll   v1,v1,3
+0x8003CD9C  addu  v0,v0,v1
+0x8003CDA4  sw    v0,100(s1)
+0x8003CDA8  lhu   v0,50(s1)
+0x8003CDAC  addiu v1,v1,1
+0x8003CDB0  addu  v0,v0,v1
+0x8003CDB4  sh    v0,50(s1)
 ```
 
-For native Character Select:
+0.6.3.1 rewrote this shared cache state for the target. That can desynchronize all following glyph cache addresses and VRAM rows, matching the observed global corruption/freeze.
+
+The baseline Y hook by itself only changes target position and is much less likely to explain global allocator corruption.
+
+## CURRENT NEXT PROBE — 0.6.3.2 BASELINE ONLY
+
+Purpose: isolate whether the CD94 cache-advance rewrite caused the regression.
+
+Start from 0.6.3.0 structural-pass path and add **only**:
 
 ```text
-12 rows -> +96 converted bytes, +12 VRAM rows
+target descriptor Y -= 4 px
 ```
 
-Extended target needs:
+Do NOT patch:
 
 ```text
-16 rows -> +128 converted bytes, +16 VRAM rows
+0x8003CD94 .. 0x8003CDB4
 ```
 
-Without this fix a following glyph can overlap/corrupt the extended target cache footprint.
+Leave cache RAM pointer and VRAM Y advance completely native.
 
-## CURRENT PROBE — 0.6.3.1 BASELINE + 16-ROW STRIDE
-
-Keep the proven 0.6.3.0 16-row source/copy/sprite path.
-
-Add only:
-
-1. target descriptor Y shift `-4 px`;
-2. target converted-buffer pointer advance = 128 bytes;
-3. target VRAM Y advance = 16 rows.
-
-Control string becomes:
+Control:
 
 ```text
 ＴＥＳＴ亜Ａ
 ```
 
-Expected visible result:
+Diagnostic goal:
 
 ```text
 ＴＥＳＴẾＡ
 ```
 
-Why trailing `Ａ` exists:
+Trailing `Ａ` is a sentinel.
 
-- it checks that a normal native glyph immediately after a 16-row target is not overlapped/corrupted;
-- if `Ế` aligns with `TEST` and `Ａ` is intact, extended-height cache allocation is production-viable.
+Interpretation:
 
-## Long-term after 0.6.3.1 passes
+- If global Japanese text remains normal and game no longer freezes: CD94 advance hook is confirmed as the 0.6.3.1 regression source.
+- If `Ế` aligns but trailing `Ａ` corrupts while unrelated text remains stable: target footprint still overlaps native cache assumptions, so solve with production-safe external/isolated cache storage rather than global shared stride mutation.
+- If global text corrupts again even without CD94 patch: stop immediately and revisit other 0.6.3.1 assumptions.
 
-1. move extended Vietnamese source data to production-safe storage rather than diagnostic overlap inside native 72-byte atlas slots;
-2. build full Vietnamese glyph inventory;
+## Long-term after stable extended-height path
+
+1. production-safe external/extended Vietnamese atlas/cache storage;
+2. full Vietnamese glyph inventory;
 3. compact runtime codepage/mapping without breaking untranslated Japanese;
 4. encode `vi_full` with accents;
 5. solve/repack 230 pending rows;
@@ -285,4 +279,5 @@ Why trailing `Ａ` exists:
 - no deep gameplay unless necessary;
 - maximize information per test;
 - never repeat already-tested builds;
+- stop immediately on global text corruption or freeze;
 - structural renderer fixes are preferred over cosmetic one-pixel iteration.
