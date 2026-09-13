@@ -1,6 +1,6 @@
 # HANDOFF — Gaia Master PS1 Việt hóa
 
-> **Current source-of-truth:** giữ renderer/font geometry native **12x12 / 72-byte / 4bpp**. Mapping ownership đã được chứng minh. Mapping-data-only đã runtime PASS. `0.6.6.0 PRODUCTION ENCODER REAL-TEXT` đã hiện đúng câu Việt thật `Chọn tướng`; vấn đề còn lại chỉ là baseline của `ọ / ư / ớ` chưa đều với Latin native. Current proof là **0.6.6.1 BASELINE-NORMALIZED REAL-TEXT**: giữ nguyên bbox/baseline native khi glyph gốc đã đủ chỗ cho dấu, chỉ fit tối thiểu khi thật sự thiếu headroom/footroom. Không code hook, không pointer redirect, không 12x16, không composite.
+> **Current source-of-truth:** giữ renderer/font geometry native **12x12 / 72-byte / 4bpp**. Mapping-data-only đã runtime PASS. `0.6.6.0` chứng minh production encoder với câu Việt thật `Chọn tướng`; `0.6.6.1 BASELINE-NORMALIZED` đã runtime **PASS** ở mức baseline/glyph đủ tốt. Vấn đề còn lại là **horizontal spacing/advance**: Latin-looking glyphs vẫn cách nhau rộng kiểu full-width Nhật. Current step là **READ-ONLY FontSpacingScanner 0.1** để chứng minh ownership của `state+0x3C/+0x3E/+0x40`. Chưa build runtime 0.6.6.2 cho tới khi spacing ownership được chứng minh.
 
 ## Baseline
 
@@ -25,14 +25,7 @@ mapping file   = SLPS + 0x6B6CC
 native 12x12 / 72-byte / 4bpp / LOW nibble first
 ```
 
-Initializer ownership:
-
-```text
-0x8003DD48..0x8003DD50 -> atlas 0x8006BCEC -> gp+0x518
-0x8003DD54..0x8003DD5C -> map   0x8007AECC -> gp+0x51C
-```
-
-Renderer consumer:
+Renderer mapping consumer:
 
 ```text
 code & 0x7FFF
@@ -42,49 +35,24 @@ code & 0x7FFF
  -> atlas base + offset
 ```
 
-Known mapping samples:
-
-```text
-0x8273 Ｔ -> glyph 481
-0x8264 Ｅ -> glyph 466
-0x8272 Ｓ -> glyph 480
-0x889F 亜 -> glyph 0
-```
-
 Character Select proof field:
 
 ```text
 PRGPACK.BDP + 0xBFD2C
 owner nested BDP = entry 29
-24 bytes used safely by current proof
+24 bytes used safely by current proofs
 ```
 
-## Historical conclusions
+## Hard historical conclusions
 
-### 0.6.2.x
-- `0.6.2.13` proved static custom-atlas replacement works.
-- Native 12x12 needs a compact Vietnamese style.
-
-### 0.6.3.x
-12x16 touched shared renderer/cache state and caused corruption/freezes. Historical only; do not revive.
-
-### 0.6.4.x
-Composite overlay placement was unreliable. Not production.
-
-### 0.6.5.2
-**UNSAFE FAIL / NEVER RETEST**: runtime pointer redirect caused black screen, Game FPS 0, hard freeze.
-
-### Mapping Scanner 0.2
-Recovered runtime GP and direct atlas/mapping ownership. Static mapping data can be patched directly.
-
-### 0.6.5.3
-**STRUCTURAL PASS / GLYPH GENERATOR FAIL.** Mapping-controlled custom slots reached without hook/redirect.
-
-### 0.6.5.4
-**PIPELINE PASS / VERTICAL CROWDING.** Native A/E/O controls correct; remaining issue was mark headroom.
-
-### 0.6.5.5
-**VISUAL PASS ENOUGH FOR PRODUCTION PIVOT.** Compact Vietnamese marks readable; stop glyph-board runtime loops.
+- `0.6.2.13`: static custom-atlas replacement PASS.
+- `0.6.3.x`: 12x16 touched shared renderer/cache state and caused corruption/freezes. Do not revive.
+- `0.6.4.x`: composite overlay placement unreliable. Not production.
+- `0.6.5.2`: **UNSAFE FAIL / NEVER RETEST**, runtime pointer redirect caused black screen, Game FPS 0, hard freeze.
+- Font Mapping Scanner 0.2: runtime GP + atlas/mapping ownership proven.
+- `0.6.5.3`: mapping-only path STRUCTURAL PASS; generator bugs only.
+- `0.6.5.4`: native A/E/O copy PIPELINE PASS; vertical crowding only.
+- `0.6.5.5`: compact Vietnamese glyph board visual PASS enough for production pivot.
 
 ## Translation source
 
@@ -93,7 +61,7 @@ Translation Master 0.6:
 - `vi_full` = accented source-of-truth;
 - `vi_game_current` = old no-accent fallback.
 
-Production strategy:
+Production strategy remains:
 
 ```text
 plain Latin / numbers / punctuation
@@ -104,101 +72,167 @@ Vietnamese-specific precomposed chars
   -> selected zero-static-hit native 12x12 atlas slots
 ```
 
-## 0.6.6.0 PRODUCTION ENCODER REAL-TEXT — PASS WITH BASELINE POLISH NEEDED
+## 0.6.6.0 PRODUCTION ENCODER REAL-TEXT — PASS
 
-Runtime screenshot showed:
+Runtime phrase:
 
 ```text
 Chọn tướng
 ```
 
-What this proves:
-- actual Vietnamese text is encoded end-to-end;
+Proven:
+- actual accented Vietnamese text encodes end-to-end;
 - plain Latin uses native Gaia glyphs;
-- `ọ`, `ư`, `ớ` use custom zero-hit codes + custom atlas cells;
-- static mapping-only architecture works for production text;
-- stable boot/UI; no corruption/freeze.
+- `ọ`, `ư`, `ớ` use custom zero-static-hit codes + safe atlas cells;
+- mapping-only production encoding works without code hook/pointer redirect;
+- stable boot/UI.
 
-Observed visual issue:
-- custom Vietnamese-specific bodies sit at uneven vertical positions relative to untouched native Latin.
+Remaining issue at that step was vertical baseline because custom bodies were forced into a fixed band.
 
-Root cause:
+## 0.6.6.1 BASELINE-NORMALIZED REAL-TEXT — PASS
+
+Runtime screenshot shows `Chọn tướng` with custom Vietnamese glyphs aligned acceptably with native Latin.
+
+Decision:
+
+> glyph generation, mapping, real-text encoding, and vertical baseline are now considered solved enough for production. Do not keep polishing this proof phrase vertically.
+
+Observed remaining issue:
+- horizontal character spacing is visibly wider than natural Latin typography.
+
+This is **not** a glyph/mapping/baseline failure.
+
+## Proven horizontal-advance reverse facts
+
+Gaia does not simply add a hardcoded 12 pixels. It caches a 16-byte per-glyph record and uses `record+6` as horizontal advance.
+
+### Cache hit
 
 ```text
-0.6.6.0 unconditionally compressed every custom base into rows 2..9.
+record = state+84 + cache_slot*16
+advance = record.byte6
+cursor_x = state+24
+cursor_x += advance
+if advance != state+62:
+    cursor_x += state+60
 ```
 
-This altered the natural baseline even when lowercase native `o/u` already had enough headroom.
+Key neighborhood:
 
-Conclusion:
+```text
+0x8003CB54  lbu v0,6(a0)
+...
+0x8003CBF4  lbu v1,6(a0)
+0x8003CBF8  lhu v0,24(s1)
+0x8003CC00  addu a1,v0,v1
+0x8003CC04  sh a1,24(s1)
+0x8003CC08  lbu v1,6(a0)
+0x8003CC0C  lh v0,62(s1)
+0x8003CC14  beq v1,v0,...
+0x8003CC1C  lhu v0,60(s1)
+0x8003CC24  addu v0,a1,v0
+```
 
-> `0.6.6.0 = REAL-TEXT ENCODER PASS / BASELINE POLISH NEEDED`.
+### Cache miss
 
-Do not reinterpret this as an encoder/mapping failure.
+After glyph copy:
 
-## CURRENT — 0.6.6.1 BASELINE-NORMALIZED REAL-TEXT
+```text
+copy_return == 8
+    ? advance = state+62
+    : advance = state+64 + 1
+
+if advance != state+62:
+    advance += state+60
+
+state+24 += advance
+```
+
+Key neighborhood:
+
+```text
+0x8003CC98  bne a0,8,...
+0x8003CCA0  lh v0,62(s1)
+...
+0x8003CCAC  lh v0,64(s1)
+0x8003CCB4  addiu v0,v0,1
+...
+0x8003CD64  lh v1,62(s1)
+0x8003CD74  lh v0,60(s1)
+0x8003CD7C  addu a0,a0,v0
+0x8003CD80  lhu v0,24(s1)
+0x8003CD88  addu v0,v0,a0
+0x8003CD90  sh v0,24(s1)
+```
+
+Interpretation currently allowed:
+- `state+60` = extra tracking;
+- `state+62` = special/small advance candidate;
+- `state+64` = native dimension feeding normal advance;
+- cache `record+6` = final advance used on subsequent hits.
+
+Do **not** yet claim a half-width mode is proven. Ownership/value source of these state fields is still pending.
+
+## CURRENT — READ-ONLY FontSpacingScanner 0.1
 
 Detailed note:
 
-`BASELINE_NORMALIZATION_0.6.6.1.md`
+`FONT_SPACING_SCANNER_0.1.md`
 
-Expected Character Select text remains:
-
-```text
-Chọn tướng
-```
-
-New glyph fitting rule:
-
-1. inspect native base bbox;
-2. if existing bbox already leaves enough room for requested marks, keep the body byte geometry unchanged (`native-preserved`);
-3. only when space is insufficient, fit/shift the minimum amount (`minimal-fit`);
-4. preserve the original bottom/baseline whenever possible;
-5. place accents relative to the fitted body bbox, not hardcoded absolute y rows.
-
-Report now records per custom glyph:
+Files:
 
 ```text
-fit_mode
-src_bbox
-body_bbox
-final_bbox
+tools/font_spacing_scanner_0.1.py
+tools/00_RUN_FONT_SPACING_SCANNER_0.1.cmd
 ```
 
-This makes remaining polish deterministic.
-
-Package:
+Expected report:
 
 ```text
-GaiaMaster_0.6.6.1_BASELINE_NORMALIZED_REAL_TEXT_PROOF.zip
+GaiaMaster_FontSpacingScanner_01.txt
 ```
 
-Status: **READY FOR ONE RUNTIME TEST.**
+Scanner behavior:
+- CLEAN or Alpha 0.6.1 BIN accepted;
+- no patch;
+- no emulator boot;
+- scans every direct READ/WRITE xref to `state+0x3C/+0x3E/+0x40`;
+- scans cache-field writes `+0x54/+0x58/+0x5C/+0x60/+0x64/+0x6C`;
+- dumps cache hit/miss advance neighborhoods;
+- dumps renderer/cache init neighborhood through `0x8003D780`;
+- lists direct callers into that init range.
 
-If still uneven, collect:
+Goal:
+
+> prove where `state+60`, `state+62`, and `state+64` come from before touching runtime spacing.
+
+Preferred outcome:
+- if these are constructor/config metrics, use a local/native spacing path or data-side metric change;
+- avoid global cursor hooks.
+
+## Next gate
+
+Only after spacing ownership is proven should a runtime `0.6.6.2` be considered.
+
+Possible safe direction, if supported by report:
 
 ```text
-screenshot
-[VI 0.6.6.1 BASELINE].txt
+Vietnamese/Latin text
+ -> native mapping/glyph pipeline
+ -> local proportional/smaller advance metric
+ -> no global Japanese spacing regression
 ```
-
-## Next after 0.6.6.1 visual pass
-
-1. inventory exact non-ASCII chars used by `vi_full`;
-2. measure safe custom-code and atlas-slot capacity;
-3. freeze deterministic Vietnamese production codepage;
-4. integrate encoder into Translation Master rebuild;
-5. migrate real rows from `vi_game_current` to accented `vi_full` encoding.
 
 ## Hard do-not-repeat
 
 - no Krom path;
 - no production 12x16;
 - no failed 0.6.3.x retests;
-- no composite X/Y tuning loop;
+- no composite X/Y tuning;
 - no 0.6.5.2 runtime redirect;
 - no assumption consecutive code == consecutive atlas slot;
 - no 0.6.5.3 retest;
-- no more 12-glyph style-board runtime loops unless a production regression demands it;
-- do not reinterpret 0.6.6.0 baseline unevenness as mapping failure;
+- no more 12-glyph style-board loops unless a production regression requires it;
+- do not reopen mapping/encoder/baseline because of horizontal spacing;
+- **no runtime spacing patch until `state+60/+62/+64` ownership is proven**;
 - stop immediately on freeze/global corruption.
