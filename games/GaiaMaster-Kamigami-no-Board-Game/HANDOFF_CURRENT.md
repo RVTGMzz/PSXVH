@@ -1,8 +1,8 @@
 # HANDOFF — Gaia Master PS1 Việt hóa
 
-> **Current source-of-truth:** `0.6.6.1 BASELINE-NORMALIZED` là LAST GOOD runtime build. Production direction bị khóa về **native 12x12 / 72-byte / static mapping-only**. `0.6.6.2c` narrow 6x12 runtime FAIL và đã RETIRED. `Production Capacity Scanner 0.1` đã chạy trên CLEAN BIN: full 134-glyph Vietnamese repertoire **không fit** với conservative zero-hit atlas capacity hiện tại (837 safe codes nhưng chỉ 64 allocatable zero-hit atlas slots, trong đó 34 completely unmapped). Current step là **vi_full Inventory 0.1**: inventory chính xác các ký tự tiếng Việt đang thực sự xuất hiện trong Translation Master 0.6 parts 01..06, rồi freeze codepage nhỏ hơn nếu <=64.
+> **Current source-of-truth:** `0.6.6.1 BASELINE-NORMALIZED` remains LAST GOOD runtime architecture. Production is locked to **native 12x12 / 72-byte / 4bpp / static mapping-only**. `0.6.6.2c` narrow 6x12 runtime failed and is retired. Full theoretical 134-glyph Vietnamese does not fit the conservative clean atlas, but the **actual current `vi_full` corpus requires exactly 60 custom Vietnamese glyphs and DOES fit the 64 zero-hit slot capacity**. Current runtime candidate is **0.6.7.0 Production Codepage 60 / Multi-UI Proof**.
 
-## Baseline fingerprints
+## Baselines
 
 - Game: `GaiaMaster - Kamigami no Board Game (Japan).bin`
 - serial: `SLPS-02075`
@@ -12,7 +12,7 @@
 - repo: `ronvotri/Viet-Hoa-PS1`
 - branch: `gaia-character-select-font-atlas-reverse-01`
 
-## Proven production font facts
+## Proven font facts
 
 ```text
 runtime GP     = 0x80085F28
@@ -26,7 +26,7 @@ mapping file   = SLPS+0x6B6CC
 native main font = 12x12 / 72-byte / 4bpp / LOW nibble first
 ```
 
-Renderer mapping path:
+Mapping pipeline:
 
 ```text
 code & 0x7FFF
@@ -45,109 +45,142 @@ Known mapping facts:
 0x889F 亜 -> glyph 0
 ```
 
-Character Select proof field:
-
-```text
-PRGPACK.BDP + 0xBFD2C
-owner nested BDP = entry 29
-field = 24 bytes
-```
-
 ## Runtime locks
 
 - `0.6.2.13`: static custom-atlas replacement PASS.
-- `0.6.3.x`: 12x16 caused shared-state corruption/freezes. Historical only.
-- `0.6.4.x`: composite overlay placement unreliable. Stop.
-- `0.6.5.2`: **UNSAFE FAIL / NEVER RETEST**, runtime pointer redirect caused black screen/FPS0/hard freeze.
+- `0.6.3.x`: 12x16 caused corruption/freezes. Historical only.
+- `0.6.4.x`: composite overlay unreliable. Stop.
+- `0.6.5.2`: **UNSAFE FAIL / NEVER RETEST**, pointer redirect caused black screen/FPS0/hard freeze.
 - `0.6.5.3`: mapping-only structural PASS.
 - `0.6.5.4`: native base copy PASS.
-- `0.6.5.5`: compact accented glyph style PASS enough for production pivot.
-- `0.6.6.0`: real Vietnamese text `Chọn tướng` rendered end-to-end.
+- `0.6.5.5`: compact accent style PASS enough for production.
+- `0.6.6.0`: real text `Chọn tướng` rendered end-to-end.
 - `0.6.6.1`: baseline-normalized real text **PASS / LAST GOOD**.
-- `0.6.6.2`: safety-gate false block, no runtime build.
-- `0.6.6.2b`: stricter safety-gate false block, no runtime build.
-- `0.6.6.2c`: native narrow 6x12 one-byte alias proof **RUNTIME FAIL**; garbled glyphs. RETIRE narrow one-byte production path.
+- `0.6.6.2`: gate false block, no runtime.
+- `0.6.6.2b`: gate false block, no runtime.
+- `0.6.6.2c`: native narrow 6x12 one-byte alias **RUNTIME FAIL**, garbled glyphs. Retired.
 
-## 0.6.6.1 LAST GOOD
+Wide horizontal spacing in 0.6.6.1 is now classified as **visual polish only**. Do not rewrite architecture to chase it.
 
-Proven:
-- main 12x12 atlas + static mapping works for Vietnamese;
-- plain Latin can reuse native full-width Gaia glyphs;
-- `ọ`, `ư`, `ớ` render acceptably;
-- vertical baseline is production-usable;
-- stable boot/UI;
-- no hook;
-- no pointer redirect.
+## Production Capacity Scanner 0.1 — result
 
-Remaining wide horizontal spacing is classified as **visual polish only**. Do not rewrite architecture to chase spacing.
-
-## Production Capacity Scanner 0.1 — RESULT
-
-User ran the READ-ONLY scanner on the verified CLEAN BIN.
-
-Result:
+Worst-case full Vietnamese target:
 
 ```text
-Target custom glyphs: 134
-Zero-hit custom codes: 837
-Zero-hit atlas slots : 64
-Unmapped zero slots  : 34
-Verdict              : FAIL
+134 custom glyphs
+837 zero-static-hit custom codes
+64 zero-static-hit atlas slots
+34 completely unmapped zero-hit slots
+30 mapped-but-static-unused zero-hit slots
 ```
 
-Detailed breakdown:
+Result: **134-glyph theoretical full repertoire does NOT fit**. This was a valid capacity FAIL, not a broken build.
+
+## vi_full Inventory 0.1 — PASS
+
+Translation Master 0.6:
 
 ```text
-zero-hit + completely unmapped slots        = 34
-zero-hit + mapped-but-static-unused slots   = 30
-total conservative allocatable zero-hit     = 64
-needed for full Vietnamese precomposed set  = 134
+total rows               = 596
+rows with non-empty vi_full = 393
+unique chars in vi_full  = 125
+custom Vietnamese glyphs = 60
+lowercase custom         = 56
+uppercase custom         = 4
+zero-hit atlas capacity  = 64
 ```
 
-Interpretation:
-- custom code space is NOT the bottleneck;
-- atlas capacity is the bottleneck under the conservative rule of preserving all currently referenced Japanese glyphs;
-- scanner worked correctly; this is a capacity FAIL, not a build crash;
-- no runtime BIN/CUE was created by the scanner.
+Actual current `vi_full` therefore **fits** with 4 conservative reserve slots.
 
-Do not rerun the 134-glyph worst-case scanner unless atlas-reclaim policy changes.
-
-## CURRENT — vi_full Inventory 0.1
-
-Files:
+Exact current custom set:
 
 ```text
-tools/vifull_inventory_0.1.py
-tools/00_RUN_VIFULL_INVENTORY_0.1.cmd
+àáâãéêìíòóÔôùúÝăĐđĩũƠơưạảấầẩẫậắặẻẽếềểệỉịọỏốồổỗộớờởợụủứừửữựỵỹ
 ```
 
-Purpose:
-- fetch/read `TRANSLATION_MASTER_0.6_part01..part06.csv`;
-- inventory only non-empty `vi_full` rows;
-- compute exact unique Vietnamese precomposed characters currently needed;
-- split lowercase/uppercase;
-- normalize Unicode punctuation that can map back to ASCII;
-- compare current real-corpus custom glyph need against known clean capacity = 64 slots.
+No other non-ASCII/non-Vietnamese policy characters are currently required by `vi_full`.
 
-Expected report:
+## Production slot allocation
+
+Frozen 60 production slots:
 
 ```text
-GaiaMaster_ViFullInventory_01.txt
+# 34 completely unmapped zero-hit
+18 33 58 160 182 261 301 371 392
+420 421 422 423 424 425 426 427 428 429 430 431
+432 433 434 435 436 437 438 439 440
+517 695 704 713
+
+# 26 mapped-but-static-unused zero-hit
+38 94 108 109 129 130 150 208 295 326 335 345 372
+385 394 398 400 403 702 715 729 745 750 754 757 790
 ```
 
-### Next if vi_full inventory PASS (<=64)
+Reserve zero-hit slots left untouched:
 
-1. freeze deterministic `Unicode -> custom CP932 code -> atlas slot` table for exactly the current corpus;
-2. reuse 0.6.6.1 baseline-preserving 12x12 glyph generator;
-3. build a multi-string production proof from real `vi_full` rows;
-4. keep current full-width spacing until translation pipeline is stable at scale.
+```text
+794 807 821 824
+```
 
-### Next if vi_full inventory FAIL (>64)
+Custom code selection remains deterministic from the verified CLEAN BIN using the existing zero-static-hit scan. Code space is not the bottleneck.
 
-Do NOT revive narrow/12x16/composite. Instead design an explicit atlas-reclaim policy:
-- identify Japanese glyph slots whose remaining occurrences are all in rows already translated;
-- patch those rows and reclaim only those now-dead slots;
-- expand codepage incrementally with provenance/reporting.
+## 0.6.6.1 baseline helper preserved
+
+Repo helper:
+
+```text
+tools/gaia_0661_baseline.py
+```
+
+This preserves the baseline-normalized 12x12 glyph composition used by the last-good runtime direction so production work does not fall back to the older 0.6.6.0 fixed-body compression.
+
+## CURRENT — 0.6.7.0 Production Codepage 60 / Multi-UI Proof
+
+Design note:
+
+```text
+PRODUCTION_CODEPAGE_0.6.7.0.md
+```
+
+Local test package:
+
+```text
+GaiaMaster_0.6.7.0_PRODUCTION_CODEPAGE_60_MULTI_UI_PROOF.zip
+```
+
+The package installs all 60 current `vi_full` custom glyphs into the frozen production slots using native 12x12 + static mapping-only routing.
+
+Quick runtime proof patches three nearby setup/player-selection strings:
+
+```text
+PRGPACK+0xBFBEC -> Đã ổn?
+PRGPACK+0xBFD2C -> Chọn tướng
+PRGPACK+0xBFE4C -> Nhấn O
+```
+
+Builder safety:
+- CLEAN BIN SHA1 gate;
+- clean SLPS/PRGPACK SHA1 gate;
+- mapping facts rechecked;
+- all 60 production + 4 reserve slots rechecked as zero-static-hit;
+- native base slots protected;
+- source Japanese bytes verified before replacement;
+- Vietnamese proof must fit the old source field;
+- nested + top BDP checksums rebuilt;
+- raw CD EDC/ECC rebuilt;
+- emits runtime report + exact CODEPAGE60 manifest.
+
+Expected runtime behavior:
+- stable boot;
+- three proof strings render as Vietnamese;
+- spacing remains full-width and is **not a fail** for this phase;
+- no global corruption.
+
+If runtime PASS:
+1. freeze the emitted `CODEPAGE60` manifest as production source-of-truth;
+2. integrate encoder into Translation Master rebuild;
+3. patch batches of real `vi_full` rows whose encoded text fits safely;
+4. design explicit relocation/length strategy for rows that do not fit in-place.
 
 ## Hard do-not-repeat
 
@@ -160,14 +193,13 @@ Do NOT revive narrow/12x16/composite. Instead design an explicit atlas-reclaim p
 - no 0.6.6.2c retest;
 - no one-byte narrow alias production path;
 - no global cursor/cache/spacing mutation;
-- no code cave at the narrow-font boundary;
 - no spacing-driven architecture rewrite;
-- no assumption full 134-glyph Vietnamese must fit before shipping a useful production codepage;
+- no repeated 134-glyph scanner unless reclaim policy changes;
 - stop immediately on freeze/global corruption.
 
-## User testing preference
+## Testing preference
 
 - minimize emulator tests;
 - maximize information per test;
-- READ-ONLY scanners before risky runtime builds;
-- never repeat known failed or already-proven builds.
+- never repeat known failed/already-proven builds;
+- read reports immediately when uploaded.
