@@ -31,7 +31,7 @@ Alpha 0.6.1 FRONT SHA1
 `Chọn tướng` rendered end-to-end. **PASS**, baseline needed polish.
 
 ### 0.6.6.1 BASELINE-NORMALIZED
-**PASS / PREVIOUS LAST GOOD.** Native 12x12 + mapping-only + acceptable baseline. Full-width spacing is polish only.
+**PASS / PREVIOUS LAST GOOD.** Native 12x12 + mapping-only + acceptable baseline.
 
 ### 0.6.6.2 / 0.6.6.2b
 Safety-gate false blocks. No runtime build. Do not retest.
@@ -73,16 +73,16 @@ Frozen custom set:
 Full 60-glyph production codepage boots and renders. **PASS**, accent placement still needed polish.
 
 ### 0.6.7.1
-Horn on `ơ/ư` moved closer to the body successfully. Acute/grave became too close to horn. **INTERMEDIATE VISUAL PASS.**
+Horn on `ơ/ư` moved closer to the body. Acute/grave still too close. Intermediate only.
 
 ### 0.6.7.2
-**FONT VISUAL PASS / FREEZE.** Runtime screenshot of `Chọn tướng` judged perfect by user.
+**FONT VISUAL PASS / FREEZE.** Runtime `Chọn tướng` judged perfect by user.
 
-Production accent rule now locked:
-- horn hugs the `ơ/ư` body;
-- acute/grave are separated farther from horn;
+Frozen rule:
+- horn hugs `ơ/ư` body;
+- acute/grave separated farther from horn;
 - 0.6.6.1 baseline normalization retained;
-- do not retune unless a new production regression appears.
+- no further retuning without a demonstrated regression.
 
 Frozen production slots:
 
@@ -101,58 +101,114 @@ Reserve:
 794 807 821 824
 ```
 
-## CURRENT — 0.6.8.0 PROD60 SAFE-FIT vi_full BATCH 1
+## 0.6.8.x — safe-fit/front-end experiments
 
-Package:
+### 0.6.8.0
+Safe-fit `vi_full` batch. User runtime saw little visible difference beyond `Chọn tướng`. Not the desired gameplay-coverage baseline.
+
+### 0.6.8.1
+Front-end scan/coverage attempt. User still reported menu/cards/gameplay largely untranslated. Retire as current direction.
+
+## 0.6.9.x — hybrid old-Alpha coverage recovery
+
+Old Alpha generator/builders:
 
 ```text
-GaiaMaster_0.6.8.0_PRODUCTION_SAFE_FIT_BATCH1.zip
+tools/generate_alpha061_patches.py
+tools/build_alpha061_front.py
 ```
 
-Immediate sanity anchors:
+Old Alpha legacy coverage = exactly **397 patch keys**.
+
+### 0.6.9.0
+Hybrid total became `399`, but gate incorrectly required total exactly `397`.
+
+**BUILD GATE BUG. No runtime. Do not retest.**
+
+### 0.6.9.1
+Gate incorrectly counted many `vi_game_current` rows as legacy even when Alpha skipped them for length. Error reported 228 lost rows.
+
+**BUILD GATE BUG. No runtime. Do not retest.**
+
+### 0.6.9.2 EXACT LEGACY GATE
+Reconstructed the exact old Alpha legacy set before comparing hybrid coverage:
 
 ```text
-Đã ổn?
-Chọn tướng
-Nhấn O
+legacy = 397 / 397
+extra newer vi_full-only rows allowed
 ```
 
-Then builder processes Translation Master 0.6 parts 01..06 and applies every non-empty `vi_full` row that can safely replace its clean Japanese source in-place.
+Runtime intro screenshot showed Vietnamese fallback text:
 
-A row is applied only when:
-- source file is PRGPACK.BDP or SLPS_020.75;
-- exact Japanese bytes match clean data;
-- source is NUL-terminated;
-- no printf/control token requires raw ASCII semantics;
-- encoded Vietnamese <= original Japanese byte budget.
+```text
+100 NAM MENH
+LUC DIA LOAN
+THOI GAIA MASTER
+DEN LUC!
+```
 
-Skipped in Batch 1:
-- `%s`, `%d`, `%4d`, `%+3d` and related formatter rows;
-- `/V` / `/v` control-marker rows;
-- overlength rows;
-- source mismatches or unsupported rows.
+**COVERAGE PASS / ACCENT COVERAGE INCOMPLETE.**
 
-Safety:
-- no relocation;
-- no file expansion;
-- no overwrite of following string;
-- all touched nested BDP checksums rebuilt;
-- top PRGPACK checksum rebuilt;
-- Mode2/Form1 EDC/ECC rebuilt.
+This proves the gameplay/front patch pipeline is active again. The unaccented intro is expected because `FRONT_DEMO_ADDED_061.csv` only contained `vi_no_accents`.
 
-### PASS gate
+## CURRENT — 0.6.10.0 HYBRID FULL COVERAGE + FRONT ACCENT BATCH 1
 
-If the three anchors remain visually identical to 0.6.7.2 and normal play shows stable translated `vi_full` strings:
-- freeze CODEPAGE60 manifest;
-- proceed to 0.6.8.x Batch 2 token-aware encoder;
-- preserve raw format/control tokens while encoding surrounding display text.
+Current files:
 
-### FAIL gate
+```text
+tools/build_gaia_06100_hybrid_accent_b1.py
+tools/00_BUILD_0.6.10.0_HYBRID_ACCENT_B1.cmd
+ACCENT_UPGRADE_0.6.10.0.md
+translation/FRONT_ACCENT_OVERRIDES_0.6.10.0.csv
+```
 
-On freeze/global corruption/unrelated glyphs:
-- stop immediately;
-- send screenshot + generated `PROD60 SAFEFIT B1` report;
-- do not retest blindly.
+Exact readable builder source SHA1:
+
+```text
+faea2fbf90d3b4038ad64d3872934c043115878a
+```
+
+Local package:
+
+```text
+GaiaMaster_0.6.10.0_HYBRID_FRONT_ACCENT_BATCH1.zip
+SHA1 d43e8547f9baca4e254f96fdb7850a5c6f873e86
+```
+
+Coverage rule:
+
+```text
+exact legacy Alpha key coverage = 397 / 397
+extra vi_full-only patches allowed
+```
+
+Text priority:
+
+```text
+vi_full accented if it fits
+-> vi_game_current fallback if it fits
+-> dedicated front fallback/override
+```
+
+0.6.10.0 adds accented compact overrides for all **31** `FRONT_DEMO_ADDED_061.csv` rows. Builder blocks if any of those 31 accented overrides fails to fit.
+
+Expected intro improvements:
+
+```text
+100 năm mệnh
+Lực địa loạn
+Thời Gaia Master
+Đến lúc!
+Thế giới mất chủ
+```
+
+### Next gate
+
+1. runtime-test intro accents;
+2. if intro passes, enter real match;
+3. inspect card/menu/item/prompt text;
+4. remaining no-accent Vietnamese means fallback content still needs an accented compact rewrite;
+5. proceed to **0.6.10.x / 0.6.11.0 Accent Upgrade Batch 2** for gameplay fallback rows, while keeping exact 397/397 legacy coverage.
 
 ## Do not repeat
 
@@ -161,11 +217,12 @@ On freeze/global corruption/unrelated glyphs:
 - no failed 0.6.3.x retests;
 - no composite overlay loop;
 - no 0.6.5.2 pointer redirect;
-- no 0.6.6.2 / 2b retest;
+- no 0.6.6.2 / 2b retests;
 - no 0.6.6.2c retest;
 - no one-byte narrow alias path;
 - no global cursor/cache spacing mutation;
 - no spacing-driven architecture rewrite;
 - no accent retuning after 0.6.7.2 without a demonstrated regression;
-- do not patch printf/control-token rows with the plain display encoder;
+- no 0.6.9.0 / 0.6.9.1 retests;
+- do not remove fallback coverage unless an accented replacement really fits;
 - stop immediately on freeze/global corruption.
