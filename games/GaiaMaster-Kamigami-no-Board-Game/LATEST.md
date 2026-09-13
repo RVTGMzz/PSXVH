@@ -17,87 +17,84 @@ Không quay lại narrow 6x12, 12x16, pointer redirect, composite overlay hay gl
 
 ## Runtime mới nhất
 
-`0.6.12.0` đã được user test. Kết quả:
+`0.6.13.0` tiếp tục giảm tiếng Nhật, nhưng screenshot mới xác nhận lowercase `ă` vẫn lỗi hình:
 
 ```text
-TRANSLATION PROGRESS VISIBLE
-CONTENT QA INCOMPLETE
-LOWERCASE ă HOTFIX V1 FAIL VISUALLY
+dấu breve cũ chưa được xóa sạch
++ dấu mới bị vẽ chồng lên
+= glyph trông hai tầng / quái hình
 ```
 
-Ảnh runtime mới cho thấy `ă` đã chạm đúng glyph/slot nhưng breve vẫn sai: phần nhìn thấy chủ yếu là dark shadow, dấu sáng chưa đúng và shadow nằm hơi cao. Root cause trong hotfix v1 là dùng `max(palette index)` làm fill, có thể chọn trúng shadow index 7, đồng thời shadow cũ ở row 2 chưa được dọn sạch.
+Vì vậy không tiếp tục kiểu xóa vài row rồi vẽ lại.
 
-User cũng xác nhận tiếng Nhật vẫn còn nhiều, nên không tiếp tục micro-fix từng vài câu.
-
-# CURRENT — 0.6.13.0 COMPACT JAPANESE REDUCTION BATCH 4
+# CURRENT — 0.6.14.0 TRANSLATION BATCH 5 + FRESH `ă` REBUILD
 
 Files:
 
 ```text
-ACCENT_UPGRADE_0.6.13.0.md
-tools/build_gaia_06130_translation_b4.py
-tools/00_BUILD_0.6.13.0_TRANSLATION_B4.cmd
-translation/COMPACT_TRANSLATION_OVERRIDES_0.6.13.0.csv
-translation/DYNAMIC_LITERAL_OVERRIDES_0.6.13.0.csv
+ACCENT_UPGRADE_0.6.14.0.md
+tools/build_gaia_06140_translation_b5.py
+tools/00_BUILD_0.6.14.0_TRANSLATION_B5.cmd
+translation/COMPACT_TRANSLATION_OVERRIDES_0.6.14.0.csv
+translation/DYNAMIC_LITERAL_OVERRIDES_0.6.14.0.csv
 ```
 
-### Lowercase `ă` hotfix v2
+### Fix `ă` v3
 
-- giữ nguyên code/slot/body production;
-- derive bright fill từ histogram nhưng loại shadow index `7`;
-- xóa mark cũ ở rows 0/1 và stale shadow ở row 2;
-- redraw breve thấp hơn thành shallow cup;
-- draw shadow một pixel xuống/phải bằng native shadow palette;
-- chỉ patch glyph `ă`.
+Bản mới **bỏ toàn bộ bitmap `ă` cũ** sau inner build rồi dựng lại từ CLEAN native lowercase `a`.
+
+Quy trình:
+
+```text
+clean native a
+ -> compact fresh body
+ -> one shallow-U breve
+ -> native shadow
+ -> replace entire custom ă glyph
+```
+
+Do đó không còn khả năng dấu cũ sót dưới dấu mới.
 
 ### Dịch thêm
 
-Batch 4 có **146 compact exact-offset candidates** nhắm vào các row vẫn có nguy cơ rơi về tiếng Nhật vì bản dịch dài không fit field gốc.
-
-Nhóm nội dung:
+Batch 5 thêm **38 compact exact-offset candidates** cho gameplay/help/status và các chuỗi đầu game, ví dụ:
 
 ```text
-mua/bán/đất/thuế
-nhận card/vũ khí
-battle prompts
-route/status
-special squares
-building/symbol effects
-item/card descriptions
+Thẻ SK
+Dừng: SK
+Đấu đối thủ
+Vô chủ
+Quỹ %5d
+Phí %4d
+Lượt %s
+Dừng %s
+Đất %s
+Thuế TN
+Ô thuế đất
+Đồng ý?
+Có/Không
+Chọn thẻ
+Dùng %s
 ```
 
-Builder chỉ apply khi byte-fit; quá dài thì skip an toàn.
+Builder chỉ apply khi vừa field gốc. Không ép câu dài.
 
-Dynamic map tăng từ 12 lên **35 literals**, thêm tên vũ khí/card và một số board/location labels để xử lý `%s` hoặc duplicate runtime ngoài offset chính.
-
-Ví dụ:
+Dynamic literal map cũng bổ sung:
 
 ```text
-サンダー -> Sấm
-ハリケーン -> Bão
-クロスボウ -> Nỏ
-ロングソード -> Kiếm
-ファイアボール -> Lửa
-バトルアックス -> Rìu
-サーカス -> Xiếc
-呪いの沼 -> Đầm
+墓地 -> Mộ
+大聖堂 -> Đền
+通行税 -> Phí
 ```
 
-## State
+## Gate
 
 ```text
-SOURCE READY
-PYTHON SYNTAX PASS
-CLEAN-ROM BUILD PENDING
-RUNTIME PENDING
+397 / 397 legacy coverage vẫn bắt buộc
 ```
 
-## Next runtime test
+## Test tiếp
 
-Test rộng thay vì micro-test:
-
-1. nhìn `ă` trong `năng`;
-2. chơi vài lượt;
-3. mở card/item/event/menu;
-4. thử đất/thuế/tuyến/battle;
-5. chụp các dòng Nhật còn nguyên hoặc `%s` còn tên Nhật.
+1. xem chữ `ă` trong `năng` trước: chỉ còn **một** breve;
+2. chơi vài lượt, mở card/item/help/menu;
+3. chụp các câu Nhật còn sót thành một mẻ để tiếp tục Batch lớn.
