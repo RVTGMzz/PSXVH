@@ -2,183 +2,191 @@
 
 Cập nhật: **2026-09-13**
 
-## Runtime baseline
+## Source-of-truth
 
-`0.6.6.1 BASELINE-NORMALIZED` đã runtime PASS với câu thật:
+Production đã khóa vào:
+
+```text
+native 12x12 / 72-byte / 4bpp
+static mapping-only
+60-glyph Vietnamese production codepage
+font visual style = 0.6.7.2
+```
+
+Không quay lại narrow 6x12, 12x16, pointer redirect, composite overlay hay global spacing hook.
+
+## Font visual baseline
+
+`0.6.7.2` = **FONT VISUAL PASS / FREEZE**.
+
+User runtime screenshot của:
 
 ```text
 Chọn tướng
 ```
 
-Glyph + vertical baseline ổn. Vấn đề đang xử lý là horizontal spacing.
+được đánh giá perfect.
 
-## Native narrow route
+Accent rule đã khóa:
+- horn của `ơ/ư` bám sát thân chữ;
+- dấu sắc/huyền tách đủ xa khỏi horn;
+- baseline-normalized từ 0.6.6.1;
+- spacing ngang hơi rộng được chấp nhận.
 
-Static reverse/scanner đã chứng minh Gaia có native font hẹp:
+## Production codepage capacity
 
-```text
-RAM        0x8006BAAC
-SLPS       0x5C2AC
-geometry   6x12 / 4bpp
-reachable  indices 0..14
-native advance = 8px
-```
-
-Renderer gốc đã có đường:
+Actual Translation Master 0.6 hiện cần:
 
 ```text
-1-byte char
- -> narrow source
- -> native narrow copy
- -> return 8
- -> cached advance 8px
+60 custom Vietnamese glyphs
+64 conservative zero-hit atlas slots
+4 reserve slots
 ```
 
-Không cần global spacing hook để chứng minh 8px.
-
-## Code cave route bị loại
-
-Zero/NOP candidate cũ kết thúc tại `SLPS+0x5C2B8`, nhưng narrow font resource bắt đầu từ `SLPS+0x5C2AC`.
-
-=> overlap font data, **REJECT / NEVER USE AS CAVE**.
-
-## 0.6.6.2 — BUILD GATE FALSE POSITIVE
-
-`0.6.6.2` **không có runtime result**.
-
-Builder đã dừng trước khi tạo BIN/CUE vì text safety scanner quá rộng, nhận nhiều rác binary thành CP932 text, ví dụ:
+Frozen custom set:
 
 ```text
-62R#eUReVR"T"WTV
-wp&#"a
-s&qﾟ
+àáâãéêìíòóÔôùúÝăĐđĩũƠơưạảấầẩẫậắặẻẽếềểệỉịọỏốồổỗộớờởợụủứừửữựỵỹ
 ```
 
-Do đó:
+## Coverage recovery
+
+Old Alpha 0.6.1 từng có **397 patch keys** từ gameplay/front text.
+
+`0.6.8.0` và `0.6.8.1` không cho runtime coverage như mong muốn, nên không còn là hướng hiện tại.
+
+### 0.6.9.0
+
+Hybrid pipeline tìm `399` patch nhưng gate sai, bắt tổng phải đúng 397.
+
+**Build gate bug only. Do not retest.**
+
+### 0.6.9.1
+
+Gate tiếp theo sai logic legacy và báo mất 228 row.
+
+**Build gate bug only. Do not retest.**
+
+### 0.6.9.2
+
+Exact legacy reconstruction:
 
 ```text
-0.6.6.2 = FALSE BLOCK
-DO NOT RETEST OLD PACKAGE
+legacy Alpha coverage = 397 / 397
+extra vi_full-only patches allowed
 ```
 
-Manual corpus review xác nhận ba narrow owners thực sự xuất hiện trong text và phải loại:
+Runtime intro đã hiện Vietnamese fallback:
 
 ```text
-(  )   -> (速い者順)
-+      -> 通行税 %+3d％
+100 NAM MENH
+LUC DIA LOAN
+THOI GAIA MASTER
+DEN LUC!
 ```
 
-Các owner đã chủ động loại từ trước:
+=> **coverage pipeline PASS**.
+
+Nhưng intro vẫn không dấu vì `FRONT_DEMO_ADDED_061.csv` chỉ có `vi_no_accents`.
+
+## CURRENT — 0.6.10.0 HYBRID FULL-COVERAGE + FRONT ACCENT BATCH 1
+
+Current repo files:
 
 ```text
-!      punctuation risk
-%      format token
-, -    punctuation/control risk
-. /    punctuation/control-code risk
+tools/build_gaia_06100_hybrid_accent_b1.py
+tools/00_BUILD_0.6.10.0_HYBRID_ACCENT_B1.cmd
+ACCENT_UPGRADE_0.6.10.0.md
+translation/FRONT_ACCENT_OVERRIDES_0.6.10.0.csv
 ```
 
-## CURRENT — 0.6.6.2b NATIVE NARROW 8PX STRICT GATE
-
-Source/launcher:
+Builder source snapshot is exact; readable-source SHA1:
 
 ```text
-tools/build_gaia_0662b_native_narrow_8px.py
-tools/00_BUILD_0.6.6.2b_NATIVE_NARROW_8PX.cmd
+faea2fbf90d3b4038ad64d3872934c043115878a
 ```
 
-Design note:
+Local package:
 
 ```text
-FONT_NARROW_PROOF_0.6.6.2b.md
+GaiaMaster_0.6.10.0_HYBRID_FRONT_ACCENT_BATCH1.zip
+SHA1 d43e8547f9baca4e254f96fdb7850a5c6f873e86
 ```
 
-Expected visual:
+### Coverage rule
 
 ```text
-Chọn tướng
+legacy Alpha coverage must remain 397 / 397
+extra vi_full-only rows may be added
 ```
 
-Eight diagnostic narrow owners:
+Text priority:
 
 ```text
-"  #  $  &  '  *  Z  X
+vi_full accented if it fits
+-> vi_game_current fallback if it fits
+-> dedicated front override/fallback
 ```
 
-Space giữ byte native `0x20` và advance 8px.
-
-### Strict safety gate
-
-0.6.6.2b không còn coi mọi ASCII-ish run là text.
-
-Nó chỉ coi:
-
-1. chuỗi có Japanese characters là real text;
-2. ASCII-only là real text khi giống compact uppercase UI/debug label;
-3. mixed-case binary-looking runs bị bỏ qua.
-
-Nếu bất kỳ một trong tám owner vẫn có hit thật:
+Runtime format/control tokens remain raw:
 
 ```text
-[BLOCKED]
+%s %d %+3d /V /v ...
 ```
 
-=> không tạo BIN/CUE, chỉ gửi gate report.
+### Front Accent Batch 1
 
-Nếu `[OK]`:
+All 31 dedicated intro/setup rows now have compact accented overrides.
+
+Expected intro examples:
 
 ```text
-[VI 0.6.6.2b NATIVE NARROW 8PX].cue
+100 năm mệnh
+Lực địa loạn
+Thời Gaia Master
+Đến lúc!
+Đất ảo trời
+Thế giới mất chủ
 ```
 
-chỉ test Character Select một lần.
-
-## Important reverse finding — possible scalable narrow bank
-
-Renderer narrow/wide gate tại:
-
-```asm
-0x8003C3E8  sltiu v0,a1,15
-```
-
-Native narrow source formula:
+Expected setup examples:
 
 ```text
-source = 0x8006BAAC
-       + 3 * ((index & ~1) * 12)
-       + 3 * (index & 1)
+Tải dữ liệu VK?
+Kỹ năng LV1
+Nhân vật này?
+Xác nhận?
 ```
 
-Index 16 would land exactly at main atlas base:
+The builder blocks if any of the 31 accented front overrides cannot fit.
+
+## Next session
+
+Start by reading:
 
 ```text
-0x8006BAAC + 576 = 0x8006BCEC
+HANDOFF_CURRENT.md
+PROBE_BUILD_INDEX.md
+ACCENT_UPGRADE_0.6.10.0.md
 ```
 
-Một main 12x12 / 72-byte cell cũng chính là hai half-cell 6x12 / 36-byte theo layout hàng. Vì vậy main atlas có tiềm năng trở thành vùng narrow mở rộng.
+Then:
 
-**Chưa được phép runtime patch threshold.** Nếu chỉ tăng `<15` toàn cục sẽ reclassify ASCII/table entries đang có và có thể phá text. Sau proof 0.6.6.2b cần thiết kế selective private-code route, không patch threshold mù.
-
-## Runtime gate
-
-Chỉ nếu 0.6.6.2b builder báo `[OK]`:
-
-1. boot generated CUE;
-2. chỉ vào Character Select;
-3. expected `Chọn tướng`;
-4. spacing phải sít hơn rõ so với 0.6.6.1, target ~8px;
-5. stop ngay nếu freeze/global corruption;
-6. gửi screenshot + generated TXT.
-
-Nếu `[BLOCKED]`, không boot gì cả.
+1. runtime-test `0.6.10.0` intro;
+2. if intro accent pass, enter a real match;
+3. inspect card/menu/item/prompt text;
+4. collect remaining no-accent fallback rows;
+5. build **Accent Upgrade Batch 2** for gameplay content while preserving exact `397/397` legacy coverage.
 
 ## Hard rules
 
-- no production 12x16;
+- never retest `0.6.5.2`;
+- no 12x16 production;
+- no narrow 6x12 alias production;
 - no pointer redirect;
 - no composite overlay;
-- no global cursor/cache/spacing hook;
-- never use `SLPS+0x5C0E0..<0x5C2B8` as cave;
-- do not treat `0xE0..0xFC` as private one-byte space;
-- do not retest blocked `0.6.6.2`;
-- do not globally raise the narrow `<15` threshold;
+- no global cursor/cache/spacing mutation;
+- no accent retuning after 0.6.7.2 unless a real glyph regression appears;
+- no 0.6.9.0 / 0.6.9.1 retest;
+- keep fallback coverage until an accented replacement actually fits;
 - stop immediately on freeze/global corruption.
