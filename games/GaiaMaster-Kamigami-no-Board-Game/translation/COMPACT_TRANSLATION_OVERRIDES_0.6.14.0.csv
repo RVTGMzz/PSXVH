@@ -1,0 +1,39 @@
+file,offset_hex,vi_accented,category,note
+PRGPACK.BDP,0x68e18,Thẻ SK,compact,Batch 5 Japanese-reduction candidate
+PRGPACK.BDP,0x68e28,VK/SK,compact,Batch 5 Japanese-reduction candidate
+PRGPACK.BDP,0x68e38,Qua: tiền,compact,Batch 5 Japanese-reduction candidate
+PRGPACK.BDP,0x68e4c,Sẽ nhận,compact,Batch 5 Japanese-reduction candidate
+PRGPACK.BDP,0x68e58,1 thẻ SK,compact,Batch 5 Japanese-reduction candidate
+PRGPACK.BDP,0x68e68,Dừng: SK,compact,Batch 5 Japanese-reduction candidate
+PRGPACK.BDP,0x68e78,Có thể,compact,Batch 5 Japanese-reduction candidate
+PRGPACK.BDP,0x68e84,Có thể mở,compact,Batch 5 Japanese-reduction candidate
+PRGPACK.BDP,0x68e94,Đấu đối thủ,compact,Batch 5 Japanese-reduction candidate
+PRGPACK.BDP,0x68ea4,Dừng: chọn,compact,Batch 5 Japanese-reduction candidate
+PRGPACK.BDP,0x68eb8,Vô chủ,compact,Batch 5 Japanese-reduction candidate
+PRGPACK.BDP,0x68ec4,Quỹ %5d,compact,Batch 5 Japanese-reduction candidate
+PRGPACK.BDP,0x68edc,Phí %4d,compact,Batch 5 Japanese-reduction candidate
+PRGPACK.BDP,0x68ee8,Phí %+3d%,compact,Batch 5 Japanese-reduction candidate
+SLPS_020.75,0x958,Hồi 50HP!,compact,Batch 5 gameplay accent candidate
+SLPS_020.75,0x970,Dừng %s,compact,Batch 5 gameplay accent candidate
+SLPS_020.75,0x980,Đất %s,compact,Batch 5 gameplay accent candidate
+SLPS_020.75,0x98c,Đã dừng!,compact,Batch 5 gameplay accent candidate
+SLPS_020.75,0x9a0,Chiến,compact,Batch 5 gameplay accent candidate
+SLPS_020.75,0x9ac,Chiến lấy đất,compact,Batch 5 gameplay accent candidate
+SLPS_020.75,0x9cc,Quán,compact,Batch 5 gameplay accent candidate
+SLPS_020.75,0x9dc,Nhận VK,compact,Batch 5 gameplay accent candidate
+SLPS_020.75,0x9f4,Thuế TN,compact,Batch 5 gameplay accent candidate
+SLPS_020.75,0xa14,Mất20% tiền,compact,Batch 5 gameplay accent candidate
+SLPS_020.75,0xa30,Ô thuế đất,compact,Batch 5 gameplay accent candidate
+SLPS_020.75,0xa50,Mất20% đất,compact,Batch 5 gameplay accent candidate
+SLPS_020.75,0xa6c,Ô Thánh,compact,Batch 5 gameplay accent candidate
+SLPS_020.75,0xa84,Nhận thuế,compact,Batch 5 gameplay accent candidate
+SLPS_020.75,0xaa0,Đi đâu?,compact,Batch 5 gameplay accent candidate
+SLPS_020.75,0xabc,%s nghỉ,compact,Batch 5 gameplay accent candidate
+SLPS_020.75,0xad0,Lượt %s,compact,Batch 5 gameplay accent candidate
+SLPS_020.75,0xadc,Xong!,compact,Batch 5 gameplay accent candidate
+SLPS_020.75,0xae8,Trùng ô,compact,Batch 5 gameplay accent candidate
+SLPS_020.75,0xb08,Thách đấu?,compact,Batch 5 gameplay accent candidate
+SLPS_020.75,0xe54,Đồng ý?,compact,Batch 5 gameplay accent candidate
+SLPS_020.75,0xe64,Có/Không,compact,Batch 5 gameplay accent candidate
+SLPS_020.75,0xe9c,Chọn thẻ,compact,Batch 5 gameplay accent candidate
+SLPS_020.75,0xeb8,Dùng %s,compact,Batch 5 gameplay accent candidate
