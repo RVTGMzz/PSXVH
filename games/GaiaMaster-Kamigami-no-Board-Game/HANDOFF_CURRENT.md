@@ -1,6 +1,6 @@
 # HANDOFF — Gaia Master PS1 Việt hóa
 
-> **Current source-of-truth:** mapping-data-only + production encoder + baseline đã runtime PASS. `0.6.6.1 BASELINE-NORMALIZED` là runtime baseline tốt. Vấn đề còn lại là horizontal spacing. Private 12x12 bank đã static PASS, nhưng code-cave candidate bị REJECT vì overlap native narrow font resource. Current step là **READ-ONLY FontNarrowBankScanner 0.1** để kiểm tra một hướng tốt hơn: dùng chính native 1-byte narrow glyph bank để nhận advance 8px **không cần runtime hook**. Chưa build runtime `0.6.6.2`.
+> **Current source-of-truth:** `0.6.6.1 BASELINE-NORMALIZED` runtime PASS về real Vietnamese glyph + vertical baseline. FontSpacingScanner + FontPrivateBankScanner + FontNarrowBankScanner đã chứng minh Gaia có native **6x12 narrow bank + 8px advance**. Code-cave route bị REJECT vì overlap resource. Current build là **0.6.6.2 NATIVE NARROW 8PX REAL-TEXT PROOF**, data-only, có built-in safety gate. Chỉ runtime-test nếu builder in `[OK]`; nếu `[BLOCKED]` thì gửi gate report và không boot gì cả.
 
 ## Baseline
 
@@ -9,34 +9,34 @@
 - clean BIN SHA1: `f4d5298583c90d89c4b7e51d2dde160ee07f2aec`
 - clean SLPS SHA1: `1dfeb6b7cfda59c108dde2dc0b8abda9a40e6ae5`
 - clean PRGPACK SHA1: `a9b195b8ae5d8cad7f4f755daa08337d4671632c`
-- branch: `gaia-character-select-font-atlas-reverse-01`
 - repo: `ronvotri/Viet-Hoa-PS1`
+- branch: `gaia-character-select-font-atlas-reverse-01`
 
-## Proven font / mapping facts
+## Main font facts already proven
 
 ```text
 runtime GP     = 0x80085F28
 atlas global   = gp+0x518
 mapping global = gp+0x51C
-atlas RAM      = 0x8006BCEC
+main atlas RAM = 0x8006BCEC
 mapping RAM    = 0x8007AECC
-atlas file     = SLPS + 0x5C4EC
-mapping file   = SLPS + 0x6B6CC
+main atlas file= SLPS+0x5C4EC
+mapping file   = SLPS+0x6B6CC
 860 glyphs
-native 12x12 / 72-byte / 4bpp / LOW nibble first
+native main font = 12x12 / 72-byte / 4bpp / LOW nibble first
 ```
 
-Custom mapping path:
+Custom mapping pipeline:
 
 ```text
 code & 0x7FFF
  -> mapping[index]
  -> glyph index
- -> glyph index * 72
+ -> glyph_index * 72
  -> atlas base + offset
 ```
 
-Known samples:
+Known facts:
 
 ```text
 0x8273 Ｔ -> glyph 481
@@ -50,29 +50,28 @@ Character Select proof field:
 ```text
 PRGPACK.BDP + 0xBFD2C
 owner nested BDP = entry 29
-24-byte proof field
+proof field = 24 bytes
 ```
 
-## Hard historical conclusions
+## Runtime history to preserve
 
 - `0.6.2.13`: static custom-atlas replacement PASS.
-- `0.6.3.x`: 12x16 touched shared renderer/cache state and produced corruption/freezes. Reverse notes may be reused; production design may not.
-- `0.6.4.x`: composite overlay placement unreliable. Not production.
-- `0.6.5.2`: **UNSAFE FAIL / NEVER RETEST**, pointer redirect caused black screen / FPS0 / hard freeze.
-- Mapping ownership proven at `0x8003DD48..0x8003DD5C`.
+- `0.6.3.x`: 12x16 research touched shared renderer/cache state; corruption/freezes. Historical reverse only, never production.
+- `0.6.4.x`: composite accent overlay placement unreliable. Stop.
+- `0.6.5.2`: **UNSAFE FAIL / NEVER RETEST**, runtime pointer redirect => black screen / FPS0 / hard freeze.
 - `0.6.5.3`: mapping-only structural PASS.
-- `0.6.5.4`: native base glyph copy pipeline PASS.
-- `0.6.5.5`: accent-safe compact board good enough for production pivot.
-- `0.6.6.0`: production encoder rendered real text `Chọn tướng`.
-- `0.6.6.1`: baseline-normalized real text runtime PASS.
+- `0.6.5.4`: native base-glyph copy PASS.
+- `0.6.5.5`: compact accents good enough to leave glyph-board phase.
+- `0.6.6.0`: real-text production encoder renders `Chọn tướng` end-to-end.
+- `0.6.6.1`: baseline-normalized `Chọn tướng` runtime PASS. Remaining issue was wide horizontal spacing.
 
-## Proven spacing/cache facts
+## Spacing facts proven by FontSpacingScanner
 
 Cache record:
 
 ```text
-record size = 16 bytes
-record+6    = final horizontal advance
+size      = 16 bytes
+record+6  = final horizontal advance
 ```
 
 Cache miss around `0x8003CC98`:
@@ -83,203 +82,215 @@ copy_return == 8
   : advance = state+0x40 + 1
 ```
 
-Tracking:
-
-```text
-if advance != state+0x3E:
-    advance += state+0x3C
-```
-
-For the relevant renderer setup:
+Relevant tracking:
 
 ```text
 state+0x3C = 0
 ```
 
-Metric setter around `0x8003CED0` proves:
+Metric init proves native narrow metric:
 
 ```text
 dimension 11 -> state+0x3E = 8
-state+0x40 = dimension
 ```
 
-So current wide spacing is not a global tracking problem.
+Thus the 0.6.6.1 spacing issue is classification/geometry, not global tracking.
 
-## Why current custom CP932 mapping stays wide
+## Private 12x12 bank result
 
-Renderer `0x8003C210` classifies Japanese two-byte ranges (`0x81..0x9F`, `0xE0..0xFC`) into the full-width branch before custom mapping lookup. Current Vietnamese custom codes live in that class, so they inherit wide-copy geometry.
-
-Cache is keyed by glyph source, not code:
+FontPrivateBankScanner found:
 
 ```text
-cache_key = glyph_source_pointer >> 1
+slots 432..440
+9/9 all-unmapped
+9/9 zero static text hits
+32 zero-static-hit CP932 codes
 ```
 
-This was why the first spacing plan duplicated all 9 display units into a private 12x12 bank.
+This bank exists, but its original hook-based spacing plan was abandoned after cave review.
 
-## FontPrivateBankScanner 0.1 — RESULT
+### Code cave REJECT
 
-Uploaded report: `GaiaMaster_FontPrivateBankScanner_01.txt`.
-
-Static result:
+Only large zero/NOP candidate:
 
 ```text
-best private bank = atlas slots 432..440
-all 9 slots       = UNMAPPED
-static text hits  = 0 for every slot
-safe CP932 codes  = 32 found
+SLPS+0x5C0E0..<0x5C2B8
+RAM 0x8006B8E0..<0x8006BAB8
 ```
 
-Best bank source/key range:
+Native narrow resource starts at:
 
 ```text
-source : 0x8007366C .. <0x800738F4
-key    : 0x40039B36 .. <0x40039C7A
+SLPS+0x5C2AC
+RAM 0x8006BAAC
 ```
 
-This proves the private 12x12 bank itself is available.
+The candidate overlaps real font data. **Never inject code there.**
 
-### Code-cave candidate — REJECTED
+## Native narrow bank — proven
 
-Scanner found only one large aligned zero run:
+FontNarrowBankScanner report confirms:
 
 ```text
-SLPS+0x5C0E0 .. <0x5C2B8
-VA 0x8006B8E0 .. <0x8006BAB8
-size 472
-4 direct control refs
+RAM        = 0x8006BAAC
+SLPS       = 0x5C2AC
+geometry   = 6x12 / 4bpp
+row data   = 3 bytes per narrow glyph
+packing    = two 6px halves per 6-byte row
+bank bytes = 576
+indices    = 0..14 reachable; index 15 blank
 ```
 
-Manual reverse then identified the native narrow font bank at:
-
-```text
-RAM  0x8006BAAC
-SLPS 0x5C2AC
-```
-
-Therefore the zero-run's final **12 bytes overlap the native narrow font resource**.
-
-Decision:
-
-> `0x5C0E0..<0x5C2B8` is NOT a safe cave. Never inject code there.
-
-Do not build the private-cache-hook architecture using that run.
-
-## New native narrow-bank finding
-
-Gaia already has a native 1-byte narrow source pipeline.
-
-Key addresses:
-
-```text
-halfwidth remap table RAM = 0x8007E01C
-narrow source base RAM    = 0x8006BAAC
-main atlas RAM            = 0x8006BCEC
-```
-
-Caller parser around `0x8003C934..0x8003C9DC` accepts one-byte halfwidth class `0xA0..0xDF`; `0xDE/0xDF` have modifier/composition behavior, so production candidates should avoid them.
-
-Renderer one-byte path around `0x8003C310..0x8003C438` uses the halfwidth table and, for resolved source indices `<15`, calculates a source inside the native narrow bank.
-
-For dimension 11:
-
-```text
-rows = 12
-3 bytes per narrow glyph per row
-6-byte packed row = glyph A half + glyph B half
-pair block = 72 bytes
-```
-
-The region:
-
-```text
-0x8006BAAC .. <0x8006BCEC
-```
-
-is exactly 576 bytes = 8 packed pairs. It can represent 15 narrow source indices.
-
-Source formula for resolved index `i`:
+Narrow source formula for dimension 11:
 
 ```text
 source = 0x8006BAAC
-       + 3 * ((i & ~1) * 12)
-       + 3 * (i & 1)
+       + 3 * ((index & ~1) * 12)
+       + 3 * (index & 1)
 ```
 
-Narrow copy uses this 3-byte half with 6-byte source stride and returns `8`, so cache miss naturally selects the existing 8px advance.
-
-## CURRENT — READ-ONLY FontNarrowBankScanner 0.1
-
-Files:
+Original renderer path:
 
 ```text
-tools/font_narrow_bank_scanner_0.1.py
-tools/00_RUN_FONT_NARROW_BANK_SCANNER_0.1.cmd
-FONT_NARROW_BANK_SCANNER_0.1.md
-```
-
-Local package:
-
-```text
-GaiaMaster_FontNarrowBankScanner_0.1.zip
-```
-
-Expected report:
-
-```text
-GaiaMaster_FontNarrowBankScanner_01.txt
-```
-
-Scanner goals:
-
-1. decode ASCII `0x21..0x7F` aliases into the native narrow bank;
-2. decode halfwidth `0xA0..0xDD` table aliases;
-3. resolve actual narrow source indices `0..14`;
-4. group aliases by source index so alias collisions are visible;
-5. scan strict null-terminated text-like usage in PRGPACK + SLPS;
-6. reject state-dependent halfwidth table entries (`0x2000` flag);
-7. find distinct source indices with zero strict-text alias hits and at least one valid halfwidth byte candidate;
-8. test whether >=9 clean sources exist for:
-
-```text
-C h ọ n SPACE t ư ớ g
-```
-
-## Next gate
-
-If `FontNarrowBankScanner 0.1` finds >=9 clean distinct sources:
-
-1. cross-check selected aliases/source indices against Translation Master / known Japanese strings;
-2. design compact ~6px-wide Vietnamese glyphs in the native packed bank;
-3. only then build **ONE data-only Character Select runtime proof**;
-4. desired path:
-
-```text
-private Vietnamese 1-byte code
- -> existing halfwidth table
- -> native narrow source
+1-byte char
+ -> direct/table remap
+ -> narrow index <15
+ -> native 6x12 source
  -> native narrow copy
- -> copy_return 8
- -> native cached advance 8px
+ -> copy_return=8
+ -> original cached advance=8px
 ```
 
-No code cave, no cursor hook, no `record+6` hook, no pointer redirect.
+Scanner recovered **15 distinct reachable narrow indices**. This opens a no-hook spacing route.
 
-If scanner finds <9 clean sources:
+Important: bytes `0xE0..0xFC` are Shift-JIS lead-byte class in the renderer and must not be treated as production one-byte private codes merely because table bytes exist there.
 
-- no emulator test;
-- keep `0.6.6.1` as runtime baseline;
-- continue offline isolated cache-advance research.
+## 0.6.6.2 — CURRENT BUILD
+
+Detailed design note:
+
+```text
+FONT_NARROW_PROOF_0.6.6.2.md
+```
+
+Source/launcher:
+
+```text
+tools/build_gaia_0662_native_narrow_8px.py
+tools/00_BUILD_0.6.6.2_NATIVE_NARROW_8PX.cmd
+```
+
+Local test package:
+
+```text
+GaiaMaster_0.6.6.2_NATIVE_NARROW_8PX_REAL_TEXT_PROOF.zip
+```
+
+Expected visual:
+
+```text
+Chọn tướng
+```
+
+### Why only 8 custom narrow glyphs
+
+Unique visible glyph units are:
+
+```text
+C h ọ n t ư ớ g
+```
+
+ASCII space remains byte `0x20`; Gaia already handles it as native narrow space with 8px advance.
+
+### Temporary proof aliases
+
+0.6.6.2 intentionally does NOT add the production half-width codepage yet. It temporarily borrows eight direct native narrow ASCII owners selected from:
+
+```text
+# $ & ' ( ) * + " Z X
+```
+
+Hard-excluded owner classes:
+
+```text
+!      punctuation risk
+%      format-token risk (%d / %s)
+- ,    punctuation/control risk
+. /    punctuation/path risk
+```
+
+### Built-in safety gate
+
+Before any ROM output, the builder scans plausible zero-terminated CP932 strings in CLEAN PRGPACK + SLPS, excluding font/mapping binary regions.
+
+For each candidate owner it records actual one-byte text-token hits.
+
+If fewer than eight owners are text-unused:
+
+```text
+[BLOCKED]
+```
+
+then:
+
+```text
+NO BIN/CUE is created
+GaiaMaster_0.6.6.2_NATIVE_NARROW_GATE_REPORT.txt is created
+```
+
+User should send that report. No emulator test.
+
+If eight safe owners are found, builder:
+
+1. derives native 12x12 base glyphs;
+2. applies 0.6.6.1-style baseline-preserving Vietnamese marks;
+3. compresses width 12 -> 6;
+4. writes only each selected 3-byte half per row, preserving the paired half;
+5. writes one-byte Character Select proof bytes;
+6. rebuilds nested/top BDP checksums + raw CD EDC/ECC;
+7. outputs `[VI 0.6.6.2 NATIVE NARROW 8PX].bin/.cue/.txt`.
+
+No renderer instruction is modified.
+
+## Runtime gate for 0.6.6.2
+
+Only if CMD prints `[OK]`:
+
+1. boot generated `[VI 0.6.6.2 NATIVE NARROW 8PX].cue`;
+2. go only to Character Select;
+3. expected visual = `Chọn tướng`;
+4. expected spacing = clearly tighter than 0.6.6.1, native ~8px advance;
+5. stop immediately on freeze/global corruption;
+6. send screenshot + generated TXT if glyph art is wrong;
+7. never blindly retest a failed build.
+
+If CMD prints `[BLOCKED]`, do not boot anything; send `GaiaMaster_0.6.6.2_NATIVE_NARROW_GATE_REPORT.txt`.
+
+## Next after 0.6.6.2 PASS
+
+Temporary ASCII aliases are proof-only and must not become production encoding.
+
+Production sequence:
+
+1. validate unused true one-byte half-width code candidates in `0xA1..0xDF` (avoid `0xDE/0xDF` composition semantics and any source-used codes);
+2. patch the existing remap table at RAM `0x8007E01C` / corresponding SLPS data-side only;
+3. freeze deterministic Vietnamese 6x12 codepage;
+4. inventory full `vi_full` character set from Translation Master;
+5. generate complete compact Vietnamese glyph bank;
+6. integrate codepage encoder into Translation Master rebuild;
+7. migrate real translated rows in batches.
 
 ## Hard do-not-repeat
 
 - no Krom path;
 - no production 12x16;
 - no failed 0.6.3.x retests;
-- no composite X/Y tuning;
-- no `0.6.5.2` pointer redirect;
+- no composite X/Y tuning loop;
+- no `0.6.5.2` runtime pointer redirect;
 - no global `state+0x3C/+0x3E/+0x40` mutation;
-- no global cursor/spacing hook;
-- never use `SLPS+0x5C0E0..<0x5C2B8` as a cave;
-- no runtime `0.6.6.2` until the narrow-bank static gate + Translation Master cross-check close;
+- no global cursor or cached-advance hook;
+- never use `SLPS+0x5C0E0..<0x5C2B8` as code cave;
+- do not treat `0xE0..0xFC` as private one-byte code space;
+- no `%` narrow slot reuse;
+- no runtime test when the 0.6.6.2 safety gate says BLOCKED;
 - stop immediately on freeze/global corruption.
