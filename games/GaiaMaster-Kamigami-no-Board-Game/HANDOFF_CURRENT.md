@@ -1,6 +1,6 @@
 # HANDOFF — Gaia Master PS1 Việt hóa
 
-> **Current source-of-truth:** production stays on **native 12x12 / 72-byte / 4bpp / static mapping-only**. `0.6.9.2` remains exact **397/397 legacy coverage PASS**. `0.6.10.0` proved accented Vietnamese renders at runtime. `0.6.12.0` improved translation coverage but its lowercase `ă` hotfix is visually incomplete. Active candidate: **0.6.13.0 COMPACT JAPANESE REDUCTION BATCH 4**.
+> **Current source-of-truth:** production stays on **native 12x12 / 72-byte / 4bpp / static mapping-only**. `0.6.9.2` remains exact **397/397 legacy coverage PASS**. `0.6.10.0` proved accented Vietnamese renders at runtime. `0.6.13.0` reduced Japanese content further but the lowercase `ă` hotfix still visually overlaps the old breve. Active candidate: **0.6.14.0 TRANSLATION BATCH 5 + FRESH `ă` REBUILD**.
 
 Updated: **2026-09-14**  
 Branch: `gaia-character-select-font-atlas-reverse-01`
@@ -28,23 +28,17 @@ mapping file   = SLPS+0x6B6CC
 native main font = 12x12 / 72-byte / 4bpp / LOW nibble first
 ```
 
-Pipeline:
+No renderer hook, pointer redirect, 12x16, narrow 6x12 or global spacing mutation.
 
-```text
-code & 0x7FFF
- -> mapping[index]
- -> glyph index
- -> glyph_index * 72
- -> atlas base + offset
-```
+## Production codepage
 
-Frozen production repertoire:
+Frozen 60-character set:
 
 ```text
 àáâãéêìíòóÔôùúÝăĐđĩũƠơưạảấầẩẫậắặẻẽếềểệỉịọỏốồổỗộớờởợụủứừửữựỵỹ
 ```
 
-Capacity:
+Capacity baseline:
 
 ```text
 60 custom Vietnamese glyphs
@@ -54,148 +48,128 @@ Capacity:
 
 ## Coverage hard gate
 
-Every production build must preserve:
+Every production build after `0.6.9.2` must preserve:
 
 ```text
 legacy Alpha coverage = 397 / 397
 ```
 
-Extra newer `vi_full` rows are allowed. Runtime/control tokens such as `%s`, `%d`, `%+3d`, `/V`, `/v` remain raw where required.
-
-Never sacrifice a fitting fallback merely to force a longer accented string.
+Runtime/control tokens such as `%s`, `%d`, `%+3d`, `/V`, `/v` remain raw where required. Never sacrifice a fitting fallback merely to force a longer accented string.
 
 ## Runtime history relevant to current work
 
-- `0.6.7.2`: visual baseline PASS. Do not broadly retune font.
-- `0.6.9.2`: exact 397/397 coverage PASS.
-- `0.6.10.0`: accented front/font runtime PASS.
-- `0.6.11.0`: content QA fail; old `=` fallback leak, malformed `ă`, Japanese dynamic names.
-- `0.6.12.0`: large translation Batch 3, intro/fallback work improved, but runtime screenshot shows lowercase `ă` still wrong and user reports too much Japanese remains.
+### 0.6.10.0
 
-## 0.6.12.0 lowercase `ă` diagnosis
+Accented front/font runtime PASS. Content QA still incomplete.
 
-Screenshot of `năng` proves the correct glyph slot is being reached, but v1 hotfix is visually wrong.
+### 0.6.11.0
 
-Root cause in v1 postpatch:
+Gameplay Accent Batch 2. Runtime exposed:
 
-```text
-fill = max(nonzero palette index)
-```
+- old `=` fallback leak in intro;
+- malformed lowercase `ă`;
+- mixed Japanese dynamic values such as `LUOT ジガー`.
 
-Palette index `7` is the known dark/shadow layer, so the new breve could be drawn with the shadow color. Also only rows 0/1 were erased, allowing stale old-shadow pixels to remain in row 2.
+### 0.6.12.0
 
-This is a demonstrated glyph regression, so a targeted patch is justified. No other glyph should be reopened.
+Large translation Batch 3. Intro fallback cleanup and broader translation improved. First targeted `ă` redraw still visually wrong.
 
-# CURRENT — 0.6.13.0 COMPACT JAPANESE REDUCTION BATCH 4
+### 0.6.13.0
 
-Design note:
+Batch 4 added 146 compact exact-offset candidates and expanded dynamic literals to 35. Runtime screenshot proves the `ă` patch still leaves the old breve/shadow underneath the new one. The result looks double-layered.
+
+This is now classified as:
 
 ```text
-ACCENT_UPGRADE_0.6.13.0.md
+0.6.13.0 = CONTENT PROGRESS / LOWERCASE ă HOTFIX V2 FAIL VISUALLY
 ```
 
-Builder / launcher:
+Do not keep erasing guessed top rows.
+
+# CURRENT — 0.6.14.0 TRANSLATION BATCH 5 + FRESH `ă` REBUILD
+
+Files:
 
 ```text
-tools/build_gaia_06130_translation_b4.py
-tools/00_BUILD_0.6.13.0_TRANSLATION_B4.cmd
+ACCENT_UPGRADE_0.6.14.0.md
+tools/build_gaia_06140_translation_b5.py
+tools/00_BUILD_0.6.14.0_TRANSLATION_B5.cmd
+translation/COMPACT_TRANSLATION_OVERRIDES_0.6.14.0.csv
+translation/DYNAMIC_LITERAL_OVERRIDES_0.6.14.0.csv
 ```
 
-New data:
+## Fresh lowercase `ă` strategy
+
+The new builder does **not mutate the previous `ă` bitmap**.
+
+It instead:
+
+1. reads CLEAN native full-width lowercase `a`;
+2. reconstructs the frozen custom code/slot for `ă`;
+3. builds a new compact body from the clean `a` glyph;
+4. draws exactly one shallow-U breve and native shadow;
+5. replaces the entire custom `ă` bitmap.
+
+Therefore old breve/shadow pixels from 0.6.12/0.6.13 cannot survive.
+
+## Translation Batch 5
+
+Adds 38 exact-offset compact candidates, including:
 
 ```text
-translation/COMPACT_TRANSLATION_OVERRIDES_0.6.13.0.csv
-translation/DYNAMIC_LITERAL_OVERRIDES_0.6.13.0.csv
+Thẻ SK
+Dừng: SK
+Đấu đối thủ
+Vô chủ
+Quỹ %5d
+Phí %4d
+Lượt %s
+Dừng %s
+Đất %s
+Thuế TN
+Ô thuế đất
+Đồng ý?
+Có/Không
+Chọn thẻ
+Dùng %s
 ```
 
-## `ă` hotfix v2
+Candidate only applies if it fits the original CP932 field.
 
-After the proven inner build completes:
-
-1. reconstruct exact frozen custom code/slot for `ă`;
-2. derive bright fill from lower-body histogram, explicitly excluding shadow index `7`;
-3. clear rows 0/1 in the mark band;
-4. clear only shadow-colored stale pixels from row 2;
-5. draw a **lower shallow cup** in the bright fill;
-6. draw native shadow one pixel down/right;
-7. regenerate changed MODE2 sector EDC/ECC.
-
-No new slot, no mapping change, no renderer change, no other glyph patch.
-
-## Translation Batch 4
-
-`COMPACT_TRANSLATION_OVERRIDES_0.6.13.0.csv` contains **146 exact-offset compact candidates**.
-
-Purpose: convert rows that can remain Japanese because their longer Vietnamese wording does not fit fixed CP932 fields.
-
-Areas targeted:
+Dynamic literal map keeps earlier names/items and adds additional safe standalone forms such as:
 
 ```text
-land / buy / sell / tax
-card and weapon acquisition
-battle prompts
-route/status strings
-special squares
-building/symbol effects
-item/card descriptions
+墓地   -> Mộ
+大聖堂 -> Đền
+通行税 -> Phí
 ```
 
-Safety:
+## Build chain
 
 ```text
-candidate fits original field -> promote to vi_full for build
-candidate too long -> skip safely
+0.6.14.0 -> 0.6.13.0 -> 0.6.12.0 -> 0.6.11.0 -> 0.6.10.0
 ```
 
-## Dynamic Japanese reduction
-
-`DYNAMIC_LITERAL_OVERRIDES_0.6.13.0.csv` expands the runtime literal map from 12 to **35 entries**.
-
-It keeps existing character names and adds weapon/card/location names that may appear through `%s` or duplicated standalone data.
-
-Examples:
-
-```text
-サンダー -> Sấm
-ハリケーン -> Bão
-クロスボウ -> Nỏ
-ロングソード -> Kiếm
-ハンマー -> Búa
-ファイアボール -> Lửa
-バトルアックス -> Rìu
-サーカス -> Xiếc
-呪いの沼 -> Đầm
-```
-
-## Build state
-
-```text
-SOURCE READY
-PYTHON SYNTAX PASS
-CLEAN-ROM BUILD PENDING
-RUNTIME PENDING
-```
-
-The clean BIN is not mounted in ChatGPT runtime. Build from the user's CLEAN Japan BIN.
+So earlier translation work and the exact 397/397 gate remain intact.
 
 ## Next runtime gate
 
-Do one broad test:
+First inspect `năng`:
 
-1. inspect `ă` in `năng` or another visible word;
-2. verify no new font/global corruption;
-3. play several turns;
-4. open card/item/event/menu screens;
-5. exercise land/tax/route/battle actions;
-6. screenshot remaining Japanese whole lines and Japanese `%s` names.
+- exactly one breve over `ă`;
+- no old cap/hat underneath;
+- no doubled shadow;
+- readable body alignment.
+
+Then play a broader sweep and capture remaining Japanese strings in batches. Continue large translation batches rather than micro-fixes.
 
 ## Hard do-not-repeat
 
 - no production 12x16;
-- no narrow alias path;
+- no narrow alias;
 - no pointer redirect;
 - no composite overlay;
 - no global cursor/cache/spacing mutation;
-- no broad font retune from one glyph;
-- no `0.6.9.0 / 0.6.9.1` retests;
+- no `0.6.9.0 / 0.6.9.1` retest;
+- no broad font retune beyond demonstrated glyph defects;
 - stop immediately on freeze/global corruption.
