@@ -47,7 +47,7 @@ Frozen production set:
 - `0.6.7.0`: full 60-glyph production codepage boots/renders.
 - `0.6.7.2`: FONT VISUAL PASS / production visual baseline.
 
-Do not broadly retune font. Reopen only a glyph with direct runtime evidence.
+Broad font tuning remains frozen. Reopen only a glyph with direct runtime evidence.
 
 ## 0.6.9.x — old Alpha coverage recovery
 
@@ -59,140 +59,117 @@ Old Alpha legacy coverage = exactly **397 patch keys**.
 
 Every later production build must preserve `397/397`.
 
-## 0.6.10.0 — Front Accent Batch 1
+## 0.6.10.0
 
-Runtime result:
+Front Accent Batch 1. Runtime:
 
 ```text
 FRONT ACCENT/FONT RUNTIME PASS
 CONTENT QA INCOMPLETE
 ```
 
-## 0.6.11.0 — Gameplay Accent Batch 2
+## 0.6.11.0
+
+Gameplay Accent Batch 2.
 
 - 335 compact accent candidates.
 - first dynamic literal: `トロル通り -> Troll`.
 - runtime PARTIAL PASS / CONTENT QA FAIL.
-- exposed old `=` fallback leak, malformed lowercase `ă`, and remaining Japanese dynamic content.
+- exposed malformed lowercase `ă`, old `=` fallback leak and mixed Japanese dynamic content.
 
-## 0.6.12.0 — Large Gameplay Translation Batch 3
+## 0.6.12.0
+
+Large Gameplay Translation Batch 3.
+
+- 278 curated fallback-accent mappings;
+- repeat-literal scan;
+- broader dynamic-name map;
+- targeted lowercase `ă` hotfix v1.
+
+Runtime: translation progress visible, but `ă` hotfix visually incomplete.
+
+## 0.6.13.0
+
+Compact Japanese Reduction Batch 4.
+
+- 146 compact exact-offset candidates;
+- dynamic literals expanded to 35;
+- lowercase `ă` hotfix v2 tried to erase top rows and redraw a lower breve.
+
+Runtime screenshot proves v2 still leaves old breve/shadow pixels under the new mark.
+
+Verdict:
+
+```text
+0.6.13.0 = CONTENT PROGRESS / LOWERCASE ă HOTFIX V2 FAIL VISUALLY
+```
+
+Do not retest as final candidate.
+
+# CURRENT — 0.6.14.0 TRANSLATION BATCH 5 + FRESH `ă` REBUILD
 
 Files:
 
 ```text
-ACCENT_UPGRADE_0.6.12.0.md
-tools/build_gaia_06120_big_translation_b3.py
-translation/BATCH3_FALLBACK_ACCENT_MAP_0.6.12.0.csv
-translation/DYNAMIC_LITERAL_OVERRIDES_0.6.12.0.csv
+ACCENT_UPGRADE_0.6.14.0.md
+tools/build_gaia_06140_translation_b5.py
+tools/00_BUILD_0.6.14.0_TRANSLATION_B5.cmd
+translation/COMPACT_TRANSLATION_OVERRIDES_0.6.14.0.csv
+translation/DYNAMIC_LITERAL_OVERRIDES_0.6.14.0.csv
 ```
 
-Added:
+## Font strategy v3
 
-- fixed the actual old front `=` fallback skeletons;
-- 278 curated fallback-to-accent mappings;
-- global reuse of Batch 2 mappings;
-- standalone Japanese repeat scan;
-- 12 compact dynamic names;
-- targeted post-build lowercase `ă` hotfix v1.
+Stop erasing guessed rows in the existing `ă` glyph.
 
-### Runtime result — 2026-09-14
-
-Translation progress is visible, but content QA remains incomplete.
-
-New screenshot of `năng` proves the `ă` slot is patched but the v1 hotfix is visually wrong:
-
-- breve appears mainly as dark/shadow pixels;
-- mark/shadow sits too high;
-- v1 used `max(nonzero palette index)` as fill, which can select known shadow index `7`;
-- stale old-shadow pixels can remain in row 2.
-
-User also reports substantial Japanese remains.
-
-Do not treat `0.6.12.0` as final candidate.
-
-# CURRENT — 0.6.13.0 COMPACT JAPANESE REDUCTION BATCH 4
-
-Files:
+`0.6.14.0` rebuilds the entire glyph from CLEAN native lowercase full-width `a`:
 
 ```text
-ACCENT_UPGRADE_0.6.13.0.md
-tools/build_gaia_06130_translation_b4.py
-tools/00_BUILD_0.6.13.0_TRANSLATION_B4.cmd
-translation/COMPACT_TRANSLATION_OVERRIDES_0.6.13.0.csv
-translation/DYNAMIC_LITERAL_OVERRIDES_0.6.13.0.csv
+CLEAN native a
+ -> fresh compact body
+ -> exactly one shallow-U breve
+ -> native one-pixel shadow
+ -> replace whole custom ă bitmap
 ```
 
-## Batch 4 strategy
+Old 0.6.12/0.6.13 breve pixels therefore cannot survive.
 
-Keep unchanged:
+## Translation Batch 5
+
+Adds **38** exact-offset compact candidates concentrated on:
+
+- gameplay/help fragments in `PRGPACK.BDP` around `0x68E18..0x68EE8`;
+- early `SLPS_020.75` board/gameplay prompts;
+- `Lượt %s`, `Dừng %s`, `Đất %s`, tax/land prompts and basic choice/card strings.
+
+Dynamic map keeps earlier compact names/items and adds safe literals such as:
 
 ```text
-exact 397/397 legacy gate
-12x12 / 72-byte / 4bpp mapping-only architecture
-60-glyph production codepage
-existing BDP/checksum and raw-token pipeline
+墓地   -> Mộ
+大聖堂 -> Đền
+通行税 -> Phí
 ```
 
-Add:
-
-- **146 exact-offset compact Vietnamese candidates** for rows likely to stay Japanese when longer Vietnamese text does not fit;
-- byte-fit gate on every candidate;
-- dynamic literal map expanded from 12 to **35 entries**;
-- weapon/card names added to dynamic cleanup;
-- selected board/location names added where compact replacements fit;
-- lowercase `ă` hotfix v2.
-
-Dynamic examples:
+## Gate
 
 ```text
-サンダー -> Sấm
-ハリケーン -> Bão
-クロスボウ -> Nỏ
-ロングソード -> Kiếm
-ファイアボール -> Lửa
-バトルアックス -> Rìu
-サーカス -> Xiếc
-呪いの沼 -> Đầm
+397/397 legacy coverage remains mandatory
 ```
 
-### `ă` hotfix v2
+## Next runtime test
 
-- reconstruct same frozen custom code/slot;
-- derive bright fill from body histogram excluding shadow index 7;
-- clear old rows 0/1 mark pixels;
-- clear stale row-2 shadow pixels only;
-- draw lower shallow bright breve;
-- draw native shadow one pixel down/right;
-- regenerate MODE2 EDC/ECC;
-- no other glyph touched.
-
-## Build state
-
-```text
-SOURCE READY
-PYTHON SYNTAX PASS
-CLEAN-ROM BUILD PENDING
-RUNTIME PENDING
-```
-
-## Next gate
-
-Broad runtime sweep:
-
-1. `ă` in `năng`;
-2. several gameplay turns;
-3. card/item/event/menu;
-4. land/tax/route/battle;
-5. collect remaining full Japanese lines and Japanese `%s` names.
+1. inspect `năng`: exactly one breve and no doubled shadow;
+2. play a broader board/gameplay/help sweep;
+3. capture remaining Japanese strings in batches;
+4. continue large translation batches, not micro-builds.
 
 ## Do not repeat
 
 - no production 12x16;
-- no composite overlay;
-- no pointer redirect;
 - no narrow alias;
+- no pointer redirect;
+- no composite overlay;
 - no global cursor/cache/spacing mutation;
-- no broad font retune;
-- no `0.6.9.0 / 0.6.9.1` retests;
-- never sacrifice fitting legacy coverage;
+- no `0.6.9.0 / 0.6.9.1` retest;
+- no broad font retune beyond demonstrated glyph defects;
 - stop immediately on freeze/global corruption.
