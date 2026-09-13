@@ -1,6 +1,6 @@
 # HANDOFF — Gaia Master PS1 Việt hóa
 
-> **Current source-of-truth:** giữ renderer/font geometry native **12x12 / 72-byte / 4bpp**. Mapping ownership đã được chứng minh bằng Font Mapping Initializer Scanner 0.2. `0.6.5.3 MAPPING-ONLY NATIVE-CELL` đã runtime **STRUCTURAL PASS / GLYPH-GENERATOR FAIL**: game boot, mapping-data-only hoạt động và glyph test đi đúng custom slots, nhưng art bị tối/bóng và các chữ E/O có dấu bị thân A do bug generator. Current runtime proof kế tiếp là **0.6.5.4 NATIVE-BASE STYLE**: copy A/E/O native của game làm thân, explicit family mapping, dấu dùng palette suy ra từ glyph native. Vẫn không code hook, không runtime pointer redirect, không 12x16, không composite.
+> **Current source-of-truth:** giữ renderer/font geometry native **12x12 / 72-byte / 4bpp**. Mapping ownership đã được chứng minh. `0.6.5.3` runtime chứng minh kiến trúc **mapping-data-only** hoạt động. `0.6.5.4` tiếp tục chứng minh copy A/E/O native byte-for-byte là đúng; vấn đề còn lại chỉ là bố cục dấu trong ô 12x12. Current runtime proof là **0.6.5.5 ACCENT-SAFE COMPACT NATIVE STYLE**: A/E/O thường giữ native control, chữ có dấu nén thân vào rows 3..11 và dành rows 0..2 cho dấu hai lớp fill+shadow. Không code hook, không pointer redirect, không 12x16, không composite.
 
 ## Baseline
 
@@ -25,21 +25,21 @@ mapping file   = SLPS + 0x6B6CC
 native 12x12 / 72-byte / 4bpp / LOW nibble first
 ```
 
-Initializer ownership proven at:
+Initializer ownership:
 
 ```text
 0x8003DD48..0x8003DD50 -> atlas 0x8006BCEC -> gp+0x518
 0x8003DD54..0x8003DD5C -> map   0x8007AECC -> gp+0x51C
 ```
 
-Generic setter exists at:
+Generic setter:
 
 ```text
 0x8003DD68 sw a0,0x518(gp)
 0x8003DD6C sw a1,0x51C(gp)
 ```
 
-Static mapping samples match all known runtime facts:
+Known mapping samples:
 
 ```text
 0x8273 Ｔ -> glyph 481
@@ -70,77 +70,75 @@ local offset = +0x580
 
 ### 0.6.2.x
 - `0.6.2.13` proved static custom-atlas replacement works.
-- Later art tests showed native 12x12 requires a compact unified Vietnamese style.
+- Native 12x12 needs a compact Vietnamese style.
 
 ### 0.6.3.x
-12x16 touched shared renderer/cache state and repeatedly caused layout corruption/freezes. Historical only; do not revive.
+12x16 touched shared renderer/cache state and caused corruption/freezes. Historical only; do not revive.
 
 ### 0.6.4.x
-Composite overlay art became acceptable but runtime placement was unreliable. Stop X/Y tuning; not production.
+Composite overlay placement was unreliable. Stop X/Y tuning; not production.
 
 ### 0.6.5.0
-Consecutive CP932 codes were incorrectly assumed to map linearly to slots 0..11. Runtime disproved that assumption.
+Consecutive CP932 codes do not map linearly to atlas slots.
 
 ### 0.6.5.1
 Build-time cave assumption bug only. No runtime conclusion.
 
 ### 0.6.5.2 ATLAS-BACKED CUSTOM BANK
-**UNSAFE FAIL / NEVER RETEST**: black screen, Game FPS 0, hard freeze. Reject post-lookup runtime pointer redirect.
+**UNSAFE FAIL / NEVER RETEST**: black screen, Game FPS 0, hard freeze. Reject runtime pointer redirect.
 
-## Mapping recovery result
+## Mapping recovery
 
 ### Scanner 0.1
-Found `GP0=0` in PS-X EXE header. The game initializes GP after entry.
+Found `GP0=0` in header; GP is initialized after entry.
 
 ### Scanner 0.2 — PASS
-Recovered runtime GP and direct ownership writes. Mapping ownership is demonstrated and static data-only patching is permitted.
+Recovered runtime GP and direct ownership writes. Static mapping data can be patched directly.
 
-```text
-GP = 0x80085F28
-atlas slot = 0x80086440
-map slot   = 0x80086444
-```
+## 0.6.5.3 MAPPING-ONLY NATIVE-CELL
 
-All four known static mapping entries matched expected glyph indices.
+**STRUCTURAL PASS / GLYPH GENERATOR FAIL.**
 
-## 0.6.5.3 MAPPING-ONLY NATIVE-CELL — STRUCTURAL PASS / GENERATOR FAIL
-
-Runtime screenshot confirmed:
-- game boots normally;
-- Character Select line is replaced by the 12 mapping-controlled test codes;
-- custom atlas cells are reached without pointer redirect or renderer hook;
+Runtime proved:
+- game boots;
+- Character Select reaches the patched mapping-controlled slots;
+- no hook or pointer redirect is needed;
 - no freeze/global corruption.
 
-Observed visual issue:
-- glyph strokes look dark/shadow-like;
-- accented E/O-family bodies look A-like.
-
-Root causes found in builder:
+Generator bugs:
 
 ```python
-setpix(..., v=7)  # hardcoded palette index
+setpix(..., v=7)
 base = label[0] if label[0] in "AEO" else "A"
 ```
 
-The second line is a Unicode bug: `Ê/Ế/Ể/Ô/Ố/Ỗ` do not start with ASCII `E/O`, so they fell back to `A`.
+Index `7` rendered as the dark/shadow layer. Unicode `Ê/Ế/Ể/Ô/Ố/Ỗ` fell back to A. Do not retest 0.6.5.3.
+
+## 0.6.5.4 NATIVE-BASE STYLE
+
+Runtime screenshot proved:
+- plain A/E/O copied from Gaia native glyphs look correct;
+- mapping and slot ownership remain correct;
+- Vietnamese marks are actually present;
+- remaining issue is vertical crowding: full-height native bases leave too little headroom, so marks merge into the top of A/E/O.
 
 Conclusion:
 
-> mapping-only architecture is runtime-proven; remaining problem is glyph generation/style.
+> mapping -> slot -> native glyph pipeline is solved. Remaining work is glyph composition/art only.
 
-Do not retest 0.6.5.3.
+Do not treat 0.6.5.4 as a mapping failure.
 
-## CURRENT — 0.6.5.4 NATIVE-BASE STYLE PROOF
+## CURRENT — 0.6.5.5 ACCENT-SAFE COMPACT NATIVE STYLE
 
 Detailed note:
 
-`FONT_MAPPING_PROOF_0.6.5.4.md`
+`FONT_MAPPING_PROOF_0.6.5.5.md`
 
 Builder:
 
 ```text
-tools/build_gaia_0654_native_base.py
-tools/00_BUILD_0.6.5.4_NATIVE_BASE.cmd
+tools/build_gaia_0655_accent_safe.py
+tools/00_BUILD_0.6.5.5_ACCENT_SAFE.cmd
 ```
 
 Design:
@@ -149,22 +147,34 @@ Design:
 0x889F..0x88AA
   -> patched static mapping entries
   -> selected low-use atlas slots
-  -> A/E/O bodies copied from Gaia native full-width glyphs
-  -> compact Vietnamese marks inside same 12x12 cell
+  -> native A/E/O source glyphs
+  -> accented variants vertically compacted into rows 3..11
+  -> rows 0..2 reserved for Vietnamese marks
+  -> marks rendered with native fill + shadow layers
 ```
 
 Controls:
-- plain `A`, `E`, `O` are byte-for-byte copies of Gaia native glyphs;
-- A/E/O family classification is explicit;
-- accent palette index is derived from each native base glyph, not hardcoded `7`.
+- plain `A`, `E`, `O` remain byte-for-byte native;
+- palette index 7 is treated as shadow, based on 0.6.5.3 runtime evidence;
+- fill is selected from the remaining native nonzero palette indices;
+- no runtime engine changes.
 
-Expected Character Select visual:
+Expected Character Select order:
 
 ```text
 A Â Ấ Ẳ E Ê Ế Ể O Ô Ố Ỗ
 ```
 
 Status: **READY FOR ONE RUNTIME TEST.**
+
+If visual output is wrong, collect both:
+
+```text
+screenshot
+[VI 0.6.5.5 ACCENT SAFE].txt
+```
+
+The report includes native bbox, palette histogram, fill/shadow indices, selected slots, and compacted glyph bbox.
 
 ## Hard do-not-repeat
 
@@ -175,7 +185,8 @@ Status: **READY FOR ONE RUNTIME TEST.**
 - no composite X/Y tuning loop;
 - no runtime redirect like 0.6.5.2;
 - no assumption consecutive code == consecutive atlas slot;
-- no retest 0.6.5.3 now that its generator bugs are identified;
+- no retest 0.6.5.3;
+- do not reinterpret 0.6.5.4 visual crowding as a mapping failure;
 - stop immediately on freeze/global corruption.
 
 ## User testing preference
