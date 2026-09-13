@@ -1,70 +1,90 @@
 # Gaia Master — trạng thái mới nhất
 
-Cập nhật: **2026-09-13 sau nghiên cứu repo Việt hóa PS1 Yu-Gi-Oh! MCBB và reverse dump 0.1**.
+Cập nhật: **2026-09-13**
 
 ## Chốt hiện tại
 
-- Custom Vietnamese atlas path PASS từ 0.6.2.13.
-- Native 12x12 không đủ nếu cố nhét toàn bộ `Ế/Ể/Ẳ/...` vào một glyph duy nhất mà vẫn giữ thân chữ full-size.
-- Nhánh 0.6.3.x cố mở cell 12x12 -> 12x16 đã chạm quá nhiều state chung: converted cache, Y cursor, VRAM placement, primitive geometry và allocator.
-- 0.6.3.12 làm layout `TEST` dựng dọc nên post-copy write probe bị loại.
-- Reverse dump 0.1 xác nhận `state+100` vẫn là current converted destination ngay sau `jal 0x8003C67C`; nó chỉ được advance tại `0x8003CD94`.
-- Tuy nhiên public repo `2ez4gcx/yugioh-mcbb-vi-patch` cho một bài học chiến lược: một bản Việt hóa PS1 hoàn thiện có thể đi theo hướng **font vẽ lại + một ít code adjustment**, không nhất thiết phải redesign renderer lớn.
+Production direction hiện tại là:
 
-## PIVOT — COMPOSITE ACCENT
+> **giữ renderer/font geometry native 12x12 / 72-byte / 4bpp và tìm cách patch mapping + glyph data trực tiếp.**
 
-Thay vì làm một glyph `Ế` cao 16px, giữ nguyên base letter native 12x12 và vẽ dấu bằng một glyph overlay thứ hai.
+Không tiếp tục 12x16, không tiếp tục composite overlay, không runtime pointer redirect.
 
-Proof concept 0.6.4.0:
+## Những gì đã chứng minh
 
-```text
-internal: ＴＥＳＴＥ亜
-visual:   ＴＥＳＴẾ
-```
+- `0.6.2.13` chứng minh static custom-atlas replacement hoạt động.
+- Một glyph 12x12 duy nhất không đủ đẹp cho full-size Latin body + stacked Vietnamese marks.
+- 0.6.3.x 12x16 chạm quá nhiều state chung và không phù hợp production.
+- 0.6.4.x composite overlay cho thấy accent art có thể đẹp, nhưng runtime placement không ổn định.
+- repo/PPF Việt hóa PS1 Yu-Gi-Oh! MCBB củng cố hướng patch tối thiểu: font/resource + mapping/data thay vì redesign renderer.
 
-- `Ｅ` = native full-size, shading nguyên bản;
-- glyph `亜` = transparent accent-only `mũ + sắc`;
-- riêng overlay được dịch `X -= 12`, `Y -= 4` để chồng lên E;
-- toàn bộ atlas/cache/VRAM vẫn native 12x12 / 72-byte.
+## 0.6.5.x
 
-Không dùng:
-- 12x16 source;
-- 96-byte glyph;
-- cache stride rewrite;
-- CD94 allocator rewrite;
-- sprite-height rewrite;
-- persistent/global flag.
+### 0.6.5.0 UNIFIED NATIVE-CELL FONT
 
-Package current:
+Mục tiêu:
 
 ```text
-GaiaMaster_FontIsolation_0.6.4.0_COMPOSITE_ACCENT_OVERLAY.zip
+A Â Ấ Ẳ E Ê Ế Ể O Ô Ố Ỗ
 ```
 
-Launcher:
+Runtime ra phần lớn glyph A-like và một Kanji lạc chỗ.
+
+Kết luận:
+
+> giả thuyết `0x889F..0x88AA` map tuyến tính vào atlas slots `0..11` là sai.
+
+### 0.6.5.1
+
+Không chạy tới runtime vì builder kiểm zero-filled cave quá rộng. Clean ROM vẫn đúng.
+
+### 0.6.5.2 ATLAS-BACKED CUSTOM BANK
+
+**UNSAFE FAIL**:
+
+- màn đen;
+- Game FPS 0;
+- treo cứng.
+
+Không retest. Không dùng lại runtime redirect kiểu này.
+
+## CURRENT — READ-ONLY FONT MAPPING SCANNER 0.1
+
+Hiện tại **không có ROM probe nào cần test**.
+
+Package local:
 
 ```text
-00_RUN_PROBE_0640.cmd
+GaiaMaster_FontMappingScanner_0.1.zip
 ```
 
-Runtime question duy nhất:
+Chạy:
 
-> Mũ + sắc có chồng sạch lên full-size native E để đọc thành `Ế` hay không?
+```text
+00_RUN_FONT_MAPPING_SCANNER.cmd
+```
 
-Nếu PASS, 0.6.3.x extended-height trở thành research phụ, không còn là production blocker.
+Gửi lại:
 
-## Reverse dump 0.2
+```text
+GaiaMaster_FontMappingScanner_01.txt
+```
 
-`GaiaMaster_063_REVERSE_DUMP_0.2.zip` vẫn có giá trị để hoàn tất reverse 0.6.3.x, nhưng **không còn chặn thử nghiệm composite 0.6.4.0**.
+Scanner không sửa ROM và không cần boot emulator.
 
-## Do not repeat
+Mục tiêu phiên tiếp theo:
 
-- không quay lại Krom;
-- không polish một-glyph stacked accents trong 12x12;
-- không retest 0.6.2.18;
-- không retest 0.6.3.0..0.6.3.12;
-- không patch shared `0x8003CD94..0x8003CDB4` kiểu 0.6.3.1;
-- không persistent/global flag kiểu 0.6.3.6;
-- không global force-height16 kiểu 0.6.3.8;
-- không dùng `s3+2` như glyph metadata;
-- không post-copy RAM write probe kiểu 0.6.3.12.
+1. đọc report scanner;
+2. xác định mapping data thật;
+3. nếu mapping patch được như data, build proof mới chỉ sửa mapping entries + native 12x12 glyph data;
+4. không tạo runtime hook mới trước khi mapping ownership được chứng minh.
+
+## File quan trọng
+
+```text
+HANDOFF_CURRENT.md
+FONT_MAPPING_PIVOT_0.6.5.md
+PROBE_BUILD_INDEX.md
+CHARACTER_SELECT_FONT_REVERSE_0.1.md
+YUGIOH_MCBB_REFERENCE_PIVOT.md
+```
