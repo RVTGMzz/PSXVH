@@ -1,6 +1,6 @@
 # HANDOFF — Gaia Master PS1 Việt hóa
 
-> **Current source-of-truth:** giữ renderer/font geometry native **12x12 / 72-byte / 4bpp**. Nhánh 12x16 và composite overlay không còn là production path. Build runtime mới nhất `0.6.5.2 ATLAS-BACKED CUSTOM BANK` là **UNSAFE FAIL**: màn đen, Game FPS 0, treo trước khi có output hữu ích. Hiện tại chuyển sang **READ-ONLY font mapping recovery**. Không có ROM probe nào cần test lúc này.
+> **Current source-of-truth:** giữ renderer/font geometry native **12x12 / 72-byte / 4bpp**. Mapping ownership đã được chứng minh bằng Font Mapping Initializer Scanner 0.2. Gate READ-ONLY đã mở. Current runtime proof là **0.6.5.3 MAPPING-ONLY NATIVE-CELL PROOF**: chỉ patch static mapping entries + native glyph cells, không code hook, không runtime pointer redirect, không 12x16, không composite.
 
 ## Baseline
 
@@ -14,15 +14,32 @@
 ## Proven font facts
 
 ```text
-atlas RAM    = 0x8006BCEC
-mapping RAM  = 0x8007AECC
-atlas file   = SLPS + 0x5C4EC
-mapping file = SLPS + 0x6B6CC
+runtime GP    = 0x80085F28
+atlas global  = gp+0x518
+mapping global= gp+0x51C
+atlas RAM     = 0x8006BCEC
+mapping RAM   = 0x8007AECC
+atlas file    = SLPS + 0x5C4EC
+mapping file  = SLPS + 0x6B6CC
 860 glyphs
 native 12x12 / 72-byte / 4bpp / LOW nibble first
 ```
 
-Confirmed examples:
+Initializer ownership proven at:
+
+```text
+0x8003DD48..0x8003DD50 -> atlas 0x8006BCEC -> gp+0x518
+0x8003DD54..0x8003DD5C -> map   0x8007AECC -> gp+0x51C
+```
+
+Generic setter exists at:
+
+```text
+0x8003DD68 sw a0,0x518(gp)
+0x8003DD6C sw a1,0x51C(gp)
+```
+
+Static mapping samples match all known runtime facts:
 
 ```text
 0x8273 Ｔ -> glyph 481
@@ -31,7 +48,17 @@ Confirmed examples:
 0x889F 亜 -> glyph 0
 ```
 
-Character Select test text location:
+Renderer consumer remains:
+
+```text
+code & 0x7FFF
+ -> mapping[index]
+ -> glyph index
+ -> glyph index * 72
+ -> atlas base + offset
+```
+
+Character Select test text:
 
 ```text
 PRGPACK.BDP + 0xBFD2C
@@ -42,122 +69,89 @@ local offset = +0x580
 ## Historical conclusions
 
 ### 0.6.2.x
-
 - `0.6.2.13` proved static custom-atlas replacement works.
-- Later 0.6.2.x art tests showed that one native 12x12 cell cannot hold a full-size Latin body plus stacked Vietnamese marks with acceptable quality.
+- Later art tests showed native 12x12 requires a compact unified Vietnamese style.
 
 ### 0.6.3.x
+12x16 touched shared renderer/cache state and repeatedly caused layout corruption/freezes. Historical only; do not revive.
 
-Extended-height 12x16 research touched too much shared renderer state and repeatedly produced layout corruption/freezes. Keep the reverse notes for reference, but do not revive this as the production direction.
+### 0.6.4.x
+Composite overlay art became acceptable but runtime placement was unreliable. Stop X/Y tuning; not production.
 
-### 0.6.4.x composite overlay
+### 0.6.5.0
+Consecutive CP932 codes were incorrectly assumed to map linearly to slots 0..11. Runtime disproved that assumption.
 
-The accent artwork itself became visually acceptable, but overlay placement was not reliable enough across Gaia's real render/cache paths. Stop tuning X/Y offsets. Composite is no longer the production direction.
+### 0.6.5.1
+Build-time cave assumption bug only. No runtime conclusion.
 
-## External reference — Yu-Gi-Oh! MCBB Vietnamese PS1 patch
+### 0.6.5.2 ATLAS-BACKED CUSTOM BANK
+**UNSAFE FAIL / NEVER RETEST**: black screen, Game FPS 0, hard freeze. Reject post-lookup runtime pointer redirect.
 
-Reference repo:
+## Mapping recovery result
 
-`https://github.com/2ez4gcx/yugioh-mcbb-vi-patch`
+### Scanner 0.1
+Found `GP0=0` in PS-X EXE header. This did not mean the renderer had no GP; the game initializes GP after entry.
 
-Its public README states that the release patch includes translated text, redrawn font and a few code-adjustment bytes. The user also supplied `yugioh-mcbb-vi.ppf` for study.
+### Scanner 0.2 — PASS
+Recovered runtime GP and direct ownership writes. Mapping ownership is now demonstrated and static data-only patching is permitted.
 
-Strategic lesson for Gaia:
+Reference report findings:
 
-> prefer native geometry + font/resource replacement + targeted mapping/data changes over a large renderer redesign.
+```text
+GP = 0x80085F28
+atlas slot = 0x80086440
+map slot   = 0x80086444
+```
 
-Do not claim the Yu-Gi-Oh patch uses Gaia's exact structures or exact technique.
+All four known static mapping entries matched expected glyph indices.
 
-## 0.6.5.x mapping pivot
+## CURRENT — 0.6.5.3 MAPPING-ONLY NATIVE-CELL PROOF
 
-Full note:
+Detailed note:
 
-`FONT_MAPPING_PIVOT_0.6.5.md`
+`FONT_MAPPING_PROOF_0.6.5.3.md`
 
-### 0.6.5.0 UNIFIED NATIVE-CELL FONT
+Builder:
 
-Intended style board:
+```text
+tools/build_gaia_0653_mapping_only.py
+tools/00_BUILD_0.6.5.3_MAPPING_ONLY.cmd
+```
+
+Proof architecture:
+
+```text
+0x889F..0x88AA
+  -> patched static mapping entries
+  -> 12 low-use atlas slots selected by builder
+  -> native 12x12 / 72-byte custom glyphs
+```
+
+Expected Character Select visual:
 
 ```text
 A Â Ấ Ẳ E Ê Ế Ể O Ô Ố Ỗ
 ```
 
-Runtime instead showed mostly repeated A-like glyphs plus one unrelated Kanji.
+Builder protects known slots `0, 466, 480, 481`, scores slot usage against static SLPS/PRGPACK text, writes exact selected slots into its generated report, regenerates BDP checksum and changed Mode2/Form1 sector EDC/ECC.
 
-Conclusion:
-
-> consecutive CP932 codes do **not** map linearly to consecutive atlas slots.
-
-### 0.6.5.1
-
-Builder stopped before patching because it incorrectly assumed a much larger zero-filled storage area than actually exists. Clean ROM was valid.
-
-### 0.6.5.2
-
-Attempted a runtime redirect into a contiguous custom bank.
-
-Result: **UNSAFE FAIL**
-
-- black screen;
-- Game FPS 0;
-- hard freeze.
-
-Do not retest and do not reuse this redirect design.
-
-## CURRENT — Font Mapping Scanner 0.1
-
-There is currently **NO ROM probe** to run.
-
-Local package:
-
-```text
-GaiaMaster_FontMappingScanner_0.1.zip
-```
-
-Launcher:
-
-```text
-00_RUN_FONT_MAPPING_SCANNER.cmd
-```
-
-Expected report:
-
-```text
-GaiaMaster_FontMappingScanner_01.txt
-```
-
-The scanner is READ ONLY. It reads CLEAN or Alpha 0.6.1 BIN, does not patch anything, and does not require emulator boot.
-
-Goal:
-- recover the exact mapping relationship used by Gaia;
-- confirm where the mapping data lives;
-- determine whether it can be patched as data only;
-- only after that, build a new native-cell Vietnamese font proof.
-
-Preferred production architecture after mapping is proven:
-
-```text
-Vietnamese/internal code
-  -> mapping table entry
-  -> chosen unused Japanese glyph slot
-  -> native 12x12 / 72-byte Vietnamese glyph
-```
+Status: **READY FOR ONE RUNTIME TEST.**
 
 ## Hard do-not-repeat
 
 - no Krom path;
 - no production 12x16 path;
 - no retest 0.6.2.18;
-- no retest 0.6.3.x failed probes;
+- no retest failed 0.6.3.x probes;
 - no composite X/Y tuning loop;
 - no runtime redirect like 0.6.5.2;
 - no assumption that consecutive codes map to consecutive atlas slots;
-- no new runtime probe until mapping ownership is proven.
+- stop immediately on freeze/global corruption.
 
 ## User testing preference
 
 - minimize emulator tests;
 - maximize information per test;
 - never repeat tested builds;
-- prefer READ-ONLY scanner/reverse work first;
+- prefer read-only reverse work before risky probes;
 - stop immediately on freeze/global corruption.
