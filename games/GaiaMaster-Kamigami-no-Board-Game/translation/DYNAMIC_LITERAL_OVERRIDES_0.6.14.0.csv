@@ -1,0 +1,39 @@
+japanese,vi_accented,file_scope,note
+トロル通り,Troll,AUTO,land name observed at runtime
+ジガー,Jig,AUTO,compact Jigger
+ダンテ,Dan,AUTO,compact Dante
+孫悟空,Ngộ,AUTO,compact Tôn Ngộ Không
+ハヤテ,Hay,AUTO,compact Hayate
+ヤスツナ,Yasu,AUTO,compact Yasutsuna
+ガラハッド,Galah,AUTO,compact Galahad
+ティアラ,Tiar,AUTO,compact Tiara
+ゴライアス,Golia,AUTO,compact Goliath
+メグメグ,Megu,AUTO,compact Megumegu
+アガート,Agat,AUTO,compact Agate
+シンバッド,Sinba,AUTO,compact Sinbad
+サンダー,Sấm,AUTO,weapon dynamic-name cleanup
+ハリケーン,Bão,AUTO,weapon dynamic-name cleanup
+クロスボウ,Nỏ,AUTO,weapon dynamic-name cleanup
+ロングソード,Kiếm,AUTO,weapon dynamic-name cleanup
+ハンマー,Búa,AUTO,weapon dynamic-name cleanup
+スノーストーム,Bão,AUTO,weapon dynamic-name cleanup
+ファイアボール,Lửa,AUTO,weapon dynamic-name cleanup
+バトルアックス,Rìu,AUTO,weapon dynamic-name cleanup
+レイピア,Rap,AUTO,weapon dynamic-name cleanup
+エストック,Estoc,AUTO,weapon dynamic-name cleanup
+ジプシータロウ,Gypsy,AUTO,weapon dynamic-name cleanup
+ジャンビーヤ,Jamb,AUTO,weapon dynamic-name cleanup
+クレイモア,Clay,AUTO,weapon dynamic-name cleanup
+ボーイナイフ,Bowie,AUTO,weapon dynamic-name cleanup
+せつなの剣,Kiếm,AUTO,weapon dynamic-name cleanup
+シールド,Thủ,AUTO,shield item compact name
+はかば,Mộ,AUTO,board/location dynamic-name cleanup
+死神像,Tử,AUTO,board/location dynamic-name cleanup
+女神像,Nữ,AUTO,board/location dynamic-name cleanup
+邪神像,Tà,AUTO,board/location dynamic-name cleanup
+悪魔の塔,Tháp,AUTO,board/location dynamic-name cleanup
+呪いの沼,Đầm,AUTO,board/location dynamic-name cleanup
+サーカス,Xiếc,AUTO,board/location dynamic-name cleanup
+墓地,Mộ,AUTO,additional board literal
+大聖堂,Đền,AUTO,additional board literal
+通行税,Phí,AUTO,additional gameplay literal
