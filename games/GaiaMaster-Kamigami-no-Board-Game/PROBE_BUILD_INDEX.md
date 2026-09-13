@@ -14,127 +14,130 @@ Alpha 0.6.1 FRONT SHA1
 54d2fb026bc3b71c79861e723caffb4114caa34c
 ```
 
-## 0.6.2.x
+## Historical locks
 
-### 0.6.2.13 STATIC SLOT / NO HOOK
-**BREAKTHROUGH PASS.** Static custom Vietnamese atlas replacement works.
-
-## 0.6.3.x
-Extended-height 12x16 research caused shared-state corruption/freezes in multiple probes.
-
-**Do not revive 12x16 as production.**
-
-## 0.6.4.x
-Composite accents could look acceptable, but placement was unreliable.
-
-**Not production.**
-
-## 0.6.5.x mapping/native-cell pivot
-
-### 0.6.5.0
-**MAPPING ASSUMPTION FAIL.** Consecutive CP932 codes do not map linearly to atlas slots.
-
-### 0.6.5.2
-**UNSAFE FAIL. NEVER RETEST.** Runtime pointer redirect caused black screen / Game FPS 0 / hard freeze.
-
-### Font Mapping Initializer Scanner 0.2
-**OWNERSHIP PROVEN.**
-
-```text
-runtime GP = 0x80085F28
-atlas global = gp+0x518
-map global   = gp+0x51C
-atlas = 0x8006BCEC
-map   = 0x8007AECC
-```
-
-### 0.6.5.3 MAPPING-ONLY NATIVE-CELL
-**STRUCTURAL PASS / GLYPH-GENERATOR FAIL.**
-
-Mapping-only path boots, reaches custom atlas cells, no hook or pointer redirect required.
-
-### 0.6.5.4 NATIVE-BASE STYLE
-**PIPELINE PASS / VERTICAL CROWDING.**
-
-Native A/E/O copied byte-for-byte render correctly.
-
-### 0.6.5.5 ACCENT-SAFE COMPACT
-**VISUAL PASS ENOUGH TO LEAVE GLYPH-BOARD PHASE.**
-
-Compact Vietnamese marks readable. Mapping-only + native 12x12 locked as production direction.
+- `0.6.2.13` static custom atlas: **PASS**.
+- `0.6.3.x` 12x16: shared-state corruption/freezes. **Do not revive**.
+- `0.6.4.x` composite overlay: placement unreliable. **Not production**.
+- `0.6.5.2` runtime pointer redirect: **UNSAFE FAIL / NEVER RETEST**.
+- Font Mapping Initializer Scanner 0.2: mapping/global ownership **PROVEN**.
+- `0.6.5.3`: mapping-only **STRUCTURAL PASS**, glyph generator bugs only.
+- `0.6.5.4`: native-base pipeline **PASS**, vertical crowding only.
+- `0.6.5.5`: compact Vietnamese glyphs **VISUAL PASS ENOUGH FOR PRODUCTION**.
 
 ## 0.6.6.x production encoder
 
 ### 0.6.6.0 PRODUCTION ENCODER REAL-TEXT
 
-Expected/runtime text:
+Runtime text:
 
 ```text
 Chọn tướng
 ```
 
-Runtime result: **REAL-TEXT ENCODER PASS / BASELINE POLISH NEEDED.**
+Result: **REAL-TEXT ENCODER PASS / BASELINE POLISH NEEDED.**
 
-Passed:
-- actual Vietnamese phrase appears;
-- plain Latin uses native Gaia full-width glyphs;
-- `ọ`, `ư`, `ớ` use custom zero-static-hit CP932 codes + safe atlas cells;
-- static mapping-only production encoder works end-to-end;
-- stable boot/UI; no freeze/global corruption.
+Proven:
+- accented Vietnamese phrase appears end-to-end;
+- plain Latin uses native Gaia glyphs;
+- `ọ`, `ư`, `ớ` use safe custom mapping + atlas cells;
+- no hook/pointer redirect required;
+- stable boot/UI.
 
-Visual issue:
-- custom chars sit at uneven vertical positions relative to native Latin.
+### 0.6.6.1 BASELINE-NORMALIZED REAL-TEXT
 
-Root cause:
-- custom base glyphs were always compressed into fixed rows `2..9`, unnecessarily changing native baseline.
+Runtime screenshot: **PASS.**
 
-**Do not reinterpret 0.6.6.0 as mapping/encoder failure.**
+- custom Vietnamese glyphs align acceptably with native Latin;
+- mapping, encoder, native 12x12 glyph composition, and vertical baseline are production-ready enough;
+- remaining issue is horizontal spacing only.
 
-## CURRENT — 0.6.6.1 BASELINE-NORMALIZED REAL-TEXT
+Do not retest `0.6.6.1` just to re-evaluate baseline.
 
-Detailed note:
+## HORIZONTAL SPACING REVERSE
 
-```text
-BASELINE_NORMALIZATION_0.6.6.1.md
-```
+Static reverse proves Gaia uses a cached per-glyph advance.
 
-Expected Character Select:
+Cache hit:
 
 ```text
-Chọn tướng
+record = state+84 + cache_slot*16
+advance = record.byte6
+state+24 += advance
+if advance != state+62:
+    state+24 += state+60
 ```
 
-New policy:
-- preserve native body geometry/baseline when the base glyph already has enough room for marks;
-- only minimal-fit when required;
-- preserve native bottom edge whenever possible;
-- accents are positioned relative to the body bbox;
-- report records `fit_mode`, `src_bbox`, `body_bbox`, `final_bbox`.
-
-Package:
+Cache miss:
 
 ```text
-GaiaMaster_0.6.6.1_BASELINE_NORMALIZED_REAL_TEXT_PROOF.zip
+copy_return == 8
+    ? advance = state+62
+    : advance = state+64 + 1
+
+if advance != state+62:
+    advance += state+60
+
+state+24 += advance
 ```
 
-Status: **READY FOR ONE RUNTIME TEST.**
-
-If wrong, collect:
+Current interpretation:
 
 ```text
-screenshot
-[VI 0.6.6.1 BASELINE].txt
+state+60 = extra tracking
+state+62 = special/small advance candidate
+state+64 = native dimension feeding normal advance
+record+6 = final cached advance
 ```
+
+This explains why Latin-looking full-width glyphs remain visually far apart even though their bitmaps are narrow.
+
+## CURRENT — READ-ONLY FONT SPACING SCANNER 0.1
+
+There is **NO runtime 0.6.6.2 build yet**.
+
+Files:
+
+```text
+FONT_SPACING_SCANNER_0.1.md
+tools/font_spacing_scanner_0.1.py
+tools/00_RUN_FONT_SPACING_SCANNER_0.1.cmd
+```
+
+Expected report:
+
+```text
+GaiaMaster_FontSpacingScanner_01.txt
+```
+
+Scanner is READ-ONLY and searches the full SLPS for ownership/value sources of:
+
+```text
+state+0x3C / +60
+state+0x3E / +62
+state+0x40 / +64
+```
+
+It also dumps cache-field writes, renderer/cache init context and direct callers.
+
+### Gate
+
+**Do not build a spacing runtime probe until ownership is proven.**
+
+Preferred result after scanner:
+- reuse a native/local small-width or per-renderer metric if one exists;
+- avoid global cursor/spacing mutation and avoid affecting untranslated Japanese text.
 
 ## Current do-not-repeat
 
 - no Krom path;
 - no production 12x16;
 - no failed 0.6.3.x retests;
-- no composite X/Y tuning loop;
+- no composite X/Y loop;
 - no 0.6.5.2 runtime redirect;
 - no assumption consecutive code == consecutive atlas slot;
 - no 0.6.5.3 retest;
-- no more 12-glyph style-board loops unless production regression requires it;
-- no reopening mapping/encoder questions because of 0.6.6.0 baseline polish;
+- no more glyph-board loops unless a production regression requires it;
+- no reopening mapping/encoder/baseline due to horizontal spacing;
+- no runtime spacing patch before scanner ownership proof;
 - stop immediately on freeze/global corruption.
