@@ -1,6 +1,6 @@
 # HANDOFF — Gaia Master PS1 Việt hóa
 
-> **Current source-of-truth:** giữ renderer/font geometry native **12x12 / 72-byte / 4bpp**. Mapping ownership đã được chứng minh. `0.6.5.3` runtime chứng minh kiến trúc **mapping-data-only** hoạt động. `0.6.5.4` tiếp tục chứng minh copy A/E/O native byte-for-byte là đúng; vấn đề còn lại chỉ là bố cục dấu trong ô 12x12. Current runtime proof là **0.6.5.5 ACCENT-SAFE COMPACT NATIVE STYLE**: A/E/O thường giữ native control, chữ có dấu nén thân vào rows 3..11 và dành rows 0..2 cho dấu hai lớp fill+shadow. Không code hook, không pointer redirect, không 12x16, không composite.
+> **Current source-of-truth:** giữ renderer/font geometry native **12x12 / 72-byte / 4bpp**. Mapping ownership đã được chứng minh. `0.6.5.3` runtime chứng minh kiến trúc mapping-data-only hoạt động; `0.6.5.4` chứng minh native A/E/O copy đúng; `0.6.5.5 ACCENT-SAFE COMPACT` đã đạt mức visual pass đủ để khóa hướng sản xuất. Không tiếp tục vòng lặp bảng 12 glyph nữa. Current proof là **0.6.6.0 PRODUCTION ENCODER REAL-TEXT**, dùng câu Việt thật `Chọn tướng`, native glyph cho Latin thường và chỉ custom-map các ký tự tiếng Việt đặc thù. Không code hook, không pointer redirect, không 12x16, không composite.
 
 ## Baseline
 
@@ -32,13 +32,6 @@ Initializer ownership:
 0x8003DD54..0x8003DD5C -> map   0x8007AECC -> gp+0x51C
 ```
 
-Generic setter:
-
-```text
-0x8003DD68 sw a0,0x518(gp)
-0x8003DD6C sw a1,0x51C(gp)
-```
-
 Known mapping samples:
 
 ```text
@@ -64,6 +57,7 @@ Character Select test text:
 PRGPACK.BDP + 0xBFD2C
 owner nested BDP = entry 29
 local offset = +0x580
+24-byte proof field used safely by 0.6.5.x
 ```
 
 ## Historical conclusions
@@ -101,92 +95,118 @@ Recovered runtime GP and direct ownership writes. Static mapping data can be pat
 
 Runtime proved:
 - game boots;
-- Character Select reaches the patched mapping-controlled slots;
+- Character Select reaches patched mapping-controlled slots;
 - no hook or pointer redirect is needed;
 - no freeze/global corruption.
 
-Generator bugs:
-
-```python
-setpix(..., v=7)
-base = label[0] if label[0] in "AEO" else "A"
-```
-
-Index `7` rendered as the dark/shadow layer. Unicode `Ê/Ế/Ể/Ô/Ố/Ỗ` fell back to A. Do not retest 0.6.5.3.
+Do not retest.
 
 ## 0.6.5.4 NATIVE-BASE STYLE
 
-Runtime screenshot proved:
-- plain A/E/O copied from Gaia native glyphs look correct;
-- mapping and slot ownership remain correct;
-- Vietnamese marks are actually present;
-- remaining issue is vertical crowding: full-height native bases leave too little headroom, so marks merge into the top of A/E/O.
+**PIPELINE PASS / VERTICAL CROWDING.**
 
-Conclusion:
+- plain A/E/O native controls looked correct;
+- mapping and slot ownership correct;
+- Vietnamese marks present;
+- full-height base glyphs left too little accent headroom.
 
-> mapping -> slot -> native glyph pipeline is solved. Remaining work is glyph composition/art only.
+## 0.6.5.5 ACCENT-SAFE COMPACT
 
-Do not treat 0.6.5.4 as a mapping failure.
+Runtime screenshot result: **VISUAL PASS ENOUGH FOR PRODUCTION PIVOT.**
 
-## CURRENT — 0.6.5.5 ACCENT-SAFE COMPACT NATIVE STYLE
+Observed:
+- A/E/O controls correct;
+- compact accents readable;
+- circumflex / acute / hook / tilde families visually distinct;
+- stable boot and UI;
+- remaining roughness is 12x12 pixel-art polish only.
 
-Detailed note:
+Decision:
 
-`FONT_MAPPING_PROOF_0.6.5.5.md`
+> lock mapping-only + native 12x12 pipeline; stop testing glyph boards and move to a real Vietnamese encoder.
 
-Builder:
+## Translation source
+
+Translation Master 0.6:
+- 596 rows;
+- `vi_full` is the accented source-of-truth;
+- `vi_game_current` is the old no-accent fallback.
+
+Production strategy:
 
 ```text
-tools/build_gaia_0655_accent_safe.py
-tools/00_BUILD_0.6.5.5_ACCENT_SAFE.cmd
+plain Latin / numbers / punctuation
+  -> reuse Gaia native full-width CP932 glyphs
+
+Vietnamese-specific precomposed chars
+  -> dedicated custom mapping entries
+  -> selected safe native 12x12 atlas slots
 ```
 
-Design:
+This avoids wasting custom slots on plain A-Z/a-z and minimizes damage to untranslated Japanese text.
+
+## CURRENT — 0.6.6.0 PRODUCTION ENCODER REAL-TEXT PROOF
+
+Expected Character Select text:
 
 ```text
-0x889F..0x88AA
-  -> patched static mapping entries
-  -> selected low-use atlas slots
-  -> native A/E/O source glyphs
-  -> accented variants vertically compacted into rows 3..11
-  -> rows 0..2 reserved for Vietnamese marks
-  -> marks rendered with native fill + shadow layers
+Chọn tướng
 ```
 
-Controls:
-- plain `A`, `E`, `O` remain byte-for-byte native;
-- palette index 7 is treated as shadow, based on 0.6.5.3 runtime evidence;
-- fill is selected from the remaining native nonzero palette indices;
-- no runtime engine changes.
+Why this phrase:
+- actual UI wording rather than a glyph board;
+- fits the 24-byte proof field at 20 encoded bytes + terminator;
+- tests lowercase native Latin and Vietnamese-specific `ọ`, `ư`, `ớ`;
+- exercises dot-below, horn, and horn+acute composition.
 
-Expected Character Select order:
+Builder behavior:
+- requires CLEAN BIN SHA1;
+- native full-width CP932 for plain ASCII letters/space;
+- scans for zero-static-hit custom CP932 codes;
+- scans for zero-static-hit atlas destination slots;
+- patches only mapping entries + 12x12 glyph data + Character Select text bytes;
+- writes explicit terminator/padding into the 24-byte proof field;
+- outputs a detailed allocation report.
+
+Package:
 
 ```text
-A Â Ấ Ẳ E Ê Ế Ể O Ô Ố Ỗ
+GaiaMaster_0.6.6.0_PRODUCTION_ENCODER_REAL_TEXT_PROOF.zip
 ```
 
 Status: **READY FOR ONE RUNTIME TEST.**
 
-If visual output is wrong, collect both:
+Expected screenshot line:
+
+```text
+Chọn tướng
+```
+
+If wrong, collect:
 
 ```text
 screenshot
-[VI 0.6.5.5 ACCENT SAFE].txt
+[VI 0.6.6.0 PROD ENCODER].txt
 ```
 
-The report includes native bbox, palette histogram, fill/shadow indices, selected slots, and compacted glyph bbox.
+## Next after 0.6.6.0 PASS
+
+1. inventory the exact non-ASCII character set currently used by `vi_full`;
+2. measure safe custom-code and safe atlas-slot capacity;
+3. freeze a deterministic Vietnamese codepage allocation;
+4. add full encoder integration to Translation Master rebuild;
+5. migrate real translated rows from `vi_game_current` fallback to `vi_full` production encoding.
 
 ## Hard do-not-repeat
 
 - no Krom path;
 - no production 12x16 path;
-- no retest 0.6.2.18;
-- no retest failed 0.6.3.x probes;
+- no failed 0.6.3.x retests;
 - no composite X/Y tuning loop;
 - no runtime redirect like 0.6.5.2;
 - no assumption consecutive code == consecutive atlas slot;
-- no retest 0.6.5.3;
-- do not reinterpret 0.6.5.4 visual crowding as a mapping failure;
+- no 0.6.5.3 retest;
+- no more 12-glyph style-board runtime loops unless a production regression demands it;
 - stop immediately on freeze/global corruption.
 
 ## User testing preference
