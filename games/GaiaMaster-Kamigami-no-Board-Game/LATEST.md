@@ -13,84 +13,74 @@ static mapping-only
 legacy Alpha coverage gate = 397 / 397
 ```
 
-`0.6.7.2` vẫn là visual baseline. Không quay lại narrow 6x12, 12x16, pointer redirect, composite overlay hay global spacing hook.
+Không quay lại narrow 6x12, 12x16, pointer redirect, composite overlay hay global spacing hook.
 
 ## Runtime mới nhất
 
-`0.6.11.0` đã được user test và được phân loại:
+`0.6.12.0` đã được user test. Kết quả:
 
 ```text
-PARTIAL PASS / CONTENT QA FAIL
+TRANSLATION PROGRESS VISIBLE
+CONTENT QA INCOMPLETE
+LOWERCASE ă HOTFIX V1 FAIL VISUALLY
 ```
 
-Ảnh runtime chứng minh accented pipeline hoạt động, nhưng phát hiện:
+Ảnh runtime mới cho thấy `ă` đã chạm đúng glyph/slot nhưng breve vẫn sai: phần nhìn thấy chủ yếu là dark shadow, dấu sáng chưa đúng và shadow nằm hơi cao. Root cause trong hotfix v1 là dùng `max(palette index)` làm fill, có thể chọn trúng shadow index 7, đồng thời shadow cũ ở row 2 chưa được dọn sạch.
 
-1. hai vị trí `=` cũ trong front fallback vẫn hiện thành glyph Nhật/rác;
-2. lowercase `ă` trong `năng` có breve sai hình;
-3. vẫn còn fallback không dấu và tên Nhật động, ví dụ `LUOT ジガー`.
+User cũng xác nhận tiếng Nhật vẫn còn nhiều, nên không tiếp tục micro-fix từng vài câu.
 
-## CURRENT — 0.6.12.0 LARGE GAMEPLAY TRANSLATION BATCH 3
+# CURRENT — 0.6.13.0 COMPACT JAPANESE REDUCTION BATCH 4
 
-Batch này cố tình làm lớn để giảm số vòng build-test nhỏ.
-
-### Giữ nguyên
+Files:
 
 ```text
-exact 397/397 legacy gate
-BDP/checksum writer
-runtime token handling
-60-glyph codepage
-12x12 mapping-only architecture
+ACCENT_UPGRADE_0.6.13.0.md
+tools/build_gaia_06130_translation_b4.py
+tools/00_BUILD_0.6.13.0_TRANSLATION_B4.cmd
+translation/COMPACT_TRANSLATION_OVERRIDES_0.6.13.0.csv
+translation/DYNAMIC_LITERAL_OVERRIDES_0.6.13.0.csv
 ```
 
-### Sửa lỗi runtime
+### Lowercase `ă` hotfix v2
+
+- giữ nguyên code/slot/body production;
+- derive bright fill từ histogram nhưng loại shadow index `7`;
+- xóa mark cũ ở rows 0/1 và stale shadow ở row 2;
+- redraw breve thấp hơn thành shallow cup;
+- draw shadow một pixel xuống/phải bằng native shadow palette;
+- chỉ patch glyph `ă`.
+
+### Dịch thêm
+
+Batch 4 có **146 compact exact-offset candidates** nhắm vào các row vẫn có nguy cơ rơi về tiếng Nhật vì bản dịch dài không fit field gốc.
+
+Nhóm nội dung:
 
 ```text
-NGUOI=CO      -> NGUOI CO
-THEGIOI=BANCO -> THEGIOI BANCO
+mua/bán/đất/thuế
+nhận card/vũ khí
+battle prompts
+route/status
+special squares
+building/symbol effects
+item/card descriptions
 ```
 
-và sau inner build chỉ redraw hai hàng accent trên glyph lowercase `ă` thành breve dạng cup/smile. Không đổi mapping/body/slot hay font khác.
+Builder chỉ apply khi byte-fit; quá dài thì skip an toàn.
 
-### Dịch thêm lớn
+Dynamic map tăng từ 12 lên **35 literals**, thêm tên vũ khí/card và một số board/location labels để xử lý `%s` hoặc duplicate runtime ngoài offset chính.
 
-`BATCH3_FALLBACK_ACCENT_MAP_0.6.12.0.csv` hiện có **278 curated compact accent mappings**.
-
-Builder còn globalize toàn bộ Batch 2 mapping: mọi Translation Master row có cùng fallback cũ đều được thử promote sang bản có dấu khi vẫn vừa field gốc.
-
-Nội dung mở rộng phủ setup, tavern, gameplay, thuế/đất/tuyến đường, card, item, weapon, event, menu, prompt, building/status/movement/battle strings.
-
-Candidate quá dài vẫn giữ fallback cũ để không làm mất coverage.
-
-### Dynamic / repeated Japanese
-
-Builder scan standalone/null-delimited copies trong CLEAN `SLPS_020.75` và `PRGPACK.BDP`, rồi inject temporary translation rows cho duplicate chưa có offset trong master.
-
-Compact runtime names gồm:
+Ví dụ:
 
 ```text
-トロル通り -> Troll
-ジガー -> Jig
-ダンテ -> Dan
-孫悟空 -> Ngộ
-ハヤテ -> Hay
-ヤスツナ -> Yasu
-ガラハッド -> Galah
-ティアラ -> Tiar
-ゴライアス -> Golia
-メグメグ -> Megu
-アガート -> Agat
-シンバッド -> Sinba
-```
-
-## Files
-
-```text
-ACCENT_UPGRADE_0.6.12.0.md
-tools/build_gaia_06120_big_translation_b3.py
-tools/00_BUILD_0.6.12.0_BIG_TRANSLATION_B3.cmd
-translation/BATCH3_FALLBACK_ACCENT_MAP_0.6.12.0.csv
-translation/DYNAMIC_LITERAL_OVERRIDES_0.6.12.0.csv
+サンダー -> Sấm
+ハリケーン -> Bão
+クロスボウ -> Nỏ
+ロングソード -> Kiếm
+ファイアボール -> Lửa
+バトルアックス -> Rìu
+サーカス -> Xiếc
+呪いの沼 -> Đầm
 ```
 
 ## State
@@ -98,12 +88,16 @@ translation/DYNAMIC_LITERAL_OVERRIDES_0.6.12.0.csv
 ```text
 SOURCE READY
 PYTHON SYNTAX PASS
-ROM BUILD PENDING
+CLEAN-ROM BUILD PENDING
 RUNTIME PENDING
 ```
 
-Clean BIN không mounted trong phiên ChatGPT nên cần build trên máy user.
-
 ## Next runtime test
 
-Test một lượt rộng: intro -> setup -> vài lượt đầu -> card/item/event/menu -> đất/thuế/tuyến đường/battle. Chụp lại mọi Japanese còn sót, fallback không dấu, dấu sai, clipping hoặc freeze.
+Test rộng thay vì micro-test:
+
+1. nhìn `ă` trong `năng`;
+2. chơi vài lượt;
+3. mở card/item/event/menu;
+4. thử đất/thuế/tuyến/battle;
+5. chụp các dòng Nhật còn nguyên hoặc `%s` còn tên Nhật.
