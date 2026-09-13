@@ -126,32 +126,62 @@ Conclusion:
 
 Do not use runtime post-lookup pointer redirect for this path.
 
-## CURRENT — READ-ONLY FONT MAPPING SCANNER 0.1
+### Font Mapping Scanner 0.1
 
-There is no current ROM probe.
+Read-only scanner found `GP0=0` in the PS-X EXE header, so final renderer globals were not statically available from header GP.
 
-Local package:
+### Font Mapping Initializer Scanner 0.2 — OWNERSHIP PROVEN
 
-```text
-GaiaMaster_FontMappingScanner_0.1.zip
-```
-
-Launcher:
+Read-only report proved:
 
 ```text
-00_RUN_FONT_MAPPING_SCANNER.cmd
+runtime GP = 0x80085F28
+atlas global = gp+0x518
+map global   = gp+0x51C
 ```
 
-Expected user report:
+Initializer at `0x8003DD48..0x8003DD5C` writes the native defaults directly:
 
 ```text
-GaiaMaster_FontMappingScanner_01.txt
+atlas   = 0x8006BCEC
+mapping = 0x8007AECC
 ```
 
-Goal:
-- recover exact code -> glyph mapping ownership;
-- determine whether mapping can be patched as data only;
-- only then build the next native-cell Vietnamese proof.
+Static mapping samples all matched runtime-known values, including `0x889F -> glyph 0`.
+
+**Gate opened:** mapping ownership is demonstrated. Data-only proof is allowed.
+
+## CURRENT — 0.6.5.3 MAPPING-ONLY NATIVE-CELL PROOF
+
+Builder:
+
+```text
+tools/build_gaia_0653_mapping_only.py
+tools/00_BUILD_0.6.5.3_MAPPING_ONLY.cmd
+```
+
+Detailed note:
+
+`FONT_MAPPING_PROOF_0.6.5.3.md`
+
+Architecture:
+
+```text
+0x889F..0x88AA
+  -> patched static mapping entries
+  -> selected low-use atlas slots
+  -> native 12x12 / 72-byte glyph data
+```
+
+No code hook. No pointer redirect. No 12x16. No composite overlay.
+
+Expected Character Select visual:
+
+```text
+A Â Ấ Ẳ E Ê Ế Ể O Ô Ố Ỗ
+```
+
+Status: **READY FOR ONE RUNTIME TEST.**
 
 ## Current do-not-repeat
 
@@ -162,4 +192,4 @@ Goal:
 - no composite X/Y tuning loop;
 - no 0.6.5.2 runtime redirect;
 - no assumption consecutive code == consecutive atlas slot;
-- no new runtime probe until mapping-table ownership is proven.
+- stop immediately on freeze/global corruption.
