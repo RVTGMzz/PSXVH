@@ -1,0 +1,147 @@
+file,offset_hex,vi_accented,category,note
+PRGPACK.BDP,0x674d0,Nhận,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x674e0,Đầy thẻ,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x67504,Bỏ 1 thẻ,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x67540,Mua đất,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x675dc,Trả %d Z,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x675f8,Nhận VK,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x67610,Nhận SK,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x6762c,Hồi đầy,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x67644,Ngăn đấu,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x67664,Thách đấu,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x677e4,Mất %d Z,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x67808,Hết tiền,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x67818,Không sao,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x67834,Chưa có đất,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x67860,Nhận %d Z,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x67878,Chưa có thuế,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x67894,Xui quá,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x67920,Đã đổi,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x6793c,Giữ nguyên,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x67b4c,Đánh đất?,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x67b6c,Phá?,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x67b84,Chuộc?,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x67b94,Bán gì?,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x67bb4,Chọn khu?,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x67bc8,Xây đâu?,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x67c64,Chọn OK,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x67c78,GT,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x67c80,Phí,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x67d50,Không có,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x67d68,Xây %s,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x67d78,Trả %d,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x67d98,Thiếu tiền!,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x67db0,Thiếu %dZ,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x67dec,Đồ %s,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x67e04,Cho %s,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x67edc,Nhận VK,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x67ef8,Đầy VK,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x67f1c,Bỏ 1 thẻ,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x67f2c,Nhận SK,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x67f4c,Đầy SK,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x67f94,Bỏ %s,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x67fc8,Bỏ cuộc,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x67fd8,VK ẩn LV5,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x67ff0,VK LV5,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68024,Vũ khí,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68088,Không có,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x680a0,Bán %s,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68698,Thêm lượt!,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x686b4,Lấy tiền,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x686d4,Trộm nửa!,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x686ec,Quỵt phí!,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68710,Phá tượng,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68728,4 xúc xắc!,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68748,Quà thần!,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68764,Nhận 1 đất!,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68780,Tiền x2!,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x687a0,Chặn phá!,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x687c4,Trùng ô,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x687e4,Thách đấu?,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x687f8,Quỵt tiền!,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68888,Bay đi!,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68898,Phí à?,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x688b0,Sao phải trả!,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x688d8,Cố lên!,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x688ec,Vân,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68968,Hình như,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68974,Nhận thêm,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68988,Đầy tiền,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x689a4,Max 99999,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x689b8,Gửi Thánh,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x689d0,Rút Thánh,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x689f4,Thuộc hạ,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68a04,Lùi,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68a0c,Hê,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68a28,Lại gần,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68a38,Láu,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68a44,Hử?,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68a4c,Đấu nhé,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68a64,Thắng,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68aa8,Ta đấu!,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68afc,Xin lỗi %s,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68b08,Lấy %d Z,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68b9c,Phá nào!,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68bbc,Phá gì?,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68bdc,Tượng này,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68bec,Hừ,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68bf4,Đồ rác,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68bfc,Grrr,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68c08,Không hứng,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68c30,Mộ,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68c38,Nhà tắm,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68ca4,Cơ sở %s,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68cb0,Chủ %s,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68cbc,Phí %4d,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68cc8,Giá %4d,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68cd4,Không mua,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68ce0,Làm,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68ce8,Warp,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68cf8,Tiền góp,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68d08,Do xui,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68d18,Thuế,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68d28,Nhận,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68d34,Trả 20%,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68d44,Dừng: tiền,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68d54,Trả,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68d64,20% thuế,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68d74,Dừng: giá,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68d84,Đổi,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68d90,Đổi tuyến,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68da0,Mỗi lượt,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68db0,Sẽ,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68db8,Có thể đổi,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68dc8,Dừng: tuyến,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68dd8,Sẽ nhận,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68de8,Thẻ VK,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68df8,Chơi thắng,compact,Batch 4 compact runtime-safe candidate
+PRGPACK.BDP,0x68e08,Mini game,compact,Batch 4 compact runtime-safe candidate
+SLPS_020.75,0x2d88,Thay xúc xắc,compact,Batch 4 compact runtime-safe candidate
+SLPS_020.75,0x2db0,4 xúc xắc,compact,Batch 4 compact runtime-safe candidate
+SLPS_020.75,0x2dcc,Siêu tốc!,compact,Batch 4 compact runtime-safe candidate
+SLPS_020.75,0x2dec,3 xúc xắc,compact,Batch 4 compact runtime-safe candidate
+SLPS_020.75,0x2e08,Tăng tốc!,compact,Batch 4 compact runtime-safe candidate
+SLPS_020.75,0x2e50,Xây Tử thần,compact,Batch 4 compact runtime-safe candidate
+SLPS_020.75,0x2ea4,Xây đầm,compact,Batch 4 compact runtime-safe candidate
+SLPS_020.75,0x2efc,Xây xiếc,compact,Batch 4 compact runtime-safe candidate
+SLPS_020.75,0x2f58,Xây nhà thờ,compact,Batch 4 compact runtime-safe candidate
+SLPS_020.75,0x2fb4,Xây vườn,compact,Batch 4 compact runtime-safe candidate
+SLPS_020.75,0x300c,Xây Nữ thần,compact,Batch 4 compact runtime-safe candidate
+SLPS_020.75,0x3064,Xây suối,compact,Batch 4 compact runtime-safe candidate
+SLPS_020.75,0x30bc,Xây nghĩa,compact,Batch 4 compact runtime-safe candidate
+SLPS_020.75,0x3118,Xây tháp,compact,Batch 4 compact runtime-safe candidate
+SLPS_020.75,0x3174,Xây tà thần,compact,Batch 4 compact runtime-safe candidate
+SLPS_020.75,0x31a8,Phá tượng,compact,Batch 4 compact runtime-safe candidate
+SLPS_020.75,0x31c4,Dùng thẻ,compact,Batch 4 compact runtime-safe candidate
+SLPS_020.75,0x31e8,Thách đấu,compact,Batch 4 compact runtime-safe candidate
+SLPS_020.75,0x3208,Dùng lên địch,compact,Batch 4 compact runtime-safe candidate
+SLPS_020.75,0x323c,Vô hiệu đất,compact,Batch 4 compact runtime-safe candidate
+SLPS_020.75,0x3258,Riêng 1 lượt,compact,Batch 4 compact runtime-safe candidate
+SLPS_020.75,0x3288,Vô hiệu ô,compact,Batch 4 compact runtime-safe candidate
+SLPS_020.75,0x32a8,Nữ thần băng,compact,Batch 4 compact runtime-safe candidate
+SLPS_020.75,0x32e0,Đổi chỗ,compact,Batch 4 compact runtime-safe candidate
+SLPS_020.75,0x32f4,Thần đổi chỗ,compact,Batch 4 compact runtime-safe candidate
+SLPS_020.75,0x3330,Đổi tuyến,compact,Batch 4 compact runtime-safe candidate
+SLPS_020.75,0x3348,Đổi mọi ngã,compact,Batch 4 compact runtime-safe candidate
+SLPS_020.75,0x3394,Nhận %s,compact,Batch 4 compact runtime-safe candidate
+SLPS_020.75,0x33ac,Đầy SK,compact,Batch 4 compact runtime-safe candidate
