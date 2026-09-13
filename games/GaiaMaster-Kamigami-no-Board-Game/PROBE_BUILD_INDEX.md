@@ -44,7 +44,7 @@ Proven:
 - stable boot/UI;
 - no hook or pointer redirect.
 
-Remaining wide horizontal spacing is classified as visual polish.
+Remaining wide horizontal spacing is visual polish only.
 
 ### 0.6.6.2
 
@@ -56,17 +56,9 @@ Remaining wide horizontal spacing is classified as visual polish.
 
 ### 0.6.6.2c NATIVE NARROW 8PX
 
-Builder succeeded, runtime tested.
+Builder succeeded and runtime-tested.
 
-Expected:
-
-```text
-Chọn tướng
-```
-
-Actual:
-- unrelated/garbled glyphs;
-- one-byte aliases did not route to the assumed narrow indices.
+Expected `Chọn tướng`; actual unrelated/garbled glyphs.
 
 Result:
 
@@ -78,15 +70,11 @@ DO NOT RETEST
 
 This does not affect the 12x12 mapping-only PASS.
 
-## CURRENT — PRODUCTION CAPACITY SCANNER 0.1
+## Production Capacity Scanner 0.1 — RESULT
 
-READ-ONLY. No emulator boot and no patched BIN.
+READ-ONLY. No patched BIN and no emulator boot.
 
-Goal:
-
-Test whether the proven 12x12 architecture can fit the **full Vietnamese repertoire**, not merely the currently translated subset.
-
-Worst-case production target:
+Worst-case target:
 
 ```text
 67 lowercase custom chars
@@ -94,26 +82,61 @@ Worst-case production target:
 TOTAL = 134 custom glyphs
 ```
 
-Scanner checks:
-- zero-static-hit CP932 custom-code capacity;
-- zero-static-hit atlas capacity;
-- completely unmapped vs mapped-but-zero-hit slots;
-- protects native Latin source glyph slots;
-- emits deterministic full codepage proposal if capacity PASS.
+User result on verified CLEAN BIN:
+
+```text
+Zero-hit custom codes : 837
+Zero-hit atlas slots  : 64
+Unmapped zero slots   : 34
+Verdict               : FAIL
+```
+
+Atlas split:
+
+```text
+34 completely unmapped zero-hit slots
+30 mapped-but-static-unused zero-hit slots
+64 total conservative allocatable slots
+```
+
+Conclusion:
+- code-space capacity is abundant;
+- conservative atlas capacity is the bottleneck;
+- full 134-glyph codepage does not fit while preserving all currently referenced Japanese glyphs;
+- this is a valid capacity FAIL, not a broken build;
+- do not rerun unless reclaim rules change.
+
+## CURRENT — vi_full Inventory 0.1
+
+READ-ONLY. No game BIN required.
+
+Files:
+
+```text
+tools/vifull_inventory_0.1.py
+tools/00_RUN_VIFULL_INVENTORY_0.1.cmd
+```
+
+Goal:
+- read Translation Master 0.6 parts 01..06;
+- inventory only actual `vi_full` content;
+- count exact Vietnamese precomposed characters currently needed;
+- normalize punctuation where possible;
+- compare actual custom glyph need against 64 known conservative atlas slots.
 
 Report:
 
 ```text
-GaiaMaster_ProductionCapacityScanner_01.txt
+GaiaMaster_ViFullInventory_01.txt
 ```
 
-### If PASS
+### If PASS (<=64)
 
-Freeze full Vietnamese codepage and move directly to a multi-string 12x12 production build using real `vi_full` text.
+Freeze exact current-corpus codepage and build a multi-string 12x12 production proof.
 
-### If FAIL
+### If FAIL (>64)
 
-Inventory exact characters present in `vi_full` and allocate only that smaller corpus.
+Do not return to narrow/12x16. Design explicit Japanese-slot reclaim based on rows already translated.
 
 ## Do not repeat
 
@@ -128,4 +151,5 @@ Inventory exact characters present in `vi_full` and allocate only that smaller c
 - no one-byte narrow alias path;
 - no global cursor/cache spacing mutation;
 - no spacing-driven architecture rewrite;
+- no repeated 134-glyph capacity scan without an atlas-reclaim change;
 - stop immediately on freeze/global corruption.
