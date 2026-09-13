@@ -1,192 +1,159 @@
 # Gaia Master — trạng thái mới nhất
 
-Cập nhật: **2026-09-13**
+Cập nhật: **2026-09-14**
 
 ## Source-of-truth
 
-Production đã khóa vào:
+Production vẫn khóa vào:
 
 ```text
 native 12x12 / 72-byte / 4bpp
 static mapping-only
 60-glyph Vietnamese production codepage
 font visual style = 0.6.7.2
+legacy Alpha coverage gate = 397 / 397
 ```
 
 Không quay lại narrow 6x12, 12x16, pointer redirect, composite overlay hay global spacing hook.
 
-## Font visual baseline
+## Font
 
 `0.6.7.2` = **FONT VISUAL PASS / FREEZE**.
 
-User runtime screenshot của:
+Runtime mới không cho thấy regression font. Các dấu tiếng Việt đã hiện; vấn đề hiện tại là nội dung/fallback/dynamic Japanese literals.
+
+## Coverage
+
+`0.6.9.2` = **397/397 COVERAGE PASS**.
+
+Không được bỏ một fallback đang fit chỉ để ép câu có dấu dài hơn.
+
+## 0.6.10.0 runtime verdict
+
+User đã test `0.6.10.0 HYBRID FULL-COVERAGE + FRONT ACCENT BATCH 1`.
+
+Kết luận:
 
 ```text
-Chọn tướng
+FRONT ACCENT/FONT RUNTIME PASS
+CONTENT QA INCOMPLETE
 ```
 
-được đánh giá perfect.
-
-Accent rule đã khóa:
-- horn của `ơ/ư` bám sát thân chữ;
-- dấu sắc/huyền tách đủ xa khỏi horn;
-- baseline-normalized từ 0.6.6.1;
-- spacing ngang hơi rộng được chấp nhận.
-
-## Production codepage capacity
-
-Actual Translation Master 0.6 hiện cần:
+Ảnh runtime phát hiện ba nhóm lỗi:
 
 ```text
-60 custom Vietnamese glyphs
-64 conservative zero-hit atlas slots
-4 reserve slots
+Người=cờ / Thếgiới=bàncờ
 ```
 
-Frozen custom set:
-
-```text
-àáâãéêìíòóÔôùúÝăĐđĩũƠơưạảấầẩẫậắặẻẽếềểệỉịọỏốồổỗộớờởợụủứừửữựỵỹ
-```
-
-## Coverage recovery
-
-Old Alpha 0.6.1 từng có **397 patch keys** từ gameplay/front text.
-
-`0.6.8.0` và `0.6.8.1` không cho runtime coverage như mong muốn, nên không còn là hướng hiện tại.
-
-### 0.6.9.0
-
-Hybrid pipeline tìm `399` patch nhưng gate sai, bắt tổng phải đúng 397.
-
-**Build gate bug only. Do not retest.**
-
-### 0.6.9.1
-
-Gate tiếp theo sai logic legacy và báo mất 228 row.
-
-**Build gate bug only. Do not retest.**
-
-### 0.6.9.2
-
-Exact legacy reconstruction:
-
-```text
-legacy Alpha coverage = 397 / 397
-extra vi_full-only patches allowed
-```
-
-Runtime intro đã hiện Vietnamese fallback:
-
-```text
-100 NAM MENH
-LUC DIA LOAN
-THOI GAIA MASTER
-DEN LUC!
-```
-
-=> **coverage pipeline PASS**.
-
-Nhưng intro vẫn không dấu vì `FRONT_DEMO_ADDED_061.csv` chỉ có `vi_no_accents`.
-
-## CURRENT — 0.6.10.0 HYBRID FULL-COVERAGE + FRONT ACCENT BATCH 1
-
-Current repo files:
-
-```text
-tools/build_gaia_06100_hybrid_accent_b1.py
-tools/00_BUILD_0.6.10.0_HYBRID_ACCENT_B1.cmd
-ACCENT_UPGRADE_0.6.10.0.md
-translation/FRONT_ACCENT_OVERRIDES_0.6.10.0.csv
-```
-
-Builder source snapshot is exact; readable-source SHA1:
-
-```text
-faea2fbf90d3b4038ad64d3872934c043115878a
-```
-
-Local package:
-
-```text
-GaiaMaster_0.6.10.0_HYBRID_FRONT_ACCENT_BATCH1.zip
-SHA1 d43e8547f9baca4e254f96fdb7850a5c6f873e86
-```
-
-### Coverage rule
-
-```text
-legacy Alpha coverage must remain 397 / 397
-extra vi_full-only rows may be added
-```
-
-Text priority:
-
-```text
-vi_full accented if it fits
--> vi_game_current fallback if it fits
--> dedicated front override/fallback
-```
-
-Runtime format/control tokens remain raw:
-
-```text
-%s %d %+3d /V /v ...
-```
-
-### Front Accent Batch 1
-
-All 31 dedicated intro/setup rows now have compact accented overrides.
-
-Expected intro examples:
-
-```text
-100 năm mệnh
-Lực địa loạn
-Thời Gaia Master
-Đến lúc!
-Đất ảo trời
-Thế giới mất chủ
-```
-
-Expected setup examples:
+ký tự `=` hiện thành glyph Nhật/rác;
 
 ```text
 Tải dữ liệu VK?
-Kỹ năng LV1
-Nhân vật này?
-Xác nhận?
 ```
 
-The builder blocks if any of the 31 accented front overrides cannot fit.
+khó hiểu, trong đó `VK` = vũ khí;
 
-## Next session
-
-Start by reading:
+và gameplay:
 
 ```text
-HANDOFF_CURRENT.md
-PROBE_BUILD_INDEX.md
-ACCENT_UPGRADE_0.6.10.0.md
+DUNG トロル通り
 ```
 
-Then:
+cho thấy `DUNG %s` được patch nhưng `%s` lấy tên Nhật từ bảng động khác.
 
-1. runtime-test `0.6.10.0` intro;
-2. if intro accent pass, enter a real match;
-3. inspect card/menu/item/prompt text;
-4. collect remaining no-accent fallback rows;
-5. build **Accent Upgrade Batch 2** for gameplay content while preserving exact `397/397` legacy coverage.
+## CURRENT — 0.6.11.0 HYBRID GAMEPLAY ACCENT BATCH 2
+
+Files:
+
+```text
+ACCENT_UPGRADE_0.6.11.0.md
+tools/build_gaia_06110_hybrid_accent_b2.py
+tools/00_BUILD_0.6.11.0_HYBRID_ACCENT_B2.cmd
+translation/FRONT_ACCENT_OVERRIDES_0.6.11.0.csv
+translation/GAMEPLAY_ACCENT_OVERRIDES_0.6.11.0.csv
+translation/DYNAMIC_LITERAL_OVERRIDES_0.6.11.0.csv
+```
+
+### Front fixes
+
+```text
+Người=cờ        -> Người cờ
+Thếgiới=bàncờ   -> Thếgiới bàncờ
+Ko chống        -> Không chống
+Tải dữ liệu VK? -> Tải KN vũ khí?
+```
+
+### Gameplay Batch 2
+
+Có **335 compact accent candidates** cho:
+
+```text
+setup / tavern / gameplay / card / item / event / menu / prompt
+```
+
+Wrapper chỉ promote candidate nếu byte-size vừa field gốc. Candidate quá dài sẽ giữ fallback cũ.
+
+### Dynamic literal layer
+
+Screenshot-proven first entry:
+
+```text
+トロル通り -> Troll
+```
+
+Cùng với:
+
+```text
+DUNG %s -> Dừng %s
+```
+
+expected runtime:
+
+```text
+Dừng Troll
+```
+
+Equal-length dynamic replacement có thể patch trực tiếp. Replacement ngắn hơn chỉ được dùng với standalone/null-delimited string.
+
+### Builder strategy
+
+`0.6.11.0` bọc exact `0.6.10.0` builder, vì vậy không thay:
+
+```text
+font 0.6.7.2
+60-glyph codepage
+BDP/checksum code
+runtime token handling
+397/397 legacy gate
+```
+
+Builder source đã syntax-check. **Runtime build vẫn pending** vì phiên hiện tại không có clean BIN mounted.
+
+## Next runtime test
+
+Drag CLEAN BIN vào:
+
+```text
+tools/00_BUILD_0.6.11.0_HYBRID_ACCENT_B2.cmd
+```
+
+Check một lượt:
+
+1. intro không còn glyph rác ở vị trí `=`;
+2. setup hiện `Tải KN vũ khí?`;
+3. gameplay case cũ hiện `Dừng Troll`;
+4. card/menu/item/event/prompt có thêm dấu;
+5. chụp lại mọi tên Nhật `%s` hoặc fallback không dấu còn sót.
 
 ## Hard rules
 
-- never retest `0.6.5.2`;
-- no 12x16 production;
-- no narrow 6x12 alias production;
-- no pointer redirect;
-- no composite overlay;
-- no global cursor/cache/spacing mutation;
-- no accent retuning after 0.6.7.2 unless a real glyph regression appears;
-- no 0.6.9.0 / 0.6.9.1 retest;
-- keep fallback coverage until an accented replacement actually fits;
-- stop immediately on freeze/global corruption.
+- font `0.6.7.2` vẫn FREEZE;
+- exact `397/397` vẫn bắt buộc;
+- không 12x16;
+- không narrow alias;
+- không pointer redirect;
+- không composite overlay;
+- không global cursor/cache/spacing mutation;
+- không retest `0.6.9.0` / `0.6.9.1`;
+- không hy sinh coverage để ép accent;
+- stop ngay nếu freeze/global corruption.
