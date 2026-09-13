@@ -1,6 +1,6 @@
 # HANDOFF — Gaia Master PS1 Việt hóa
 
-> **Current source-of-truth:** giữ renderer/font geometry native **12x12 / 72-byte / 4bpp**. Mapping ownership đã được chứng minh bằng Font Mapping Initializer Scanner 0.2. Gate READ-ONLY đã mở. Current runtime proof là **0.6.5.3 MAPPING-ONLY NATIVE-CELL PROOF**: chỉ patch static mapping entries + native glyph cells, không code hook, không runtime pointer redirect, không 12x16, không composite.
+> **Current source-of-truth:** giữ renderer/font geometry native **12x12 / 72-byte / 4bpp**. Mapping ownership đã được chứng minh bằng Font Mapping Initializer Scanner 0.2. `0.6.5.3 MAPPING-ONLY NATIVE-CELL` đã runtime **STRUCTURAL PASS / GLYPH-GENERATOR FAIL**: game boot, mapping-data-only hoạt động và glyph test đi đúng custom slots, nhưng art bị tối/bóng và các chữ E/O có dấu bị thân A do bug generator. Current runtime proof kế tiếp là **0.6.5.4 NATIVE-BASE STYLE**: copy A/E/O native của game làm thân, explicit family mapping, dấu dùng palette suy ra từ glyph native. Vẫn không code hook, không runtime pointer redirect, không 12x16, không composite.
 
 ## Baseline
 
@@ -14,13 +14,13 @@
 ## Proven font facts
 
 ```text
-runtime GP    = 0x80085F28
-atlas global  = gp+0x518
-mapping global= gp+0x51C
-atlas RAM     = 0x8006BCEC
-mapping RAM   = 0x8007AECC
-atlas file    = SLPS + 0x5C4EC
-mapping file  = SLPS + 0x6B6CC
+runtime GP     = 0x80085F28
+atlas global   = gp+0x518
+mapping global = gp+0x51C
+atlas RAM      = 0x8006BCEC
+mapping RAM    = 0x8007AECC
+atlas file     = SLPS + 0x5C4EC
+mapping file   = SLPS + 0x6B6CC
 860 glyphs
 native 12x12 / 72-byte / 4bpp / LOW nibble first
 ```
@@ -48,7 +48,7 @@ Static mapping samples match all known runtime facts:
 0x889F 亜 -> glyph 0
 ```
 
-Renderer consumer remains:
+Renderer consumer:
 
 ```text
 code & 0x7FFF
@@ -90,12 +90,10 @@ Build-time cave assumption bug only. No runtime conclusion.
 ## Mapping recovery result
 
 ### Scanner 0.1
-Found `GP0=0` in PS-X EXE header. This did not mean the renderer had no GP; the game initializes GP after entry.
+Found `GP0=0` in PS-X EXE header. The game initializes GP after entry.
 
 ### Scanner 0.2 — PASS
-Recovered runtime GP and direct ownership writes. Mapping ownership is now demonstrated and static data-only patching is permitted.
-
-Reference report findings:
+Recovered runtime GP and direct ownership writes. Mapping ownership is demonstrated and static data-only patching is permitted.
 
 ```text
 GP = 0x80085F28
@@ -105,35 +103,66 @@ map slot   = 0x80086444
 
 All four known static mapping entries matched expected glyph indices.
 
-## CURRENT — 0.6.5.3 MAPPING-ONLY NATIVE-CELL PROOF
+## 0.6.5.3 MAPPING-ONLY NATIVE-CELL — STRUCTURAL PASS / GENERATOR FAIL
+
+Runtime screenshot confirmed:
+- game boots normally;
+- Character Select line is replaced by the 12 mapping-controlled test codes;
+- custom atlas cells are reached without pointer redirect or renderer hook;
+- no freeze/global corruption.
+
+Observed visual issue:
+- glyph strokes look dark/shadow-like;
+- accented E/O-family bodies look A-like.
+
+Root causes found in builder:
+
+```python
+setpix(..., v=7)  # hardcoded palette index
+base = label[0] if label[0] in "AEO" else "A"
+```
+
+The second line is a Unicode bug: `Ê/Ế/Ể/Ô/Ố/Ỗ` do not start with ASCII `E/O`, so they fell back to `A`.
+
+Conclusion:
+
+> mapping-only architecture is runtime-proven; remaining problem is glyph generation/style.
+
+Do not retest 0.6.5.3.
+
+## CURRENT — 0.6.5.4 NATIVE-BASE STYLE PROOF
 
 Detailed note:
 
-`FONT_MAPPING_PROOF_0.6.5.3.md`
+`FONT_MAPPING_PROOF_0.6.5.4.md`
 
 Builder:
 
 ```text
-tools/build_gaia_0653_mapping_only.py
-tools/00_BUILD_0.6.5.3_MAPPING_ONLY.cmd
+tools/build_gaia_0654_native_base.py
+tools/00_BUILD_0.6.5.4_NATIVE_BASE.cmd
 ```
 
-Proof architecture:
+Design:
 
 ```text
 0x889F..0x88AA
   -> patched static mapping entries
-  -> 12 low-use atlas slots selected by builder
-  -> native 12x12 / 72-byte custom glyphs
+  -> selected low-use atlas slots
+  -> A/E/O bodies copied from Gaia native full-width glyphs
+  -> compact Vietnamese marks inside same 12x12 cell
 ```
+
+Controls:
+- plain `A`, `E`, `O` are byte-for-byte copies of Gaia native glyphs;
+- A/E/O family classification is explicit;
+- accent palette index is derived from each native base glyph, not hardcoded `7`.
 
 Expected Character Select visual:
 
 ```text
 A Â Ấ Ẳ E Ê Ế Ể O Ô Ố Ỗ
 ```
-
-Builder protects known slots `0, 466, 480, 481`, scores slot usage against static SLPS/PRGPACK text, writes exact selected slots into its generated report, regenerates BDP checksum and changed Mode2/Form1 sector EDC/ECC.
 
 Status: **READY FOR ONE RUNTIME TEST.**
 
@@ -145,7 +174,8 @@ Status: **READY FOR ONE RUNTIME TEST.**
 - no retest failed 0.6.3.x probes;
 - no composite X/Y tuning loop;
 - no runtime redirect like 0.6.5.2;
-- no assumption that consecutive codes map to consecutive atlas slots;
+- no assumption consecutive code == consecutive atlas slot;
+- no retest 0.6.5.3 now that its generator bugs are identified;
 - stop immediately on freeze/global corruption.
 
 ## User testing preference
