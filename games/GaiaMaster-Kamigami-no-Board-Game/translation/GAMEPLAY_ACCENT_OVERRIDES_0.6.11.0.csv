@@ -1,0 +1,336 @@
+file,offset_hex,vi_accented,category,note
+PRGPACK.BDP,0xbfbec,Xác nhận?,setup,
+PRGPACK.BDP,0xbfd2c,Chọn tướng,setup,
+PRGPACK.BDP,0xbfe4c,Nhấn nút O,setup,
+PRGPACK.BDP,0xddd68,Bắt đầu!,setup,
+PRGPACK.BDP,0xddd7c,Chưa có,setup,
+PRGPACK.BDP,0xde110,Chọn SLOT,setup,
+PRGPACK.BDP,0x434,Quán!,tavern,repeat block 1
+PRGPACK.BDP,0x444,Đang chán quá,tavern,repeat block 1
+PRGPACK.BDP,0x460,Đấu tôi 1 ván?,tavern,repeat block 1
+PRGPACK.BDP,0x480,Đoán xúc xắc này,tavern,repeat block 1
+PRGPACK.BDP,0x4a4,Lớn hay nhỏ hơn?,tavern,repeat block 1
+PRGPACK.BDP,0x4c8,Quà đầu,tavern,repeat block 1
+PRGPACK.BDP,0x4e0,Nghỉ rồi?,tavern,repeat block 1
+PRGPACK.BDP,0x4fc,...chán,tavern,repeat block 1
+PRGPACK.BDP,0x518,Đấu xong,tavern,repeat block 1
+PRGPACK.BDP,0x540,Đấu thêm?,tavern,repeat block 1
+PRGPACK.BDP,0x558,Quà tiếp,tavern,repeat block 1
+PRGPACK.BDP,0x570,Nhận %d vũ khí,tavern,repeat block 1
+PRGPACK.BDP,0x590,Hết chỗ chứa,tavern,repeat block 1
+PRGPACK.BDP,0x5ac,Bỏ thẻ thừa,tavern,repeat block 1
+PRGPACK.BDP,0x5f8,Vũ khí,tavern,repeat block 1
+PRGPACK.BDP,0x608,Chưa có,tavern,repeat block 1
+PRGPACK.BDP,0x61c,Nhận %d,tavern,repeat block 1
+PRGPACK.BDP,0x630,Vũ khí,tavern,repeat block 1
+PRGPACK.BDP,0x640,"Bỏ %s,",tavern,repeat block 1
+PRGPACK.BDP,0x654,Nhận %s,tavern,repeat block 1
+PRGPACK.BDP,0x66c,Nhận %s rồi,tavern,repeat block 1
+PRGPACK.BDP,0x684,Bỏ!,tavern,repeat block 1
+PRGPACK.BDP,0x31f64,Quán!,tavern,repeat block 2
+PRGPACK.BDP,0x31f74,Đang chán quá,tavern,repeat block 2
+PRGPACK.BDP,0x31f90,Đấu tôi 1 ván?,tavern,repeat block 2
+PRGPACK.BDP,0x31fb0,Đoán xúc xắc này,tavern,repeat block 2
+PRGPACK.BDP,0x31fd4,Lớn hay nhỏ hơn?,tavern,repeat block 2
+PRGPACK.BDP,0x31ff8,Quà đầu,tavern,repeat block 2
+PRGPACK.BDP,0x32010,Nghỉ rồi?,tavern,repeat block 2
+PRGPACK.BDP,0x3202c,...chán,tavern,repeat block 2
+PRGPACK.BDP,0x32048,Đấu xong,tavern,repeat block 2
+PRGPACK.BDP,0x32070,Đấu thêm?,tavern,repeat block 2
+PRGPACK.BDP,0x32088,Quà tiếp,tavern,repeat block 2
+PRGPACK.BDP,0x320a0,Nhận %d vũ khí,tavern,repeat block 2
+PRGPACK.BDP,0x320c0,Hết chỗ chứa,tavern,repeat block 2
+PRGPACK.BDP,0x320dc,Bỏ thẻ thừa,tavern,repeat block 2
+PRGPACK.BDP,0x32128,Vũ khí,tavern,repeat block 2
+PRGPACK.BDP,0x32138,Chưa có,tavern,repeat block 2
+PRGPACK.BDP,0x3214c,Nhận %d,tavern,repeat block 2
+PRGPACK.BDP,0x32160,Vũ khí,tavern,repeat block 2
+PRGPACK.BDP,0x32170,"Bỏ %s,",tavern,repeat block 2
+PRGPACK.BDP,0x32184,Nhận %s,tavern,repeat block 2
+PRGPACK.BDP,0x3219c,Nhận %s rồi,tavern,repeat block 2
+PRGPACK.BDP,0x321b4,Bỏ!,tavern,repeat block 2
+PRGPACK.BDP,0x3f688,Quán!,tavern,repeat block 3
+PRGPACK.BDP,0x3f698,Đang chán quá,tavern,repeat block 3
+PRGPACK.BDP,0x3f6b4,Đấu tôi 1 ván?,tavern,repeat block 3
+PRGPACK.BDP,0x3f6d4,Đoán xúc xắc này,tavern,repeat block 3
+PRGPACK.BDP,0x3f6f8,Lớn hay nhỏ hơn?,tavern,repeat block 3
+PRGPACK.BDP,0x3f71c,Quà đầu,tavern,repeat block 3
+PRGPACK.BDP,0x3f734,Nghỉ rồi?,tavern,repeat block 3
+PRGPACK.BDP,0x3f750,...chán,tavern,repeat block 3
+PRGPACK.BDP,0x3f76c,Đấu xong,tavern,repeat block 3
+PRGPACK.BDP,0x3f794,Đấu thêm?,tavern,repeat block 3
+PRGPACK.BDP,0x3f7ac,Quà tiếp,tavern,repeat block 3
+PRGPACK.BDP,0x3f7c4,Nhận %d vũ khí,tavern,repeat block 3
+PRGPACK.BDP,0x3f7e4,Hết chỗ chứa,tavern,repeat block 3
+PRGPACK.BDP,0x3f800,Bỏ thẻ thừa,tavern,repeat block 3
+PRGPACK.BDP,0x3f84c,Vũ khí,tavern,repeat block 3
+PRGPACK.BDP,0x3f85c,Chưa có,tavern,repeat block 3
+PRGPACK.BDP,0x3f870,Nhận %d,tavern,repeat block 3
+PRGPACK.BDP,0x3f884,Vũ khí,tavern,repeat block 3
+PRGPACK.BDP,0x3f894,"Bỏ %s,",tavern,repeat block 3
+PRGPACK.BDP,0x3f8a8,Nhận %s,tavern,repeat block 3
+PRGPACK.BDP,0x3f8c0,Nhận %s rồi,tavern,repeat block 3
+PRGPACK.BDP,0x3f8d8,Bỏ!,tavern,repeat block 3
+PRGPACK.BDP,0x4d278,Quán!,tavern,repeat block 4
+PRGPACK.BDP,0x4d288,Đang chán quá,tavern,repeat block 4
+PRGPACK.BDP,0x4d2a4,Đấu tôi 1 ván?,tavern,repeat block 4
+PRGPACK.BDP,0x4d2c4,Đoán xúc xắc này,tavern,repeat block 4
+PRGPACK.BDP,0x4d2e8,Lớn hay nhỏ hơn?,tavern,repeat block 4
+PRGPACK.BDP,0x4d30c,Quà đầu,tavern,repeat block 4
+PRGPACK.BDP,0x4d324,Nghỉ rồi?,tavern,repeat block 4
+PRGPACK.BDP,0x4d340,...chán,tavern,repeat block 4
+PRGPACK.BDP,0x4d35c,Đấu xong,tavern,repeat block 4
+PRGPACK.BDP,0x4d384,Đấu thêm?,tavern,repeat block 4
+PRGPACK.BDP,0x4d39c,Quà tiếp,tavern,repeat block 4
+PRGPACK.BDP,0x4d3b4,Nhận %d vũ khí,tavern,repeat block 4
+PRGPACK.BDP,0x4d3d4,Hết chỗ chứa,tavern,repeat block 4
+PRGPACK.BDP,0x4d3f0,Bỏ thẻ thừa,tavern,repeat block 4
+PRGPACK.BDP,0x304a8,Tốc,menu,
+PRGPACK.BDP,0x304b4,Thoại,menu,
+PRGPACK.BDP,0x304c0,âm,menu,
+PRGPACK.BDP,0x304c8,Hoạt ảnh,menu,
+PRGPACK.BDP,0x304d8,Hết,menu,
+PRGPACK.BDP,0x304e4,Cài đặt,menu,
+PRGPACK.BDP,0x304f4,Rung,menu,
+PRGPACK.BDP,0x30504,1 Nhanh,menu,
+PRGPACK.BDP,0x30514,2 Vừa,menu,
+PRGPACK.BDP,0x30600,Hết,menu,
+PRGPACK.BDP,0x30658,Nhấn O,menu,
+PRGPACK.BDP,0x3066c,%s tay %s,menu,
+SLPS_020.75,0x938,+%d Zenny,gameplay,
+SLPS_020.75,0x94c,Ô GO,gameplay,
+SLPS_020.75,0x958,Hồi 50HP!,gameplay,
+SLPS_020.75,0x970,Dừng %s,gameplay,
+SLPS_020.75,0x980,Đất %s,gameplay,
+SLPS_020.75,0x98c,Đã dừng!,gameplay,
+SLPS_020.75,0x9a0,Chiến,gameplay,
+SLPS_020.75,0x9ac,Chiến lấy đất,gameplay,
+SLPS_020.75,0x9cc,Quán,gameplay,
+SLPS_020.75,0x9dc,Nhận vũ khí,gameplay,
+SLPS_020.75,0x9f4,Thuế thu nhập,gameplay,
+SLPS_020.75,0xa14,Mất20% tiền,gameplay,
+SLPS_020.75,0xa30,Ô thuế đất!,gameplay,
+SLPS_020.75,0xa50,Mất20% đất,gameplay,
+SLPS_020.75,0xa6c,Ô thánh địa,gameplay,
+SLPS_020.75,0xa84,Nhận thuế,gameplay,
+SLPS_020.75,0xaa0,Đi đâu đây?,gameplay,
+SLPS_020.75,0xabc,%s nghỉ1,gameplay,
+SLPS_020.75,0xad0,Lượt%s,gameplay,
+SLPS_020.75,0xadc,Xong!,gameplay,
+SLPS_020.75,0xae8,Trùng ô người,gameplay,
+SLPS_020.75,0xb08,Thách đấu?,gameplay,
+SLPS_020.75,0xdf8,Bỏ %s,card,
+SLPS_020.75,0xe08,Nhận %s,card,
+SLPS_020.75,0xe20,Nhận %s rồi,card,
+SLPS_020.75,0xe38,Bỏ!,card,
+SLPS_020.75,0xe54,Được?,prompt,
+SLPS_020.75,0xe64,Có ko,prompt,
+SLPS_020.75,0xe9c,Chọn thẻ dùng,card,
+SLPS_020.75,0xeb8,Dùng %s,card,
+SLPS_020.75,0x1130,Sấm,item,
+SLPS_020.75,0x1158,Bão,item,
+SLPS_020.75,0x117c,Nỏ,item,
+SLPS_020.75,0x11a0,Kiếm,item,
+SLPS_020.75,0x11e0,Búa,item,
+SLPS_020.75,0x11ec,May hạ địch,item,
+SLPS_020.75,0x1208,ĐB SPD6 1L,item,
+SLPS_020.75,0x1220,Liều!,item,
+SLPS_020.75,0x1230,Phá thẻ địch,item,
+SLPS_020.75,0x1260,Politan chắn,item,
+SLPS_020.75,0x127c,Thủ SPD7 1L,item,
+SLPS_020.75,0x1294,Chắn,item,
+SLPS_020.75,0x13b0,phong ấn,item,
+SLPS_020.75,0x1408,Kiếm,item,
+SLPS_020.75,0x143c,Hồi sinh100HP,item,
+SLPS_020.75,0x1458,HồiHP,item,
+SLPS_020.75,0x1464,Phép+,item,
+SLPS_020.75,0x14c0,Lửa,item,
+SLPS_020.75,0x1500,Giảm CX,item,
+SLPS_020.75,0x1518,NgọcMê,item,
+SLPS_020.75,0x1528,Cướp vũ khí,item,
+SLPS_020.75,0x1560,Trộm,item,
+SLPS_020.75,0x158c,ĐịaChấn,item,
+SLPS_020.75,0x15b4,KiếmBão,item,
+SLPS_020.75,0x15e0,Nhẫn,item,
+SLPS_020.75,0x15ec,Hồi60HP,item,
+SLPS_020.75,0x1600,ChữaHP,item,
+SLPS_020.75,0x1638,Hút 1/2 DMG,item,
+SLPS_020.75,0x1668,GiáoMáu,item,
+SLPS_020.75,0x1678,Khóa đồ,item,
+SLPS_020.75,0x1690,Đồ 1 lần,item,
+SLPS_020.75,0x16a4,Khóađồ,item,
+SLPS_020.75,0x16b4,Hay chí mạng,item,
+SLPS_020.75,0x16e8,Bão tuyết,item,
+SLPS_020.75,0x16f8,Tốcđộ,item,
+SLPS_020.75,0x171c,Kiếmnhanh,item,
+SLPS_020.75,0x1728,Giảm1/2DMG,item,
+SLPS_020.75,0x1744,Thủ 1 lần,item,
+SLPS_020.75,0x177c,Hồi 1 lần,item,
+SLPS_020.75,0x17b0,CầuLửa,item,
+SLPS_020.75,0x1828,RìuChiến,item,
+SLPS_020.75,0x190c,Sát thương,item,
+SLPS_020.75,0x1918,PháVK,item,
+SLPS_020.75,0x195c,LV%d còn%d,item,
+SLPS_020.75,0x1970,Phá VK ngẫu,item,
+SLPS_020.75,0x1984,Phá VK,item,
+SLPS_020.75,0x1994,Lấy VK,item,
+SLPS_020.75,0x2014,Đại xui,event,
+SLPS_020.75,0x2028,Xui,event,
+SLPS_020.75,0x2050,Đại may,event,
+SLPS_020.75,0x2064,Đạo tặc,event,
+SLPS_020.75,0x2078,Pháp sư,event,
+SLPS_020.75,0x208c,Đến ô GO,event,
+SLPS_020.75,0x20b4,Hỗn loạn,event,
+SLPS_020.75,0x20c8,Sứ giả,event,
+SLPS_020.75,0x20dc,Tiểu LC,event,
+SLPS_020.75,0x20f0,Đại LC,event,
+SLPS_020.75,0x2118,Sét,event,
+SLPS_020.75,0x2154,Viện trợ,event,
+SLPS_020.75,0x2168,Mua đất,event,
+SLPS_020.75,0x217c,Ma vương,event,
+SLPS_020.75,0x2190,Gọi ma,event,
+SLPS_020.75,0x21a4,Sợ ma,event,
+SLPS_020.75,0x21b8,Ma nghịch,event,
+SLPS_020.75,0x21cc,Cám dỗ,event,
+SLPS_020.75,0x21e0,Phá shop,event,
+SLPS_020.75,0x21f4,Đổi đường,event,
+SLPS_020.75,0x2208,Thần giờ,event,
+SLPS_020.75,0x221c,Thần may,event,
+SLPS_020.75,0x2230,Quỵt,event,
+SLPS_020.75,0x2244,Thẻ đấu,event,
+SLPS_020.75,0x226c,Tà thần,event,
+SLPS_020.75,0x2280,Tháp ma,event,
+SLPS_020.75,0x2294,Mộ,event,
+SLPS_020.75,0x22a8,Suối,event,
+SLPS_020.75,0x22bc,Nữ thần,event,
+SLPS_020.75,0x22d0,Vườn,event,
+SLPS_020.75,0x22e4,Thánhđường,event,
+SLPS_020.75,0x22f8,Xiếc,event,
+SLPS_020.75,0x230c,Đầm nguyền,event,
+SLPS_020.75,0x2320,Tử thần,event,
+SLPS_020.75,0x2334,3 xúcxắc,card,
+SLPS_020.75,0x2348,4 xúcxắc,card,
+SLPS_020.75,0x235c,Tiến1,card,
+SLPS_020.75,0x2370,Tiến2,card,
+SLPS_020.75,0x2384,Tiến3,card,
+SLPS_020.75,0x2398,Tiến4,card,
+SLPS_020.75,0x23ac,Tiến5,card,
+SLPS_020.75,0x23c0,Tiến6,card,
+SLPS_020.75,0x23d4,Phá shop,card,
+SLPS_020.75,0x23e8,Đổi thẻ,card,
+SLPS_020.75,0x2580,Giả kim,menu,
+SLPS_020.75,0x263c,Bệnh,menu,
+SLPS_020.75,0x264a,Hiệpsĩ,menu,
+SLPS_020.75,0x2658,Tuviện,menu,
+SLPS_020.75,0x2666,Giả kim,menu,
+SLPS_020.75,0x2858,Tuyệt!!,gameplay,
+SLPS_020.75,0x2868,Khu này của bạn,gameplay,
+SLPS_020.75,0x2888,Khu này của bạn,gameplay,
+SLPS_020.75,0x28ac,Giá đất tăng,gameplay,
+SLPS_020.75,0x28d0,Đổi chủ đất,gameplay,
+SLPS_020.75,0x28ec,HP0 trả việnphí,gameplay,
+SLPS_020.75,0x2910,Nhận200 Zenny,gameplay,
+SLPS_020.75,0x2c44,Có gì đây?,gameplay,
+SLPS_020.75,0x2c58,Đổi tối đa2,gameplay,
+SLPS_020.75,0x2c70,Cơhội đổi vũkhí,gameplay,
+SLPS_020.75,0x2c94,「Đổi thẻ」,card,
+SLPS_020.75,0x2ca4,Sẽ phá,gameplay,
+SLPS_020.75,0x2cb8,Ma phá shop khu,gameplay,
+SLPS_020.75,0x2cdc,「Phá shop」,card,
+SLPS_020.75,0x2cec,Tiến 6 ô,card,
+SLPS_020.75,0x2cfc,「Tiến6」,card,
+SLPS_020.75,0x2d08,Tiến 5 ô,card,
+SLPS_020.75,0x2d18,「Tiến5」,card,
+SLPS_020.75,0x2d24,Tiến 4 ô,card,
+SLPS_020.75,0x2d34,「Tiến4」,card,
+SLPS_020.75,0x2d40,Tiến 3 ô,card,
+SLPS_020.75,0x2d50,「Tiến3」,card,
+SLPS_020.75,0x2d5c,Tiến 2 ô,card,
+SLPS_020.75,0x2d6c,「Tiến2」,card,
+SLPS_020.75,0x2d78,Tiến 1 ô,card,
+SLPS_020.75,0x2d88,Thay xúcxắc,card,
+SLPS_020.75,0x2da4,「Tiến1」,card,
+SLPS_020.75,0x2db0,Xúcxắc x4,card,
+SLPS_020.75,0x2dcc,Siêutốc!,card,
+SLPS_020.75,0x2ddc,「4 xúcxắc」,card,
+SLPS_020.75,0x2dec,Xúcxắc x3,card,
+SLPS_020.75,0x2e08,Tăngtốc!,card,
+SLPS_020.75,0x2e1c,「3 xúcxắc」,card,
+SLPS_020.75,0x2e2c,Phí giảm30%,card,
+SLPS_020.75,0x2e50,Xây tử thần,card,
+SLPS_020.75,0x2e84,Phí giảm10%,card,
+SLPS_020.75,0x2ea4,Xây đầm lầy,card,
+SLPS_020.75,0x2edc,Phí x2,card,
+SLPS_020.75,0x2efc,Xây xiếc,card,
+SLPS_020.75,0x2f38,Phí x3,card,
+SLPS_020.75,0x2f58,Xây thánh,card,
+SLPS_020.75,0x2f90,Phí tăng70%,card,
+SLPS_020.75,0x2fb4,Xây vườn,card,
+SLPS_020.75,0x2fe8,Phí tăng50%,card,
+SLPS_020.75,0x300c,Xây nữ thần,card,
+SLPS_020.75,0x3040,Phí tăng30%,card,
+SLPS_020.75,0x3064,Xây suối,card,
+SLPS_020.75,0x3098,Phí giảm50%,card,
+SLPS_020.75,0x30bc,Xây mộ,card,
+SLPS_020.75,0x30f4,Phí giảm70%,card,
+SLPS_020.75,0x3118,Xây tháp,card,
+SLPS_020.75,0x3150,Phí giảm90%,card,
+SLPS_020.75,0x3174,Xây tà thần,card,
+SLPS_020.75,0x31a8,Phá biểutượng,card,
+SLPS_020.75,0x31c4,Dùng thẻ này,card,
+SLPS_020.75,0x31dc,「Độngđất」,card,
+SLPS_020.75,0x31e8,Có thể tháchđấu,card,
+SLPS_020.75,0x3208,Dùng thẻ đối thủ,card,
+SLPS_020.75,0x3228,「Thẻ đấu」,card,
+SLPS_020.75,0x323c,Vô hiệu ô đất,card,
+SLPS_020.75,0x3258,1 lượt riêng bạn,card,
+SLPS_020.75,0x3278,「Quỵt」,card,
+SLPS_020.75,0x3288,Vô hiệu ô ĐB,card,
+SLPS_020.75,0x32a8,Nữ thần băng,card,
+SLPS_020.75,0x32c8,「Hôn băng」,card,
+SLPS_020.75,0x32e0,Đổi chỗ,card,
+SLPS_020.75,0x32f4,Thần giờ đổi chỗ,card,
+SLPS_020.75,0x3318,「Thần giờ」,card,
+SLPS_020.75,0x3330,Đổi đường,card,
+SLPS_020.75,0x3348,Đổi các ngã rẽ,card,
+SLPS_020.75,0x3368,「Đổi đường」,card,
+SLPS_020.75,0x3394,Nhận %s,card,
+SLPS_020.75,0x33ac,Thẻ SK đã đầy,card,
+SLPS_020.75,0x33d0,Hết chỗ,card,
+SLPS_020.75,0x33e4,Bỏ thẻ nào?,card,
+SLPS_020.75,0x33f4,Bỏ %s,card,
+SLPS_020.75,0x3404,Bỏ %s,card,
+SLPS_020.75,0x3758,HP đối thủ,menu,
+SLPS_020.75,0x378c,Hủy,menu,
+SLPS_020.75,0x37bc,Dừng thật?,prompt,
+SLPS_020.75,0x37d0,Thiếu tiền,prompt,
+SLPS_020.75,0x37e4,Bán gì?,prompt,
+SLPS_020.75,0x380c,Tổng TS,prompt,
+SLPS_020.75,0x3820,Vẫn thiếu,prompt,
+SLPS_020.75,0x3838,Vẫn thiếu,prompt,
+SLPS_020.75,0x3850,Tổng TS,prompt,
+SLPS_020.75,0x3864,Làm gì đây?,prompt,
+SLPS_020.75,0x3878,Chọn nhanh!!,prompt,
+SLPS_020.75,0x388c,Trời!,prompt,
+SLPS_020.75,0x3898,Chọn nhanh,prompt,
+SLPS_020.75,0x7679c,Cung băng,item,
+SLPS_020.75,0x767a4,Thuốc,item,
+SLPS_020.75,0x767ac,Phitiêu,item,
+SLPS_020.75,0x767b4,NhưÝBổng,item,
+SLPS_020.75,0x767d4,Chùy,item,
+SLPS_020.75,0x767e0,Hỗtrợ,menu,
+SLPS_020.75,0x767e8,Hồiphục,menu,
+SLPS_020.75,0x767f0,Vôthuộc,menu,
+SLPS_020.75,0x767fc,Tầmxa,menu,
+SLPS_020.75,0x76804,Phép,menu,
+SLPS_020.75,0x76824,NgộKhông,name,
+SLPS_020.75,0x7683c,Hiệpsĩ,menu,
+SLPS_020.75,0x76844,Tuviện,menu,
+SLPS_020.75,0x7684c,Bệnh,menu,
+SLPS_020.75,0x76854,TiệmVK,menu,
+SLPS_020.75,0x7685c,Ngânhàng,menu,
+SLPS_020.75,0x76868,%s của,gameplay,
+SLPS_020.75,0x76870,%s nhé,gameplay,
+SLPS_020.75,0x768d0,Quânquỹ,menu,
+SLPS_020.75,0x768d8,Vốn,menu,
+SLPS_020.75,0x7690c,%s là,gameplay,
