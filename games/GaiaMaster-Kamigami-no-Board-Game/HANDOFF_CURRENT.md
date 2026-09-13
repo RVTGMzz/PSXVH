@@ -1,6 +1,6 @@
 # HANDOFF — Gaia Master PS1 Việt hóa
 
-> **Current source-of-truth:** production is locked to **native 12x12 / 72-byte / 4bpp / static mapping-only**. `0.6.7.2` is the current **FONT VISUAL PASS** and freezes the accepted Vietnamese accent composition. The active production candidate is **0.6.8.0 PROD60 SAFE-FIT vi_full BATCH 1**, which keeps the 0.6.7.2 font/codepage and applies every current `vi_full` row that can safely replace its Japanese source in-place without relocation.
+> **Current source-of-truth:** production is locked to **native 12x12 / 72-byte / 4bpp / static mapping-only**. `0.6.7.2` is the frozen **FONT VISUAL PASS**. `0.6.9.2` re-established the old Alpha gameplay coverage with an exact 397-key legacy gate. The active candidate is **0.6.10.0 HYBRID FULL-COVERAGE + FRONT ACCENT BATCH 1**, which keeps broad gameplay coverage while upgrading all 31 dedicated intro/setup fallback rows to compact accented Vietnamese.
 
 ## Baselines
 
@@ -12,7 +12,7 @@
 - repo: `ronvotri/Viet-Hoa-PS1`
 - branch: `gaia-character-select-font-atlas-reverse-01`
 
-## Proven architecture
+## Proven font architecture
 
 ```text
 runtime GP     = 0x80085F28
@@ -45,7 +45,7 @@ Known mapping facts:
 0x889F 亜 -> glyph 0
 ```
 
-## Runtime history / locks
+## Runtime history / hard locks
 
 - `0.6.2.13`: static custom-atlas replacement PASS.
 - `0.6.3.x`: 12x16 caused corruption/freezes. Historical only.
@@ -55,47 +55,42 @@ Known mapping facts:
 - `0.6.5.4`: native-base copy PASS.
 - `0.6.5.5`: compact accent style PASS enough for production.
 - `0.6.6.0`: real text `Chọn tướng` rendered end-to-end.
-- `0.6.6.1`: baseline-normalized real text PASS / previous LAST GOOD.
+- `0.6.6.1`: baseline-normalized real text PASS.
 - `0.6.6.2` + `0.6.6.2b`: safety-gate false blocks, no runtime.
 - `0.6.6.2c`: native narrow 6x12 one-byte alias runtime FAIL, garbled glyphs. Retired.
-- `0.6.7.0`: full 60-glyph production codepage boots and renders correctly; accent polish remained.
-- `0.6.7.1`: horn on `ơ/ư` moved closer to the base successfully; acute/grave became too close to horn.
-- `0.6.7.2`: **FONT VISUAL PASS / FREEZE THIS STYLE.** User runtime screenshot judged `Chọn tướng` perfect. Horn hugs the base; acute/grave are separated cleanly. Do not retune unless a new production glyph regression is demonstrated.
+- `0.6.7.0`: full 60-glyph production codepage boots and renders correctly.
+- `0.6.7.1`: horn placement improved; acute/grave still too close.
+- `0.6.7.2`: **FONT VISUAL PASS / FREEZE THIS STYLE.** User judged `Chọn tướng` perfect. Horn hugs `ơ/ư`; acute/grave are separated cleanly. Do not retune unless a real production regression appears.
 
-Wide horizontal spacing is accepted visual polish and is not an architecture blocker.
+Wide horizontal spacing is accepted polish and is not an architecture blocker.
 
-## Capacity result
+## Production capacity / frozen codepage
 
-Worst-case theoretical 134-glyph full Vietnamese set does not fit conservative clean capacity:
+Worst-case 134-glyph theoretical Vietnamese set does not fit conservative clean capacity:
 
 ```text
 837 zero-static-hit custom codes
 64 zero-static-hit atlas slots
 34 completely unmapped zero-hit slots
-30 mapped-but-static-unused zero-hit slots
 ```
 
-Actual current Translation Master 0.6 corpus:
+Actual Translation Master 0.6 corpus:
 
 ```text
 596 rows total
 393 rows with non-empty vi_full
-125 unique characters in vi_full
 60 custom Vietnamese glyphs
-56 lowercase + 4 uppercase
 ```
 
 Result: **PASS with 4 reserve slots**.
 
-Exact current custom set:
+Frozen custom set:
 
 ```text
 àáâãéêìíòóÔôùúÝăĐđĩũƠơưạảấầẩẫậắặẻẽếềểệỉịọỏốồổỗộớờởợụủứừửữựỵỹ
 ```
 
-No other non-ASCII/non-Vietnamese policy characters are currently required.
-
-## Frozen production slot allocation
+Frozen production slots:
 
 ```text
 # 34 completely unmapped zero-hit
@@ -112,59 +107,140 @@ No other non-ASCII/non-Vietnamese policy characters are currently required.
 794 807 821 824
 ```
 
-Custom codes are selected deterministically from zero-static-hit CP932 codes in the proven `>=0x889F` region.
+## Coverage recovery — 0.6.8.x / 0.6.9.x
 
-## 0.6.7.2 accepted accent rule
+### 0.6.8.0 / 0.6.8.1
 
-For `ơ/ư` family:
-- horn stays attached close to the body;
-- acute/grave are shifted farther away so they do not merge with the horn;
-- baseline-normalized body behavior from 0.6.6.1 is retained;
-- this style is now frozen as the production font baseline.
+These safe-fit/front-end experiments did not visibly restore the expected menu/card/gameplay coverage. `Chọn tướng` worked, but user runtime testing showed most gameplay still Japanese. Do not treat these as the production coverage baseline.
 
-## CURRENT — 0.6.8.0 PROD60 SAFE-FIT vi_full BATCH 1
+### Old Alpha coverage source
+
+Old Alpha 0.6.1 used:
+
+```text
+tools/generate_alpha061_patches.py
+tools/build_alpha061_front.py
+```
+
+The old generator produced exactly **397 patches** from:
+
+- `TRANSLATION_MASTER_0.6_part01..06.csv` using `vi_game_current` when it fit;
+- `FRONT_DEMO_ADDED_061.csv` for dedicated front/setup additions.
+
+### 0.6.9.0
+
+Hybrid pipeline preferred `vi_full`, fell back to `vi_game_current`, and preserved raw runtime tokens `%s/%d/%+3d`, `/V`, `/v`.
+
+Builder found `399` total patches, but a bad gate demanded total exactly `397`.
+
+**BUILD GATE BUG ONLY. No runtime conclusion. Do not retest.**
+
+### 0.6.9.1
+
+Second gate incorrectly treated every non-empty `vi_game_current` row as a legacy Alpha patch, even rows Alpha itself skipped for length. It reported `228` lost fitting rows.
+
+**BUILD GATE BUG ONLY. No runtime conclusion. Do not retest.**
+
+### 0.6.9.2 — exact legacy gate
+
+Gate was fixed by reconstructing the old Alpha patch-key set exactly:
+
+```text
+legacy Alpha key set = 397 / 397
+extra vi_full-only rows are allowed
+```
+
+Runtime screenshot showed translated intro text such as:
+
+```text
+100 NAM MENH
+LUC DIA LOAN
+THOI GAIA MASTER
+DEN LUC!
+```
+
+This proves the broad old Alpha coverage pipeline is active again. However these intro rows were still unaccented because `FRONT_DEMO_ADDED_061.csv` only had `vi_no_accents`.
+
+**Conclusion:** `0.6.9.2 = COVERAGE PASS / ACCENT COVERAGE INCOMPLETE.`
+
+## CURRENT — 0.6.10.0 HYBRID FULL-COVERAGE + FRONT ACCENT BATCH 1
+
+Design note:
+
+```text
+ACCENT_UPGRADE_0.6.10.0.md
+```
+
+Exact current builder snapshot + launcher:
+
+```text
+tools/build_gaia_06100_hybrid_accent_b1.py
+tools/00_BUILD_0.6.10.0_HYBRID_ACCENT_B1.cmd
+```
+
+The GitHub Python file is a runnable compressed snapshot of the exact readable builder source used for the local package.
+
+Readable-source SHA1:
+
+```text
+faea2fbf90d3b4038ad64d3872934c043115878a
+```
 
 Local package:
 
 ```text
-GaiaMaster_0.6.8.0_PRODUCTION_SAFE_FIT_BATCH1.zip
+GaiaMaster_0.6.10.0_HYBRID_FRONT_ACCENT_BATCH1.zip
+SHA1 d43e8547f9baca4e254f96fdb7850a5c6f873e86
 ```
 
-Immediate sanity anchors remain:
+### Hybrid text priority
 
 ```text
-PRGPACK+0xBFBEC -> Đã ổn?
-PRGPACK+0xBFD2C -> Chọn tướng
-PRGPACK+0xBFE4C -> Nhấn O
+vi_full accented, if it fits
+-> vi_game_current fallback, if it fits
+-> dedicated front fallback/override
 ```
 
-After installing the frozen 60-glyph codepage, the builder loads Translation Master 0.6 parts 01..06 and attempts every non-empty `vi_full` row.
+The exact old Alpha legacy set must still satisfy:
 
-A row is applied only when all are true:
-1. file is `PRGPACK.BDP` or `SLPS_020.75`;
-2. Japanese source bytes match CLEAN data exactly at the CSV offset;
-3. source string is NUL-terminated;
-4. row has no printf/control token requiring raw ASCII semantics (`%s`, `%d`, `%4d`, `%+3d`, `/V`, `/v` etc.);
-5. encoded Vietnamese byte length is <= original Japanese byte length.
+```text
+397 / 397
+```
 
-Otherwise the row is skipped and logged. The builder never expands a file or overwrites the following string.
+Extra newer `vi_full`-only patches are allowed.
 
-For PRGPACK rows, every touched nested BDP checksum plus the top-level checksum is rebuilt. Raw Mode2/Form1 CD EDC/ECC is rebuilt for all changed sectors.
+### Front Accent Batch 1
 
-### Runtime expectation
+All 31 dedicated rows from `FRONT_DEMO_ADDED_061.csv` now have compact accented overrides stored in:
 
-1. the three anchor strings should look exactly as good as 0.6.7.2;
-2. user can then play normally and encounter many real `vi_full` translations;
-3. format-token rows intentionally remain Japanese in Batch 1;
-4. overlength rows intentionally remain Japanese in Batch 1;
-5. report gives exact counts and full APPLIED/SKIPPED lists.
+```text
+translation/FRONT_ACCENT_OVERRIDES_0.6.10.0.csv
+```
 
-### Next after 0.6.8.0 PASS
+Examples:
 
-- freeze the exact `CODEPAGE60` manifest;
-- build **Batch 2 token-aware encoder** preserving raw formatter/control sequences while encoding display text around them;
-- after token rows are solved, design relocation/length-expansion only for remaining overlength rows;
-- continue filling currently empty `vi_full` rows without changing the font architecture unless the custom-character inventory exceeds the 4 reserve slots.
+```text
+100 năm mệnh
+Lực địa loạn
+Thời Gaia Master
+Đến lúc!
+Thế giới mất chủ
+Tải dữ liệu VK?
+Kỹ năng LV1
+Nhân vật này?
+Xác nhận?
+```
+
+The builder requires all 31 accented front overrides to fit. If any one fails, it blocks instead of silently reverting to no-accent text.
+
+### Next runtime gate
+
+1. Build from CLEAN BIN.
+2. Intro first: verify the previously unaccented intro strings now show accents.
+3. If intro is good, enter a real match.
+4. Check card/menu/item/prompt text.
+5. Any remaining Vietnamese without accents should be treated as a **content fallback issue**, not a font/reverse issue.
+6. Next production step is **Accent Upgrade Batch 2**: convert gameplay rows still using `vi_game_current` fallback into compact accented wording while retaining the 397/397 legacy coverage gate.
 
 ## Hard do-not-repeat
 
@@ -178,8 +254,9 @@ For PRGPACK rows, every touched nested BDP checksum plus the top-level checksum 
 - no one-byte narrow alias production path;
 - no global cursor/cache/spacing mutation;
 - no spacing-driven architecture rewrite;
-- no accent retuning after 0.6.7.2 unless a real production regression proves it necessary;
-- do not patch printf/control-token rows with the plain display encoder;
+- no accent retuning after 0.6.7.2 without a demonstrated regression;
+- no 0.6.9.0 / 0.6.9.1 retests;
+- do not throw away `vi_game_current` fallback until an accented replacement actually fits;
 - stop immediately on freeze/global corruption.
 
 ## Testing preference
@@ -187,4 +264,5 @@ For PRGPACK rows, every touched nested BDP checksum plus the top-level checksum 
 - minimize emulator tests;
 - maximize information per test;
 - never repeat known failed/already-proven builds;
-- read reports immediately when uploaded.
+- read generated reports immediately when supplied;
+- prioritize real gameplay coverage over isolated proof strings.
