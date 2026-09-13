@@ -1,6 +1,6 @@
 # HANDOFF — Gaia Master PS1 Việt hóa
 
-> **Current source-of-truth:** production stays on **native 12x12 / 72-byte / 4bpp / static mapping-only**. `0.6.9.2` remains the exact **397/397 legacy coverage PASS**. `0.6.10.0` proved accented Vietnamese renders at runtime. `0.6.11.0` was runtime-tested and is now **PARTIAL PASS / CONTENT QA FAIL**. The active candidate is **0.6.12.0 LARGE GAMEPLAY TRANSLATION BATCH 3**.
+> **Current source-of-truth:** production stays on **native 12x12 / 72-byte / 4bpp / static mapping-only**. `0.6.9.2` remains exact **397/397 legacy coverage PASS**. `0.6.10.0` proved accented Vietnamese renders at runtime. `0.6.12.0` improved translation coverage but its lowercase `ă` hotfix is visually incomplete. Active candidate: **0.6.13.0 COMPACT JAPANESE REDUCTION BATCH 4**.
 
 Updated: **2026-09-14**  
 Branch: `gaia-character-select-font-atlas-reverse-01`
@@ -14,7 +14,7 @@ Branch: `gaia-character-select-font-atlas-reverse-01`
 - clean PRGPACK SHA1: `a9b195b8ae5d8cad7f4f755daa08337d4671632c`
 - repo: `ronvotri/Viet-Hoa-PS1`
 
-## Proven font architecture
+## Architecture lock
 
 ```text
 runtime GP     = 0x80085F28
@@ -38,15 +38,13 @@ code & 0x7FFF
  -> atlas base + offset
 ```
 
-## Production codepage
-
-The 60-character production repertoire remains:
+Frozen production repertoire:
 
 ```text
 àáâãéêìíòóÔôùúÝăĐđĩũƠơưạảấầẩẫậắặẻẽếềểệỉịọỏốồổỗộớờởợụủứừửữựỵỹ
 ```
 
-Capacity baseline:
+Capacity:
 
 ```text
 60 custom Vietnamese glyphs
@@ -54,181 +52,120 @@ Capacity baseline:
 4 reserve slots
 ```
 
-`0.6.7.2` remains the visual baseline. Do **not** reopen broad font tuning. However, the `0.6.11.0` screenshot directly demonstrates one real glyph defect: lowercase `ă` has the breve drawn cap/hat-like. `0.6.12.0` therefore performs one narrowly-scoped post-build repair of that glyph only. Mapping, slot, body and all other glyphs remain unchanged.
-
 ## Coverage hard gate
 
-The old Alpha source produced exactly **397 patch keys**. Every current production build must preserve:
+Every production build must preserve:
 
 ```text
 legacy Alpha coverage = 397 / 397
 ```
 
-Extra newer `vi_full` rows are allowed.
+Extra newer `vi_full` rows are allowed. Runtime/control tokens such as `%s`, `%d`, `%+3d`, `/V`, `/v` remain raw where required.
 
-Runtime/control tokens remain raw where required:
+Never sacrifice a fitting fallback merely to force a longer accented string.
 
-```text
-%s %d %+3d /V /v ...
-```
+## Runtime history relevant to current work
 
-Never remove a fitting `vi_game_current` fallback merely to force a longer accented string.
+- `0.6.7.2`: visual baseline PASS. Do not broadly retune font.
+- `0.6.9.2`: exact 397/397 coverage PASS.
+- `0.6.10.0`: accented front/font runtime PASS.
+- `0.6.11.0`: content QA fail; old `=` fallback leak, malformed `ă`, Japanese dynamic names.
+- `0.6.12.0`: large translation Batch 3, intro/fallback work improved, but runtime screenshot shows lowercase `ă` still wrong and user reports too much Japanese remains.
 
-## Historical locks
+## 0.6.12.0 lowercase `ă` diagnosis
 
-- `0.6.2.13`: static custom atlas PASS.
-- `0.6.3.x`: 12x16 corruption/freezes. Retired.
-- `0.6.4.x`: composite overlay unreliable. Retired.
-- `0.6.5.2`: **UNSAFE FAIL / NEVER RETEST**.
-- `0.6.5.3`: mapping-only structural PASS.
-- `0.6.5.4`: native-base copy PASS.
-- `0.6.5.5`: compact accent style PASS enough for production.
-- `0.6.6.0`: real text `Chọn tướng` end-to-end PASS.
-- `0.6.6.1`: baseline-normalized PASS.
-- `0.6.6.2` / `2b`: false safety blocks only. Retired.
-- `0.6.6.2c`: one-byte narrow alias runtime FAIL. Retired.
-- `0.6.7.0`: full 60-glyph production codepage boots/renders.
-- `0.6.7.2`: visual baseline PASS.
-- `0.6.8.x`: insufficient gameplay coverage. Retired.
-- `0.6.9.0` / `0.6.9.1`: gate bugs only. Do not retest.
-- `0.6.9.2`: exact legacy reconstruction **397/397 COVERAGE PASS**.
-- `0.6.10.0`: accented front/font runtime PASS; content QA incomplete.
+Screenshot of `năng` proves the correct glyph slot is being reached, but v1 hotfix is visually wrong.
 
-## 0.6.11.0 runtime result
-
-User runtime screenshots on 2026-09-14 prove that the accented pipeline remains active, but expose three concrete defects:
-
-### 1. Intro old `=` positions still leak a wrong glyph
-
-Visible cases include:
+Root cause in v1 postpatch:
 
 ```text
-Thế giới [wrong glyph] bàn cờ
-Người [wrong glyph] cờ
+fill = max(nonzero palette index)
 ```
 
-Root cause: Batch 2 changed the accented front override but the dedicated old front fallback skeleton still contained:
+Palette index `7` is the known dark/shadow layer, so the new breve could be drawn with the shadow color. Also only rows 0/1 were erased, allowing stale old-shadow pixels to remain in row 2.
 
-```text
-NGUOI=CO
-THEGIOI=BANCO
-```
+This is a demonstrated glyph regression, so a targeted patch is justified. No other glyph should be reopened.
 
-### 2. Lowercase `ă` shape regression
-
-In `năng`, the breve over `ă` is visibly wrong. This is the only demonstrated glyph regression that currently justifies reopening font pixels.
-
-### 3. Remaining fallback/Japanese dynamic text
-
-Runtime still shows examples such as:
-
-```text
-XONG!
-LUOT ジガー
-```
-
-So there are both unaccented duplicate fallback strings and short runtime names outside the first translated occurrence.
-
-Verdict:
-
-```text
-0.6.11.0 = PARTIAL PASS / CONTENT QA FAIL
-```
-
-Do not spend another tiny build only on one of these issues.
-
-# CURRENT — 0.6.12.0 LARGE GAMEPLAY TRANSLATION BATCH 3
+# CURRENT — 0.6.13.0 COMPACT JAPANESE REDUCTION BATCH 4
 
 Design note:
 
 ```text
-ACCENT_UPGRADE_0.6.12.0.md
+ACCENT_UPGRADE_0.6.13.0.md
 ```
 
 Builder / launcher:
 
 ```text
-tools/build_gaia_06120_big_translation_b3.py
-tools/00_BUILD_0.6.12.0_BIG_TRANSLATION_B3.cmd
+tools/build_gaia_06130_translation_b4.py
+tools/00_BUILD_0.6.13.0_TRANSLATION_B4.cmd
 ```
 
 New data:
 
 ```text
-translation/BATCH3_FALLBACK_ACCENT_MAP_0.6.12.0.csv
-translation/DYNAMIC_LITERAL_OVERRIDES_0.6.12.0.csv
+translation/COMPACT_TRANSLATION_OVERRIDES_0.6.13.0.csv
+translation/DYNAMIC_LITERAL_OVERRIDES_0.6.13.0.csv
 ```
 
-## Large-batch strategy
+## `ă` hotfix v2
 
-`0.6.12.0` deliberately combines hotfixes with a much larger translation expansion.
+After the proven inner build completes:
 
-It wraps the proven `0.6.11.0 -> 0.6.10.0` production chain, so the exact 397/397 gate, BDP/checksum writer, token semantics and 60-character codepage remain the inner engine.
+1. reconstruct exact frozen custom code/slot for `ă`;
+2. derive bright fill from lower-body histogram, explicitly excluding shadow index `7`;
+3. clear rows 0/1 in the mark band;
+4. clear only shadow-colored stale pixels from row 2;
+5. draw a **lower shallow cup** in the bright fill;
+6. draw native shadow one pixel down/right;
+7. regenerate changed MODE2 sector EDC/ECC.
 
-### Global fallback accent promotion
+No new slot, no mapping change, no renderer change, no other glyph patch.
 
-Batch 3 contains **278 manually curated fallback -> accented compact mappings**.
+## Translation Batch 4
 
-It also reuses every existing Batch 2 accent candidate globally. When another Translation Master row has the same `vi_game_current` fallback, the same accented wording is promoted if it fits that row's original CP932 field.
+`COMPACT_TRANSLATION_OVERRIDES_0.6.13.0.csv` contains **146 exact-offset compact candidates**.
 
-This covers substantially more:
+Purpose: convert rows that can remain Japanese because their longer Vietnamese wording does not fit fixed CP932 fields.
+
+Areas targeted:
 
 ```text
-setup / tavern / gameplay / tax / land / route
-card / item / weapon / event / menu / prompt
-status fragments / building names / movement / battle text
+land / buy / sell / tax
+card and weapon acquisition
+battle prompts
+route/status strings
+special squares
+building/symbol effects
+item/card descriptions
 ```
 
-Safety rule:
+Safety:
 
 ```text
-accented target fits -> promote
-accented target too long -> retain old fitting fallback
+candidate fits original field -> promote to vi_full for build
+candidate too long -> skip safely
 ```
 
-### Standalone repeated-literal scan
+## Dynamic Japanese reduction
 
-From the CLEAN extracted `SLPS_020.75` and `PRGPACK.BDP`, Batch 3 scans standalone/null-delimited copies of Japanese literals that already have a safe compact translation. Missing duplicate occurrences are injected as temporary translation rows for this build only.
+`DYNAMIC_LITERAL_OVERRIDES_0.6.13.0.csv` expands the runtime literal map from 12 to **35 entries**.
 
-This targets the class of bug where one known offset is translated but another runtime copy remains Japanese.
+It keeps existing character names and adds weapon/card/location names that may appear through `%s` or duplicated standalone data.
 
-### Dynamic compact names
-
-Current compact map:
+Examples:
 
 ```text
-トロル通り -> Troll
-ジガー     -> Jig
-ダンテ     -> Dan
-孫悟空     -> Ngộ
-ハヤテ     -> Hay
-ヤスツナ   -> Yasu
-ガラハッド -> Galah
-ティアラ   -> Tiar
-ゴライアス -> Golia
-メグメグ   -> Megu
-アガート   -> Agat
-シンバッド -> Sinba
+サンダー -> Sấm
+ハリケーン -> Bão
+クロスボウ -> Nỏ
+ロングソード -> Kiếm
+ハンマー -> Búa
+ファイアボール -> Lửa
+バトルアックス -> Rìu
+サーカス -> Xiếc
+呪いの沼 -> Đầm
 ```
-
-The abbreviations are intentional because these source fields are very short.
-
-### Intro fallback fix
-
-Batch 3 fixes the actual old fallback data:
-
-```text
-NGUOI=CO      -> NGUOI CO
-THEGIOI=BANCO -> THEGIOI BANCO
-```
-
-not just the front accent overlay.
-
-### Targeted lowercase `ă` hotfix
-
-After the inner build succeeds, Batch 3 reconstructs the frozen production custom-code allocation, finds the existing `ă` atlas slot and redraws only the top two breve rows as a shallow cup/smile.
-
-No renderer change. No new glyph slot. No codepage expansion.
 
 ## Build state
 
@@ -239,18 +176,18 @@ CLEAN-ROM BUILD PENDING
 RUNTIME PENDING
 ```
 
-The clean game BIN is not mounted in the current ChatGPT runtime, so actual ROM generation must still happen on the user's machine.
+The clean BIN is not mounted in ChatGPT runtime. Build from the user's CLEAN Japan BIN.
 
 ## Next runtime gate
 
-Prefer **one broad sweep**, not micro-tests:
+Do one broad test:
 
-1. intro: former `=` positions contain normal spaces, no Japanese-looking glyph;
-2. setup: verify accented strings still render;
-3. inspect `năng` or another word containing `ă`;
-4. first several turns: `Lượt` where field allows it and no `ジガー`;
-5. open cards/items/events/menus and exercise land/tax/route/battle actions;
-6. screenshot every remaining Japanese string, no-accent fallback, clipping, broken diacritic or freeze.
+1. inspect `ă` in `năng` or another visible word;
+2. verify no new font/global corruption;
+3. play several turns;
+4. open card/item/event/menu screens;
+5. exercise land/tax/route/battle actions;
+6. screenshot remaining Japanese whole lines and Japanese `%s` names.
 
 ## Hard do-not-repeat
 
@@ -259,7 +196,6 @@ Prefer **one broad sweep**, not micro-tests:
 - no pointer redirect;
 - no composite overlay;
 - no global cursor/cache/spacing mutation;
-- no `0.6.9.0` / `0.6.9.1` retests;
-- no broad font retune from one bad glyph;
-- never sacrifice fitting legacy fallback to force accents;
+- no broad font retune from one glyph;
+- no `0.6.9.0 / 0.6.9.1` retests;
 - stop immediately on freeze/global corruption.
