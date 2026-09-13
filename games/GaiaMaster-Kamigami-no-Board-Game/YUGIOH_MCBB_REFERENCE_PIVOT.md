@@ -4,56 +4,64 @@ Reference repo:
 
 `https://github.com/2ez4gcx/yugioh-mcbb-vi-patch`
 
-## What the public repo actually proves
+## What the public repo proves
 
-The public repository is release-oriented: it contains a PPF3 patch, a Python patch applier, README, and screenshots. It does not publish the author's development/reverse-engineering source.
+The public repository is release-oriented. It contains:
+- `yugioh-mcbb-vi.ppf`;
+- `apply_patch.py`;
+- README;
+- screenshots.
 
-The README explicitly states that the release patch contains:
+It does **not** publish the author's development/reverse-engineering source.
 
+The README explicitly says the release patch contains:
 - Vietnamese translated text;
 - a redrawn font;
 - a few code-adjustment bytes;
 - a Vietnamese character page on the creature naming screen.
 
-Therefore we cannot claim the author used any specific renderer hook/compositing implementation from the public source. However, it is strong evidence that a complete Japanese PS1 -> Vietnamese result can be achieved with targeted font/code changes rather than a large renderer redesign.
+The user also supplied the release `yugioh-mcbb-vi.ppf` for study during the Gaia session.
 
-## Strategic lesson for Gaia Master
+We must not claim the author used any exact Gaia-specific mechanism. The valuable evidence is architectural:
 
-Gaia already has several pieces that Yu-Gi-Oh-style minimal patching would need:
+> a finished Japanese PS1 -> Vietnamese patch can remain close to the game's native rendering model and succeed through targeted font/resource/data/code changes.
 
-- native custom atlas replacement works (0.6.2.13);
-- native 12x12 cache/VRAM path is stable;
-- target-only descriptor Y shift has worked without global corruption;
-- full-size native E body already has correct game shading/style.
+## What Gaia should take from this
 
-The expensive part of the 0.6.3.x branch has been trying to enlarge one native cache cell from 12 rows to 16 rows. That crosses source stride, converted-cache stride, Y cursor, page placement, sprite geometry and shared allocator state.
+Gaia already has stable native-font evidence:
+- custom atlas replacement PASS at 0.6.2.13;
+- native 12x12 / 72-byte / 4bpp path is stable;
+- broad renderer geometry changes repeatedly created shared-state problems.
 
-A lower-risk alternative is **composite accent rendering**:
+Therefore the preferred Gaia production strategy is now:
 
-1. Render the base Latin glyph normally using native 12x12 geometry.
-2. Render a second 12x12 glyph containing only Vietnamese accent pixels.
-3. Move that second sprite backward in X so it overlaps the base letter.
-4. Move it upward/downward in Y to provide real headroom/footroom outside the base cell.
-5. Keep all source/cache/VRAM cells native 72-byte/12-row.
+1. keep native renderer geometry;
+2. create Vietnamese glyphs inside native 12x12 cells using one unified cap-height/style system;
+3. assign those glyphs to unused Japanese atlas slots;
+4. patch the code->glyph mapping data directly when ownership is proven;
+5. keep runtime code changes minimal and only if data-only mapping proves impossible.
 
-This is NOT a claim that the Yu-Gi-Oh patch uses this exact implementation. It is a Gaia-specific design inspired by the minimal-patch evidence from that successful PS1 Vietnamese release.
+## Historical composite experiment
 
-## 0.6.4.0 proof concept
+0.6.4.x tested a Gaia-specific idea where accents were rendered as a second sprite over a native base letter.
 
-Internal Character Select text:
+It was useful as an art experiment, but runtime placement did not remain reliable enough across Gaia's render/cache paths. Composite is therefore **not** the current production direction.
 
-`ＴＥＳＴＥ亜`
+Do not attribute composite rendering to the Yu-Gi-Oh patch.
 
-- native `Ｅ` renders unchanged;
-- `亜` slot is replaced by an accent-only `mũ + sắc` glyph;
-- target overlay descriptor gets `X -= 12`, `Y -= 4`;
-- visually expected result: `ＴＥＳＴẾ`.
+## Current Gaia pivot
 
-No extended-height glyph.
-No 96-byte source.
-No cache-stride mutation.
-No CD94 allocator rewrite.
-No sprite-height rewrite.
-No persistent flag.
+See:
 
-If this proof works, 12x16 reverse becomes optional/background research rather than the production blocker.
+`FONT_MAPPING_PIVOT_0.6.5.md`
+
+Current goal:
+
+```text
+Vietnamese/internal code
+  -> mapping table entry
+  -> chosen unused Japanese glyph slot
+  -> native 12x12 / 72-byte Vietnamese glyph
+```
+
+Current work is read-only mapping-table recovery before any new runtime probe.
