@@ -84,62 +84,88 @@ Known mapping samples all matched.
 
 ### 0.6.5.3 MAPPING-ONLY NATIVE-CELL
 
-Architecture:
+Runtime: **STRUCTURAL PASS / GLYPH-GENERATOR FAIL.**
 
-```text
-0x889F..0x88AA
-  -> patched mapping entries
-  -> selected low-use atlas slots
-  -> native 12x12 / 72-byte glyph cells
-```
+Passed:
+- boot stable;
+- mapping-controlled slots reached;
+- no hook/pointer redirect required;
+- no global corruption.
 
-Runtime result: **STRUCTURAL PASS / GLYPH-GENERATOR FAIL.**
-
-What passed:
-- game boots;
-- no freeze/global corruption;
-- mapping-controlled test line appears;
-- custom atlas slots are reached;
-- no code hook/pointer redirect needed.
-
-What failed visually:
-- glyphs look dark/shadow-like;
-- accented E/O families look A-like.
-
-Root causes found:
-
-```python
-setpix(..., v=7)
-base = label[0] if label[0] in "AEO" else "A"
-```
-
-The second line makes Unicode `Ê/Ế/Ể/Ô/Ố/Ỗ` fall back to A.
+Generator bugs:
+- hardcoded palette index 7 produced dark/shadow strokes;
+- accented E/O Unicode labels fell back to A.
 
 **Do not retest 0.6.5.3.**
 
-## CURRENT — 0.6.5.4 NATIVE-BASE STYLE PROOF
+### 0.6.5.4 NATIVE-BASE STYLE
 
-Files:
+Runtime: **PIPELINE PASS / VERTICAL CROWDING.**
+
+- byte-for-byte native A/E/O controls looked correct;
+- mapping and slot ownership remained correct;
+- Vietnamese marks were present;
+- full-height native bases left too little headroom.
+
+### 0.6.5.5 ACCENT-SAFE COMPACT
+
+Runtime screenshot: **VISUAL PASS ENOUGH TO LEAVE GLYPH-BOARD PHASE.**
+
+- A/E/O native controls remain correct;
+- compacted accented variants are readable;
+- circumflex/acute/hook/tilde marks are distinguishable;
+- no freeze/global corruption;
+- remaining roughness is normal 12x12 pixel-art polish, not architecture.
+
+**Decision:** lock mapping-only + native 12x12 as production direction. Stop spending runtime tests on the 12-glyph board.
+
+## CURRENT — 0.6.6.0 PRODUCTION ENCODER REAL-TEXT PROOF
+
+Purpose: first end-to-end proof using an actual Vietnamese UI phrase instead of a glyph board.
+
+Expected Character Select text:
 
 ```text
-FONT_MAPPING_PROOF_0.6.5.4.md
-tools/build_gaia_0654_native_base.py
-tools/00_BUILD_0.6.5.4_NATIVE_BASE.cmd
+Chọn tướng
 ```
 
-Changes from 0.6.5.3:
-- plain A/E/O are copied byte-for-byte from Gaia's own native full-width glyphs;
-- explicit A/E/O family tables fix Unicode base selection;
-- accent color is derived from the native glyph palette instead of hardcoding index 7;
-- mapping-only architecture remains unchanged.
-
-Expected Character Select visual:
+Architecture:
 
 ```text
-A Â Ấ Ẳ E Ê Ế Ể O Ô Ố Ỗ
+plain ASCII letters/space
+  -> Gaia native full-width CP932 codes/glyphs
+
+Vietnamese-specific chars (ọ, ư, ớ)
+  -> builder-selected zero-static-hit CP932 codes
+  -> builder-selected zero-static-hit atlas slots
+  -> compact native-derived 12x12 glyphs
+```
+
+Builder safety:
+- CLEAN BIN SHA1 enforced;
+- scans PRGPACK + executable data for zero-hit custom codes;
+- chooses atlas slots whose mapped source codes have zero static text hits;
+- patches mapping data + glyph cells only;
+- no code hook;
+- no pointer redirect;
+- no 12x16;
+- no composite overlay;
+- 24-byte Character Select field is terminated/padded explicitly.
+
+Package:
+
+```text
+GaiaMaster_0.6.6.0_PRODUCTION_ENCODER_REAL_TEXT_PROOF.zip
 ```
 
 Status: **READY FOR ONE RUNTIME TEST.**
+
+If wrong, collect:
+
+```text
+screenshot
+[VI 0.6.6.0 PROD ENCODER].txt
+```
 
 ## Current do-not-repeat
 
@@ -150,4 +176,5 @@ Status: **READY FOR ONE RUNTIME TEST.**
 - no 0.6.5.2 runtime redirect;
 - no assumption consecutive code == consecutive atlas slot;
 - no 0.6.5.3 retest;
+- no more 12-glyph style-board runtime loops unless a production glyph regression demands it;
 - stop immediately on freeze/global corruption.
