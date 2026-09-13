@@ -19,143 +19,102 @@ Alpha 0.6.1 FRONT SHA1
 ### 0.6.2.13 STATIC SLOT / NO HOOK
 **BREAKTHROUGH PASS.** Static custom Vietnamese atlas replacement works.
 
-### 0.6.2.14..0.6.2.20
-Native-cell art experiments. One 12x12 cell requires a compact unified Vietnamese style.
-
-## 0.6.3.x extended-height research
-
-- `0.6.3.1` **UNSAFE FAIL**: corruption + freeze.
-- `0.6.3.2` stable with lower-row loss.
-- `0.6.3.3` following-glyph overwrite disproven.
-- `0.6.3.4` UV-window negative.
-- `0.6.3.6` **UNSAFE FAIL**: boot freeze.
-- `0.6.3.7` rows10..11 visible, lower rows not fully visible.
-- `0.6.3.8/9/12` diagnostic/layout failures.
-- `0.6.3.10` stable negative.
+## 0.6.3.x
+Extended-height 12x16 research caused shared-state corruption/freezes in multiple probes.
 
 **Do not revive 12x16 as production.**
 
-## 0.6.4.x composite accent experiments
+## 0.6.4.x
+Composite accents could look acceptable, but placement was unreliable.
 
-Accent art became acceptable, but overlay placement remained unreliable across real render/cache paths.
+**Not production.**
 
-**Conclusion:** stop composite X/Y tuning. Not production.
+## 0.6.5.x mapping/native-cell pivot
 
-## 0.6.5.x native-cell / mapping pivot
+### 0.6.5.0
+**MAPPING ASSUMPTION FAIL.** Consecutive CP932 codes do not map linearly to atlas slots.
 
-### 0.6.5.0 UNIFIED NATIVE-CELL VIETNAMESE
-Runtime showed repeated A-like glyphs + unrelated Kanji.
+### 0.6.5.2
+**UNSAFE FAIL. NEVER RETEST.** Runtime pointer redirect caused black screen / Game FPS 0 / hard freeze.
 
-**MAPPING ASSUMPTION FAIL:** consecutive CP932 codes do not map linearly to atlas slots.
-
-### 0.6.5.1 POST-LOOKUP CUSTOM BANK
-**BUILD-TIME FAIL ONLY.** Bad zero-filled-region assumption. No runtime conclusion.
-
-### 0.6.5.2 ATLAS-BACKED CUSTOM BANK
-**UNSAFE FAIL. NEVER RETEST.**
-
-- black screen;
-- Game FPS 0;
-- hard freeze.
-
-Reject runtime post-lookup pointer redirect.
-
-### Font Mapping Scanner 0.1
-Found `GP0=0` in EXE header. Final GP is initialized later.
-
-### Font Mapping Initializer Scanner 0.2 — OWNERSHIP PROVEN
+### Font Mapping Initializer Scanner 0.2
+**OWNERSHIP PROVEN.**
 
 ```text
 runtime GP = 0x80085F28
 atlas global = gp+0x518
 map global   = gp+0x51C
+atlas = 0x8006BCEC
+map   = 0x8007AECC
 ```
-
-Initializer `0x8003DD48..0x8003DD5C` writes:
-
-```text
-atlas   = 0x8006BCEC
-mapping = 0x8007AECC
-```
-
-Known mapping samples all matched.
-
-**Gate opened:** static mapping/data-only proof allowed.
 
 ### 0.6.5.3 MAPPING-ONLY NATIVE-CELL
+**STRUCTURAL PASS / GLYPH-GENERATOR FAIL.**
 
-Runtime: **STRUCTURAL PASS / GLYPH-GENERATOR FAIL.**
-
-Passed:
-- boot stable;
-- mapping-controlled slots reached;
-- no hook/pointer redirect required;
-- no global corruption.
-
-Generator bugs:
-- hardcoded palette index 7 produced dark/shadow strokes;
-- accented E/O Unicode labels fell back to A.
-
-**Do not retest 0.6.5.3.**
+Mapping-only path boots, reaches custom atlas cells, no hook or pointer redirect required.
 
 ### 0.6.5.4 NATIVE-BASE STYLE
+**PIPELINE PASS / VERTICAL CROWDING.**
 
-Runtime: **PIPELINE PASS / VERTICAL CROWDING.**
-
-- byte-for-byte native A/E/O controls looked correct;
-- mapping and slot ownership remained correct;
-- Vietnamese marks were present;
-- full-height native bases left too little headroom.
+Native A/E/O copied byte-for-byte render correctly.
 
 ### 0.6.5.5 ACCENT-SAFE COMPACT
+**VISUAL PASS ENOUGH TO LEAVE GLYPH-BOARD PHASE.**
 
-Runtime screenshot: **VISUAL PASS ENOUGH TO LEAVE GLYPH-BOARD PHASE.**
+Compact Vietnamese marks readable. Mapping-only + native 12x12 locked as production direction.
 
-- A/E/O native controls remain correct;
-- compacted accented variants are readable;
-- circumflex/acute/hook/tilde marks are distinguishable;
-- no freeze/global corruption;
-- remaining roughness is normal 12x12 pixel-art polish, not architecture.
+## 0.6.6.x production encoder
 
-**Decision:** lock mapping-only + native 12x12 as production direction. Stop spending runtime tests on the 12-glyph board.
+### 0.6.6.0 PRODUCTION ENCODER REAL-TEXT
 
-## CURRENT — 0.6.6.0 PRODUCTION ENCODER REAL-TEXT PROOF
-
-Purpose: first end-to-end proof using an actual Vietnamese UI phrase instead of a glyph board.
-
-Expected Character Select text:
+Expected/runtime text:
 
 ```text
 Chọn tướng
 ```
 
-Architecture:
+Runtime result: **REAL-TEXT ENCODER PASS / BASELINE POLISH NEEDED.**
+
+Passed:
+- actual Vietnamese phrase appears;
+- plain Latin uses native Gaia full-width glyphs;
+- `ọ`, `ư`, `ớ` use custom zero-static-hit CP932 codes + safe atlas cells;
+- static mapping-only production encoder works end-to-end;
+- stable boot/UI; no freeze/global corruption.
+
+Visual issue:
+- custom chars sit at uneven vertical positions relative to native Latin.
+
+Root cause:
+- custom base glyphs were always compressed into fixed rows `2..9`, unnecessarily changing native baseline.
+
+**Do not reinterpret 0.6.6.0 as mapping/encoder failure.**
+
+## CURRENT — 0.6.6.1 BASELINE-NORMALIZED REAL-TEXT
+
+Detailed note:
 
 ```text
-plain ASCII letters/space
-  -> Gaia native full-width CP932 codes/glyphs
-
-Vietnamese-specific chars (ọ, ư, ớ)
-  -> builder-selected zero-static-hit CP932 codes
-  -> builder-selected zero-static-hit atlas slots
-  -> compact native-derived 12x12 glyphs
+BASELINE_NORMALIZATION_0.6.6.1.md
 ```
 
-Builder safety:
-- CLEAN BIN SHA1 enforced;
-- scans PRGPACK + executable data for zero-hit custom codes;
-- chooses atlas slots whose mapped source codes have zero static text hits;
-- patches mapping data + glyph cells only;
-- no code hook;
-- no pointer redirect;
-- no 12x16;
-- no composite overlay;
-- 24-byte Character Select field is terminated/padded explicitly.
+Expected Character Select:
+
+```text
+Chọn tướng
+```
+
+New policy:
+- preserve native body geometry/baseline when the base glyph already has enough room for marks;
+- only minimal-fit when required;
+- preserve native bottom edge whenever possible;
+- accents are positioned relative to the body bbox;
+- report records `fit_mode`, `src_bbox`, `body_bbox`, `final_bbox`.
 
 Package:
 
 ```text
-GaiaMaster_0.6.6.0_PRODUCTION_ENCODER_REAL_TEXT_PROOF.zip
+GaiaMaster_0.6.6.1_BASELINE_NORMALIZED_REAL_TEXT_PROOF.zip
 ```
 
 Status: **READY FOR ONE RUNTIME TEST.**
@@ -164,7 +123,7 @@ If wrong, collect:
 
 ```text
 screenshot
-[VI 0.6.6.0 PROD ENCODER].txt
+[VI 0.6.6.1 BASELINE].txt
 ```
 
 ## Current do-not-repeat
@@ -176,5 +135,6 @@ screenshot
 - no 0.6.5.2 runtime redirect;
 - no assumption consecutive code == consecutive atlas slot;
 - no 0.6.5.3 retest;
-- no more 12-glyph style-board runtime loops unless a production glyph regression demands it;
+- no more 12-glyph style-board loops unless production regression requires it;
+- no reopening mapping/encoder questions because of 0.6.6.0 baseline polish;
 - stop immediately on freeze/global corruption.
