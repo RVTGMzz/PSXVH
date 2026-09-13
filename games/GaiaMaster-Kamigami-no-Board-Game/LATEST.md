@@ -10,150 +10,100 @@ Production vẫn khóa vào:
 native 12x12 / 72-byte / 4bpp
 static mapping-only
 60-glyph Vietnamese production codepage
-font visual style = 0.6.7.2
 legacy Alpha coverage gate = 397 / 397
 ```
 
-Không quay lại narrow 6x12, 12x16, pointer redirect, composite overlay hay global spacing hook.
+`0.6.7.2` vẫn là visual baseline. Không quay lại narrow 6x12, 12x16, pointer redirect, composite overlay hay global spacing hook.
 
-## Font
+## Runtime mới nhất
 
-`0.6.7.2` = **FONT VISUAL PASS / FREEZE**.
-
-Runtime mới không cho thấy regression font. Các dấu tiếng Việt đã hiện; vấn đề hiện tại là nội dung/fallback/dynamic Japanese literals.
-
-## Coverage
-
-`0.6.9.2` = **397/397 COVERAGE PASS**.
-
-Không được bỏ một fallback đang fit chỉ để ép câu có dấu dài hơn.
-
-## 0.6.10.0 runtime verdict
-
-User đã test `0.6.10.0 HYBRID FULL-COVERAGE + FRONT ACCENT BATCH 1`.
-
-Kết luận:
+`0.6.11.0` đã được user test và được phân loại:
 
 ```text
-FRONT ACCENT/FONT RUNTIME PASS
-CONTENT QA INCOMPLETE
+PARTIAL PASS / CONTENT QA FAIL
 ```
 
-Ảnh runtime phát hiện ba nhóm lỗi:
+Ảnh runtime chứng minh accented pipeline hoạt động, nhưng phát hiện:
+
+1. hai vị trí `=` cũ trong front fallback vẫn hiện thành glyph Nhật/rác;
+2. lowercase `ă` trong `năng` có breve sai hình;
+3. vẫn còn fallback không dấu và tên Nhật động, ví dụ `LUOT ジガー`.
+
+## CURRENT — 0.6.12.0 LARGE GAMEPLAY TRANSLATION BATCH 3
+
+Batch này cố tình làm lớn để giảm số vòng build-test nhỏ.
+
+### Giữ nguyên
 
 ```text
-Người=cờ / Thếgiới=bàncờ
+exact 397/397 legacy gate
+BDP/checksum writer
+runtime token handling
+60-glyph codepage
+12x12 mapping-only architecture
 ```
 
-ký tự `=` hiện thành glyph Nhật/rác;
+### Sửa lỗi runtime
 
 ```text
-Tải dữ liệu VK?
+NGUOI=CO      -> NGUOI CO
+THEGIOI=BANCO -> THEGIOI BANCO
 ```
 
-khó hiểu, trong đó `VK` = vũ khí;
+và sau inner build chỉ redraw hai hàng accent trên glyph lowercase `ă` thành breve dạng cup/smile. Không đổi mapping/body/slot hay font khác.
 
-và gameplay:
+### Dịch thêm lớn
 
-```text
-DUNG トロル通り
-```
+`BATCH3_FALLBACK_ACCENT_MAP_0.6.12.0.csv` hiện có **278 curated compact accent mappings**.
 
-cho thấy `DUNG %s` được patch nhưng `%s` lấy tên Nhật từ bảng động khác.
+Builder còn globalize toàn bộ Batch 2 mapping: mọi Translation Master row có cùng fallback cũ đều được thử promote sang bản có dấu khi vẫn vừa field gốc.
 
-## CURRENT — 0.6.11.0 HYBRID GAMEPLAY ACCENT BATCH 2
+Nội dung mở rộng phủ setup, tavern, gameplay, thuế/đất/tuyến đường, card, item, weapon, event, menu, prompt, building/status/movement/battle strings.
 
-Files:
+Candidate quá dài vẫn giữ fallback cũ để không làm mất coverage.
 
-```text
-ACCENT_UPGRADE_0.6.11.0.md
-tools/build_gaia_06110_hybrid_accent_b2.py
-tools/00_BUILD_0.6.11.0_HYBRID_ACCENT_B2.cmd
-translation/FRONT_ACCENT_OVERRIDES_0.6.11.0.csv
-translation/GAMEPLAY_ACCENT_OVERRIDES_0.6.11.0.csv
-translation/DYNAMIC_LITERAL_OVERRIDES_0.6.11.0.csv
-```
+### Dynamic / repeated Japanese
 
-### Front fixes
+Builder scan standalone/null-delimited copies trong CLEAN `SLPS_020.75` và `PRGPACK.BDP`, rồi inject temporary translation rows cho duplicate chưa có offset trong master.
 
-```text
-Người=cờ        -> Người cờ
-Thếgiới=bàncờ   -> Thếgiới bàncờ
-Ko chống        -> Không chống
-Tải dữ liệu VK? -> Tải KN vũ khí?
-```
-
-### Gameplay Batch 2
-
-Có **335 compact accent candidates** cho:
-
-```text
-setup / tavern / gameplay / card / item / event / menu / prompt
-```
-
-Wrapper chỉ promote candidate nếu byte-size vừa field gốc. Candidate quá dài sẽ giữ fallback cũ.
-
-### Dynamic literal layer
-
-Screenshot-proven first entry:
+Compact runtime names gồm:
 
 ```text
 トロル通り -> Troll
+ジガー -> Jig
+ダンテ -> Dan
+孫悟空 -> Ngộ
+ハヤテ -> Hay
+ヤスツナ -> Yasu
+ガラハッド -> Galah
+ティアラ -> Tiar
+ゴライアス -> Golia
+メグメグ -> Megu
+アガート -> Agat
+シンバッド -> Sinba
 ```
 
-Cùng với:
+## Files
 
 ```text
-DUNG %s -> Dừng %s
+ACCENT_UPGRADE_0.6.12.0.md
+tools/build_gaia_06120_big_translation_b3.py
+tools/00_BUILD_0.6.12.0_BIG_TRANSLATION_B3.cmd
+translation/BATCH3_FALLBACK_ACCENT_MAP_0.6.12.0.csv
+translation/DYNAMIC_LITERAL_OVERRIDES_0.6.12.0.csv
 ```
 
-expected runtime:
+## State
 
 ```text
-Dừng Troll
+SOURCE READY
+PYTHON SYNTAX PASS
+ROM BUILD PENDING
+RUNTIME PENDING
 ```
 
-Equal-length dynamic replacement có thể patch trực tiếp. Replacement ngắn hơn chỉ được dùng với standalone/null-delimited string.
-
-### Builder strategy
-
-`0.6.11.0` bọc exact `0.6.10.0` builder, vì vậy không thay:
-
-```text
-font 0.6.7.2
-60-glyph codepage
-BDP/checksum code
-runtime token handling
-397/397 legacy gate
-```
-
-Builder source đã syntax-check. **Runtime build vẫn pending** vì phiên hiện tại không có clean BIN mounted.
+Clean BIN không mounted trong phiên ChatGPT nên cần build trên máy user.
 
 ## Next runtime test
 
-Drag CLEAN BIN vào:
-
-```text
-tools/00_BUILD_0.6.11.0_HYBRID_ACCENT_B2.cmd
-```
-
-Check một lượt:
-
-1. intro không còn glyph rác ở vị trí `=`;
-2. setup hiện `Tải KN vũ khí?`;
-3. gameplay case cũ hiện `Dừng Troll`;
-4. card/menu/item/event/prompt có thêm dấu;
-5. chụp lại mọi tên Nhật `%s` hoặc fallback không dấu còn sót.
-
-## Hard rules
-
-- font `0.6.7.2` vẫn FREEZE;
-- exact `397/397` vẫn bắt buộc;
-- không 12x16;
-- không narrow alias;
-- không pointer redirect;
-- không composite overlay;
-- không global cursor/cache/spacing mutation;
-- không retest `0.6.9.0` / `0.6.9.1`;
-- không hy sinh coverage để ép accent;
-- stop ngay nếu freeze/global corruption.
+Test một lượt rộng: intro -> setup -> vài lượt đầu -> card/item/event/menu -> đất/thuế/tuyến đường/battle. Chụp lại mọi Japanese còn sót, fallback không dấu, dấu sai, clipping hoặc freeze.
