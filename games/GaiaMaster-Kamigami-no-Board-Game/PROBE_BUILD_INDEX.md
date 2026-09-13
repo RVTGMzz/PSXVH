@@ -28,115 +28,118 @@ Alpha 0.6.1 FRONT SHA1
 ## 0.6.6.x
 
 ### 0.6.6.0 REAL-TEXT ENCODER
-
-`Chọn tướng` rendered end-to-end.
-
-Result: **PASS**, baseline needed polish.
+`Chọn tướng` rendered end-to-end. **PASS**, baseline needed polish.
 
 ### 0.6.6.1 BASELINE-NORMALIZED
-
-Result: **PASS / LAST GOOD**.
-
-Proven:
-- native 12x12 production geometry;
-- static mapping-only custom Vietnamese routing;
-- baseline acceptable;
-- stable boot/UI;
-- no hook or pointer redirect.
-
-Remaining wide horizontal spacing is visual polish only.
+**PASS / LAST GOOD.** Native 12x12 + mapping-only + acceptable baseline. Full-width spacing is polish only.
 
 ### 0.6.6.2
-
-**BUILD GATE FALSE POSITIVE.** No ROM/runtime result. Do not retest.
+Gate false-positive. No runtime build. Do not retest.
 
 ### 0.6.6.2b
-
-**BUILD GATE FALSE POSITIVE.** No ROM/runtime result. Do not retest.
+Gate false-positive. No runtime build. Do not retest.
 
 ### 0.6.6.2c NATIVE NARROW 8PX
+Builder succeeded; runtime produced unrelated/garbled glyphs. **RUNTIME FAIL / RETIRED.** Do not retest.
 
-Builder succeeded and runtime-tested.
+## Production Capacity Scanner 0.1
 
-Expected `Chọn tướng`; actual unrelated/garbled glyphs.
-
-Result:
-
-```text
-RUNTIME FAIL
-RETIRE 6x12 / one-byte alias production path
-DO NOT RETEST
-```
-
-This does not affect the 12x12 mapping-only PASS.
-
-## Production Capacity Scanner 0.1 — RESULT
-
-READ-ONLY. No patched BIN and no emulator boot.
-
-Worst-case target:
+READ-ONLY worst-case result:
 
 ```text
-67 lowercase custom chars
-67 uppercase custom chars
-TOTAL = 134 custom glyphs
-```
-
-User result on verified CLEAN BIN:
-
-```text
-Zero-hit custom codes : 837
-Zero-hit atlas slots  : 64
-Unmapped zero slots   : 34
-Verdict               : FAIL
-```
-
-Atlas split:
-
-```text
+134 custom glyph target
+837 zero-hit custom codes
+64 zero-hit atlas slots
 34 completely unmapped zero-hit slots
-30 mapped-but-static-unused zero-hit slots
-64 total conservative allocatable slots
+Verdict: FAIL
 ```
 
-Conclusion:
-- code-space capacity is abundant;
-- conservative atlas capacity is the bottleneck;
-- full 134-glyph codepage does not fit while preserving all currently referenced Japanese glyphs;
-- this is a valid capacity FAIL, not a broken build;
-- do not rerun unless reclaim rules change.
+Interpretation: code space is abundant; atlas capacity is the bottleneck for a theoretical full 134-glyph repertoire.
 
-## CURRENT — vi_full Inventory 0.1
+## vi_full Inventory 0.1 — PASS
 
-READ-ONLY. No game BIN required.
-
-Files:
+Actual Translation Master 0.6 corpus:
 
 ```text
-tools/vifull_inventory_0.1.py
-tools/00_RUN_VIFULL_INVENTORY_0.1.cmd
+596 total rows
+393 rows with non-empty vi_full
+125 unique characters in vi_full
+60 custom Vietnamese glyphs
+56 lowercase + 4 uppercase
+64 conservative zero-hit atlas slots available
 ```
 
-Goal:
-- read Translation Master 0.6 parts 01..06;
-- inventory only actual `vi_full` content;
-- count exact Vietnamese precomposed characters currently needed;
-- normalize punctuation where possible;
-- compare actual custom glyph need against 64 known conservative atlas slots.
+Result: **PASS with 4 slots reserve.**
 
-Report:
+Current custom set:
 
 ```text
-GaiaMaster_ViFullInventory_01.txt
+àáâãéêìíòóÔôùúÝăĐđĩũƠơưạảấầẩẫậắặẻẽếềểệỉịọỏốồổỗộớờởợụủứừửữựỵỹ
 ```
 
-### If PASS (<=64)
+## 0.6.7.0 PRODUCTION CODEPAGE 60 / MULTI-UI
 
-Freeze exact current-corpus codepage and build a multi-string 12x12 production proof.
+**CURRENT RUNTIME CANDIDATE.**
 
-### If FAIL (>64)
+Production slots:
 
-Do not return to narrow/12x16. Design explicit Japanese-slot reclaim based on rows already translated.
+```text
+34 unmapped zero-hit:
+18 33 58 160 182 261 301 371 392
+420 421 422 423 424 425 426 427 428 429 430 431
+432 433 434 435 436 437 438 439 440
+517 695 704 713
+
+26 mapped-but-static-unused zero-hit:
+38 94 108 109 129 130 150 208 295 326 335 345 372
+385 394 398 400 403 702 715 729 745 750 754 757 790
+
+Reserve:
+794 807 821 824
+```
+
+Repo helper preserving last-good vertical composition:
+
+```text
+tools/gaia_0661_baseline.py
+```
+
+Design note:
+
+```text
+PRODUCTION_CODEPAGE_0.6.7.0.md
+```
+
+Local package:
+
+```text
+GaiaMaster_0.6.7.0_PRODUCTION_CODEPAGE_60_MULTI_UI_PROOF.zip
+```
+
+Runtime proof strings:
+
+```text
+Đã ổn?
+Chọn tướng
+Nhấn O
+```
+
+Spacing remains intentionally full-width. Do not treat it as failure.
+
+### PASS gate
+
+If all three strings render correctly and boot/UI remain stable:
+- freeze emitted `CODEPAGE60` manifest;
+- integrate the encoder into real Translation Master batch rebuild;
+- patch in-place rows that fit;
+- separately solve relocation/length expansion for rows that do not fit.
+
+### FAIL gate
+
+If freeze/global corruption/unrelated glyphs occur:
+- stop immediately;
+- send screenshot + generated `PROD60 MULTIUI` report + `CODEPAGE60` manifest;
+- do not retest blindly.
 
 ## Do not repeat
 
@@ -145,11 +148,10 @@ Do not return to narrow/12x16. Design explicit Japanese-slot reclaim based on ro
 - no failed 0.6.3.x retests;
 - no composite overlay loop;
 - no 0.6.5.2 pointer redirect;
-- no 0.6.5.3 retest;
 - no 0.6.6.2 / 2b retest;
 - no 0.6.6.2c retest;
 - no one-byte narrow alias path;
 - no global cursor/cache spacing mutation;
 - no spacing-driven architecture rewrite;
-- no repeated 134-glyph capacity scan without an atlas-reclaim change;
+- no repeated 134-glyph capacity scan without reclaim-policy changes;
 - stop immediately on freeze/global corruption.
