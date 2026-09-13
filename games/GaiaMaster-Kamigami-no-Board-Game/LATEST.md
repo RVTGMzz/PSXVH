@@ -4,7 +4,7 @@ Cập nhật: **2026-09-14**
 
 ## Source-of-truth
 
-Production vẫn khóa vào:
+Production tiếp tục khóa vào:
 
 ```text
 native 12x12 / 72-byte / 4bpp
@@ -13,88 +13,84 @@ static mapping-only
 legacy Alpha coverage gate = 397 / 397
 ```
 
-Không quay lại narrow 6x12, 12x16, pointer redirect, composite overlay hay global spacing hook.
+Font hiện được xem là ổn ở runtime. Không retune font thêm nếu chưa có lỗi hình cụ thể mới.
 
-## Runtime mới nhất
+## CURRENT — 0.6.19.0 STORY / DIALOG / MENU / CARD BATCH 10
 
-`0.6.13.0` tiếp tục giảm tiếng Nhật, nhưng screenshot mới xác nhận lowercase `ă` vẫn lỗi hình:
-
-```text
-dấu breve cũ chưa được xóa sạch
-+ dấu mới bị vẽ chồng lên
-= glyph trông hai tầng / quái hình
-```
-
-Vì vậy không tiếp tục kiểu xóa vài row rồi vẽ lại.
-
-# CURRENT — 0.6.14.0 TRANSLATION BATCH 5 + FRESH `ă` REBUILD
-
-Files:
+Trọng tâm hiện tại:
 
 ```text
-ACCENT_UPGRADE_0.6.14.0.md
-tools/build_gaia_06140_translation_b5.py
-tools/00_BUILD_0.6.14.0_TRANSLATION_B5.cmd
-translation/COMPACT_TRANSLATION_OVERRIDES_0.6.14.0.csv
-translation/DYNAMIC_LITERAL_OVERRIDES_0.6.14.0.csv
+cốt truyện / intro
+thoại NPC / tửu quán
+menu / prompt
+lá bài + mô tả hiệu ứng
+vũ khí / phép / item
+event / Ma vương / thần linh
+các literal Nhật động còn lọt
 ```
 
-### Fix `ă` v3
+Chiến lược dịch:
 
-Bản mới **bỏ toàn bộ bitmap `ă` cũ** sau inner build rồi dựng lại từ CLEAN native lowercase `a`.
+1. ưu tiên dịch trực tiếp từ tiếng Nhật gốc;
+2. dùng bản Việt tự nhiên có chất trung cổ/fantasy nếu vừa field;
+3. nếu quá dài thì rút gọn nhưng giữ nghĩa;
+4. giữ nguyên `%s`, `%d`, `%4d`, `%+3d`, `/V`, `/v`;
+5. không được phá gate 397/397 chỉ để nhét câu dài hơn.
 
-Quy trình:
+Văn phong ưu tiên các thuật ngữ như:
 
 ```text
-clean native a
- -> compact fresh body
- -> one shallow-U breve
- -> native shadow
- -> replace entire custom ă glyph
+lãnh địa
+lộ phí
+quân quỹ
+Thánh địa
+Ma vương
+Tà thần
+Thần Thời
+Thần Vận
+tỉ thí
+chiến lợi
+Sứ giả
+Pháp sư
+Đạo tặc
 ```
 
-Do đó không còn khả năng dấu cũ sót dưới dấu mới.
+NPC đối đầu có thể dùng `ta / ngươi`; menu hệ thống vẫn phải rõ nghĩa và dễ chơi.
 
-### Dịch thêm
+## Intro cleanup
 
-Batch 5 thêm **38 compact exact-offset candidates** cho gameplay/help/status và các chuỗi đầu game, ví dụ:
+Tiếp tục loại skeleton cũ gây glyph Nhật chèn giữa câu:
 
 ```text
-Thẻ SK
-Dừng: SK
-Đấu đối thủ
-Vô chủ
-Quỹ %5d
-Phí %4d
-Lượt %s
-Dừng %s
-Đất %s
-Thuế TN
-Ô thuế đất
-Đồng ý?
-Có/Không
-Chọn thẻ
-Dùng %s
+NGUOI=CO      -> NGUOI CO
+THEGIOI=BANCO -> THEGIOI BANCO
 ```
 
-Builder chỉ apply khi vừa field gốc. Không ép câu dài.
-
-Dynamic literal map cũng bổ sung:
+Target hiển thị:
 
 ```text
-墓地 -> Mộ
-大聖堂 -> Đền
-通行税 -> Phí
+Người cờ
+Thế giới bàn cờ
 ```
 
-## Gate
+## Checkpoint repo
 
 ```text
-397 / 397 legacy coverage vẫn bắt buộc
+checkpoints/0.6.19.0/GaiaMaster_0.6.19.0_BATCH10_STORY_DIALOG_MENU_CARD.zip
 ```
 
-## Test tiếp
+Checkpoint này chỉ chứa builder/source hỗ trợ test, không chứa game image.
 
-1. xem chữ `ă` trong `năng` trước: chỉ còn **một** breve;
-2. chơi vài lượt, mở card/item/help/menu;
-3. chụp các câu Nhật còn sót thành một mẻ để tiếp tục Batch lớn.
+## Runtime gate tiếp theo
+
+`0.6.19.0` hiện là **candidate**, chưa gọi PASS trước khi test.
+
+Ưu tiên chụp lại:
+
+- intro/cốt truyện;
+- thoại dài;
+- menu giữa trận;
+- danh sách + mô tả lá bài;
+- mô tả vũ khí/item;
+- event Ma vương/thần linh;
+- mọi câu còn Nhật hoặc Nhật-Việt lẫn nhau.
