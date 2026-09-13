@@ -1,0 +1,279 @@
+vi_game_current,vi_accented,category,note
+%s CUA,%s của,global-fallback,Batch 3 extra expansion
+%s LA,%s là,global-fallback,Batch 3 global accent promotion
+%s MAY MAN!!,%s may mắn!,global-fallback,Batch 3 global accent promotion
+%s NHE,%s nhé,global-fallback,Batch 3 global accent promotion
+%s TAY %s,%s tay %s,global-fallback,Batch 3 global accent promotion
+(NHANH TRUOC),(Nhanh trước),global-fallback,Batch 3 global accent promotion
+...CHAN,...chán,global-fallback,Batch 3 global accent promotion
+1 LUOT RIENG BAN,1 lượt riêng bạn,global-fallback,Batch 3 global accent promotion
+1 NHAN,1 Nhanh,global-fallback,Batch 3 global accent promotion
+1 THE SK,1 thẻ SK,global-fallback,Batch 3 global accent promotion
+2 VUA,2 Vừa,global-fallback,Batch 3 global accent promotion
+20% THANH THUE,20% thành thuế,global-fallback,Batch 3 extra expansion
+3 XUCXAC,3 xúc xắc,global-fallback,Batch 3 global accent promotion
+4 XUCXAC,4 xúc xắc,global-fallback,Batch 3 global accent promotion
+4 XUCXAC!!,4 xúc xắc!,global-fallback,Batch 3 global accent promotion
+AM,âm,global-fallback,Batch 3 global accent promotion
+BAN %s,Bán %s,global-fallback,Batch 3 global accent promotion
+BAN GI?,Bán gì?,global-fallback,Batch 3 global accent promotion
+BAOTUYET,Bão tuyết,global-fallback,Batch 3 extra expansion
+BAY DI!!,Bay đi!,global-fallback,Batch 3 global accent promotion
+BENH,Bệnh,global-fallback,Batch 3 global accent promotion
+"BO %s,","Bỏ %s,",global-fallback,Batch 3 global accent promotion
+BO BOT THE,Bỏ bớt thẻ,global-fallback,Batch 3 global accent promotion
+BO THE NAO?,Bỏ thẻ nào?,global-fallback,Batch 3 global accent promotion
+BO THE THUA,Bỏ thẻ thừa,global-fallback,Batch 3 global accent promotion
+BO!,Bỏ!,global-fallback,Batch 3 global accent promotion
+CAIDAT,Cài đặt,global-fallback,Batch 3 global accent promotion
+CAM DO,Cám dỗ,global-fallback,Batch 3 global accent promotion
+CAN DAU VAN,Cân Đẩu Vân,global-fallback,Batch 3 global accent promotion
+CHAN,Chán,global-fallback,Batch 3 global accent promotion
+CHAN PHA SHOP!!,Chặn phá shop!,global-fallback,Batch 3 global accent promotion
+CHOI VA THANG,Chơi thắng,global-fallback,Batch 3 global accent promotion
+CHON NHANH,Chọn nhanh,global-fallback,Batch 3 global accent promotion
+CHON NHANH!!,Chọn nhanh!!,global-fallback,Batch 3 global accent promotion
+CHON XONG TS,Chọn xong TS,global-fallback,Batch 3 global accent promotion
+CHUA CO DAT,Chưa có đất,global-fallback,Batch 3 global accent promotion
+CHUA CO THUE,Chưa có thuế,global-fallback,Batch 3 global accent promotion
+CO GI DAY?,Có gì đây?,global-fallback,Batch 3 global accent promotion
+CO THE,Có thể,global-fallback,Batch 3 global accent promotion
+CO THE DOI,Có thể đổi,global-fallback,Batch 3 global accent promotion
+CO THE MO,Có thể mở,global-fallback,Batch 3 global accent promotion
+CO THE THACHDAU,Có thể thách đấu,global-fallback,Batch 3 global accent promotion
+COHOI DOI THE VK,Cơ hội đổi thẻ,global-fallback,Batch 3 global accent promotion
+CUNG BANG,Cung băng,global-fallback,Batch 3 global accent promotion
+DA DOI DUONG,Đã đổi đường,global-fallback,Batch 3 global accent promotion
+DAI LC,Đại LC,global-fallback,Batch 3 global accent promotion
+DAI MAY,Đại may,global-fallback,Batch 3 global accent promotion
+DAI XUI,Đại xui,global-fallback,Batch 3 global accent promotion
+DAM LAI GAN,Dám lại gần,global-fallback,Batch 3 global accent promotion
+DAM NGUYEN,Đầm nguyền,global-fallback,Batch 3 global accent promotion
+DANG CHAN QUA,Đang chán quá,global-fallback,Batch 3 global accent promotion
+DAO,Đạo,global-fallback,Batch 3 extra expansion
+DAO TAC,Đạo tặc,global-fallback,Batch 3 global accent promotion
+DAU 1 TRAN?,Đấu 1 trận?,global-fallback,Batch 3 global accent promotion
+DAU DOI THU,Đấu đối thủ,global-fallback,Batch 3 global accent promotion
+DAU THEM?,Đấu thêm?,global-fallback,Batch 3 global accent promotion
+DAU TOI 1 VAN?,Đấu tôi 1 ván?,global-fallback,Batch 3 global accent promotion
+DAU XONG,Đấu xong,global-fallback,Batch 3 global accent promotion
+DEN O GO,Đến ô GO,global-fallback,Batch 3 global accent promotion
+DO XUI,Do xui,global-fallback,Batch 3 extra expansion
+DOAN XUC XAC NAY,Đoán xúc xắc này,global-fallback,Batch 3 global accent promotion
+DOI,Đổi,global-fallback,Batch 3 extra expansion
+DOI CAC NGA RE,Đổi các ngã rẽ,global-fallback,Batch 3 global accent promotion
+DOI CHO,Đổi chỗ,global-fallback,Batch 3 global accent promotion
+DOI CHU DAT,Đổi chủ đất,global-fallback,Batch 3 global accent promotion
+DOI DUONG,Đổi đường,global-fallback,Batch 3 global accent promotion
+DOI DUONG?,Đổi đường?,global-fallback,Batch 3 global accent promotion
+DOI THE,Đổi thẻ,global-fallback,Batch 3 global accent promotion
+DOI TOI DA2,Đổi tối đa2,global-fallback,Batch 3 global accent promotion
+DOI TUYEN,Đổi tuyến,global-fallback,Batch 3 global accent promotion
+DONG DAT,Động đất,global-fallback,Batch 3 extra expansion
+DONGDAT,Động đất,global-fallback,Batch 3 global accent promotion
+DUNG THAT?,Dừng thật?,global-fallback,Batch 3 global accent promotion
+DUNG THE DOI THU,Dùng thẻ đối thủ,global-fallback,Batch 3 global accent promotion
+DUNG THE NAY,Dùng thẻ này,global-fallback,Batch 3 global accent promotion
+DUNG: GIA DAT,Dừng:giá đất,global-fallback,Batch 3 extra expansion
+DUNG: MINI GAME,Dừng:mini game,global-fallback,Batch 3 global accent promotion
+DUNG: SU KIEN,Dừng:sự kiện,global-fallback,Batch 3 global accent promotion
+DUNG: TIEN CO,Dừng:tiền có,global-fallback,Batch 3 extra expansion
+DUNG: TUY CHON,Dừng:tùy chọn,global-fallback,Batch 3 global accent promotion
+DUNG: TUYEN,Dừng:tuyến,global-fallback,Batch 3 global accent promotion
+GIA KIM,Giả kim,global-fallback,Batch 3 global accent promotion
+GIAOMAU,Giáo máu,global-fallback,Batch 3 extra expansion
+GIATRI,Giá trị,global-fallback,Batch 3 global accent promotion
+GIATRI DAT TANG,Giá đất tăng,global-fallback,Batch 3 global accent promotion
+GIU NGUYEN,Giữ nguyên,global-fallback,Batch 3 global accent promotion
+GOI MA,Gọi ma,global-fallback,Batch 3 global accent promotion
+GUI O THANH DIA,Gửi Thánh địa,global-fallback,Batch 3 global accent promotion
+HE HE,Hê hê,global-fallback,Batch 3 global accent promotion
+HET,Hết,global-fallback,Batch 3 global accent promotion
+HET CHO,Hết chỗ,global-fallback,Batch 3 global accent promotion
+HET CHO CHUA,Hết chỗ chứa,global-fallback,Batch 3 global accent promotion
+HIEPSI,Hiệp sĩ,global-fallback,Batch 3 global accent promotion
+HINH NHU,Hình như,global-fallback,Batch 3 global accent promotion
+HOATANH,Hoạt ảnh,global-fallback,Batch 3 global accent promotion
+HOI DAY HP,Hồi đầy HP,global-fallback,Batch 3 global accent promotion
+HOI60HP,Hồi60HP,global-fallback,Batch 3 extra expansion
+HOIPHUC,Hồi phục,global-fallback,Batch 3 global accent promotion
+HON BANG,Hôn băng,global-fallback,Batch 3 global accent promotion
+HON LOAN,Hỗn loạn,global-fallback,Batch 3 global accent promotion
+HOTRO,Hỗ trợ,global-fallback,Batch 3 global accent promotion
+HP DOI THU,HP đối thủ,global-fallback,Batch 3 global accent promotion
+HP0 TRA VIENPHI,HP0 trả viện phí,global-fallback,Batch 3 global accent promotion
+HU?,Hử?,global-fallback,Batch 3 global accent promotion
+HUY,Hủy,global-fallback,Batch 3 global accent promotion
+KHOA DO,Khóa đồ,global-fallback,Batch 3 extra expansion
+KHOADO,Khóa đồ,global-fallback,Batch 3 extra expansion
+KHONG ANH HUONG,Không ảnh hưởng,global-fallback,Batch 3 global accent promotion
+KHONG CO TIEN,Không có tiền,global-fallback,Batch 3 global accent promotion
+KHU NAY CUA BAN,Khu này của bạn,global-fallback,Batch 3 global accent promotion
+KIEMBAO,Kiếm bão,global-fallback,Batch 3 extra expansion
+KIEMNHANH,Kiếm nhanh,global-fallback,Batch 3 extra expansion
+KO NHAN,Chưa nhận,global-fallback,Batch 3 global accent promotion
+LAM GI DAY?,Làm gì đấy?,global-fallback,Batch 3 global accent promotion
+LAU CA,Láu cá,global-fallback,Batch 3 global accent promotion
+LAY TIEN CUNG O,Lấy tiền cùng ô,global-fallback,Batch 3 global accent promotion
+LON HAY NHO HON?,Lớn hay nhỏ hơn?,global-fallback,Batch 3 global accent promotion
+LUI RA,Lùi ra,global-fallback,Batch 3 global accent promotion
+MA NGHICH,Ma nghịch,global-fallback,Batch 3 global accent promotion
+MA PHA SHOP KHU,Ma phá shop khu,global-fallback,Batch 3 global accent promotion
+MA VUONG,Ma vương,global-fallback,Batch 3 global accent promotion
+MAT %d ZENNY,Mất %d Zenny,global-fallback,Batch 3 global accent promotion
+MAY,May,global-fallback,Batch 3 global accent promotion
+MOI 1 LUOT,Mỗi 1 lượt,global-fallback,Batch 3 global accent promotion
+MUA DAT,Mua đất,global-fallback,Batch 3 global accent promotion
+MUA DAT NAY,Mua đất này,global-fallback,Batch 3 global accent promotion
+NGANHANG,Ngân hàng,global-fallback,Batch 3 extra expansion
+NGHI ROI?,Nghỉ rồi?,global-fallback,Batch 3 global accent promotion
+NGHIA,Nghĩa địa,global-fallback,Batch 3 global accent promotion
+NGOKHONG,Ngộ Không,global-fallback,Batch 3 extra expansion
+NHAN %d,Nhận %d,global-fallback,Batch 3 global accent promotion
+NHAN %d THE VK,Nhận %d vũ khí,global-fallback,Batch 3 global accent promotion
+NHAN %d ZENNY,Nhận %d Zenny,global-fallback,Batch 3 global accent promotion
+NHAN %s,Nhận %s,global-fallback,Batch 3 global accent promotion
+NHAN %s ROI,Nhận %s rồi,global-fallback,Batch 3 global accent promotion
+NHAN 1 DAT!!,Nhận 1 đất!,global-fallback,Batch 3 global accent promotion
+NHAN NHIEU HON,Nhận nhiều hơn,global-fallback,Batch 3 global accent promotion
+NHAN O,Nhấn O,global-fallback,Batch 3 global accent promotion
+NHAN QUY,Nhận quỹ,global-fallback,Batch 3 global accent promotion
+NHAN THE SK,Nhận thẻ SK,global-fallback,Batch 3 global accent promotion
+NHAN THE VK,Nhận thẻ VK,global-fallback,Batch 3 global accent promotion
+NHAN200 ZENNY,Nhận200 Zenny,global-fallback,Batch 3 global accent promotion
+NHUYBONG,Như Ý Bổng,global-fallback,Batch 3 global accent promotion
+NU THAN,Nữ thần,global-fallback,Batch 3 global accent promotion
+NU THAN BANG,Nữ thần băng,global-fallback,Batch 3 global accent promotion
+O NGA RE,Ô ngã rẽ,global-fallback,Batch 3 global accent promotion
+PHA 1 BIEUTUONG,Phá 1 tượng,global-fallback,Batch 3 global accent promotion
+PHA BIEUTUONG,Phá biểu tượng,global-fallback,Batch 3 global accent promotion
+PHA SHOP,Phá shop,global-fallback,Batch 3 global accent promotion
+PHAP SU,Pháp sư,global-fallback,Batch 3 global accent promotion
+PHAVK,Phá VK,global-fallback,Batch 3 extra expansion
+PHEP,Phép,global-fallback,Batch 3 global accent promotion
+PHI %+3d%,Phí %+3d%,global-fallback,Batch 3 global accent promotion
+PHI %4d,Phí %4d,global-fallback,Batch 3 global accent promotion
+PHI GIAM10%,Phí giảm10%,global-fallback,Batch 3 global accent promotion
+PHI GIAM30%,Phí giảm30%,global-fallback,Batch 3 global accent promotion
+PHI GIAM50%,Phí giảm50%,global-fallback,Batch 3 global accent promotion
+PHI GIAM70%,Phí giảm70%,global-fallback,Batch 3 global accent promotion
+PHI GIAM90%,Phí giảm90%,global-fallback,Batch 3 global accent promotion
+PHI QD,Phí đường,global-fallback,Batch 3 global accent promotion
+PHI QD HA?,Phí à?,global-fallback,Batch 3 global accent promotion
+PHI TANG30%,Phí tăng30%,global-fallback,Batch 3 global accent promotion
+PHI TANG50%,Phí tăng50%,global-fallback,Batch 3 global accent promotion
+PHI TANG70%,Phí tăng70%,global-fallback,Batch 3 global accent promotion
+PHI X2,Phí x2,global-fallback,Batch 3 global accent promotion
+PHI X3,Phí x3,global-fallback,Batch 3 global accent promotion
+PHITIEU,Phi tiêu,global-fallback,Batch 3 global accent promotion
+QUA THAN!!,Quà thần!,global-fallback,Batch 3 global accent promotion
+QUA: NHAN TIEN,Qua:nhận tiền,global-fallback,Batch 3 global accent promotion
+QUAN!,Quán!,global-fallback,Batch 3 global accent promotion
+QUANQUY,Quân quỹ,global-fallback,Batch 3 global accent promotion
+QUY %5d,Quỹ %5d,global-fallback,Batch 3 global accent promotion
+QUYT,Quỵt,global-fallback,Batch 3 global accent promotion
+QUYT PHI QD!!,Quỵt phí!,global-fallback,Batch 3 global accent promotion
+QUYT TIEN!!,Quỵt tiền!,global-fallback,Batch 3 global accent promotion
+RIUCHIEN,Rìu chiến,global-fallback,Batch 3 extra expansion
+RUNG,Rung,global-fallback,Batch 3 global accent promotion
+RUT O THANH DIA,Rút Thánh địa,global-fallback,Batch 3 global accent promotion
+SAO TA PHAI TRA!!,Sao ta phải trả!,global-fallback,Batch 3 global accent promotion
+SE,Sẽ,global-fallback,Batch 3 global accent promotion
+SE NHAN,Sẽ nhận,global-fallback,Batch 3 global accent promotion
+SE PHA,Sẽ phá,global-fallback,Batch 3 global accent promotion
+SET,Sét,global-fallback,Batch 3 global accent promotion
+SIEUTOC!,Siêu tốc!,global-fallback,Batch 3 global accent promotion
+SO MA,Sợ ma,global-fallback,Batch 3 global accent promotion
+SU GIA,Sứ giả,global-fallback,Batch 3 global accent promotion
+SUOI,Suối,global-fallback,Batch 3 global accent promotion
+TA THAN,Tà thần,global-fallback,Batch 3 global accent promotion
+TAMXA,Tầm xa,global-fallback,Batch 3 global accent promotion
+TANGTOC!,Tăng tốc!,global-fallback,Batch 3 global accent promotion
+THACH DAU?,Thách đấu?,global-fallback,Batch 3 global accent promotion
+THAN GIO,Thần giờ,global-fallback,Batch 3 global accent promotion
+THAN GIO DOI CHO,Thần giờ đổi chỗ,global-fallback,Batch 3 global accent promotion
+THAN MAY,Thần may,global-fallback,Batch 3 global accent promotion
+THANG,Thắng,global-fallback,Batch 3 global accent promotion
+THANH DIA,Thánh địa,global-fallback,Batch 3 extra expansion
+THANHDUONG,Thánh đường,global-fallback,Batch 3 global accent promotion
+THAP MA,Tháp ma,global-fallback,Batch 3 global accent promotion
+THAU TOM,Thâu tóm,global-fallback,Batch 3 global accent promotion
+THAY XUCXAC,Thay xúc xắc,global-fallback,Batch 3 global accent promotion
+THE DAU,Thẻ đấu,global-fallback,Batch 3 global accent promotion
+THE SK,Thẻ SK,global-fallback,Batch 3 global accent promotion
+THE SK DA DAY,Thẻ SK đầy,global-fallback,Batch 3 global accent promotion
+THE VK,Vũ khí,global-fallback,Batch 3 global accent promotion
+THE VK AN LV5,Thẻ ẩn LV5,global-fallback,Batch 3 global accent promotion
+THE VK DA DAY,Thẻ VK đầy,global-fallback,Batch 3 global accent promotion
+THE VK LV5,Thẻ VK LV5,global-fallback,Batch 3 global accent promotion
+THE VK/SK,Thẻ VK/SK,global-fallback,Batch 3 extra expansion
+THEM 1 LUOT!!,Thêm 1 lượt!,global-fallback,Batch 3 global accent promotion
+THIEU TIEN,Thiếu tiền,global-fallback,Batch 3 global accent promotion
+THIEU TIEN!,Thiếu tiền!,global-fallback,Batch 3 global accent promotion
+THIEU:%d Z,Thiếu:%d Z,global-fallback,Batch 3 global accent promotion
+THOAI,Thoại,global-fallback,Batch 3 global accent promotion
+THUE DAT,Thuế đất,global-fallback,Batch 3 global accent promotion
+THUE TN,Thuế TN,global-fallback,Batch 3 global accent promotion
+THUE TN/DAT,Thuế TN/đất,global-fallback,Batch 3 extra expansion
+THUOC,Thuốc,global-fallback,Batch 3 global accent promotion
+THUOC %s,Thuộc %s,global-fallback,Batch 3 global accent promotion
+THUOC HA TA,Thuộc hạ ta,global-fallback,Batch 3 global accent promotion
+THUONG DAU,Quà đầu,global-fallback,Batch 3 global accent promotion
+THUONG TIEP,Quà tiếp,global-fallback,Batch 3 global accent promotion
+TIEMVK,Tiệm VK,global-fallback,Batch 3 global accent promotion
+TIEN 1 O,Tiến 1 ô,global-fallback,Batch 3 global accent promotion
+TIEN 2 O,Tiến 2 ô,global-fallback,Batch 3 global accent promotion
+TIEN 3 O,Tiến 3 ô,global-fallback,Batch 3 global accent promotion
+TIEN 4 O,Tiến 4 ô,global-fallback,Batch 3 global accent promotion
+TIEN 5 O,Tiến 5 ô,global-fallback,Batch 3 global accent promotion
+TIEN 6 O,Tiến 6 ô,global-fallback,Batch 3 global accent promotion
+TIEN NHAN X2!!,Tiền nhận x2!,global-fallback,Batch 3 global accent promotion
+TIEN QUA NHIEU,Tiền quá nhiều,global-fallback,Batch 3 global accent promotion
+TIEN TICH LUY,Tiền tích lũy,global-fallback,Batch 3 extra expansion
+TIEN1,Tiến1,global-fallback,Batch 3 global accent promotion
+TIEN2,Tiến2,global-fallback,Batch 3 global accent promotion
+TIEN3,Tiến3,global-fallback,Batch 3 global accent promotion
+TIEN4,Tiến4,global-fallback,Batch 3 global accent promotion
+TIEN5,Tiến5,global-fallback,Batch 3 global accent promotion
+TIEN6,Tiến6,global-fallback,Batch 3 global accent promotion
+TIEU LC,Tiểu LC,global-fallback,Batch 3 global accent promotion
+TOC,Tốc,global-fallback,Batch 3 global accent promotion
+TOCDO,Tốc độ,global-fallback,Batch 3 extra expansion
+TOI DA 99999,Tối đa 99999,global-fallback,Batch 3 global accent promotion
+TONG TS,Tổng TS,global-fallback,Batch 3 global accent promotion
+TRA,Trả,global-fallback,Batch 3 extra expansion
+TRA %d ZENNY,Trả %d Zenny,global-fallback,Batch 3 global accent promotion
+TROI!,Trời!,global-fallback,Batch 3 global accent promotion
+TROM 1/2!!,Trộm 1/2!,global-fallback,Batch 3 global accent promotion
+TRUNG O NGUOI,Trùng ô người,global-fallback,Batch 3 global accent promotion
+TS+THE %s,TS+thẻ %s,global-fallback,Batch 3 global accent promotion
+TU THAN,Tử thần,global-fallback,Batch 3 global accent promotion
+TUVIEN,Tu viện,global-fallback,Batch 3 global accent promotion
+TUVIEN NGAN DAU,Tu viện cản đấu,global-fallback,Batch 3 global accent promotion
+TUYET!!,Tuyệt!!,global-fallback,Batch 3 global accent promotion
+VAN THIEU,Vẫn thiếu,global-fallback,Batch 3 global accent promotion
+VIEN TRO,Viện trợ,global-fallback,Batch 3 global accent promotion
+VKCB,VK cơ bản,global-fallback,Batch 3 extra expansion
+VO CHU,Vô chủ,global-fallback,Batch 3 global accent promotion
+VO HIEU O DAT,Vô hiệu ô đất,global-fallback,Batch 3 global accent promotion
+VO HIEU O DB,Vô hiệu ô ĐB,global-fallback,Batch 3 global accent promotion
+VON,Vốn,global-fallback,Batch 3 global accent promotion
+VOTHUOC,Vô thuộc,global-fallback,Batch 3 global accent promotion
+VUON,Vườn,global-fallback,Batch 3 global accent promotion
+WARP,Warp,global-fallback,Batch 3 global accent promotion
+XAY %s,Xây %s,global-fallback,Batch 3 global accent promotion
+XAY DAM LAY,Xây đầm lầy,global-fallback,Batch 3 global accent promotion
+XAY NGHIA,Xây nghĩa địa,global-fallback,Batch 3 global accent promotion
+XAY NU THAN,Xây Nữ thần,global-fallback,Batch 3 global accent promotion
+XAY SUOI,Xây suối,global-fallback,Batch 3 global accent promotion
+XAY TA THAN,Xây Tà thần,global-fallback,Batch 3 global accent promotion
+XAY THAP,Xây tháp,global-fallback,Batch 3 global accent promotion
+XAY THDUONG,Xây thánh đường,global-fallback,Batch 3 global accent promotion
+XAY TU THAN,Xây Tử thần,global-fallback,Batch 3 global accent promotion
+XAY VUON,Xây vườn,global-fallback,Batch 3 global accent promotion
+XAY XIEC,Xây xiếc,global-fallback,Batch 3 global accent promotion
+XIEC,Xiếc,global-fallback,Batch 3 global accent promotion
+XUCXAC X3,Xúc xắc x3,global-fallback,Batch 3 global accent promotion
+XUCXAC X4,Xúc xắc x4,global-fallback,Batch 3 global accent promotion
+XUI,Xui,global-fallback,Batch 3 global accent promotion
+XUI QUA,Xui quá,global-fallback,Batch 3 global accent promotion
