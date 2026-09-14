@@ -129,9 +129,19 @@ def build_plan():
     if c140_fields != c141_fields:
         raise RuntimeError("0.6.14.0/.1 compact headers differ")
 
-    gameplay_filtered = [r for r in gameplay_all if key(r) not in targets]
-    c13_filtered = [r for r in c13_all if key(r) not in targets]
-    c14_filtered = [r for r in c141_all if key(r) not in targets]
+    # Preserve an older override when it already writes EXACTLY the same text
+    # as the new exact target. Mask only conflicting wording.
+    def keep_override(r):
+        # Protect every field in the FINAL exact contract, including historical
+        # locks that are not part of the current new-target manifest.
+        k = key(r)
+        if k not in final_map:
+            return True
+        return (r.get("vi_accented") or "").strip() == final_map[k]
+
+    gameplay_filtered = [r for r in gameplay_all if keep_override(r)]
+    c13_filtered = [r for r in c13_all if keep_override(r)]
+    c14_filtered = [r for r in c141_all if keep_override(r)]
 
     dynamic_hits = []
     for k, want in targets.items():
@@ -241,13 +251,23 @@ def verify_staged(plan):
     _, c140 = read_csv(C140)
     _, front = read_csv(FRONT)
     targets = plan["targets"]
+    final_targets = plan["final_map"]
 
-    if any(key(r) in targets for r in gp):
-        raise RuntimeError("Staged 0.6.11 gameplay file still contains Batch29 exact key")
-    if any(key(r) in targets for r in c13):
-        raise RuntimeError("Staged 0.6.13 compact file still contains Batch29 exact key")
-    if any(key(r) in targets for r in c140):
-        raise RuntimeError("Staged 0.6.14 compact file still contains Batch29 exact key")
+    def assert_only_identical(rows, label):
+        bad = []
+        for r in rows:
+            k = key(r)
+            if k not in final_targets:
+                continue
+            got = (r.get("vi_accented") or "").strip()
+            if got != final_targets[k]:
+                bad.append((k, got, final_targets[k]))
+        if bad:
+            raise RuntimeError(f"{label} still contains conflicting exact keys: {bad[:8]}")
+
+    assert_only_identical(gp, "Staged 0.6.11 gameplay file")
+    assert_only_identical(c13, "Staged 0.6.13 compact file")
+    assert_only_identical(c140, "Staged 0.6.14 compact file")
     gm, _ = global_map(plan["original"], gp, ex)
     if gm != plan["global_before"]:
         raise RuntimeError("Staged global fallback map differs from production baseline")
