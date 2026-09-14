@@ -1,0 +1,20 @@
+GAIA MASTER 0.6.29.0 BATCH 20 STATIC VALIDATION
+========================================================================
+Batch20 rows          : 75
+Pressure source rows  : 283
+Protected exact keys  : 62
+Validated rows        : 75
+Errors                : 0
+
+Guards:
+- every key must come from 0.6.28.0 V2 FIT_PRESSURE
+- Batch20 only targets <=6-byte pressure rows
+- exact keys may not collide with Batch19/historical locks
+- runtime tokens must match identity and order
+- candidate length must fit Japanese field bytes
+- non-CP932 glyphs must belong to frozen Vietnamese codepage
+- no ROM/font/renderer/pointer work is performed
+
+Exact-full-field rows : 31
+Total spare bytes     : 138
+RESULT                : STATIC PASS
