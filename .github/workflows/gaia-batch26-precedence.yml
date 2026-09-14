@@ -7,6 +7,10 @@ on:
     paths:
       - "games/GaiaMaster-Kamigami-no-Board-Game/tools/audit_batch26_production_precedence_06350.py"
       - "games/GaiaMaster-Kamigami-no-Board-Game/tools/batch26_stage_06350.py"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/tools/build_gaia_06350_batch26_final.py"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/tools/build_gaia_06100_hybrid_accent_b1_READABLE.py"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/translation/BATCH20_EXACT_OFFSET_0.6.29.0.csv"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/translation/BATCH24_EXACT_OFFSET_0.6.33.0.csv"
       - "games/GaiaMaster-Kamigami-no-Board-Game/translation/BATCH25_NEW_EXACT_OFFSET_0.6.34.0.csv"
       - "games/GaiaMaster-Kamigami-no-Board-Game/translation/GAMEPLAY_ACCENT_OVERRIDES_0.6.11.0.csv"
       - "games/GaiaMaster-Kamigami-no-Board-Game/translation/BATCH3_FALLBACK_ACCENT_MAP_0.6.12.0.csv"
@@ -30,6 +34,8 @@ jobs:
         run: python games/GaiaMaster-Kamigami-no-Board-Game/tools/audit_batch26_production_precedence_06350.py
       - name: Selftest real source staging and restoration
         run: python games/GaiaMaster-Kamigami-no-Board-Game/tools/batch26_stage_06350.py
+      - name: Selftest final production builder contract
+        run: python games/GaiaMaster-Kamigami-no-Board-Game/tools/build_gaia_06350_batch26_final.py --selftest
       - name: Persist audit
         if: always()
         run: |
