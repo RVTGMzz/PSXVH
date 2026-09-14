@@ -1,0 +1,25 @@
+Continue Gaia Master from branch gaia-character-select-font-atlas-reverse-01 at checkpoint 0.6.34.0 / Batch 25.
+
+Read first:
+1. HANDOFF_CURRENT.md
+2. SESSION_HANDOFF_0.6.34.0.md
+3. BATCH25_0.6.34.0.md
+4. checkpoints/0.6.34.0/BATCH25_MERGE_VALIDATION.txt
+
+Current verified static state:
+- 147/147 old 0.6.28.0 residual Alpha rows now have exact-fit Vietnamese wording through Batch 24.
+- Batch 20 + Batch 24 = 222 exact candidate keys.
+- 49 runtime-fit protected historical keys.
+- 13 historical 0.6.14.1 rows classified no-op/unfit.
+- 13 candidates already identical to protected locks.
+- 0 protected wording conflicts.
+- 209 new exact rows exported in translation/BATCH25_NEW_EXACT_OFFSET_0.6.34.0.csv.
+- Batch 25 STATIC PASS only, NOT Runtime PASS.
+
+Next priority:
+Integrate BATCH25_NEW_EXACT_OFFSET_0.6.34.0.csv into the proven production exact-offset build path as the final wording layer. Preserve the 397/397 legacy gate and proven historical exact locks. Older global/style/fallback promotions must not overwrite Batch 25 wording.
+
+Then clean-ROM build and runtime QA from screenshots/logs. Never call Runtime PASS without actual evidence.
+
+Hard locks remain frozen:
+native 12x12 / 72-byte / 4bpp / LOW nibble first; static mapping-only; frozen 60-glyph Vietnamese codepage; no renderer hook, pointer redirect, 12x16, 6x12, composite overlay, or font retuning without new runtime evidence.
