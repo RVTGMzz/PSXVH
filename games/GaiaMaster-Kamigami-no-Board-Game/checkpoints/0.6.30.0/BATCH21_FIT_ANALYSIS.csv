@@ -1,0 +1,148 @@
+master_part,file,offset_hex,japanese,field_bytes,semantic_vi,candidate_bytes,over_bytes,fit,vi_game_current
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x1208,特殊　速度６　使い捨て,22,"Đặc biệt, tốc độ 6, dùng 1 lần",60,38,NO,DB SPD6 1L
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x434,酒場へようこそ,14,Chào mừng đến quán rượu,46,32,NO,QUAN!
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x31f64,酒場へようこそ,14,Chào mừng đến quán rượu,46,32,NO,QUAN!
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x3f688,酒場へようこそ,14,Chào mừng đến quán rượu,46,32,NO,QUAN!
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x4d278,酒場へようこそ,14,Chào mừng đến quán rượu,46,32,NO,QUAN!
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x5af4c,酒場へようこそ,14,Chào mừng đến quán rượu,46,32,NO,QUAN!
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x304e4,プレイヤー設定,14,Cài đặt người chơi,36,22,NO,CAIDAT
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x518,もう勝負は終わりだよ,20,Ván đấu kết thúc rồi,40,20,NO,DAU XONG
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x32048,もう勝負は終わりだよ,20,Ván đấu kết thúc rồi,40,20,NO,DAU XONG
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x3f76c,もう勝負は終わりだよ,20,Ván đấu kết thúc rồi,40,20,NO,DAU XONG
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x4d35c,もう勝負は終わりだよ,20,Ván đấu kết thúc rồi,40,20,NO,DAU XONG
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x5b030,もう勝負は終わりだよ,20,Ván đấu kết thúc rồi,40,20,NO,DAU XONG
+TRANSLATION_MASTER_0.6_part04.csv,PRGPACK.BDP,0xbfbec,この設定でいいかしら？,22,Thiết lập này ổn chứ?,42,20,NO,XAC NHAN?
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x460,わたしと一勝負してかないかい,28,Đấu với ta một ván nhé?,46,18,NO,DAU TOI 1 VAN?
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x558,つぎの賞品はこいつだよ,22,Thưởng tiếp theo đây,40,18,NO,THUONG TIEP
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x304b4,セリフ表示,10,Hiển thị thoại,28,18,NO,THOAI
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x31f90,わたしと一勝負してかないかい,28,Đấu với ta một ván nhé?,46,18,NO,DAU TOI 1 VAN?
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x32088,つぎの賞品はこいつだよ,22,Thưởng tiếp theo đây,40,18,NO,THUONG TIEP
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x3f6b4,わたしと一勝負してかないかい,28,Đấu với ta một ván nhé?,46,18,NO,DAU TOI 1 VAN?
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x3f7ac,つぎの賞品はこいつだよ,22,Thưởng tiếp theo đây,40,18,NO,THUONG TIEP
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x4d2a4,わたしと一勝負してかないかい,28,Đấu với ta một ván nhé?,46,18,NO,DAU TOI 1 VAN?
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x4d39c,つぎの賞品はこいつだよ,22,Thưởng tiếp theo đây,40,18,NO,THUONG TIEP
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x5af78,わたしと一勝負してかないかい,28,Đấu với ta một ván nhé?,46,18,NO,DAU TOI 1 VAN?
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x5b070,つぎの賞品はこいつだよ,22,Thưởng tiếp theo đây,40,18,NO,THUONG TIEP
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x444,ちょうどタイクツしてたんだ,26,Ta đang chán đúng lúc,42,16,NO,DANG CHAN QUA
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x66c,「%s」を手に入れたけど,22,"Đã nhận %s, nhưng...",38,16,NO,NHAN %s ROI
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x30514,２　（ふつう）,14,2 (Bình thường),30,16,NO,2 VUA
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x31f74,ちょうどタイクツしてたんだ,26,Ta đang chán đúng lúc,42,16,NO,DANG CHAN QUA
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x3219c,「%s」を手に入れたけど,22,"Đã nhận %s, nhưng...",38,16,NO,NHAN %s ROI
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x3f698,ちょうどタイクツしてたんだ,26,Ta đang chán đúng lúc,42,16,NO,DANG CHAN QUA
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x3f8c0,「%s」を手に入れたけど,22,"Đã nhận %s, nhưng...",38,16,NO,NHAN %s ROI
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x4d288,ちょうどタイクツしてたんだ,26,Ta đang chán đúng lúc,42,16,NO,DANG CHAN QUA
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x4d4b0,「%s」を手に入れたけど,22,"Đã nhận %s, nhưng...",38,16,NO,NHAN %s ROI
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x5af5c,ちょうどタイクツしてたんだ,26,Ta đang chán đúng lúc,42,16,NO,DANG CHAN QUA
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x5b184,「%s」を手に入れたけど,22,"Đã nhận %s, nhưng...",38,16,NO,NHAN %s ROI
+TRANSLATION_MASTER_0.6_part04.csv,PRGPACK.BDP,0xddd7c,データがないわよ,16,Không có dữ liệu,32,16,NO,KO DATA
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0xe20,「%s」を手に入れたけど,22,"Đã nhận %s, nhưng...",38,16,NO,NHAN %s ROI
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x4a4,より大きいかちいさいか当てるんだよ,34,Đoán lớn hơn hay nhỏ hơn,48,14,NO,LON HAY NHO HON?
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x4c8,最初の賞品はこいつさ,20,Đây là thưởng đầu,34,14,NO,THUONG DAU
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x5ac,いらないカードを捨ててね,24,Bỏ thẻ không cần đi,38,14,NO,BO THE THUA
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x304a8,セリフ速度,10,Tốc độ thoại,24,14,NO,TOC
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x31fd4,より大きいかちいさいか当てるんだよ,34,Đoán lớn hơn hay nhỏ hơn,48,14,NO,LON HAY NHO HON?
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x31ff8,最初の賞品はこいつさ,20,Đây là thưởng đầu,34,14,NO,THUONG DAU
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x320dc,いらないカードを捨ててね,24,Bỏ thẻ không cần đi,38,14,NO,BO THE THUA
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x3f6f8,より大きいかちいさいか当てるんだよ,34,Đoán lớn hơn hay nhỏ hơn,48,14,NO,LON HAY NHO HON?
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x3f71c,最初の賞品はこいつさ,20,Đây là thưởng đầu,34,14,NO,THUONG DAU
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x3f800,いらないカードを捨ててね,24,Bỏ thẻ không cần đi,38,14,NO,BO THE THUA
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x4d2e8,より大きいかちいさいか当てるんだよ,34,Đoán lớn hơn hay nhỏ hơn,48,14,NO,LON HAY NHO HON?
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x4d30c,最初の賞品はこいつさ,20,Đây là thưởng đầu,34,14,NO,THUONG DAU
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x4d3f0,いらないカードを捨ててね,24,Bỏ thẻ không cần đi,38,14,NO,BO THE THUA
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x5afbc,より大きいかちいさいか当てるんだよ,34,Đoán lớn hơn hay nhỏ hơn,48,14,NO,LON HAY NHO HON?
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x5afe0,最初の賞品はこいつさ,20,Đây là thưởng đầu,34,14,NO,THUONG DAU
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x5b0c4,いらないカードを捨ててね,24,Bỏ thẻ không cần đi,38,14,NO,BO THE THUA
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0xe54,これでいい？,12,Thế này được?,26,14,NO,DONGY?
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x1220,いちかばちか,12,Liều một phen,26,14,NO,LIU!
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x540,もう一勝負してくかい？,22,Đấu thêm một ván?,34,12,NO,DAU THEM?
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x608,手に入らなかったよ,18,Không nhận được,30,12,NO,KO NHAN
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x61c,%d枚、手に入れたよ,18,Nhận được %d thẻ,30,12,NO,NHAN %d
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x304c0,ボイス,6,Giọng nói,18,12,NO,AM
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x304f4,しんどう設定,12,Cài đặt rung,24,12,NO,RUNG
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x32070,もう一勝負してくかい？,22,Đấu thêm một ván?,34,12,NO,DAU THEM?
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x32138,手に入らなかったよ,18,Không nhận được,30,12,NO,KO NHAN
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x3214c,%d枚、手に入れたよ,18,Nhận được %d thẻ,30,12,NO,NHAN %d
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x3f794,もう一勝負してくかい？,22,Đấu thêm một ván?,34,12,NO,DAU THEM?
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x3f85c,手に入らなかったよ,18,Không nhận được,30,12,NO,KO NHAN
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x3f870,%d枚、手に入れたよ,18,Nhận được %d thẻ,30,12,NO,NHAN %d
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x4d384,もう一勝負してくかい？,22,Đấu thêm một ván?,34,12,NO,DAU THEM?
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x4d44c,手に入らなかったよ,18,Không nhận được,30,12,NO,KO NHAN
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x4d460,%d枚、手に入れたよ,18,Nhận được %d thẻ,30,12,NO,NHAN %d
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x5b058,もう一勝負してくかい？,22,Đấu thêm một ván?,34,12,NO,DAU THEM?
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x5b120,手に入らなかったよ,18,Không nhận được,30,12,NO,KO NHAN
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x5b134,%d枚、手に入れたよ,18,Nhận được %d thẻ,30,12,NO,NHAN %d
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0xabc,%sは一回休みよ！,16,%s nghỉ 1 lượt!,28,12,NO,%s NGHI1
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0xb08,戦いをしかけるよね？,20,Khiêu chiến nhé?,32,12,NO,THACH DAU?
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x11ec,運がよければ敵を倒せるかも,26,May ra hạ được địch,38,12,NO,MAY HA DICH
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x1260,ポリタンがみがわりに！？,24,Politan thế mạng!?,36,12,NO,POLITAN DO
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x4fc,…つまんないね,14,...Chán thật,24,10,NO,...CHAN
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x590,でももう持ち切れないみたい,26,Có vẻ hết chỗ mang,36,10,NO,HET CHO CHUA
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x3066c,%sはコントローラ%sだよ！,24,%s dùng tay cầm %s!,34,10,NO,%s TAY %s
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x3202c,…つまんないね,14,...Chán thật,24,10,NO,...CHAN
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x320c0,でももう持ち切れないみたい,26,Có vẻ hết chỗ mang,36,10,NO,HET CHO CHUA
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x3f750,…つまんないね,14,...Chán thật,24,10,NO,...CHAN
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x3f7e4,でももう持ち切れないみたい,26,Có vẻ hết chỗ mang,36,10,NO,HET CHO CHUA
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x4d340,…つまんないね,14,...Chán thật,24,10,NO,...CHAN
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x4d3d4,でももう持ち切れないみたい,26,Có vẻ hết chỗ mang,36,10,NO,HET CHO CHUA
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x5b014,…つまんないね,14,...Chán thật,24,10,NO,...CHAN
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x5b0a8,でももう持ち切れないみたい,26,Có vẻ hết chỗ mang,36,10,NO,HET CHO CHUA
+TRANSLATION_MASTER_0.6_part04.csv,PRGPACK.BDP,0xbfd2c,キャラクターをえらんでね,24,Chọn nhân vật nhé,34,10,NO,CHON NHANVAT
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x9ac,土地をかけて戦うことができるよ,30,Có thể đấu giành đất,40,10,NO,CHIEN LAY DAT
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x11a0,ロングソード,12,Trường Kiếm,22,10,NO,KIEM
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x4e0,なんだい、もう終わりかい,24,"Sao, nghỉ rồi à?",32,8,NO,NGHI ROI?
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x32010,なんだい、もう終わりかい,24,"Sao, nghỉ rồi à?",32,8,NO,NGHI ROI?
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x3f734,なんだい、もう終わりかい,24,"Sao, nghỉ rồi à?",32,8,NO,NGHI ROI?
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x4d324,なんだい、もう終わりかい,24,"Sao, nghỉ rồi à?",32,8,NO,NGHI ROI?
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x5aff8,なんだい、もう終わりかい,24,"Sao, nghỉ rồi à?",32,8,NO,NGHI ROI?
+TRANSLATION_MASTER_0.6_part04.csv,PRGPACK.BDP,0xddd68,ゲームをはじめるよ,18,Bắt đầu game!,26,8,NO,BAT DAU!
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x938,%dゼニーあげるね,16,Tặng %d Zenny,24,8,NO,+%d ZENNY
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x480,今からふるダイスの目がこのダイス,32,Xúc xắc sắp gieo là,38,6,NO,DOAN XUC XAC NAY
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x30504,１　（速い）,12,1 (Nhanh),18,6,NO,1 NHAN
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x31fb0,今からふるダイスの目がこのダイス,32,Xúc xắc sắp gieo là,38,6,NO,DOAN XUC XAC NAY
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x3f6d4,今からふるダイスの目がこのダイス,32,Xúc xắc sắp gieo là,38,6,NO,DOAN XUC XAC NAY
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x4d2c4,今からふるダイスの目がこのダイス,32,Xúc xắc sắp gieo là,38,6,NO,DOAN XUC XAC NAY
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x5af98,今からふるダイスの目がこのダイス,32,Xúc xắc sắp gieo là,38,6,NO,DOAN XUC XAC NAY
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0xa50,土地代の２０％とられるよ,24,Mất 20% giá đất,30,6,NO,MAT20% DAT
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0xe64,はい　　いいえ,14,Có / Không,20,6,NO,CO/KO
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0xe9c,使用するカードをえらんでね,26,Chọn thẻ để dùng,32,6,NO,CHON THE DUNG
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x1130,サンダー,8,Sấm Sét,14,6,NO,SAM
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x1230,あいてのカード一枚を破壊する,28,Phá 1 thẻ đối thủ,34,6,NO,PHA THE DICH
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0xad0,%sの番よ！,10,Lượt %s!,14,4,NO,LUOT%s
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x684,捨てたよ,8,Đã bỏ,10,2,NO,BO!
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x304c8,アニメーション,14,Hoạt ảnh,16,2,NO,HOATANH
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x321b4,捨てたよ,8,Đã bỏ,10,2,NO,BO!
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x3f8d8,捨てたよ,8,Đã bỏ,10,2,NO,BO!
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x4d4c8,捨てたよ,8,Đã bỏ,10,2,NO,BO!
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x5b19c,捨てたよ,8,Đã bỏ,10,2,NO,BO!
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x970,%sに止まったよ,14,Dừng ở %s,16,2,NO,DUNG %s
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0xe38,捨てたよ,8,Đã bỏ,10,2,NO,BO!
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x1158,ハリケーン,10,Bão Tố,12,2,NO,BAO
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x570,%d枚の武器カードが手に入ったよ,30,Nhận %d thẻ VK,26,0,YES,NHAN %d THE VK
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x640,「%s」を捨てて、,16,"Bỏ %s,",10,0,YES,"BO %s,"
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x654,「%s」を手に入れたよ,20,Nhận %s,12,0,YES,NHAN %s
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x30658,○ボタンをおしてね,18,Nhấn O,12,0,YES,NHAN O
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x320a0,%d枚の武器カードが手に入ったよ,30,Nhận %d thẻ VK,26,0,YES,NHAN %d THE VK
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x32170,「%s」を捨てて、,16,"Bỏ %s,",10,0,YES,"BO %s,"
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x32184,「%s」を手に入れたよ,20,Nhận %s,12,0,YES,NHAN %s
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x3f7c4,%d枚の武器カードが手に入ったよ,30,Nhận %d thẻ VK,26,0,YES,NHAN %d THE VK
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x3f894,「%s」を捨てて、,16,"Bỏ %s,",10,0,YES,"BO %s,"
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x3f8a8,「%s」を手に入れたよ,20,Nhận %s,12,0,YES,NHAN %s
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x4d3b4,%d枚の武器カードが手に入ったよ,30,Nhận %d thẻ VK,26,0,YES,NHAN %d THE VK
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x4d484,「%s」を捨てて、,16,"Bỏ %s,",10,0,YES,"BO %s,"
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x4d498,「%s」を手に入れたよ,20,Nhận %s,12,0,YES,NHAN %s
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x5b088,%d枚の武器カードが手に入ったよ,30,Nhận %d thẻ VK,26,0,YES,NHAN %d THE VK
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x5b158,「%s」を捨てて、,16,"Bỏ %s,",10,0,YES,"BO %s,"
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x5b16c,「%s」を手に入れたよ,20,Nhận %s,12,0,YES,NHAN %s
+TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x67fa4,「%s」を手に入れたよ,20,Nhận %s,12,0,YES,NHAN %s
+TRANSLATION_MASTER_0.6_part04.csv,PRGPACK.BDP,0xbfe4c,○ボタンをおしてね！,20,Nhấn O!,14,0,YES,NHAN NUT O
+TRANSLATION_MASTER_0.6_part04.csv,PRGPACK.BDP,0xde110,ＳＬＯＴをえらんでね,20,Chọn SLOT,18,0,YES,CHON SLOT
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x958,体力が５０回復したよ！,22,Hồi 50 HP!,20,0,YES,HOI 50HP!
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x980,%sの土地に,10,Đất %s,10,0,YES,DAT %s
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x98c,止まっちゃったよ,16,Đã dừng!,16,0,YES,DA DUNG!
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x9dc,武器カードが手に入るわ,22,Nhận thẻ VK,22,0,YES,NHAN THE VK
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0xa14,所持金の２０％とられるよ,24,Mất 20% tiền,24,0,YES,MAT20% TIEN
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0xe08,「%s」を手に入れたよ,20,Nhận %s,12,0,YES,NHAN %s
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0xeb8,「%s」を使うね,14,Dùng %s,12,0,YES,DUNG %s
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x117c,クロスボウ,10,Nỏ,4,0,YES,NO
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x11e0,ハンマー,8,Búa,6,0,YES,BUA
+TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x3394,「%s」を手に入れたよ,20,Nhận %s,12,0,YES,NHAN %s

@@ -1,0 +1,12 @@
+GAIA MASTER 0.6.30.0 BATCH 21 FIT ANALYSIS
+========================================================================
+Residual rows analyzed : 147
+Semantic keys          : 62
+Rows fitting now       : 29
+Rows needing compact   : 118
+Unique JP fitting      : 14
+Unique JP pressure     : 48
+Maximum over-bytes     : 38
+
+NOTE: semantic wording is meaning-first; pressure rows are Batch 22 compact targets.
+No ROM/font/pointer data is modified.
