@@ -1,0 +1,19 @@
+GAIA MASTER 0.6.33.0 BATCH 24 RESIDUAL EXACT MANIFEST
+========================================================================
+Source residual rows    : 147
+Compiled exact rows     : 147
+Resolved unique JP      : 62
+Semantic-fit rows       : 29
+Batch22 compact rows    : 21
+Batch23 compact rows    : 97
+Errors                  : 0
+
+Guards:
+- every persisted 0.6.28.0 residual exact file+offset must resolve exactly once
+- Batch22/23 compact wording overrides Batch21 semantic wording only for pressure keys
+- every final exact string must fit its original Japanese field
+- runtime token identity/order preserved
+- CP932/frozen 60-glyph codepage only
+- data compiler only; no ROM/font/pointer modification
+
+RESULT                : STATIC PASS
