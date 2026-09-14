@@ -2,7 +2,7 @@
 
 Copy nguyên câu dưới đây vào phiên mới:
 
-> Tiếp tục Gaia Master từ `games/GaiaMaster-Kamigami-no-Board-Game/HANDOFF_CURRENT.md` trên branch `gaia-character-select-font-atlas-reverse-01` của repo `ronvotri/Viet-Hoa-PS1`. Đọc thêm `LATEST.md`, `BATCH44_0.6.54.0.md`, `BATCH45_0.6.55.0_FRONTFACE_POLISH.md` và `REVERSE_WORKBENCH_0.1.md`. Mốc actual build đã chứng minh là `0.6.54.0 R5`: CLEAN SHA1 đúng, Batch42 560/560, Batch43 102/102, combined 662/662, legacy 397/397, return code 0. Runtime screenshot cho thấy chưa thể gọi whole-game Runtime PASS: main menu, Character Select, Story mở đầu, chapter card `冒険のはじまり`, prompt mua đất và nhiều text khác vẫn còn Nhật. `0.6.55.0 Batch45` đã được chuẩn bị để sửa 19 dòng intro, bỏ dấu `=` gây glyph rác và nâng thanh ngang `Đ/đ` lên 1 px; static selftest PASS nhưng cần runtime-test đúng CUE 0.6.55.0. Một Reverse Workbench 0.1 read-only đã được thêm gồm `gaia_graphic_asset_census_0.1.py`, `gaia_runtime_target_locator_0.1.py` và `00_RUN_REVERSE_WORKBENCH_0.1.cmd`: dùng CLEAN BIN để census standard PS-X TIM theo BDP owner, ưu tiên Character Select owner 29 và exact-locate `冒険のはじまり`/text lấy từ screenshot. Workbench không patch BIN và không được dùng để tự nâng version production. Sau runtime Batch45, ưu tiên reverse graphic asset của main menu / Character Select và scanner-driven exact offsets cho Story/chapter/purchase prompt. Giữ kiến trúc native 12x12 / 72-byte / 4bpp / mapping-only / frozen 60 glyph; không renderer hook, pointer redirect, 12x16, 6x12 hay composite overlay.
+> Tiếp tục Gaia Master từ `games/GaiaMaster-Kamigami-no-Board-Game/HANDOFF_CURRENT.md` trên branch `gaia-character-select-font-atlas-reverse-01` của repo `ronvotri/Viet-Hoa-PS1`. Đọc thêm `LATEST.md`, `BATCH44_0.6.54.0.md`, `BATCH45_0.6.55.0_FRONTFACE_POLISH.md`, `BATCH45R2_0.6.55.1_FONT_MICRO_POLISH.md` và `REVERSE_WORKBENCH_0.1.md`. Mốc actual CLEAN-ROM build cuối cùng đã chứng minh vẫn là `0.6.54.0 R5`: Batch42 560/560, Batch43 102/102, combined 662/662, legacy 397/397, return code 0. User đã runtime-test 0.6.55.0 và gửi screenshot `Thế giới đổi chủ`: lỗi rác do `=` không còn thấy trong dòng này, nhưng font chưa PASS. Lowercase `đ` vẫn sai vì generic stroke rule neo theo mép trái trong khi native `d` có ascender bên phải; user yêu cầu thanh ngang lên thêm 1 px và phải xuyên đúng thân dọc. User cũng phát hiện circumflex `^` ở `â/ê/ô` quá sát thân và stacked marks dễ đè nhau. `0.6.55.1 Batch45R2` đã được thêm để tách `Đ`/`đ`: uppercase `Đ` dùng left-stem + pre-Batch45 vertical placement vì chưa có runtime evidence nó lỗi; lowercase `đ` auto-detect right stem và dùng center-2 (một px cao hơn 0.6.55.0). Circumflex/breve reserve 3 top rows, structural mark lên 1 px, stacked tones sang side lane riêng. R2 patch SLPS font only, yêu cầu PRGPACK byte-for-byte unchanged, all 60 glyphs 72-byte/12x12, unaffected glyphs byte-identical, structural/tone rendered pixels non-overlap, Batch42/intro gates recheck trước+sau. Không được gọi Runtime PASS nếu chưa có screenshot 0.6.55.1. Reverse Workbench 0.1 read-only vẫn dùng cho Main Menu / Character Select / Story/chapter/purchase prompt sau khi font gate ổn. Giữ architecture native 12x12 / mapping-only / frozen 60 glyph, không renderer hook, pointer redirect, 12x16, 6x12 hay composite overlay.
 
 ## Current branch
 
@@ -17,18 +17,35 @@ games/GaiaMaster-Kamigami-no-Board-Game/HANDOFF_CURRENT.md
 games/GaiaMaster-Kamigami-no-Board-Game/LATEST.md
 games/GaiaMaster-Kamigami-no-Board-Game/BATCH44_0.6.54.0.md
 games/GaiaMaster-Kamigami-no-Board-Game/BATCH45_0.6.55.0_FRONTFACE_POLISH.md
+games/GaiaMaster-Kamigami-no-Board-Game/BATCH45R2_0.6.55.1_FONT_MICRO_POLISH.md
 games/GaiaMaster-Kamigami-no-Board-Game/REVERSE_WORKBENCH_0.1.md
+```
+
+## Current R2 builder
+
+```text
+tools/build_gaia_06551_batch45r2_font_micro_polish.py
+tools/00_BUILD_0.6.55.1_BATCH45R2_FONT_POLISH.cmd
 ```
 
 ## First action in next chat
 
 ```text
-1. Nếu user gửi BUILD_LOG: sửa đúng lỗi build trước.
-2. Nếu user gửi FINAL_REPORT + screenshot: phân tích runtime 0.6.55.0 ngay; không bắt kể lại lịch sử.
-3. Chỉ khi screenshot chứng minh ổn mới khóa intro/font Batch45.
-4. Phân tích output Reverse Workbench 0.1 nếu user gửi.
-5. Reverse main-menu / Character Select graphic assets, ưu tiên owner 29.
-6. Continue exact-offset discovery for Story / chapter / purchase prompt.
+1. Nếu user gửi BUILD_LOG: sửa đúng lỗi gate đầu tiên trước, không nhảy sang việc khác.
+2. Nếu user gửi FINAL_REPORT 0.6.55.1 + screenshot: audit đ / Đ / â-ê-ô / stacked accents ngay.
+3. Chỉ khi screenshot chứng minh ổn mới khóa font Batch45R2.
+4. Sau font gate, phân tích Reverse Workbench và reverse main-menu / Character Select asset.
+5. Continue exact-offset discovery for Story / chapter `冒険のはじまり` / purchase prompt.
+```
+
+## Runtime font expectations 0.6.55.1
+
+```text
+đ  : thanh ngang phải xuyên thân dọc bên phải của d, cao hơn 0.6.55.0 một pixel
+Đ  : giữ left-stem form; không tự retune thêm nếu chưa có screenshot chứng minh lỗi
+âêô: ^ phải tách khỏi thân rõ hơn
+ấếố...: tone không được nhập/đè với ^
+ắ: acute không được đè với breve
 ```
 
 ## Reverse Workbench 0.1 outputs
@@ -49,7 +66,7 @@ owner-local = +0x580
 source = キャラクターをえらんでね
 ```
 
-The committed repo does not contain the full `0.6.38.0` scanner CSV, and `冒険のはじまり` is not in the committed Batch43 manifest/code search. Do not invent an offset. Run/analyze the locator against the CLEAN BIN.
+Do not invent the offset of `冒険のはじまり`; the committed repo still lacks the full 0.6.38 scanner CSV.
 
 ## Hard contracts
 
@@ -59,6 +76,7 @@ Batch42 exact = 560/560
 Batch43 visible = 102/102
 Combined exact = 662/662
 Legacy = 397/397
+Architecture = native 12x12 / 72-byte / 4bpp / mapping-only / frozen 60 glyphs
 ```
 
 ## Do not regress
@@ -71,5 +89,5 @@ Legacy = 397/397
 - preserve `%s`, `%d`, `%4d`, `%+3d`, `/V` and token order;
 - do not equate 596/596 Translation Master coverage with whole-game coverage;
 - Reverse Workbench is read-only discovery, not production promotion proof;
-- do not create Batch46 from scanner/static evidence alone while Batch45 runtime is unresolved;
+- do not create Batch46 while Batch45R2 runtime font gate is unresolved;
 - do not call Runtime PASS before gameplay screenshots prove it.
