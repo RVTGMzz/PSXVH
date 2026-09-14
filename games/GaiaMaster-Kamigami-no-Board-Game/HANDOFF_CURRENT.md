@@ -141,10 +141,43 @@ The only font retune currently allowed is the runtime-evidenced `Đ/đ` crossbar
 7. Batch43 span-protects all 560 Batch42 exact fields.
 8. Actual R5 build must remain reproducible at 560/560 + 102/102 = 662/662.
 
+## Reverse Workbench 0.1 added — source-only, read-only
+
+Added on this branch without changing the production version or runtime verdict:
+
+```text
+tools/gaia_graphic_asset_census_0.1.py
+tools/gaia_runtime_target_locator_0.1.py
+tools/00_RUN_REVERSE_WORKBENCH_0.1.cmd
+REVERSE_WORKBENCH_0.1.md
+```
+
+Purpose:
+
+- fill the asset-discovery gap left by the CP932-only whole-game scanner;
+- census structurally valid standard PS-X TIM assets by PRGPACK BDP owner;
+- prioritize Character Select owner 29 and assets near its proven text anchors;
+- exact-locate runtime Japanese such as `冒険のはじまり` in CLEAN `PRGPACK.BDP` / `SLPS_020.75`;
+- report owner/local offset/NUL-field context without patching anything.
+
+Known Character Select text anchor remains:
+
+```text
+PRGPACK.BDP + 0xBFD2C
+owner = nested BDP entry 29
+owner-local = +0x580
+source = キャラクターをえらんでね
+```
+
+The full `0.6.38.0` scanner output CSV is **not committed in the repo**, and `冒険のはじまり` is not present in the committed Batch43 102-row manifest or code search. Its exact clean-ROM location therefore still requires running the new locator against the CLEAN BIN.
+
+Do not create production Batch46 from workbench/static evidence alone while Batch45 runtime is unresolved.
+
 ## Next-session priority
 
 1. Runtime-test the exact **0.6.55.0 CUE**, especially intro and `Đ/đ`.
-2. Reverse the graphic assets for **main menu + Character Select**.
-3. Use whole-game scanner / exact-offset discovery for Story dialogue, chapter card and land-purchase prompt.
-4. Build larger visible-impact batches from HIGH-confidence strings.
-5. Never call whole-game Runtime PASS until screenshots show the relevant paths and no freeze/corruption.
+2. If gameplay screenshots pass, lock Batch45 intro/font.
+3. Run/analyze Reverse Workbench 0.1 and reverse **main menu + Character Select** graphic assets.
+4. Use exact screenshot-derived Japanese for Story dialogue, chapter card and land-purchase prompt.
+5. Build the next curated exact-offset production batch only after CLEAN-source/owner/field/fit/token/overlap gates pass.
+6. Never call whole-game Runtime PASS until screenshots show the relevant paths and no freeze/corruption.
