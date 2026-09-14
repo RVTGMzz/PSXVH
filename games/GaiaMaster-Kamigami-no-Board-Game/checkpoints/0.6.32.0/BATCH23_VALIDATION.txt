@@ -5,8 +5,8 @@ Batch22 resolved keys : 12
 Remaining target keys : 36
 Batch23 compact keys  : 36
 Pressure rows covered : 97
-Exact-full-field rows : 31
-Total spare bytes     : 268
+Exact-full-field rows : 32
+Total spare bytes     : 266
 Errors                : 0
 
 Guards:
