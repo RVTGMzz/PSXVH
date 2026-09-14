@@ -1,0 +1,1 @@
+Tiếp tục Gaia Master từ branch gaia-character-select-font-atlas-reverse-01, checkpoint 0.6.28.0 Batch 19. Đọc HANDOFF_CURRENT.md và SESSION_HANDOFF_0.6.28.0.md trước. Giữ font frozen, codepage frozen và gate 397/397. Ưu tiên ba report RESIDUAL_ALPHA, FIT_PRESSURE, EXACT_OFFSET_LOCKS cùng screenshot runtime. Không gọi runtime PASS nếu chưa có bằng chứng test thực tế.
