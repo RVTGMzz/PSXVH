@@ -62,7 +62,6 @@ TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x68aa8,俺さまが遊んでや�
 TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x68ce0,します,6,Thực hiện,18,12,semantic:BATCH15_JP_EXACT_0.6.24.0.csv,,LAM
 TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x68d74,止まると土地代,14,Dừng: giá đất,26,12,semantic:BATCH18_JP_EXACT_0.6.27.0.csv,,DUNG: GIA DAT
 TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x68df8,ームができ、勝,14,Chơi và thắng,26,12,semantic:BATCH15_JP_EXACT_0.6.24.0.csv,,CHOI VA THANG
-TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0xb08,戦いをしかけるよね？,20,Khiêu chiến chứ?,32,12,consensus:fallback,,THACH DAU?
 TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x190c,ダメージ,8,Sát thương,20,12,semantic:BATCH12_JP_EXACT_0.6.21.0.csv,,DMG
 TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x1918,武器破壊,8,Phá vũ khí,20,12,semantic:BATCH12_JP_EXACT_0.6.21.0.csv,,PHAVK
 TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x2028,不幸,4,Bất hạnh,16,12,consensus:japanese,,XUI
@@ -156,7 +155,7 @@ TRANSLATION_MASTER_0.6_part04.csv,PRGPACK.BDP,0x68ea4,止まると好きな,14,D
 TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0xae8,ほかの人と同じマスに止まったよ,30,Chung ô người khác,36,6,style:BATCH17_STYLE_0.6.26.0.csv,,TRUNG O NGUOI
 TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x1464,最強の魔法,10,Đại pháp,16,6,style:BATCH12_STYLE_0.6.21.0.csv,,PHEP+
 TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x14c0,ほのおの弓,10,Cung Hỏa,16,6,semantic:BATCH12_JP_EXACT_0.6.21.0.csv,,LUA
-TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x15e0,力の指輪,8,sẽ nhận,14,6,consensus:fallback,,NHAN
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x15e0,力の指輪,8,Sẽ nhận,14,6,style:BATCH15_STYLE_0.6.24.0.csv,,NHAN
 TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x1818,ジプシータロウ,14,Gypsy Taro,20,6,semantic:BATCH13_JP_EXACT_0.6.22.0.csv,,GYPSY
 TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x18cc,クレイモア,10,Claymore,16,6,semantic:BATCH13_JP_EXACT_0.6.22.0.csv,,CLAYM
 TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x18f0,ボーイナイフ,12,Dao Bowie,18,6,semantic:BATCH13_JP_EXACT_0.6.22.0.csv,,BOWIE

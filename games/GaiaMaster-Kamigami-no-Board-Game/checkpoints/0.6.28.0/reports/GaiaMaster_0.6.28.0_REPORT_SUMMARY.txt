@@ -5,10 +5,10 @@ Semantic map entries    : 329
 STYLE map entries       : 230
 Consensus JP entries    : 366
 Consensus FB entries    : 332
-Rows with meaning       : 448
+Rows with meaning       : 447
 Rows with fitting cand. : 164
-RESIDUAL_ALPHA rows     : 146
-FIT_PRESSURE rows       : 284
+RESIDUAL_ALPHA rows     : 147
+FIT_PRESSURE rows       : 283
 EXACT_OFFSET locks      : 24
 Historical protected    : 0
 Token-rejected cand.    : 2
