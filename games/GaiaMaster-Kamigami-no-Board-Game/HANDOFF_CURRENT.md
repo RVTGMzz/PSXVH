@@ -3,78 +3,95 @@
 Updated: 2026-09-14
 Branch: `gaia-character-select-font-atlas-reverse-01`
 
-## Current candidate
+## Current checkpoint
 
-**0.6.28.0 — Exact-Offset Lock / Session Handoff Batch 19**
+**0.6.34.0 — Batch 25 Dependency-Locked Exact Merge**
 
-Current base scale before runtime harvest:
+This is the latest verified **static/data** checkpoint. It is not a Runtime PASS.
 
-```text
-story/front mappings  = 19
-Japanese semantic map = 437
-fantasy fallback map  = 355
-dynamic literals      = 231
-```
-
-### Batch 19 core
-
-1. Giữ nguyên Residual Killer / Consensus Fit V2 của Batch 18.
-2. Sau semantic/consensus fitting, mọi row có `vi_full` giữ token và vừa field Nhật sẽ được xuất thêm vào đường exact `file + offset` của `COMPACT_TRANSLATION_OVERRIDES_0.6.14.0.csv`.
-3. Không tự ghi đè các exact lock lịch sử 0.6.14.1 đã từng test.
-4. Sinh ba report sau build:
-   - `GaiaMaster_0.6.28.0_RESIDUAL_ALPHA.csv`
-   - `GaiaMaster_0.6.28.0_FIT_PRESSURE.csv`
-   - `GaiaMaster_0.6.28.0_EXACT_OFFSET_LOCKS.csv`
-5. Output recovery quét cả package folder và temporary source folder trước khi rename output.
-6. Package có session snapshot và next-session bootstrap để chuyển phiên an toàn.
-
-Manual Batch 19 delta:
+Read next:
 
 ```text
-20 Japanese semantic edits
-20 fantasy fallback edits
-12 dynamic literal edits
+BATCH25_0.6.34.0.md
+SESSION_HANDOFF_0.6.34.0.md
+NEXT_SESSION_START_0.6.34.0.txt
+checkpoints/0.6.34.0/BATCH25_MERGE_VALIDATION.txt
+translation/BATCH25_NEW_EXACT_OFFSET_0.6.34.0.csv
 ```
 
-Repo material:
+## Verified translation closure
+
+The persisted 0.6.28.0 Alpha residual set is now closed at the translation-data layer:
 
 ```text
-BATCH19_0.6.28.0.md
-BATCH19_REPORT_RECONSTRUCTION_0.6.28.0.md
-SESSION_HANDOFF_0.6.28.0.md
-NEXT_SESSION_START_0.6.28.0.txt
-translation/BATCH19_JP_EXACT_0.6.28.0.csv
-translation/BATCH19_STYLE_0.6.28.0.csv
-translation/BATCH19_DYNAMIC_0.6.28.0.csv
-tools/gaia_batch19_report_compiler_06280.py
-tools/00_RUN_0.6.28.0_BATCH19_REPORTS.cmd
-checkpoints/0.6.28.0/README.md
+Residual source rows = 147
+Unique Japanese      = 62
+Resolved exact rows  = 147 / 147
+Errors               = 0
 ```
 
-### 2026-09-14 report-stage reconstruction
-
-Git history audit found that the handoff snapshot contained the Batch 19 translation deltas and documentation, but the executable report stage itself had not been committed. The repo now contains a conservative repo-native reconstruction:
+Resolution path:
 
 ```text
-tools/gaia_batch19_report_compiler_06280.py
-tools/00_RUN_0.6.28.0_BATCH19_REPORTS.cmd
+Batch 21 semantic-fit rows = 29
+Batch 22 compact rows      = 21
+Batch 23 compact rows      = 97
+--------------------------------
+Batch 24 exact rows        = 147
 ```
 
-It reads the six Translation Master parts, cumulative Batch semantic/style maps, Batch 18 duplicate consensus, and the historical 0.6.14.1 exact-lock file. It is report-only and does not modify ROM/BIN/CUE/BDP/font data.
+Batch 24 output:
 
-Default generated output:
+`translation/BATCH24_EXACT_OFFSET_0.6.33.0.csv`
+
+## Batch 25 merged exact state
+
+Batch 25 merges:
 
 ```text
-checkpoints/0.6.28.0/reports/GaiaMaster_0.6.28.0_RESIDUAL_ALPHA.csv
-checkpoints/0.6.28.0/reports/GaiaMaster_0.6.28.0_FIT_PRESSURE.csv
-checkpoints/0.6.28.0/reports/GaiaMaster_0.6.28.0_EXACT_OFFSET_LOCKS.csv
-checkpoints/0.6.28.0/reports/GaiaMaster_0.6.28.0_AUTO_EXACT_OVERRIDES.csv
-checkpoints/0.6.28.0/reports/GaiaMaster_0.6.28.0_REPORT_SUMMARY.txt
+Batch 20 exact candidates = 75
+Batch 24 residual exact   = 147
+Unique candidate keys     = 222
 ```
 
-The execution environment used during this handoff could not reach GitHub from its local shell, so the compiler has not been run against a checked-out branch here. Do not invent report counts. Run the one-click CMD in a local checkout, then consume the generated CSVs.
+Verified Batch 25 result:
 
-Production locks remain unchanged:
+```text
+Runtime-fit protected keys            = 49
+Historical rows skipped no-op/unfit   = 13
+Already-locked identical              = 13
+Protected wording conflicts           = 0
+New exact rows exported               = 209
+Errors                                = 0
+RESULT                                = STATIC PASS
+```
+
+Primary output:
+
+`translation/BATCH25_NEW_EXACT_OFFSET_0.6.34.0.csv`
+
+## Historical-lock semantics
+
+Do not blindly treat every row in `COMPACT_TRANSLATION_OVERRIDES_0.6.14.1.csv` as an applied runtime lock.
+
+A 0.6.14.1 row is protected only when it actually fits the original Japanese field, preserves runtime tokens, and is safe under CP932/frozen codepage rules. Batch 19 exact locks remain unconditionally protected.
+
+Thirteen Batch 24 candidates are already identical to real runtime-fit historical locks and are intentionally not exported twice.
+
+The newer compact values below remain intentional because their old historical alternatives were unfit/no-op:
+
+```text
+%sの番よ！      -> Tới %s
+はい　　いいえ -> Có/Ko
+```
+
+## Deterministic CI dependency
+
+Batch 25 CI rebuilds Batch 24 from the current Batch 21/22/23 sources **inside the same checkout** before merging. Keep this behavior unless replaced by an equally deterministic dependency pipeline.
+
+Reason: bot-generated persistence commits and parallel workflow runs can otherwise leave a stale Batch 24 manifest behind newer source CSVs.
+
+## Production locks remain frozen
 
 ```text
 native 12x12 / 72-byte / 4bpp / LOW nibble first
@@ -83,9 +100,16 @@ frozen 60-glyph Vietnamese codepage
 legacy Alpha coverage gate = 397/397
 ```
 
-No renderer hook, pointer redirect, 12x16, 6x12, composite overlay, or font retuning without new runtime evidence.
+Hard exclusions remain:
 
-Translation policy: Japanese-first, natural Vietnamese if it fits, then fantasy compact -> micro -> ultra. Preserve `%s`, `%d`, `%4d`, `%+3d`, `/V` runtime token order.
+- no renderer hook
+- no pointer redirect
+- no 12x16
+- no 6x12
+- no composite overlay
+- no font retuning without new runtime evidence
+
+Translation policy remains Japanese-first. Use natural Vietnamese when it fits, then compact fantasy wording, then micro/ultra only when necessary. Preserve `%s`, `%d`, `%4d`, `%+3d`, `/V` and token order.
 
 Intro cleanup remains mandatory:
 
@@ -94,13 +118,19 @@ NGUOI=CO      -> NGUOI CO
 THEGIOI=BANCO -> THEGIOI BANCO
 ```
 
-`0.6.28.0` is a candidate. Loader syntax PASS only. Clean-ROM build and runtime QA are still pending user evidence. Do not call runtime PASS without screenshots/logs.
+## Runtime status
+
+**STATIC PASS only.**
+
+No clean-ROM build/runtime screenshot or log evidence has yet promoted 0.6.34.0 to Runtime PASS.
+
+Never call Runtime PASS without actual user runtime evidence.
 
 ## Next session priority
 
-1. Run `tools/00_RUN_0.6.28.0_BATCH19_REPORTS.cmd` in a current local checkout.
-2. Consume `FIT_PRESSURE` first and create exact-offset compact wording for remaining overlong rows.
-3. Consume `RESIDUAL_ALPHA` for remaining untranslated Alpha rows.
-4. Review `EXACT_OFFSET_LOCKS` / `AUTO_EXACT_OVERRIDES` before integrating them into a ROM build path.
-5. Use runtime screenshots to catch visible Japanese outside Translation Master.
-6. Font stays frozen unless runtime demonstrates a real glyph defect.
+1. Integrate `translation/BATCH25_NEW_EXACT_OFFSET_0.6.34.0.csv` into the proven production exact-offset build path as the final wording layer.
+2. Preserve all proven runtime-fit historical locks and the legacy 397/397 gate.
+3. Ensure older global/style/fallback promotion layers cannot overwrite Batch 25 exact wording.
+4. Build from a clean verified ROM.
+5. Runtime QA with screenshots/logs: visible Japanese, clipping, token corruption, intro separators, and glyph defects.
+6. Font/codepage stays frozen unless runtime evidence proves a real glyph problem.
