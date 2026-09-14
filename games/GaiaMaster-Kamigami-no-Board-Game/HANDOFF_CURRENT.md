@@ -5,51 +5,47 @@ Branch: `gaia-character-select-font-atlas-reverse-01`
 
 ## Current candidate
 
-**0.6.26.0 — Japanese Extermination Batch 17**
+**0.6.27.0 — Residual Killer / Consensus Fit Batch 18**
 
 Base scale trước runtime harvest:
 
 ```text
 story/front mappings  = 19
-Japanese semantic map = 436
+Japanese semantic map = 437
 fantasy fallback map  = 354
 dynamic literals      = 229
 ```
 
-Batch 17 manual delta:
+### Batch 18 core
 
-```text
-semantic polish       = 21
-fantasy fallback      = 21
-dynamic manual        = 13
-```
+Batch 18 chuyển từ broad sweep sang fit/residual elimination.
 
-### Batch 17 core
+1. Quét cả 6 Translation Master và học **consensus translation** từ các row lặp đã có bản Việt.
+2. Với mỗi row, thử theo thứ tự ưu tiên:
+   - semantic chuẩn
+   - semantic micro/ultra compact
+   - consensus theo Japanese key
+   - `vi_full` fantasy
+   - compact / micro / ultra
+   - STYLE fallback
+   - consensus theo fallback
+   - fallback phục hồi dấu
+3. Chỉ promote khi giữ runtime token và vừa field Nhật.
+4. Chuẩn hóa khoảng trắng để bắt duplicate chỉ khác normal/full-width space.
+5. Sinh hai báo cáo:
+   - `GaiaMaster_0.6.27.0_RESIDUAL_ALPHA.csv`
+   - `GaiaMaster_0.6.27.0_FIT_PRESSURE.csv`
 
-Build-time residual harvester quét toàn bộ 6 Translation Master. Với row `IN_ALPHA_05` còn `vi_full` trống, thử theo thứ tự:
-
-1. Japanese semantic map
-2. `vi_full`
-3. compact fantasy
-4. STYLE fallback
-5. accent-restored fallback
-
-Chỉ promote khi giữ runtime token và vừa field Nhật. Các câu Nhật tự chứa, không có `%` hoặc `/V`, đủ an toàn được thêm vào dynamic literal để bắt duplicate ngoài offset chính.
-
-Sau harvest, builder sinh:
-
-`GaiaMaster_0.6.26.0_RESIDUAL_ALPHA.csv`
-
-để Batch kế tiếp biết chính xác row Alpha nào vẫn chưa dịch được.
+`FIT_PRESSURE` ghi cả candidate ngắn nhất, số byte field Nhật, số byte candidate và mức vượt. Đây là đầu vào chính cho Batch 19.
 
 Repo material:
 
 ```text
-BATCH17_0.6.26.0.md
-translation/BATCH17_JP_EXACT_0.6.26.0.csv
-translation/BATCH17_STYLE_0.6.26.0.csv
-translation/BATCH17_DYNAMIC_0.6.26.0.csv
-checkpoints/0.6.26.0/README.md
+BATCH18_0.6.27.0.md
+translation/BATCH18_JP_EXACT_0.6.27.0.csv
+translation/BATCH18_STYLE_0.6.27.0.csv
+translation/BATCH18_DYNAMIC_0.6.27.0.csv
+checkpoints/0.6.27.0/README.md
 ```
 
 Production locks remain unchanged:
@@ -60,7 +56,7 @@ static mapping-only
 legacy Alpha coverage gate = 397/397
 ```
 
-Translation policy: Japanese-first, natural Vietnamese if it fits, compact fallback if needed, preserve `%s`, `%d`, `%4d`, `%+3d`. Tone: readable medieval fantasy.
+Translation policy: Japanese-first, natural Vietnamese if it fits, then increasingly compact fantasy wording. Preserve `%s`, `%d`, `%4d`, `%+3d` and runtime token order.
 
 Intro separator cleanup remains mandatory:
 
@@ -69,6 +65,6 @@ NGUOI=CO      -> NGUOI CO
 THEGIOI=BANCO -> THEGIOI BANCO
 ```
 
-`0.6.26.0` is syntax-checked only. Clean-ROM build and runtime QA are still pending. Do not call PASS without user evidence.
+`0.6.27.0` is syntax-checked only. Clean-ROM build and runtime QA are still pending. Do not call PASS without user evidence.
 
-Next priority: use the residual CSV plus runtime screenshots to eliminate the final Japanese strings rather than broadening scope again.
+Next priority: use the two Batch 18 reports plus runtime screenshots to eliminate the final Japanese/overlong rows with exact-offset compact wording.
