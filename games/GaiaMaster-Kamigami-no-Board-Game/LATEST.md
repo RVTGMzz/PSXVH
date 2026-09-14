@@ -2,93 +2,85 @@
 
 Cập nhật: **2026-09-14**
 
-## CURRENT — 0.6.44.0 BATCH 34
+## CURRENT — 0.6.52.0 BATCH 42
 
-Trọng tâm: **Curated Compact Sweep + Whole-Game Japanese Discovery**.
+Trọng tâm: **Current Translation Master Closure + Whole-Game Japanese Discovery**.
 
-## Tiến độ mới sau 0.6.40
+Status: **BUILD-READY / STATIC PASS**. Chưa phải Runtime PASS.
 
-Batch31 kiểm kê lại toàn bộ fallback còn sót sau tập exact 295 field:
+## Mốc dữ liệu mới
 
-```text
-Translation Master rows      = 596
-Protected B29 exact keys     = 295
-Residual fallback rows       = 265
-Unique residual clusters     = 242
-```
-
-Phần lớn residual không phải chưa dịch nghĩa mà là bản `vi_full` quá dài so với field gốc.
-
-## Batch32 curated compact
-
-25 Japanese semantic keys được rút gọn thủ công thành tiếng Việt vừa field, không suy nghĩa từ fallback ASCII.
+Sau Batch34, residual fallback trong Translation Master còn 218 row. Batch36 thực hiện large curated compact sweep:
 
 ```text
-New exact rows exported = 47
-Exact-full-field rows   = 25
+Curated Japanese keys   = 184
+New exact rows          = 185
+Exact-full-field rows   = 65
 Errors                  = 0
-RESULT                  = STATIC CURATED PASS
 ```
 
-Ví dụ:
+Sau đó Batch38 kiểm lại chỉ còn **33 residual rows**. Batch39 xử lý đủ 33/33, bao gồm hai chuỗi runtime-token đặc biệt.
+
+Batch40 merge hiện tại:
 
 ```text
-武器カードを / 武器カードは -> Thẻ VK
-終了ターン                 -> Hết
-%sのラッキー！！           -> %s hên!
-なにか捨ててね             -> Bỏ bớt
-騎士団                     -> Kỵ
-お店破壊                   -> Phá!
-%dゼニーはらってね         -> Trả %dZ
-いやしのうた               -> Hồi HP
-指定武器カード１枚を盗む   -> Cướp thẻ VK
-あいての命中率を落とす     -> Giảm CX
-ＨＰを６０回復する         -> Hồi 60HP
-死亡するとＨＰ１００で復活 -> Hồi sinh100HP
-```
-
-Một chữ `ễ` không có trong frozen codepage đã bị CI bắt; wording được sửa thành `Hay CM`, không mở rộng font.
-
-## Batch33 exact merge
-
-```text
-B29 new rows             = 282
-B29 final rows           = 295
-B32 curated rows         = 47
-Merged new exact targets = 329
-Merged final verify set  = 342
+B37 new rows             = 514
+B37 final rows           = 527
+B39 closure rows         = 33
+Merged new exact targets = 547
+Merged final verify set  = 560
 Errors                   = 0
 RESULT                   = STATIC MERGE PASS
 ```
 
-## Batch34 production builder
+## Full Translation Master coverage audit
+
+Batch41 audit toàn bộ 596 row, không chỉ các row có fallback:
+
+```text
+Translation Master rows       = 596
+Batch40 final exact keys      = 560
+Batch19 exact locks           = 24
+Runtime-fit historical locks  = 25
+Union covered master keys     = 596 / 596
+Uncovered master keys         = 0
+Uncovered with Alpha fallback = 0
+Uncovered with vi_full        = 0
+RESULT                        = MASTER FALLBACK COVERAGE PASS
+```
+
+Quan trọng: **596/596 chỉ nói về Translation Master hiện tại, KHÔNG phải toàn bộ game.** Story / Tutorial / Help / Memory Card có thể nằm ngoài master và vẫn cần whole-game scanner.
+
+## Batch42 production builder
 
 Python builder:
 
-`tools/build_gaia_06440_batch34_curated_compact.py`
+`tools/build_gaia_06520_batch42_master_closure.py`
 
-Builder/stage selftest đều PASS. Production chain vẫn tái dùng 0.6.14 -> 0.6.10 đã chứng minh, không tạo encoder thứ hai.
+Production stage:
 
-Clean-ROM gate:
+`tools/batch40_stage_06500.py`
 
-```text
-SHA1 f4d5298583c90d89c4b7e51d2dde160ee07f2aec
-```
+Builder + real staging/restoration selftest đều PASS.
 
-Actual build bắt buộc đạt:
+Actual clean-ROM build bắt buộc đạt:
 
 ```text
-329 exact targets staged
-342/342 exact fields byte verification
-397/397 legacy Alpha gate
-source restore PASS
+547 exact targets staged
+560 / 560 exact fields byte verification
+397 / 397 legacy Alpha gate
+source restoration PASS
 ```
 
-## EASY package hiện tại
+Clean Japan BIN SHA1:
 
-`GaiaMaster_0.6.44.0_Batch34_EASY.zip`
+`f4d5298583c90d89c4b7e51d2dde160ee07f2aec`
 
-Ngoài cùng chỉ cần:
+## EASY package
+
+`GaiaMaster_0.6.52.0_Batch42_EASY.zip`
+
+Ngoài cùng:
 
 ```text
 00_VIET_HOA_GAME.cmd
@@ -96,46 +88,30 @@ Ngoài cùng chỉ cần:
 02_DOC_TRUOC.txt
 ```
 
-Build launcher tự tìm đúng CLEAN BIN bằng SHA1.
+`00_VIET_HOA_GAME.cmd` tự tìm đúng CLEAN BIN bằng SHA1.
 
 ## Whole-game scanner
 
-Read-only scanner vẫn là bước quan trọng nhất để mở rộng khỏi 596-row master:
+Sau khi build/test, chạy:
 
-```text
-01_QUET_TOAN_BO_GAME.cmd
-```
+`01_QUET_TOAN_BO_GAME.cmd`
 
-Output cần gửi lại:
+Gửi lại:
 
 ```text
 GaiaMaster_0.6.38.0_FULL_JAPANESE_SCAN.csv
 GaiaMaster_0.6.38.0_FULL_JAPANESE_SCAN_REPORT.txt
 ```
 
-Nó sẽ dùng để bắt story/tutorial/help/Memory Card text chưa từng xuất hiện trong Translation Master.
+Đây là input để mở rộng master sang Story / Tutorial / Help / Memory Card text chưa từng được 596-row master bắt tới.
 
-## Production architecture không đổi
+## Architecture vẫn khóa
 
 ```text
 native 12x12 / 72-byte / 4bpp / LOW nibble first
 static mapping-only
 frozen 60-glyph Vietnamese codepage
-legacy Alpha coverage gate = 397/397
+legacy Alpha gate = 397/397
 ```
 
-Không renderer hook, pointer redirect, 12x16, 6x12, composite overlay hoặc font retune nếu chưa có runtime evidence mới.
-
-## Status
-
-**0.6.44.0 = BUILD-READY / STATIC PASS.**
-
-Chưa phải Runtime PASS.
-
-## Tiếp theo
-
-1. Build 0.6.44 từ CLEAN BIN.
-2. Kiểm report có **342/342** byte verification và **397/397** legacy gate.
-3. Boot đúng output 0.6.44.
-4. Chạy whole-game scanner.
-5. Gửi scanner CSV + REPORT để mở batch story/tutorial/help theo exact offset.
+Không renderer hook, pointer redirect, 12x16, 6x12, composite overlay hoặc font retune nếu chưa có runtime evidence.
