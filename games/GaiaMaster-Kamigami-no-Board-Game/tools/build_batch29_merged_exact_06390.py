@@ -7,7 +7,7 @@ import re
 from pathlib import Path
 
 VERSION = "0.6.39.0"
-EXPECTED_INPUT = 311
+EXPECTED_INPUT = 295
 ROOT = Path(__file__).resolve().parent.parent
 TR = ROOT / "translation"
 PARTS = [TR / f"TRANSLATION_MASTER_0.6_part{i:02d}.csv" for i in range(1, 7)]
