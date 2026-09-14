@@ -124,9 +124,8 @@ def parse_tim_at(blob: bytes, off: int):
         clut = parse_block(blob, pos)
         if clut is None:
             return None
-        # A CLUT wider than 256 entries is almost certainly a false positive.
-        if clut["w_words"] * clut["h"] > 256:
-            return None
+        # Do not cap total CLUT entries: valid TIMs may carry multiple palettes.
+        # Structural block-size and VRAM geometry checks above remain the gate.
         pos += clut["size"]
 
     image = parse_block(blob, pos)
