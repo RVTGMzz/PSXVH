@@ -38,7 +38,61 @@ def selftest():
     if plan["counts"]["final_verify"]!=EXPECTED_FINAL:die(f"Stage final gate {plan['counts']['final_verify']} != {EXPECTED_FINAL}")
     if plan["counts"]["legacy"]!=397:die(f"Legacy gate {plan['counts']['legacy']} != 397")
     if not callable(getattr(core.load_base(),"encode_runtime_text",None)):die("Readable 0.6.10 encoder missing")
-    with staged_sources(plan):pass
+    with staged_sources(plan):
+        # Regression gate: identical historical overrides must survive staging.
+        import csv
+        gp = TR / "GAMEPLAY_ACCENT_OVERRIDES_0.6.11.0.csv"
+        with gp.open("r", encoding="utf-8-sig", newline="") as f:
+            rows = list(csv.DictReader(f))
+        by = {(r["file"].strip(), int(r["offset_hex"], 0)): (r.get("vi_accented") or "").strip() for r in rows}
+        if by.get(("PRGPACK.BDP", 0x304E4)) != "Cài đặt":
+            die("Regression: Cài đặt override was masked")
+        if by.get(("PRGPACK.BDP", 0x304F4)) != "Rung":
+            die("Regression: Rung override was masked")
+
+        # Critical production-consumption gate:
+        # the actual 0.6.10 builder must read the STAGED Core/translation files,
+        # not GitHub or a tools-local cache.
+        base = core.load_base()
+        loaded, _front, source_log = base.load_translation_rows(str(TOOLS))
+        master_sources = [src for name, src, count in source_log if name.startswith("TRANSLATION_MASTER_0.6_part")]
+        if len(master_sources) != 6 or any(src != "local-translation" for src in master_sources):
+            die(f"0.6.10 builder is not consuming staged Core/translation masters: {source_log}")
+
+        loaded_by_key = {}
+        for r in loaded:
+            try:
+                lk = ((r.get("file") or "").strip(), hex(int((r.get("offset_hex") or "0"), 0)).lower())
+            except Exception:
+                continue
+            loaded_by_key.setdefault(lk, []).append(r)
+
+        missing_staged = []
+        for k, want in plan["targets"].items():
+            rows_k = loaded_by_key.get(k, [])
+            ok = any(
+                (r.get("japanese") or "") and
+                (r.get("vi_full") or "").strip() == want and
+                not (r.get("vi_game_current") or "").strip()
+                for r in rows_k
+            )
+            if not ok:
+                missing_staged.append((k, want))
+        if missing_staged:
+            die(f"Inner 0.6.10 cannot see {len(missing_staged)} staged exact targets: {missing_staged[:8]}")
+
+        # Proof anchors must agree with final exact wording where they overlap.
+        _proof = {("PRGPACK.BDP", hex(_off).lower()): _vi for _off, _jp, _vi in base.PROOF_STRINGS}
+        for _k, _vi in _proof.items():
+            if _k in plan["final_map"] and _vi != plan["final_map"][_k]:
+                die(f"Proof anchor conflicts final exact contract: {_k} {_vi!r} != {plan['final_map'][_k]!r}")
+
+        # Dynamic prefix must not hijack a longer owner at the same offset.
+        import build_gaia_06110_hybrid_accent_b2 as _b11
+        if _b11.dynamic_matches_existing_source("通行税%dゼニーはらってね", "通行税"):
+            die("Dynamic prefix regression: shorter literal accepted as identical source")
+        if not _b11.dynamic_matches_existing_source("通行税", "通行税"):
+            die("Dynamic exact-source regression")
     c=plan["counts"]
     print("="*84);print("GAIA MASTER 0.6.52.0 BATCH42 BUILDER SELFTEST PASS");print("="*84)
     print(f"New exact targets     : {c['targets']}");print(f"Final exact verify    : {EXPECTED_FINAL}")
