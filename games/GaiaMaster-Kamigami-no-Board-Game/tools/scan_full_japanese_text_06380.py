@@ -33,6 +33,51 @@ def sha1_file(path: Path):
     return h.hexdigest()
 
 
+def find_clean_bin(requested: Path):
+    requested = requested.expanduser().resolve()
+    seen = set()
+
+    def candidates_in(root: Path):
+        if not root.exists() or not root.is_dir():
+            return []
+        items = []
+        items.extend(root.glob("*.bin"))
+        items.extend(root.glob("*/*.bin"))
+        return items
+
+    ordered = []
+    if requested.is_file() and requested.suffix.lower() == ".bin":
+        ordered.append(requested)
+
+    base_dir = requested.parent if requested.suffix else requested
+    roots = [base_dir]
+    if base_dir.parent != base_dir:
+        roots.append(base_dir.parent)
+
+    for root in roots:
+        ordered.extend(candidates_in(root))
+
+    for p in ordered:
+        try:
+            rp = p.resolve()
+        except Exception:
+            continue
+        if rp in seen or not rp.is_file():
+            continue
+        seen.add(rp)
+        try:
+            got = sha1_file(rp).lower()
+        except OSError:
+            continue
+        print(f"[CHECK] {rp.name}")
+        print(f"        SHA1 {got}")
+        if got == CLEAN_SHA1:
+            print("[OK] Tim thay CLEAN Japan BIN dung SHA1:")
+            print("     ", rp)
+            return rp
+    return None
+
+
 def load_base():
     spec = importlib.util.spec_from_file_location("gaia06100_readable", BASE)
     if spec is None or spec.loader is None:
@@ -132,7 +177,6 @@ def scan_blob(file_name: str, blob: bytes, excluded=()):
     n = len(blob)
     while i < n:
         if in_ranges(i, excluded):
-            # Jump to the end of the current excluded range.
             ends = [b for a, b in excluded if a <= i < b]
             i = min(ends) if ends else i + 1
             continue
@@ -165,7 +209,6 @@ def scan_blob(file_name: str, blob: bytes, excluded=()):
         if not text:
             continue
         kana, kanji, punct, jp, ratio = score_text(text)
-        # Strong filter against executable/data false positives.
         if jp < 2:
             continue
         if kana == 0 and kanji < 3:
@@ -177,7 +220,6 @@ def scan_blob(file_name: str, blob: bytes, excluded=()):
         end = start + len(raw)
         term = blob[end] if end < n else None
         term_kind = "NUL" if term == 0 else ("CTRL" if term is not None and term < 0x20 else "OTHER")
-        # Null/control termination gets higher confidence, but do not throw away fixed fields.
         confidence = "HIGH" if term_kind in ("NUL", "CTRL") and ratio >= 0.5 else "MEDIUM"
         out.append({
             "file": file_name,
@@ -200,16 +242,15 @@ def main():
     if len(sys.argv) != 2:
         print(f"Usage: {Path(sys.argv[0]).name} CLEAN_GAME.bin")
         return 2
-    clean = Path(sys.argv[1]).expanduser().resolve()
-    if not clean.is_file():
-        print("[ERROR] CLEAN BIN not found:", clean)
-        return 2
-    got = sha1_file(clean).lower()
-    if got != CLEAN_SHA1:
-        print("[ERROR] Wrong/modified BIN")
-        print("Got     :", got)
+    requested = Path(sys.argv[1]).expanduser().resolve()
+    clean = find_clean_bin(requested)
+    if clean is None:
+        print("[ERROR] Khong tim thay CLEAN Japan BIN dung SHA1.")
         print("Expected:", CLEAN_SHA1)
+        print()
+        print("Hay keo-tha file CLEAN Japan .BIN truc tiep len 01_QUET_TOAN_BO_GAME.cmd")
         return 3
+    got = sha1_file(clean).lower()
 
     base = load_base()
     with clean.open("rb") as f:
@@ -221,7 +262,6 @@ def main():
     found.extend(scan_blob("PRGPACK.BDP", prg))
     found.extend(scan_blob("SLPS_020.75", slps, excluded_slps_ranges(base)))
 
-    # Deduplicate exact file+offset only. Repeated Japanese at multiple offsets remains useful.
     unique = {}
     for r in found:
         unique[(r["file"], r["offset"])] = r
@@ -252,7 +292,7 @@ def main():
         if hit:
             anchors.append(r)
 
-    out_dir = clean.parent
+    out_dir = requested.parent if requested.parent.exists() else clean.parent
     csv_path = out_dir / "GaiaMaster_0.6.38.0_FULL_JAPANESE_SCAN.csv"
     report = out_dir / "GaiaMaster_0.6.38.0_FULL_JAPANESE_SCAN_REPORT.txt"
     fields = [
