@@ -1,0 +1,16 @@
+GAIA MASTER 0.6.31.0 BATCH 22 EASY COMPACT VALIDATION
+========================================================================
+Compact Japanese keys : 12
+Pressure rows covered : 21
+Exact-full-field rows : 4
+Total spare bytes     : 52
+Errors                : 0
+
+Guards:
+- source must be Batch21 pressure rows with original overage <= 6 bytes
+- runtime token identity/order preserved
+- every compact candidate must fit every matching field
+- CP932/frozen 60-glyph codepage only
+- translation-data only; no ROM/font/pointer modification
+
+RESULT                : STATIC PASS
