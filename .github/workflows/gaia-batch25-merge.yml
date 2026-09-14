@@ -5,8 +5,12 @@ on:
   push:
     branches: [gaia-character-select-font-atlas-reverse-01]
     paths:
+      - "games/GaiaMaster-Kamigami-no-Board-Game/tools/build_batch24_exact_manifest_06330.py"
       - "games/GaiaMaster-Kamigami-no-Board-Game/tools/build_batch25_merged_exact_06340.py"
       - "games/GaiaMaster-Kamigami-no-Board-Game/translation/BATCH20_EXACT_OFFSET_0.6.29.0.csv"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/translation/BATCH21_SEMANTIC_0.6.30.0.csv"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/translation/BATCH22_COMPACT_0.6.31.0.csv"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/translation/BATCH23_COMPACT_0.6.32.0.csv"
       - "games/GaiaMaster-Kamigami-no-Board-Game/translation/BATCH24_EXACT_OFFSET_0.6.33.0.csv"
       - ".github/workflows/gaia-batch25-merge.yml"
 
@@ -20,15 +24,20 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+      - name: Rebuild Batch 24 exact manifest from current upstream sources
+        run: python games/GaiaMaster-Kamigami-no-Board-Game/tools/build_batch24_exact_manifest_06330.py
       - name: Merge exact manifests
         run: python games/GaiaMaster-Kamigami-no-Board-Game/tools/build_batch25_merged_exact_06340.py
-      - name: Persist merged manifest and validation
+      - name: Persist Batch 24 and Batch 25 outputs
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add games/GaiaMaster-Kamigami-no-Board-Game/translation/BATCH24_EXACT_OFFSET_0.6.33.0.csv
+          git add games/GaiaMaster-Kamigami-no-Board-Game/checkpoints/0.6.33.0/BATCH24_MANIFEST_VALIDATION.txt
           git add games/GaiaMaster-Kamigami-no-Board-Game/translation/BATCH25_NEW_EXACT_OFFSET_0.6.34.0.csv
           git add games/GaiaMaster-Kamigami-no-Board-Game/checkpoints/0.6.34.0/BATCH25_MERGE_VALIDATION.txt
           if ! git diff --cached --quiet; then
-            git commit -m "Gaia Master 0.6.34.0: store merged exact manifest"
+            git commit -m "Gaia Master 0.6.34.0: store dependency-locked exact merge"
+            git pull --rebase origin "${GITHUB_REF_NAME}"
             git push
           fi
