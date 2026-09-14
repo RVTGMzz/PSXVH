@@ -1,0 +1,17 @@
+GAIA MASTER 0.6.51.0 BATCH 41 FULL MASTER COVERAGE AUDIT
+====================================================================================
+Translation Master rows       : 596
+Batch40 final exact keys      : 560
+Batch19 exact locks           : 24
+Runtime-fit historical locks  : 25
+Union covered master keys     : 596 / 596
+Uncovered master keys         : 0
+Uncovered with Alpha fallback : 0
+Uncovered with vi_full        : 0
+
+NOTE:
+- Coverage means key is protected by Batch40 exact, Batch19 exact, or a runtime-fit historical lock.
+- This audit covers only the current 596-row Translation Master; it does NOT claim whole-game text coverage.
+- Story/tutorial/help strings discovered outside this master still require whole-game scanner expansion.
+
+RESULT: MASTER FALLBACK COVERAGE PASS
