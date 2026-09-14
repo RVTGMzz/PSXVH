@@ -13,9 +13,9 @@ static mapping-only
 legacy Alpha coverage gate = 397 / 397
 ```
 
-Font hiện được xem là ổn ở runtime. Không retune font thêm nếu chưa có lỗi hình cụ thể mới.
+Font hiện được xem là ổn ở runtime. Không retune font nếu chưa có lỗi hình mới.
 
-## CURRENT — 0.6.19.0 STORY / DIALOG / MENU / CARD BATCH 10
+# CURRENT — 0.6.20.0 STORY / DIALOG / CARD BATCH 11
 
 Trọng tâm hiện tại:
 
@@ -26,18 +26,37 @@ menu / prompt
 lá bài + mô tả hiệu ứng
 vũ khí / phép / item
 event / Ma vương / thần linh
-các literal Nhật động còn lọt
+dynamic literal Nhật còn lọt
 ```
 
-Chiến lược dịch:
+Quy mô standalone builder:
 
-1. ưu tiên dịch trực tiếp từ tiếng Nhật gốc;
-2. dùng bản Việt tự nhiên có chất trung cổ/fantasy nếu vừa field;
-3. nếu quá dài thì rút gọn nhưng giữ nghĩa;
-4. giữ nguyên `%s`, `%d`, `%4d`, `%+3d`, `/V`, `/v`;
-5. không được phá gate 397/397 chỉ để nhét câu dài hơn.
+```text
+story/front mappings  = 19
+Japanese semantic map = 262
+fantasy fallback map  = 215
+dynamic literals      = 75
+```
 
-Văn phong ưu tiên các thuật ngữ như:
+## Chiến lược dịch
+
+Mỗi row ưu tiên:
+
+```text
+Japanese exact semantic translation
+-> vi_full đã biên tập fantasy
+-> compact fantasy
+-> established fantasy fallback
+-> fallback phục hồi dấu
+```
+
+Chỉ promote nếu vừa field gốc. Giữ nguyên `%s`, `%d`, `%4d`, `%+3d`, `/V`, `/v` theo yêu cầu runtime.
+
+## Văn phong
+
+Trung cổ fantasy dễ đọc, không cổ hóa menu kỹ thuật quá mức.
+
+Ưu tiên:
 
 ```text
 lãnh địa
@@ -55,42 +74,53 @@ Pháp sư
 Đạo tặc
 ```
 
-NPC đối đầu có thể dùng `ta / ngươi`; menu hệ thống vẫn phải rõ nghĩa và dễ chơi.
+NPC đối đầu có thể dùng `ta / ngươi` khi hợp ngữ cảnh.
+
+## Batch 11 mới
+
+Bổ sung direct Japanese-first mapping cho:
+
+- mua/bán/dựng lãnh địa;
+- thuế lợi tức, thuế đất, lộ phí, quân quỹ;
+- reward/event narrator;
+- lời thoại thách đấu, Ma vương và thần linh;
+- card help / effect descriptions;
+- dynamic nouns như ô chiến, ngã rẽ, Thánh địa, tượng, lộ, địch thủ.
+
+Source data mới trong repo:
+
+```text
+translation/BATCH11_JP_EXACT_0.6.20.0.csv
+translation/BATCH11_DYNAMIC_LITERALS_0.6.20.0.csv
+BATCH11_0.6.20.0.md
+```
 
 ## Intro cleanup
 
-Tiếp tục loại skeleton cũ gây glyph Nhật chèn giữa câu:
+Tiếp tục loại skeleton cũ từng render thành glyph Nhật:
 
 ```text
 NGUOI=CO      -> NGUOI CO
 THEGIOI=BANCO -> THEGIOI BANCO
 ```
 
-Target hiển thị:
+Target:
 
 ```text
 Người cờ
 Thế giới bàn cờ
 ```
 
-## Checkpoint repo
+## Runtime status
 
-```text
-checkpoints/0.6.19.0/GaiaMaster_0.6.19.0_BATCH10_STORY_DIALOG_MENU_CARD.zip
-```
+`0.6.20.0` là **candidate**, chưa gọi PASS trước khi test game thực tế.
 
-Checkpoint này chỉ chứa builder/source hỗ trợ test, không chứa game image.
-
-## Runtime gate tiếp theo
-
-`0.6.19.0` hiện là **candidate**, chưa gọi PASS trước khi test.
-
-Ưu tiên chụp lại:
+QA tiếp theo:
 
 - intro/cốt truyện;
-- thoại dài;
+- thoại dài / tửu quán;
 - menu giữa trận;
-- danh sách + mô tả lá bài;
-- mô tả vũ khí/item;
+- card list + card descriptions;
+- weapon/item descriptions;
 - event Ma vương/thần linh;
-- mọi câu còn Nhật hoặc Nhật-Việt lẫn nhau.
+- mọi chuỗi còn Nhật hoặc Nhật-Việt lẫn nhau.
