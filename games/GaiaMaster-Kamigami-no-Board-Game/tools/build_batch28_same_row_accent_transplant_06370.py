@@ -18,6 +18,8 @@ EXACTS = [
     TR / "BATCH24_EXACT_OFFSET_0.6.33.0.csv",
     TR / "BATCH27_ACCENT_PROMOTION_0.6.36.0.csv",
 ]
+HIST = TR / "COMPACT_TRANSLATION_OVERRIDES_0.6.14.1.csv"
+B19 = ROOT / "checkpoints" / "0.6.28.0" / "reports" / "GaiaMaster_0.6.28.0_EXACT_OFFSET_LOCKS.csv"
 TOKEN = re.compile(r"%(?:[-+0-9.#]*[A-Za-z])|/[Vv]")
 WORD = re.compile(r"[A-Za-z0-9]+")
 FROZEN = set("àáâãéêìíòóÔôùúÝăĐđĩũƠơưạảấầẩẫậắặẻẽếềểệỉịọỏốồổỗộớờởợụủứừửữựỵỹ")
@@ -57,29 +59,28 @@ def safe_chars(text: str) -> bool:
 
 
 def rlen(text: str) -> int:
-    n = 0; pos = 0
+    n = 0
+    pos = 0
     for m in TOKEN.finditer(text or ""):
         for ch in text[pos:m.start()]:
             n += 2 if (ch in FROZEN or ch == " " or 0x21 <= ord(ch) <= 0x7E) else len(ch.encode("cp932"))
-        n += len(m.group(0).encode("ascii")); pos = m.end()
+        n += len(m.group(0).encode("ascii"))
+        pos = m.end()
     for ch in (text or "")[pos:]:
         n += 2 if (ch in FROZEN or ch == " " or 0x21 <= ord(ch) <= 0x7E) else len(ch.encode("cp932"))
     return n
 
 
 def full_words(text: str):
-    # Keep only alphabetic Vietnamese/Latin words, split on punctuation/spaces.
     return [x for x in re.split(r"[^A-Za-zÀ-ỹĐđ]+", text or "") if x]
 
 
 def transplant(fallback: str, full: str):
     """Return a same-word accented rewrite or None.
 
-    We never translate synonyms here. A fallback token may match:
-    - one full word after accent folding;
-    - 2..4 consecutive full words concatenated (CAIDAT -> Cài đặt);
-    - initials of 2..4 consecutive full words (VK -> Vũ khí), in which case the
-      abbreviation is kept as-is because expanding it changes wording/length.
+    No synonym translation happens here. A fallback token may match one full
+    word or 2..4 consecutive full words after accent folding. Initialisms such
+    as VK/SK are semantically matched but intentionally remain abbreviations.
     """
     fwords = full_words(full)
     if not fwords:
@@ -95,7 +96,6 @@ def transplant(fallback: str, full: str):
         ftok = fold(tok)
         replacement = tok
         found_end = None
-        # Search forward only so semantic order cannot be rearranged.
         for i in range(cursor, len(fwords)):
             if folded[i] == ftok:
                 replacement = fwords[i]
@@ -111,7 +111,6 @@ def transplant(fallback: str, full: str):
                     break
                 initials = "".join(x[0] for x in folded[i:i+width] if x)
                 if initials == ftok and len(ftok) >= 2:
-                    # Preserve established abbreviation, but count it as semantically matched.
                     replacement = tok
                     found_end = i + width
                     break
@@ -129,14 +128,53 @@ def transplant(fallback: str, full: str):
     return candidate if changed else None
 
 
+def historical_protected(master_by_key):
+    """Mirror Batch25 protection semantics.
+
+    Only 0.6.14.1 rows that truly fit the original field, preserve runtime
+    tokens and encode under the frozen runtime contract are locks. Batch19
+    exact locks are compiler-proven and therefore unconditional.
+    """
+    protected = set()
+    hist_fit = 0
+    hist_skipped = 0
+    for r in rows(HIST):
+        k = key(r)
+        src = master_by_key.get(k)
+        text = (r.get("vi_accented") or "").strip()
+        if src is None:
+            hist_skipped += 1
+            continue
+        jp = src.get("japanese") or ""
+        try:
+            field = len(jp.encode("cp932"))
+        except Exception:
+            hist_skipped += 1
+            continue
+        if rlen(text) > field or tokens(jp) != tokens(text) or not safe_chars(text):
+            hist_skipped += 1
+            continue
+        protected.add(k)
+        hist_fit += 1
+    b19_count = 0
+    for r in rows(B19):
+        protected.add(key(r))
+        b19_count += 1
+    return protected, hist_fit, hist_skipped, b19_count
+
+
 def main():
     master = []
     for p in PARTS:
         master.extend(rows(p))
+    master_by_key = {key(r): r for r in master}
+
     protected = set()
     for p in EXACTS:
         for r in rows(p):
             protected.add(key(r))
+    hist_keys, hist_fit, hist_skipped, b19_count = historical_protected(master_by_key)
+    protected.update(hist_keys)
 
     proposals = []
     examined = 0
@@ -176,23 +214,33 @@ def main():
             too_long += 1
             continue
         proposals.append({
-            "file": k[0], "offset_hex": k[1], "japanese": jp,
-            "vi_accented": cand, "field_bytes": field, "vi_bytes": clen,
-            "old_fallback": fallback, "vi_full_reference": full,
+            "file": k[0],
+            "offset_hex": k[1],
+            "japanese": jp,
+            "vi_accented": cand,
+            "field_bytes": field,
+            "vi_bytes": clen,
+            "old_fallback": fallback,
+            "vi_full_reference": full,
             "source": "same-row-lexical-accent-transplant",
         })
 
     proposals.sort(key=lambda r: (r["file"], int(r["offset_hex"], 16)))
     with OUT.open("w", encoding="utf-8-sig", newline="") as f:
         fields = ["file","offset_hex","japanese","vi_accented","field_bytes","vi_bytes","old_fallback","vi_full_reference","source"]
-        w = csv.DictWriter(f, fieldnames=fields); w.writeheader(); w.writerows(proposals)
+        w = csv.DictWriter(f, fieldnames=fields)
+        w.writeheader()
+        w.writerows(proposals)
 
     REPORT.parent.mkdir(parents=True, exist_ok=True)
     lines = [
         f"GAIA MASTER {VERSION} BATCH 28 SAME-ROW ACCENT TRANSPLANT",
         "=" * 78,
         f"Translation Master rows      : {len(master)}",
-        f"Previously protected exact   : {len(protected)}",
+        f"Total protected exact keys   : {len(protected)}",
+        f"Runtime-fit historical locks : {hist_fit}",
+        f"Historical no-op/unfit rows  : {hist_skipped}",
+        f"Batch19 exact lock rows       : {b19_count}",
         f"Fallback rows examined       : {examined}",
         f"New safe accent rewrites     : {len(proposals)}",
         f"No vi_full reference         : {no_full}",
@@ -206,6 +254,7 @@ def main():
         "- only accent/case/word-boundary transfer with accent-fold lexical proof",
         "- no synonym translation and no fallback-semantic inference",
         "- abbreviations such as VK/SK remain abbreviations",
+        "- runtime-fit historical locks and Batch19 exact locks are never proposed again",
         "- runtime tokens must match identity/order",
         "- result must fit the original Japanese field",
         "- result must be frozen-codepage/CP932 safe",
