@@ -1,0 +1,141 @@
+name: Gaia Master 0.6.52.0 EASY Package
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [gaia-character-select-font-atlas-reverse-01]
+    paths:
+      - ".github/workflows/gaia-06520-easy-package.yml"
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare EASY package
+        shell: bash
+        run: |
+          ROOT="games/GaiaMaster-Kamigami-no-Board-Game"
+          PKG="GaiaMaster_0.6.52.0_Batch42_EASY"
+          mkdir -p "$PKG/Core"
+          cp -a "$ROOT"/. "$PKG/Core"/
+          find "$PKG/Core" -type f \( -iname '*.bin' -o -iname '*.cue' -o -iname '*.iso' -o -iname '*.img' -o -iname '*.chd' \) -delete
+          cat > "$PKG/00_VIET_HOA_GAME.cmd" <<'EOF'
+          @echo off
+          setlocal EnableExtensions
+          chcp 65001 >nul
+          title Gaia Master 0.6.52.0 - Viet Hoa
+          set "CLEAN_SHA=F4D5298583C90D89C4B7E51D2DDE160EE07F2AEC"
+          echo ============================================================
+          echo       GAIA MASTER 0.6.52.0 - VIET HOA BATCH 42
+          echo ============================================================
+          echo.
+          set "BIN=%~1"
+          if not defined BIN (
+            for /f "usebackq delims=" %%F in (`powershell -NoProfile -Command "$sha='%CLEAN_SHA%'; Get-ChildItem -LiteralPath '%~dp0' -Filter '*.bin' -File ^| Where-Object { (Get-FileHash -LiteralPath $_.FullName -Algorithm SHA1).Hash -eq $sha } ^| Select-Object -First 1 -ExpandProperty FullName"`) do set "BIN=%%F"
+          )
+          if not defined BIN (
+            echo [!] Khong tim thay CLEAN Japan BIN dung SHA1.
+            echo Chep CLEAN Japan .BIN vao CUNG thu muc voi file nay roi chay lai.
+            echo SHA1: %CLEAN_SHA%
+            echo.
+            pause
+            exit /b 2
+          )
+          echo CLEAN BIN: "%BIN%"
+          echo.
+          where py >nul 2>&1
+          if %errorlevel%==0 (
+            py -3 "%~dp0Core\tools\build_gaia_06520_batch42_master_closure.py" "%BIN%"
+          ) else (
+            python "%~dp0Core\tools\build_gaia_06520_batch42_master_closure.py" "%BIN%"
+          )
+          set "RC=%errorlevel%"
+          echo.
+          if "%RC%"=="0" (
+            echo ============================================================
+            echo XONG! Build 0.6.52.0 thanh cong.
+            echo Mo DUNG file CUE/BIN co ten 0.6.52.0.
+            echo Gui lai GaiaMaster_0.6.52.0_BATCH42_FINAL_REPORT.txt.
+            echo ============================================================
+          ) else (
+            echo [LOI] Build chua thanh cong. Ma loi: %RC%
+            echo Chup cua so nay gui lai de kiem tra.
+          )
+          echo.
+          pause
+          exit /b %RC%
+          EOF
+          cat > "$PKG/01_QUET_TOAN_BO_GAME.cmd" <<'EOF'
+          @echo off
+          setlocal EnableExtensions
+          chcp 65001 >nul
+          title Gaia Master - Quet toan bo text Nhat
+          set "CLEAN_SHA=F4D5298583C90D89C4B7E51D2DDE160EE07F2AEC"
+          echo ============================================================
+          echo       QUET TOAN BO TEXT NHAT TRONG CLEAN GAME
+          echo ============================================================
+          echo.
+          set "BIN=%~1"
+          if not defined BIN (
+            for /f "usebackq delims=" %%F in (`powershell -NoProfile -Command "$sha='%CLEAN_SHA%'; Get-ChildItem -LiteralPath '%~dp0' -Filter '*.bin' -File ^| Where-Object { (Get-FileHash -LiteralPath $_.FullName -Algorithm SHA1).Hash -eq $sha } ^| Select-Object -First 1 -ExpandProperty FullName"`) do set "BIN=%%F"
+          )
+          if not defined BIN (
+            echo [!] Khong tim thay CLEAN Japan BIN dung SHA1.
+            pause
+            exit /b 2
+          )
+          where py >nul 2>&1
+          if %errorlevel%==0 (
+            py -3 "%~dp0Core\tools\scan_full_japanese_text_06380.py" "%BIN%"
+          ) else (
+            python "%~dp0Core\tools\scan_full_japanese_text_06380.py" "%BIN%"
+          )
+          set "RC=%errorlevel%"
+          echo.
+          if "%RC%"=="0" (
+            echo QUET XONG. Gui lai:
+            echo GaiaMaster_0.6.38.0_FULL_JAPANESE_SCAN.csv
+            echo GaiaMaster_0.6.38.0_FULL_JAPANESE_SCAN_REPORT.txt
+          ) else (
+            echo [LOI] Quet chua thanh cong. Ma loi: %RC%
+          )
+          echo.
+          pause
+          exit /b %RC%
+          EOF
+          cat > "$PKG/02_DOC_TRUOC.txt" <<'EOF'
+          GAIA MASTER 0.6.52.0 - BATCH 42 EASY
+          =====================================
+
+          1) 00_VIET_HOA_GAME.cmd
+             Build ban Viet hoa 0.6.52.0 tu CLEAN Japan BIN.
+             Tu dong tim dung CLEAN BIN bang SHA1.
+
+          2) 01_QUET_TOAN_BO_GAME.cmd
+             READ ONLY. Quet text Nhat ngoai Translation Master hien tai.
+             Day la buoc can thiet de mo rong Story / Tutorial / Help.
+
+          CLEAN BIN SHA1:
+          f4d5298583c90d89c4b7e51d2dde160ee07f2aec
+
+          BUILD CONTRACT 0.6.52.0:
+          - 547 new exact targets staged
+          - 560 exact fields bat buoc byte-verify
+          - current Translation Master coverage audit = 596/596
+          - legacy Alpha gate = 397/397
+          - frozen 60-glyph Vietnamese codepage
+
+          QUAN TRONG:
+          596/596 chi co nghia la Translation Master 596 row hien tai da duoc bao ve.
+          KHONG co nghia la toan bo game da dich xong.
+          Story / Tutorial / Help ngoai master van can FULL JAPANESE SCAN.
+
+          Chua goi Runtime PASS cho toi khi kiem screenshot/log game that.
+          Goi nay KHONG kem ROM/game goc.
+          EOF
+      - uses: actions/upload-artifact@v4
+        with:
+          name: GaiaMaster_0.6.52.0_Batch42_EASY
+          path: GaiaMaster_0.6.52.0_Batch42_EASY
+          if-no-files-found: error
