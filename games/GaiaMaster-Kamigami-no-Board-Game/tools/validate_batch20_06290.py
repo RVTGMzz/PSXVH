@@ -8,7 +8,7 @@ import re
 from pathlib import Path
 
 VERSION = "0.6.29.0"
-EXPECTED_ROWS = 84
+EXPECTED_ROWS = 75
 ROOT = Path(__file__).resolve().parent.parent
 TR = ROOT / "translation"
 PRESSURE = ROOT / "checkpoints" / "0.6.28.0" / "reports" / "GaiaMaster_0.6.28.0_FIT_PRESSURE.csv"
