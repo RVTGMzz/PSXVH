@@ -36,7 +36,7 @@ if errorlevel 1 (
   echo Gui lai man hinh/log loi cho Ta.
   echo.
   pause
-  exit /b %errorlevel%
+  exit /b 1
 )
 
 echo.
@@ -48,7 +48,7 @@ if errorlevel 1 (
   echo Gui lai man hinh/log loi cho Ta.
   echo.
   pause
-  exit /b %errorlevel%
+  exit /b 1
 )
 
 echo.
