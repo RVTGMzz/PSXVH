@@ -1,0 +1,32 @@
+Continue Gaia Master from branch gaia-character-select-font-atlas-reverse-01 at checkpoint 0.6.35.0 / Batch 26.
+
+Read first:
+1. HANDOFF_CURRENT.md
+2. SESSION_HANDOFF_0.6.35.0.md
+3. BATCH26_0.6.35.0.md
+4. checkpoints/0.6.35.0/BATCH26_PRECEDENCE_AUDIT.txt
+
+Current state:
+- Batch 21-24 closed 147/147 persisted 0.6.28.0 residual Alpha rows.
+- Batch 25 final candidate set = 222 exact keys.
+- 13 already-proven runtime-fit historical locks are reused.
+- 209 new exact keys go through Batch26 final staging.
+- Batch26 precedence audit = STATIC PRECEDENCE PASS.
+- legacy gate remains 397/397.
+- 209 legacy shadow rows, 4 dynamic sink rows, 149/23/2 exact masks, 29 global-map preservation rows.
+- final static exact mismatches = 0.
+- source staging/restoration selftest = PASS.
+- final builder --selftest = PASS.
+
+Production launcher:
+tools/00_BUILD_0.6.35.0_BATCH26_FINAL_EXACT.cmd
+
+Clean Japan BIN required:
+SHA1 f4d5298583c90d89c4b7e51d2dde160ee07f2aec
+
+The actual local build must verify 222/222 final exact fields byte-for-byte in the generated BIN. Then runtime screenshots/logs are required.
+
+Status is BUILD-READY / STATIC PASS only. Never call Runtime PASS without actual gameplay evidence.
+
+Hard locks remain:
+native 12x12 / 72-byte / 4bpp / LOW nibble first; static mapping-only; frozen 60-glyph Vietnamese codepage; no renderer hook, pointer redirect, 12x16, 6x12, composite overlay, or font retuning without new runtime evidence.
