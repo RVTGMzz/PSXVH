@@ -1,0 +1,36 @@
+name: Gaia Master Batch 20 Production Audit
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - gaia-character-select-font-atlas-reverse-01
+    paths:
+      - "games/GaiaMaster-Kamigami-no-Board-Game/tools/audit_batch20_production_collisions.py"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/translation/BATCH20_EXACT_OFFSET_0.6.29.0.csv"
+      - ".github/workflows/gaia-batch20-production-audit.yml"
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run collision audit
+        run: python games/GaiaMaster-Kamigami-no-Board-Game/tools/audit_batch20_production_collisions.py
+      - name: Commit audit report
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add games/GaiaMaster-Kamigami-no-Board-Game/checkpoints/0.6.29.0/BATCH20_PRODUCTION_COLLISIONS.txt
+          if git diff --cached --quiet; then
+            echo "Audit report already current."
+          else
+            git commit -m "Gaia Master 0.6.29.0: store Batch 20 production collision audit"
+            git push
+          fi
