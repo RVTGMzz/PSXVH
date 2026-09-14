@@ -1,0 +1,41 @@
+name: Gaia Master Batch 19 Reports
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - gaia-character-select-font-atlas-reverse-01
+    paths:
+      - "games/GaiaMaster-Kamigami-no-Board-Game/translation/**"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/tools/gaia_batch19_report_compiler_06280.py"
+      - ".github/workflows/gaia-batch19-reports.yml"
+
+jobs:
+  reports:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Syntax check
+        run: python -m py_compile games/GaiaMaster-Kamigami-no-Board-Game/tools/gaia_batch19_report_compiler_06280.py
+
+      - name: Generate Batch 19 reports
+        run: python games/GaiaMaster-Kamigami-no-Board-Game/tools/gaia_batch19_report_compiler_06280.py
+
+      - name: Show report summary
+        run: cat games/GaiaMaster-Kamigami-no-Board-Game/checkpoints/0.6.28.0/reports/GaiaMaster_0.6.28.0_REPORT_SUMMARY.txt
+
+      - name: Upload reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: GaiaMaster-0.6.28.0-Batch19-Reports
+          path: games/GaiaMaster-Kamigami-no-Board-Game/checkpoints/0.6.28.0/reports/
+          if-no-files-found: error
