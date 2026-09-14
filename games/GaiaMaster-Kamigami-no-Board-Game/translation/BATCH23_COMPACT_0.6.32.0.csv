@@ -1,0 +1,37 @@
+japanese,vi_compact,note
+特殊　速度６　使い捨て,ĐB tốc6 1L,compact; special speed6 single-use
+酒場へようこそ,Chào!,compact tavern greeting
+プレイヤー設定,Cài đặt,compact menu label
+もう勝負は終わりだよ,Đấu xong,compact dialogue
+この設定でいいかしら？,Xác nhận?,compact confirmation
+わたしと一勝負してかないかい,Đấu với ta?,compact challenge
+つぎの賞品はこいつだよ,Thưởng tiếp,compact reward line
+セリフ表示,Thoại,compact menu label
+ちょうどタイクツしてたんだ,Đang chán quá,compact dialogue
+「%s」を手に入れたけど,"Có %s, nhưng",compact fragment; token preserved
+２　（ふつう）,2 Vừa,compact speed setting
+データがないわよ,Không có,compact no-data context
+より大きいかちいさいか当てるんだよ,Đoán lớn/nhỏ,compact minigame instruction
+最初の賞品はこいつさ,Thưởng đầu,compact reward line
+いらないカードを捨ててね,Bỏ thẻ thừa,compact inventory prompt
+セリフ速度,Tốc,compact menu label
+これでいい？,Được?,compact confirmation
+いちかばちか,Liều!,compact gamble phrase
+もう一勝負してくかい？,Đấu nữa?,compact challenge
+手に入らなかったよ,Không có,compact obtain-failed line
+%d枚、手に入れたよ,Có %d thẻ,compact obtain line; token preserved
+ボイス,âm,compact voice menu label; uppercase Â unavailable in frozen codepage
+しんどう設定,Rung,compact menu label
+%sは一回休みよ！,%s nghỉ!,compact skip-turn line; token preserved
+戦いをしかけるよね？,Đấu nhé?,compact challenge
+運がよければ敵を倒せるかも,May hạ địch,compact item description
+ポリタンがみがわりに！？,Politan chắn,compact substitute effect
+…つまんないね,...Chán,compact dialogue
+でももう持ち切れないみたい,Hết chỗ rồi,compact inventory line
+%sはコントローラ%sだよ！,%s tay %s,compact controller assignment; tokens preserved
+キャラクターをえらんでね,Chọn tướng,compact character select
+土地をかけて戦うことができるよ,Đấu giành đất,compact gameplay explanation
+ロングソード,Kiếm,compact weapon name
+なんだい、もう終わりかい,Nghỉ rồi à?,compact dialogue
+ゲームをはじめるよ,Bắt đầu!,compact start prompt
+%dゼニーあげるね,Tặng %d Z,compact currency line; token preserved
