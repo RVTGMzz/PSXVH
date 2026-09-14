@@ -1,0 +1,146 @@
+name: Gaia Master 0.6.55.1 Batch45R2 EASY Package
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [gaia-character-select-font-atlas-reverse-01]
+    paths:
+      - ".github/workflows/gaia-06551-easy-package.yml"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/tools/build_gaia_06551_batch45r2_font_micro_polish.py"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/tools/00_BUILD_0.6.55.1_BATCH45R2_FONT_POLISH.cmd"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/BATCH45R2_0.6.55.1_FONT_MICRO_POLISH.md"
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Compile and static selftest
+        shell: bash
+        run: |
+          set -euo pipefail
+          ROOT="games/GaiaMaster-Kamigami-no-Board-Game"
+          python -m py_compile "$ROOT/tools/build_gaia_06551_batch45r2_font_micro_polish.py"
+          python "$ROOT/tools/build_gaia_06551_batch45r2_font_micro_polish.py" --selftest
+
+      - name: Prepare EASY package
+        shell: bash
+        run: |
+          set -euo pipefail
+          ROOT="games/GaiaMaster-Kamigami-no-Board-Game"
+          PKG="GaiaMaster_0.6.55.1_Batch45R2_FONT_EASY"
+          mkdir -p "$PKG/Core"
+          cp -a "$ROOT"/. "$PKG/Core"/
+          find "$PKG/Core" -type f \( -iname '*.bin' -o -iname '*.cue' -o -iname '*.iso' -o -iname '*.img' -o -iname '*.chd' \) -delete
+
+          cat > "$PKG/00_VIET_HOA_GAME.cmd" <<'EOF'
+          @echo off
+          setlocal EnableExtensions
+          chcp 65001 >nul
+          title Gaia Master 0.6.55.1 - Batch45R2 Font Micro Polish
+          set "CLEAN_SHA=F4D5298583C90D89C4B7E51D2DDE160EE07F2AEC"
+          set "GAIA_ROOT=%~dp0"
+          set "GAIA_SHA=%CLEAN_SHA%"
+          echo ============================================================
+          echo   GAIA MASTER 0.6.55.1 - BATCH45R2 FONT MICRO POLISH
+          echo ============================================================
+          echo.
+          set "BIN=%~1"
+          if defined BIN (
+            if not exist "%BIN%" set "BIN="
+          )
+          if defined BIN (
+            if /I not "%~x1"==".bin" set "BIN="
+          )
+          if not defined BIN (
+            for /f "usebackq delims=" %%F in (`powershell -NoProfile -ExecutionPolicy Bypass -Command "$ErrorActionPreference='SilentlyContinue'; $root=$env:GAIA_ROOT; $sha=$env:GAIA_SHA; Get-ChildItem -LiteralPath $root -Filter '*.bin' -File -Recurse ^| Where-Object { (Get-FileHash -LiteralPath $_.FullName -Algorithm SHA1).Hash -eq $sha } ^| Select-Object -First 1 -ExpandProperty FullName"`) do set "BIN=%%F"
+          )
+          if not defined BIN goto :NO_BIN
+          if not exist "%BIN%" goto :NO_BIN
+          for %%F in ("%BIN%") do set "BIN=%%~fF"
+          echo CLEAN BIN: "%BIN%"
+          echo.
+
+          where py >nul 2>&1
+          if %errorlevel%==0 (
+            set "PY=py -3"
+          ) else (
+            set "PY=python"
+          )
+
+          echo [1/2] Static selftest...
+          %PY% "%~dp0Core\tools\build_gaia_06551_batch45r2_font_micro_polish.py" --selftest
+          if errorlevel 1 goto :FAIL
+
+          echo.
+          echo [2/2] CLEAN build + font geometry gates...
+          %PY% "%~dp0Core\tools\build_gaia_06551_batch45r2_font_micro_polish.py" "%BIN%"
+          if errorlevel 1 goto :FAIL
+
+          echo.
+          echo ============================================================
+          echo XONG! Build 0.6.55.1 thanh cong.
+          echo Mo DUNG file CUE/BIN co ten 0.6.55.1.
+          echo Gui lai GaiaMaster_0.6.55.1_BATCH45R2_FINAL_REPORT.txt
+          echo va screenshot gameplay co chu đ / Đ / â-ê-ô / dau kep neu co.
+          echo CHUA GOI RUNTIME PASS neu chua co screenshot.
+          echo ============================================================
+          echo.
+          pause
+          exit /b 0
+
+          :FAIL
+          echo.
+          echo [LOI] Build/selftest chua thanh cong.
+          echo Gui nguyen cua so BUILD_LOG nay, dung sua tiep bang tay.
+          echo.
+          pause
+          exit /b 9
+
+          :NO_BIN
+          echo [!] Khong tim thay CLEAN Japan BIN dung SHA1.
+          echo.
+          echo Cach de nhat:
+          echo   1. Chep CLEAN Japan .BIN vao CUNG thu muc voi 00_VIET_HOA_GAME.cmd.
+          echo   2. Hoac keo-tha CLEAN .BIN truc tiep len file CMD nay.
+          echo.
+          echo SHA1 can dung: %CLEAN_SHA%
+          echo.
+          pause
+          exit /b 2
+          EOF
+
+          cat > "$PKG/01_DOC_TRUOC.txt" <<'EOF'
+          GAIA MASTER 0.6.55.1 - BATCH45R2 FONT MICRO POLISH
+          ==================================================
+
+          Muc tieu runtime:
+          - đ thuong: bar neo vao dung than doc ben PHAI cua native d, cao hon 0.6.55.0 1 px.
+          - Đ hoa: rule rieng theo than doc ben TRAI, tra ve vertical placement truoc Batch45.
+          - â/ê/ô: dau ^ tach than ro hon.
+          - ấ/ế/ố...: tone khong de len ^.
+          - ắ: acute khong de len breve.
+
+          Safety:
+          - frozen 60 glyph codepage
+          - native 12x12 / 72-byte / 4bpp / mapping-only
+          - 37 glyph ngoai scope phai byte-identical voi generator 0.6.55.0
+          - PRGPACK phai byte-for-byte khong doi boi font patch R2
+          - EDC/ECC duoc regen cho raw SLPS sectors bi sua
+          - Batch42 exact + intro Batch45 duoc recheck truoc va sau font patch
+
+          CLEAN BIN SHA1:
+          f4d5298583c90d89c4b7e51d2dde160ee07f2aec
+
+          QUAN TRONG:
+          Static/build PASS KHONG phai Runtime PASS.
+          Can gameplay screenshot de khoa font.
+          Goi nay KHONG kem ROM/game goc.
+          EOF
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: GaiaMaster_0.6.55.1_Batch45R2_FONT_EASY
+          path: GaiaMaster_0.6.55.1_Batch45R2_FONT_EASY
+          if-no-files-found: error
