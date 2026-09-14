@@ -1,14 +1,14 @@
 GAIA MASTER 0.6.39.0 BATCH 29 MERGED EXACT VALIDATION
 ============================================================================
-Input rows across B20/B24/B27/B28 : 311
-Unique final candidate keys        : 311
+Input rows across B20/B24/B27/B28 : 295
+Unique final candidate keys        : 295
 Runtime-fit protected keys         : 49
 Historical rows skipped no-op/unfit: 13
-Already-locked identical           : 25
-Protected wording conflicts         : 4
+Already-locked identical           : 13
+Protected wording conflicts         : 0
 New exact rows exported            : 282
-Final exact verification set       : 311
-Errors                             : 4
+Final exact verification set       : 295
+Errors                             : 0
 
 Guards:
 - merge by exact file+offset
@@ -16,14 +16,4 @@ Guards:
 - recheck byte fit, runtime tokens and frozen codepage
 - data compiler only; no ROM/font/pointer modification
 
-PROTECTED CONFLICTS:
-- PRGPACK.BDP 0x67a58: new='hồi HP' [BATCH28_SAME_ROW_ACCENT_0.6.37.0.csv] locked='sẽ hồi HP' [GaiaMaster_0.6.28.0_EXACT_OFFSET_LOCKS.csv]
-- PRGPACK.BDP 0x688d8: new='Come on' [BATCH28_SAME_ROW_ACCENT_0.6.37.0.csv] locked='Come on!' [GaiaMaster_0.6.28.0_EXACT_OFFSET_LOCKS.csv]
-- PRGPACK.BDP 0x68e18: new='thẻ SK' [BATCH28_SAME_ROW_ACCENT_0.6.37.0.csv] locked='Thẻ SK' [COMPACT_TRANSLATION_OVERRIDES_0.6.14.1.csv]
-- SLPS_020.75 0x3404: new='bỏ %s' [BATCH28_SAME_ROW_ACCENT_0.6.37.0.csv] locked='Từ bỏ %s' [GaiaMaster_0.6.28.0_EXACT_OFFSET_LOCKS.csv]
-
-ERRORS:
-- protected wording conflict ('PRGPACK.BDP', '0x67a58'): new='hồi HP' (BATCH28_SAME_ROW_ACCENT_0.6.37.0.csv) locked='sẽ hồi HP' (GaiaMaster_0.6.28.0_EXACT_OFFSET_LOCKS.csv)
-- protected wording conflict ('PRGPACK.BDP', '0x688d8'): new='Come on' (BATCH28_SAME_ROW_ACCENT_0.6.37.0.csv) locked='Come on!' (GaiaMaster_0.6.28.0_EXACT_OFFSET_LOCKS.csv)
-- protected wording conflict ('PRGPACK.BDP', '0x68e18'): new='thẻ SK' (BATCH28_SAME_ROW_ACCENT_0.6.37.0.csv) locked='Thẻ SK' (COMPACT_TRANSLATION_OVERRIDES_0.6.14.1.csv)
-- protected wording conflict ('SLPS_020.75', '0x3404'): new='bỏ %s' (BATCH28_SAME_ROW_ACCENT_0.6.37.0.csv) locked='Từ bỏ %s' (GaiaMaster_0.6.28.0_EXACT_OFFSET_LOCKS.csv)
+RESULT: STATIC PASS

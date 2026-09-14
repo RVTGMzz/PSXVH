@@ -8,7 +8,6 @@ PRGPACK.BDP,0x4c8,最初の賞品はこいつさ,Thưởng đầu,20,20,0,BATCH2
 PRGPACK.BDP,0x4e0,なんだい、もう終わりかい,Nghỉ rồi à?,24,22,2,BATCH24_EXACT_OFFSET_0.6.33.0.csv,batch29-final-exact
 PRGPACK.BDP,0x4fc,…つまんないね,...Chán,14,14,0,BATCH24_EXACT_OFFSET_0.6.33.0.csv,batch29-final-exact
 PRGPACK.BDP,0x518,もう勝負は終わりだよ,Đấu xong,20,16,4,BATCH24_EXACT_OFFSET_0.6.33.0.csv,batch29-final-exact
-PRGPACK.BDP,0x530,なかなかやるね,Khá lắm,14,14,0,BATCH28_SAME_ROW_ACCENT_0.6.37.0.csv,batch29-final-exact
 PRGPACK.BDP,0x540,もう一勝負してくかい？,Đấu nữa?,22,16,6,BATCH24_EXACT_OFFSET_0.6.33.0.csv,batch29-final-exact
 PRGPACK.BDP,0x558,つぎの賞品はこいつだよ,Thưởng tiếp,22,22,0,BATCH24_EXACT_OFFSET_0.6.33.0.csv,batch29-final-exact
 PRGPACK.BDP,0x570,%d枚の武器カードが手に入ったよ,Nhận %d thẻ VK,30,26,4,BATCH24_EXACT_OFFSET_0.6.33.0.csv,batch29-final-exact
@@ -39,7 +38,6 @@ PRGPACK.BDP,0x31ff8,最初の賞品はこいつさ,Thưởng đầu,20,20,0,BATC
 PRGPACK.BDP,0x32010,なんだい、もう終わりかい,Nghỉ rồi à?,24,22,2,BATCH24_EXACT_OFFSET_0.6.33.0.csv,batch29-final-exact
 PRGPACK.BDP,0x3202c,…つまんないね,...Chán,14,14,0,BATCH24_EXACT_OFFSET_0.6.33.0.csv,batch29-final-exact
 PRGPACK.BDP,0x32048,もう勝負は終わりだよ,Đấu xong,20,16,4,BATCH24_EXACT_OFFSET_0.6.33.0.csv,batch29-final-exact
-PRGPACK.BDP,0x32060,なかなかやるね,Khá lắm,14,14,0,BATCH28_SAME_ROW_ACCENT_0.6.37.0.csv,batch29-final-exact
 PRGPACK.BDP,0x32070,もう一勝負してくかい？,Đấu nữa?,22,16,6,BATCH24_EXACT_OFFSET_0.6.33.0.csv,batch29-final-exact
 PRGPACK.BDP,0x32088,つぎの賞品はこいつだよ,Thưởng tiếp,22,22,0,BATCH24_EXACT_OFFSET_0.6.33.0.csv,batch29-final-exact
 PRGPACK.BDP,0x320a0,%d枚の武器カードが手に入ったよ,Nhận %d thẻ VK,30,26,4,BATCH24_EXACT_OFFSET_0.6.33.0.csv,batch29-final-exact
@@ -60,7 +58,6 @@ PRGPACK.BDP,0x3f71c,最初の賞品はこいつさ,Thưởng đầu,20,20,0,BATC
 PRGPACK.BDP,0x3f734,なんだい、もう終わりかい,Nghỉ rồi à?,24,22,2,BATCH24_EXACT_OFFSET_0.6.33.0.csv,batch29-final-exact
 PRGPACK.BDP,0x3f750,…つまんないね,...Chán,14,14,0,BATCH24_EXACT_OFFSET_0.6.33.0.csv,batch29-final-exact
 PRGPACK.BDP,0x3f76c,もう勝負は終わりだよ,Đấu xong,20,16,4,BATCH24_EXACT_OFFSET_0.6.33.0.csv,batch29-final-exact
-PRGPACK.BDP,0x3f784,なかなかやるね,Khá lắm,14,14,0,BATCH28_SAME_ROW_ACCENT_0.6.37.0.csv,batch29-final-exact
 PRGPACK.BDP,0x3f794,もう一勝負してくかい？,Đấu nữa?,22,16,6,BATCH24_EXACT_OFFSET_0.6.33.0.csv,batch29-final-exact
 PRGPACK.BDP,0x3f7ac,つぎの賞品はこいつだよ,Thưởng tiếp,22,22,0,BATCH24_EXACT_OFFSET_0.6.33.0.csv,batch29-final-exact
 PRGPACK.BDP,0x3f7c4,%d枚の武器カードが手に入ったよ,Nhận %d thẻ VK,30,26,4,BATCH24_EXACT_OFFSET_0.6.33.0.csv,batch29-final-exact
@@ -81,7 +78,6 @@ PRGPACK.BDP,0x4d30c,最初の賞品はこいつさ,Thưởng đầu,20,20,0,BATC
 PRGPACK.BDP,0x4d324,なんだい、もう終わりかい,Nghỉ rồi à?,24,22,2,BATCH24_EXACT_OFFSET_0.6.33.0.csv,batch29-final-exact
 PRGPACK.BDP,0x4d340,…つまんないね,...Chán,14,14,0,BATCH24_EXACT_OFFSET_0.6.33.0.csv,batch29-final-exact
 PRGPACK.BDP,0x4d35c,もう勝負は終わりだよ,Đấu xong,20,16,4,BATCH24_EXACT_OFFSET_0.6.33.0.csv,batch29-final-exact
-PRGPACK.BDP,0x4d374,なかなかやるね,Khá lắm,14,14,0,BATCH28_SAME_ROW_ACCENT_0.6.37.0.csv,batch29-final-exact
 PRGPACK.BDP,0x4d384,もう一勝負してくかい？,Đấu nữa?,22,16,6,BATCH24_EXACT_OFFSET_0.6.33.0.csv,batch29-final-exact
 PRGPACK.BDP,0x4d39c,つぎの賞品はこいつだよ,Thưởng tiếp,22,22,0,BATCH24_EXACT_OFFSET_0.6.33.0.csv,batch29-final-exact
 PRGPACK.BDP,0x4d3b4,%d枚の武器カードが手に入ったよ,Nhận %d thẻ VK,30,26,4,BATCH24_EXACT_OFFSET_0.6.33.0.csv,batch29-final-exact
@@ -102,7 +98,6 @@ PRGPACK.BDP,0x5afe0,最初の賞品はこいつさ,Thưởng đầu,20,20,0,BATC
 PRGPACK.BDP,0x5aff8,なんだい、もう終わりかい,Nghỉ rồi à?,24,22,2,BATCH24_EXACT_OFFSET_0.6.33.0.csv,batch29-final-exact
 PRGPACK.BDP,0x5b014,…つまんないね,...Chán,14,14,0,BATCH24_EXACT_OFFSET_0.6.33.0.csv,batch29-final-exact
 PRGPACK.BDP,0x5b030,もう勝負は終わりだよ,Đấu xong,20,16,4,BATCH24_EXACT_OFFSET_0.6.33.0.csv,batch29-final-exact
-PRGPACK.BDP,0x5b048,なかなかやるね,Khá lắm,14,14,0,BATCH28_SAME_ROW_ACCENT_0.6.37.0.csv,batch29-final-exact
 PRGPACK.BDP,0x5b058,もう一勝負してくかい？,Đấu nữa?,22,16,6,BATCH24_EXACT_OFFSET_0.6.33.0.csv,batch29-final-exact
 PRGPACK.BDP,0x5b070,つぎの賞品はこいつだよ,Thưởng tiếp,22,22,0,BATCH24_EXACT_OFFSET_0.6.33.0.csv,batch29-final-exact
 PRGPACK.BDP,0x5b088,%d枚の武器カードが手に入ったよ,Nhận %d thẻ VK,30,26,4,BATCH24_EXACT_OFFSET_0.6.33.0.csv,batch29-final-exact
@@ -136,9 +131,7 @@ PRGPACK.BDP,0x679f4,建てれば、その土地の,Nếu dựng,20,16,4,BATCH20_
 PRGPACK.BDP,0x67a0c,ことができるよ！,có thể!,16,14,2,BATCH28_SAME_ROW_ACCENT_0.6.37.0.csv,batch29-final-exact
 PRGPACK.BDP,0x67a34,あいての体力をひくく,Giảm HP,20,14,6,BATCH20_EXACT_OFFSET_0.6.29.0.csv,batch29-final-exact
 PRGPACK.BDP,0x67a4c,くれるよ！,Được!,10,10,0,BATCH20_EXACT_OFFSET_0.6.29.0.csv,batch29-final-exact
-PRGPACK.BDP,0x67a58,すると体力を回復して,hồi HP,20,12,8,BATCH28_SAME_ROW_ACCENT_0.6.37.0.csv,batch29-final-exact
 PRGPACK.BDP,0x67a70,自分が止まるか、通過,Dừng/qua,20,16,4,BATCH20_EXACT_OFFSET_0.6.29.0.csv,batch29-final-exact
-PRGPACK.BDP,0x67ab0,やめる,Hủy,6,6,0,BATCH28_SAME_ROW_ACCENT_0.6.37.0.csv,batch29-final-exact
 PRGPACK.BDP,0x67ad0,どのお店にする？,Chọn sạp,16,16,0,BATCH20_EXACT_OFFSET_0.6.29.0.csv,batch29-final-exact
 PRGPACK.BDP,0x67af4,どの土地にする？,Chọn đất,16,16,0,BATCH20_EXACT_OFFSET_0.6.29.0.csv,batch29-final-exact
 PRGPACK.BDP,0x67bb4,どのエリアにする？,Chọn khu?,18,18,0,BATCH28_SAME_ROW_ACCENT_0.6.37.0.csv,batch29-final-exact
@@ -154,7 +147,6 @@ PRGPACK.BDP,0x67edc,次の武器カードをもらったよ,Nhận thẻ VK,26,2
 PRGPACK.BDP,0x67ef8,手持ちの武器カードがいっぱいだよ,Thẻ VK đã đầy,32,26,6,BATCH28_SAME_ROW_ACCENT_0.6.37.0.csv,batch29-final-exact
 PRGPACK.BDP,0x67f2c,次のイベントカードをもらったよ,Nhận thẻ SK,30,22,8,BATCH28_SAME_ROW_ACCENT_0.6.37.0.csv,batch29-final-exact
 PRGPACK.BDP,0x67f4c,手持ちのイベントカードがいっぱいで,Thẻ SK đã đầy,34,26,8,BATCH28_SAME_ROW_ACCENT_0.6.37.0.csv,batch29-final-exact
-PRGPACK.BDP,0x67f94,「%s」を捨てて,Bỏ %s,14,8,6,BATCH28_SAME_ROW_ACCENT_0.6.37.0.csv,batch29-final-exact
 PRGPACK.BDP,0x67fa4,「%s」を手に入れたよ,Nhận %s,20,12,8,BATCH24_EXACT_OFFSET_0.6.33.0.csv,batch29-final-exact
 PRGPACK.BDP,0x67fc8,あきらめたよ,Đã bỏ,12,10,2,BATCH20_EXACT_OFFSET_0.6.29.0.csv,batch29-final-exact
 PRGPACK.BDP,0x68024,表武器カード,Thẻ VK,12,12,0,BATCH28_SAME_ROW_ACCENT_0.6.37.0.csv,batch29-final-exact
@@ -165,7 +157,6 @@ PRGPACK.BDP,0x686ec,通行税なんかふみたおしちゃえ！！,Quỵt phí
 PRGPACK.BDP,0x68748,神さまからのプレゼント！！,Quà thần!!,26,20,6,BATCH28_SAME_ROW_ACCENT_0.6.37.0.csv,batch29-final-exact
 PRGPACK.BDP,0x687f8,お金なんかふみたおしちゃえ！！,Quỵt tiền!!,30,22,8,BATCH28_SAME_ROW_ACCENT_0.6.37.0.csv,batch29-final-exact
 PRGPACK.BDP,0x688b0,何で わしが はらわにゃ ならんのだ！！,Sao ta phải trả!!,37,34,3,BATCH28_SAME_ROW_ACCENT_0.6.37.0.csv,batch29-final-exact
-PRGPACK.BDP,0x688d8,かぅぁ～もぉ～ん,Come on,16,14,2,BATCH28_SAME_ROW_ACCENT_0.6.37.0.csv,batch29-final-exact
 PRGPACK.BDP,0x68a04,退け,Xê,4,4,0,BATCH20_EXACT_OFFSET_0.6.29.0.csv,batch29-final-exact
 PRGPACK.BDP,0x68a0c,へへん,Hê,6,4,2,BATCH20_EXACT_OFFSET_0.6.29.0.csv,batch29-final-exact
 PRGPACK.BDP,0x68a38,小賢しい,Láu!,8,8,0,BATCH20_EXACT_OFFSET_0.6.29.0.csv,batch29-final-exact
@@ -173,7 +164,6 @@ PRGPACK.BDP,0x68a44,ん？,Hả,4,4,0,BATCH20_EXACT_OFFSET_0.6.29.0.csv,batch29-
 PRGPACK.BDP,0x68b08,%dゼニーもらってゆくぜ,lấy %d Zenny,22,22,0,BATCH28_SAME_ROW_ACCENT_0.6.37.0.csv,batch29-final-exact
 PRGPACK.BDP,0x68b9c,は～はっは 破壊じゃ 破壊じゃ,Ha! Phá hủy!,28,24,4,BATCH20_EXACT_OFFSET_0.6.29.0.csv,batch29-final-exact
 PRGPACK.BDP,0x68bbc,どれを 破壊してくれようぞ！！,Phá cái nào!!,29,26,3,BATCH28_SAME_ROW_ACCENT_0.6.37.0.csv,batch29-final-exact
-PRGPACK.BDP,0x68bec,ふっ,Hừ,4,4,0,BATCH28_SAME_ROW_ACCENT_0.6.37.0.csv,batch29-final-exact
 PRGPACK.BDP,0x68bfc,ぐぬぅ～,Grrr,8,8,0,BATCH20_EXACT_OFFSET_0.6.29.0.csv,batch29-final-exact
 PRGPACK.BDP,0x68ca4,施設    %s,Nhà %s,10,10,0,BATCH20_EXACT_OFFSET_0.6.29.0.csv,batch29-final-exact
 PRGPACK.BDP,0x68cb0,所有者  %s,Chủ %s,10,10,0,BATCH28_SAME_ROW_ACCENT_0.6.37.0.csv,batch29-final-exact
@@ -183,11 +173,9 @@ PRGPACK.BDP,0x68d28,らいます,nhận,8,8,0,BATCH28_SAME_ROW_ACCENT_0.6.37.0.c
 PRGPACK.BDP,0x68d54,としてしはらい,trả,14,6,8,BATCH28_SAME_ROW_ACCENT_0.6.37.0.csv,batch29-final-exact
 PRGPACK.BDP,0x68d84,わります,đổi,8,6,2,BATCH28_SAME_ROW_ACCENT_0.6.37.0.csv,batch29-final-exact
 PRGPACK.BDP,0x68da0,１ターンごとに,Mỗi lần,14,14,0,BATCH20_EXACT_OFFSET_0.6.29.0.csv,batch29-final-exact
-PRGPACK.BDP,0x68db0,ます,sẽ,4,4,0,BATCH28_SAME_ROW_ACCENT_0.6.37.0.csv,batch29-final-exact
 PRGPACK.BDP,0x68dc8,止まるとルート,Dừng:lộ,14,14,0,BATCH20_EXACT_OFFSET_0.6.29.0.csv,batch29-final-exact
 PRGPACK.BDP,0x68dd8,が手に入ります,sẽ nhận,14,14,0,BATCH28_SAME_ROW_ACCENT_0.6.37.0.csv,batch29-final-exact
 PRGPACK.BDP,0x68de8,てば武器カード,thẻ VK,14,12,2,BATCH28_SAME_ROW_ACCENT_0.6.37.0.csv,batch29-final-exact
-PRGPACK.BDP,0x68e18,ベントカードが,thẻ SK,14,12,2,BATCH28_SAME_ROW_ACCENT_0.6.37.0.csv,batch29-final-exact
 PRGPACK.BDP,0xbfbec,この設定でいいかしら？,Xác nhận?,22,18,4,BATCH24_EXACT_OFFSET_0.6.33.0.csv,batch29-final-exact
 PRGPACK.BDP,0xbfd2c,キャラクターをえらんでね,Chọn tướng,24,20,4,BATCH24_EXACT_OFFSET_0.6.33.0.csv,batch29-final-exact
 PRGPACK.BDP,0xbfe4c,○ボタンをおしてね！,Nhấn O!,20,14,6,BATCH24_EXACT_OFFSET_0.6.33.0.csv,batch29-final-exact
@@ -228,8 +216,6 @@ SLPS_020.75,0x16a4,アイテム封じ,Khóa,12,8,4,BATCH20_EXACT_OFFSET_0.6.29.0
 SLPS_020.75,0x1744,使い捨て防御アイテム,Thủ 1 lần,20,18,2,BATCH20_EXACT_OFFSET_0.6.29.0.csv,batch29-final-exact
 SLPS_020.75,0x175c,シールド,Mộc,8,6,2,BATCH20_EXACT_OFFSET_0.6.29.0.csv,batch29-final-exact
 SLPS_020.75,0x177c,使い捨て回復アイテム,Hồi 1 lần,20,18,2,BATCH20_EXACT_OFFSET_0.6.29.0.csv,batch29-final-exact
-SLPS_020.75,0x17b0,ファイアボール,Cầu lửa,14,14,0,BATCH28_SAME_ROW_ACCENT_0.6.37.0.csv,batch29-final-exact
-SLPS_020.75,0x17f0,エストック,Estoc,10,10,0,BATCH28_SAME_ROW_ACCENT_0.6.37.0.csv,batch29-final-exact
 SLPS_020.75,0x1818,ジプシータロウ,Gypsy,14,10,4,BATCH28_SAME_ROW_ACCENT_0.6.37.0.csv,batch29-final-exact
 SLPS_020.75,0x1828,バトルアックス,Rìu đấu,14,14,0,BATCH20_EXACT_OFFSET_0.6.29.0.csv,batch29-final-exact
 SLPS_020.75,0x18a4,ジャンビーヤ,Jambia,12,12,0,BATCH20_EXACT_OFFSET_0.6.29.0.csv,batch29-final-exact
@@ -297,8 +283,6 @@ SLPS_020.75,0x3330,ルートを変えてあげる,Đổi đường,20,18,2,BATCH
 SLPS_020.75,0x3394,「%s」を手に入れたよ,Nhận %s,20,12,8,BATCH24_EXACT_OFFSET_0.6.33.0.csv,batch29-final-exact
 SLPS_020.75,0x33ac,手持ちのイベントカードがいっぱいで,Thẻ SK đã đầy,34,26,8,BATCH28_SAME_ROW_ACCENT_0.6.37.0.csv,batch29-final-exact
 SLPS_020.75,0x33f4,「%s」を捨てて,Bỏ %s,14,8,6,BATCH27_ACCENT_PROMOTION_0.6.36.0.csv,batch29-final-exact
-SLPS_020.75,0x3404,「%s」をあきらめたよ,bỏ %s,20,8,12,BATCH28_SAME_ROW_ACCENT_0.6.37.0.csv,batch29-final-exact
-SLPS_020.75,0x378c,キャンセル,Hủy,10,6,4,BATCH28_SAME_ROW_ACCENT_0.6.37.0.csv,batch29-final-exact
 SLPS_020.75,0x37e4,何か売っちゃう ？,Bán gì?,17,14,3,BATCH28_SAME_ROW_ACCENT_0.6.37.0.csv,batch29-final-exact
 SLPS_020.75,0x380c,総資産を見たけど ,tổng TS,17,14,3,BATCH28_SAME_ROW_ACCENT_0.6.37.0.csv,batch29-final-exact
 SLPS_020.75,0x3820,これじゃたりないわよ,Chưa đủ,20,14,6,BATCH20_EXACT_OFFSET_0.6.29.0.csv,batch29-final-exact
