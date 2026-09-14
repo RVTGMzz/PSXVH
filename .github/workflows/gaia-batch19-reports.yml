@@ -14,7 +14,7 @@ jobs:
   reports:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -39,3 +39,16 @@ jobs:
           name: GaiaMaster-0.6.28.0-Batch19-Reports
           path: games/GaiaMaster-Kamigami-no-Board-Game/checkpoints/0.6.28.0/reports/
           if-no-files-found: error
+
+      - name: Commit generated reports
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add games/GaiaMaster-Kamigami-no-Board-Game/checkpoints/0.6.28.0/reports/
+          if git diff --cached --quiet; then
+            echo "Reports are already current."
+          else
+            git commit -m "Gaia Master 0.6.28.0: store generated Batch 19 reports"
+            git push
+          fi
