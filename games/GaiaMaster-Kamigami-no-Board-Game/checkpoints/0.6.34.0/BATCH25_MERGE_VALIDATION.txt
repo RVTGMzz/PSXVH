@@ -1,0 +1,36 @@
+GAIA MASTER 0.6.34.0 BATCH 25 MERGED EXACT VALIDATION
+========================================================================
+Batch20 + Batch24 input rows : 222
+Unique candidate exact keys  : 222
+Runtime-fit protected keys   : 49
+Historical rows skipped as no-op/unfit: 13
+Already-locked identical     : 13
+Protected wording conflicts  : 0
+New exact rows exported      : 209
+Errors                       : 0
+
+Guards:
+- Batch20 and Batch24 exact work is merged by file+offset
+- 0.6.14.1 rows count as protected only when they truly fit and encode under the frozen runtime contract
+- Batch19 exact locks remain unconditionally protected
+- identical protected wording is recognized and not exported twice
+- different runtime-fit protected wording is a hard error
+- every candidate is rechecked for field bytes, runtime tokens and frozen codepage
+- data compiler only; no ROM/font/pointer modification
+
+ALREADY LOCKED IDENTICAL:
+- SLPS_020.75 0x958: Hồi 50HP! [COMPACT_TRANSLATION_OVERRIDES_0.6.14.1.csv; candidate BATCH24_EXACT_OFFSET_0.6.33.0.csv]
+- SLPS_020.75 0x970: Dừng %s [COMPACT_TRANSLATION_OVERRIDES_0.6.14.1.csv; candidate BATCH24_EXACT_OFFSET_0.6.33.0.csv]
+- SLPS_020.75 0x980: Đất %s [COMPACT_TRANSLATION_OVERRIDES_0.6.14.1.csv; candidate BATCH24_EXACT_OFFSET_0.6.33.0.csv]
+- SLPS_020.75 0x98c: Đã dừng! [COMPACT_TRANSLATION_OVERRIDES_0.6.14.1.csv; candidate BATCH24_EXACT_OFFSET_0.6.33.0.csv]
+- SLPS_020.75 0x9ac: Chiến lấy đất [COMPACT_TRANSLATION_OVERRIDES_0.6.14.1.csv; candidate BATCH24_EXACT_OFFSET_0.6.33.0.csv]
+- SLPS_020.75 0x9dc: Nhận VK [COMPACT_TRANSLATION_OVERRIDES_0.6.14.1.csv; candidate BATCH24_EXACT_OFFSET_0.6.33.0.csv]
+- SLPS_020.75 0xa14: Mất20% tiền [COMPACT_TRANSLATION_OVERRIDES_0.6.14.1.csv; candidate BATCH24_EXACT_OFFSET_0.6.33.0.csv]
+- SLPS_020.75 0xa50: Mất20% đất [COMPACT_TRANSLATION_OVERRIDES_0.6.14.1.csv; candidate BATCH24_EXACT_OFFSET_0.6.33.0.csv]
+- SLPS_020.75 0xabc: %s nghỉ [COMPACT_TRANSLATION_OVERRIDES_0.6.14.1.csv; candidate BATCH24_EXACT_OFFSET_0.6.33.0.csv]
+- SLPS_020.75 0xb08: Thách đấu? [COMPACT_TRANSLATION_OVERRIDES_0.6.14.1.csv; candidate BATCH24_EXACT_OFFSET_0.6.33.0.csv]
+- SLPS_020.75 0xe54: Được? [COMPACT_TRANSLATION_OVERRIDES_0.6.14.1.csv; candidate BATCH24_EXACT_OFFSET_0.6.33.0.csv]
+- SLPS_020.75 0xe9c: Chọn thẻ [COMPACT_TRANSLATION_OVERRIDES_0.6.14.1.csv; candidate BATCH24_EXACT_OFFSET_0.6.33.0.csv]
+- SLPS_020.75 0xeb8: Dùng %s [COMPACT_TRANSLATION_OVERRIDES_0.6.14.1.csv; candidate BATCH24_EXACT_OFFSET_0.6.33.0.csv]
+
+RESULT                : STATIC PASS

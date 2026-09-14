@@ -121,13 +121,13 @@ SLPS_020.75,0x958,体力が５０回復したよ！,Hồi 50HP!,22,18,4,BATCH21_
 SLPS_020.75,0x970,%sに止まったよ,Dừng %s,14,12,2,BATCH22_COMPACT_0.6.31.0.csv,batch24-residual-exact
 SLPS_020.75,0x980,%sの土地に,Đất %s,10,10,0,BATCH21_SEMANTIC_0.6.30.0.csv,batch24-residual-exact
 SLPS_020.75,0x98c,止まっちゃったよ,Đã dừng!,16,16,0,BATCH21_SEMANTIC_0.6.30.0.csv,batch24-residual-exact
-SLPS_020.75,0x9ac,土地をかけて戦うことができるよ,Đấu giành đất,30,26,4,BATCH23_COMPACT_0.6.32.0.csv,batch24-residual-exact
+SLPS_020.75,0x9ac,土地をかけて戦うことができるよ,Chiến lấy đất,30,26,4,BATCH23_COMPACT_0.6.32.0.csv,batch24-residual-exact
 SLPS_020.75,0x9dc,武器カードが手に入るわ,Nhận VK,22,14,8,BATCH21_SEMANTIC_0.6.30.0.csv,batch24-residual-exact
 SLPS_020.75,0xa14,所持金の２０％とられるよ,Mất20% tiền,24,22,2,BATCH21_SEMANTIC_0.6.30.0.csv,batch24-residual-exact
 SLPS_020.75,0xa50,土地代の２０％とられるよ,Mất20% đất,24,20,4,BATCH22_COMPACT_0.6.31.0.csv,batch24-residual-exact
-SLPS_020.75,0xabc,%sは一回休みよ！,%s nghỉ!,16,14,2,BATCH23_COMPACT_0.6.32.0.csv,batch24-residual-exact
+SLPS_020.75,0xabc,%sは一回休みよ！,%s nghỉ,16,12,4,BATCH23_COMPACT_0.6.32.0.csv,batch24-residual-exact
 SLPS_020.75,0xad0,%sの番よ！,Tới %s,10,10,0,BATCH22_COMPACT_0.6.31.0.csv,batch24-residual-exact
-SLPS_020.75,0xb08,戦いをしかけるよね？,Đấu nhé?,20,16,4,BATCH23_COMPACT_0.6.32.0.csv,batch24-residual-exact
+SLPS_020.75,0xb08,戦いをしかけるよね？,Thách đấu?,20,20,0,BATCH23_COMPACT_0.6.32.0.csv,batch24-residual-exact
 SLPS_020.75,0xe08,「%s」を手に入れたよ,Nhận %s,20,12,8,BATCH21_SEMANTIC_0.6.30.0.csv,batch24-residual-exact
 SLPS_020.75,0xe20,「%s」を手に入れたけど,"Có %s, nhưng",22,22,0,BATCH23_COMPACT_0.6.32.0.csv,batch24-residual-exact
 SLPS_020.75,0xe38,捨てたよ,Bỏ!,8,6,2,BATCH22_COMPACT_0.6.31.0.csv,batch24-residual-exact
