@@ -124,7 +124,7 @@ SLPS_020.75,0x98c,止まっちゃったよ,Đã dừng!,16,16,0,BATCH21_SEMANTIC
 SLPS_020.75,0x9ac,土地をかけて戦うことができるよ,Đấu giành đất,30,26,4,BATCH23_COMPACT_0.6.32.0.csv,batch24-residual-exact
 SLPS_020.75,0x9dc,武器カードが手に入るわ,Nhận VK,22,14,8,BATCH21_SEMANTIC_0.6.30.0.csv,batch24-residual-exact
 SLPS_020.75,0xa14,所持金の２０％とられるよ,Mất20% tiền,24,22,2,BATCH21_SEMANTIC_0.6.30.0.csv,batch24-residual-exact
-SLPS_020.75,0xa50,土地代の２０％とられるよ,-20% giá đất,24,24,0,BATCH22_COMPACT_0.6.31.0.csv,batch24-residual-exact
+SLPS_020.75,0xa50,土地代の２０％とられるよ,Mất20% đất,24,20,4,BATCH22_COMPACT_0.6.31.0.csv,batch24-residual-exact
 SLPS_020.75,0xabc,%sは一回休みよ！,%s nghỉ!,16,14,2,BATCH23_COMPACT_0.6.32.0.csv,batch24-residual-exact
 SLPS_020.75,0xad0,%sの番よ！,Tới %s,10,10,0,BATCH22_COMPACT_0.6.31.0.csv,batch24-residual-exact
 SLPS_020.75,0xb08,戦いをしかけるよね？,Đấu nhé?,20,16,4,BATCH23_COMPACT_0.6.32.0.csv,batch24-residual-exact
@@ -133,7 +133,7 @@ SLPS_020.75,0xe20,「%s」を手に入れたけど,"Có %s, nhưng",22,22,0,BATC
 SLPS_020.75,0xe38,捨てたよ,Bỏ!,8,6,2,BATCH22_COMPACT_0.6.31.0.csv,batch24-residual-exact
 SLPS_020.75,0xe54,これでいい？,Được?,12,10,2,BATCH23_COMPACT_0.6.32.0.csv,batch24-residual-exact
 SLPS_020.75,0xe64,はい　　いいえ,Có/Ko,14,10,4,BATCH22_COMPACT_0.6.31.0.csv,batch24-residual-exact
-SLPS_020.75,0xe9c,使用するカードをえらんでね,Chọn thẻ dùng,26,26,0,BATCH22_COMPACT_0.6.31.0.csv,batch24-residual-exact
+SLPS_020.75,0xe9c,使用するカードをえらんでね,Chọn thẻ,26,16,10,BATCH22_COMPACT_0.6.31.0.csv,batch24-residual-exact
 SLPS_020.75,0xeb8,「%s」を使うね,Dùng %s,14,12,2,BATCH21_SEMANTIC_0.6.30.0.csv,batch24-residual-exact
 SLPS_020.75,0x1130,サンダー,Sấm,8,6,2,BATCH22_COMPACT_0.6.31.0.csv,batch24-residual-exact
 SLPS_020.75,0x1158,ハリケーン,Bão,10,6,4,BATCH22_COMPACT_0.6.31.0.csv,batch24-residual-exact
