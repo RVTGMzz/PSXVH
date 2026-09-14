@@ -22,15 +22,15 @@ japanese,vi_compact,note
 %d枚、手に入れたよ,Có %d thẻ,compact obtain line; token preserved
 ボイス,âm,compact voice menu label; uppercase Â unavailable in frozen codepage
 しんどう設定,Rung,compact menu label
-%sは一回休みよ！,%s nghỉ!,compact skip-turn line; token preserved
-戦いをしかけるよね？,Đấu nhé?,compact challenge
+%sは一回休みよ！,%s nghỉ,compact skip-turn line; production lock aligned
+戦いをしかけるよね？,Thách đấu?,compact challenge; production lock aligned
 運がよければ敵を倒せるかも,May hạ địch,compact item description
 ポリタンがみがわりに！？,Politan chắn,compact substitute effect
 …つまんないね,...Chán,compact dialogue
 でももう持ち切れないみたい,Hết chỗ rồi,compact inventory line
 %sはコントローラ%sだよ！,%s tay %s,compact controller assignment; tokens preserved
 キャラクターをえらんでね,Chọn tướng,compact character select
-土地をかけて戦うことができるよ,Đấu giành đất,compact gameplay explanation
+土地をかけて戦うことができるよ,Chiến lấy đất,compact gameplay explanation; production lock aligned
 ロングソード,Kiếm,compact weapon name
 なんだい、もう終わりかい,Nghỉ rồi à?,compact dialogue
 ゲームをはじめるよ,Bắt đầu!,compact start prompt
