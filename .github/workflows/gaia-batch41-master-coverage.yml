@@ -1,0 +1,29 @@
+name: Gaia Master Batch 41 Master Coverage
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [gaia-character-select-font-atlas-reverse-01]
+    paths:
+      - "games/GaiaMaster-Kamigami-no-Board-Game/tools/audit_batch41_master_coverage_06510.py"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/translation/BATCH40_FINAL_EXACT_SET_0.6.50.0.csv"
+      - ".github/workflows/gaia-batch41-master-coverage.yml"
+permissions:
+  contents: write
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - name: Audit all 596 Translation Master rows
+        run: python games/GaiaMaster-Kamigami-no-Board-Game/tools/audit_batch41_master_coverage_06510.py
+      - name: Persist audit
+        if: always()
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add games/GaiaMaster-Kamigami-no-Board-Game/checkpoints/0.6.51.0/BATCH41_MASTER_COVERAGE_AUDIT.txt || true
+          if git diff --cached --quiet; then echo "No audit changes"; else git commit -m "Gaia Master 0.6.51.0: persist full master coverage audit" && git push; fi
