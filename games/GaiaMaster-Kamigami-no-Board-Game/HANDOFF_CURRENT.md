@@ -13,19 +13,28 @@ static mapping-only
 legacy Alpha coverage gate = 397/397
 ```
 
-The font is now accepted at runtime. Active work is content expansion and removal of remaining Japanese strings.
+The font is accepted at runtime. Current work is content expansion and removal of remaining Japanese strings.
 
 ## Current candidate
 
-**0.6.19.0 — Story / Dialog / Menu / Card Batch 10**
+**0.6.20.0 — Story / Dialog / Card Batch 11**
 
-Checkpoint artifact in repo:
+Source/checkpoint material in repo:
 
 ```text
-checkpoints/0.6.19.0/GaiaMaster_0.6.19.0_BATCH10_STORY_DIALOG_MENU_CARD.zip
+BATCH11_0.6.20.0.md
+translation/BATCH11_JP_EXACT_0.6.20.0.csv
+translation/BATCH11_DYNAMIC_LITERALS_0.6.20.0.csv
+checkpoints/0.6.20.0/
 ```
 
-This archive contains only the standalone builder/checkpoint files, never a game image.
+The user-facing standalone package is:
+
+```text
+GaiaMaster_0.6.20.0_BATCH11_STORY_DIALOG_CARD.zip
+```
+
+It contains only builder/support files, never a game image.
 
 ## Important history
 
@@ -33,15 +42,27 @@ This archive contains only the standalone builder/checkpoint files, never a game
 - `0.6.10.0`: accented Vietnamese rendered at runtime.
 - `0.6.11.0`: exposed intro separator leakage, broken lowercase `ă`, and dynamic Japanese values.
 - `0.6.12.0` → `0.6.13.0`: larger translation batches; early `ă` hotfixes still failed visually.
-- `0.6.14.0` / `0.6.14.1`: fresh lowercase `ă` rebuild from clean native `a`; later runtime feedback accepted the font as visually OK. `0.6.14.1` also replaced unsupported lowercase `ý` in a prompt with codepage-safe `Được?`.
+- `0.6.14.0` / `0.6.14.1`: fresh lowercase `ă` rebuild from clean native `a`; later runtime feedback accepted the font as visually OK. `0.6.14.1` also replaced unsupported lowercase `ý` with codepage-safe `Được?`.
 - `0.6.15.0` → `0.6.18.0`: content-first standalone batches added intro cleanup, fantasy tone, menu/card/item/event/weapon translations, and more dynamic literals.
 - `0.6.19.0`: Japanese-first semantic pass focused on story, dialogue, menu, cards, weapons/items, event text, and fantasy terminology.
+- `0.6.20.0`: Batch 11 expands direct Japanese semantic translations for property/economy/event dialogue and additional dynamic nouns.
 
-The repository branch physically stopped at `0.6.14.1` while Batches 6–10 were being distributed as standalone builders. This handoff records that gap explicitly; `0.6.19.0` is the new recovery checkpoint.
+The repository was behind the standalone packages between Batches 6–10. From Batch 11 onward, each major batch must update repo notes/source data before moving on.
+
+## Batch 11 scale
+
+```text
+story/front mappings  = 19
+Japanese semantic map = 262
+fantasy fallback map  = 215
+dynamic literals      = 75
+```
+
+New Batch 11 delta includes 77 Japanese semantic entries plus 15 new dynamic literals.
 
 ## Translation policy
 
-1. Translate from the Japanese source first whenever possible.
+1. Translate from Japanese source first whenever possible.
 2. Prefer full natural Vietnamese if it fits the original field.
 3. If too long, use a compact version that keeps the meaning.
 4. Preserve runtime tokens such as `%s`, `%d`, `%4d`, `%+3d`, `/V`, `/v`.
@@ -51,7 +72,7 @@ The repository branch physically stopped at `0.6.14.1` while Batches 6–10 were
 
 Readable medieval fantasy, not excessively archaic.
 
-Preferred vocabulary includes:
+Preferred vocabulary:
 
 ```text
 lãnh địa
@@ -99,7 +120,7 @@ Do not reintroduce 12x16, narrow 6x12, renderer hooks, pointer redirects, compos
 
 ## Runtime status
 
-`0.6.19.0` is a candidate, not a PASS, until tested in-game.
+`0.6.20.0` is a candidate, not a PASS, until tested in-game.
 
 Next QA priority:
 
