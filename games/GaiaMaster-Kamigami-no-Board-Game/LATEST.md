@@ -32,7 +32,7 @@ Runtime screenshots cho thấy pipeline đã hoạt động nhưng độ phủ h
 - main menu;
 - Character Select;
 - Story mở đầu;
-- chapter/title card;
+- chapter/title card `冒険のはじまり`;
 - prompt mua đất;
 - nhiều Story / gameplay / help strings khác.
 
@@ -79,6 +79,34 @@ ONECLICK workflow vẫn giữ nguyên:
 -> double-click BAT
 ```
 
+## Reverse Workbench 0.1
+
+Đã thêm bộ reverse **read-only**, không đổi production version và không sửa BIN:
+
+```text
+tools/gaia_graphic_asset_census_0.1.py
+tools/gaia_runtime_target_locator_0.1.py
+tools/00_RUN_REVERSE_WORKBENCH_0.1.cmd
+REVERSE_WORKBENCH_0.1.md
+```
+
+Workbench dùng để:
+
+- quét standard PS-X TIM theo từng PRGPACK BDP owner;
+- ưu tiên owner 29 của Character Select;
+- exact-locate `冒険のはじまり` và các chuỗi Nhật lấy từ gameplay screenshot;
+- báo exact offset, owner/local offset và NUL-field context trước khi cân nhắc patch.
+
+Mốc Character Select đã chứng minh:
+
+```text
+PRGPACK.BDP + 0xBFD2C
+owner 29 / local +0x580
+キャラクターをえらんでね
+```
+
+Full scan CSV 0.6.38.0 không được commit vào repo và `冒険のはじまり` không nằm trong manifest Batch43 đã lưu, nên exact offset của chapter card vẫn cần CLEAN BIN để chạy locator.
+
 ## Kiến trúc vẫn khóa
 
 ```text
@@ -93,7 +121,8 @@ Không renderer hook, pointer redirect, 12x16, 6x12 hoặc composite overlay.
 ## Việc tiếp theo
 
 1. Runtime-test đúng CUE 0.6.55.0, kiểm tra intro và `Đ/đ`.
-2. Reverse graphic assets của main menu / Character Select.
-3. Tìm exact offsets cho Story mở đầu, `冒険のはじまり`, prompt mua đất và các chuỗi visible còn Nhật.
-4. Mở rộng scanner-driven batches theo visible impact.
-5. Không gọi whole-game Runtime PASS trước khi có screenshot gameplay xác nhận.
+2. Nếu screenshot gameplay ổn thì khóa intro/font Batch45.
+3. Chạy/analyze Reverse Workbench 0.1 để reverse graphic assets main menu / Character Select.
+4. Tìm exact offsets cho Story mở đầu, `冒険のはじまり`, prompt mua đất và các chuỗi visible còn Nhật.
+5. Chỉ tạo batch production kế tiếp sau khi CLEAN-source/owner/field/fit/token/overlap gates đều qua.
+6. Không gọi whole-game Runtime PASS trước khi có screenshot gameplay xác nhận.
