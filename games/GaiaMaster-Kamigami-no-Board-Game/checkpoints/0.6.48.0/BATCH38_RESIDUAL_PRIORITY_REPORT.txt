@@ -1,0 +1,55 @@
+GAIA MASTER 0.6.48.0 BATCH 35 POST-BATCH34 RESIDUAL PRIORITY
+====================================================================================
+Translation Master rows      : 596
+Protected B33 exact keys     : 527
+Protected Batch19 locks      : 24
+Runtime-fit historical locks : 25
+Historical no-op/unfit rows  : 13
+Residual fallback rows       : 33
+Unique JP+fallback clusters  : 33
+
+REASON BREAKDOWN (clusters / rows):
+- VI_FULL_TOO_LONG            :  32 /  32
+- VI_FULL_TOKEN_MISMATCH      :   1 /   1
+
+TOP 60 PRIORITY CLUSTERS:
+01. x01 [VI_FULL_TOO_LONG] field=4 fallback='BAN' jp='売却' full='Bán'
+02. x01 [VI_FULL_TOO_LONG] field=14 fallback='CHOI VA THANG' jp='ームができ、勝' full='có thể chơi, nếu thắng'
+03. x01 [VI_FULL_TOO_LONG] field=10 fallback='CLAYM' jp='クレイモア' full='Claymore'
+04. x01 [VI_FULL_TOO_LONG] field=6 fallback='DANTE' jp='ダンテ' full='Dante'
+05. x01 [VI_FULL_TOO_LONG] field=6 fallback='DONGDAT' jp='じしん' full='Động đất'
+06. x01 [VI_FULL_TOO_LONG] field=4 fallback='DONGDAT' jp='地震' full='Động đất'
+07. x01 [VI_FULL_TOO_LONG] field=10 fallback='GALAH' jp='ガラハッド' full='Galahad'
+08. x01 [VI_FULL_TOO_LONG] field=4 fallback='GIA' jp='価格' full='Giá'
+09. x01 [VI_FULL_TOO_LONG] field=4 fallback='GIATRI' jp='価値' full='Giá trị'
+10. x01 [VI_FULL_TOO_LONG] field=10 fallback='GOLIA' jp='ゴライアス' full='Goliath'
+11. x01 [VI_FULL_TOO_LONG] field=6 fallback='HAYATE' jp='ハヤテ' full='Hayate'
+12. x01 [VI_FULL_TOO_LONG] field=6 fallback='JIGGER' jp='ジガー' full='Jigger'
+13. x01 [VI_FULL_TOO_LONG] field=6 fallback='KUNAI' jp='クナイ' full='Kunai'
+14. x01 [VI_FULL_TOO_LONG] field=18 fallback='LV%d CON%d' jp='Ｌ/V%d（あと/V%d）' full='Cấp %d (còn %d)'
+15. x01 [VI_FULL_TOO_LONG] field=4 fallback='MAY' jp='幸運' full='May mắn'
+16. x01 [VI_FULL_TOO_LONG] field=8 fallback='MEGUMEGU' jp='メグメグ' full='Megumegu'
+17. x01 [VI_FULL_TOO_LONG] field=6 fallback='NGANHANG' jp='バンク' full='Ngân hàng'
+18. x01 [VI_FULL_TOO_LONG] field=4 fallback='NHATAM' jp='浴場' full='Nhà tắm'
+19. x01 [VI_FULL_TOO_LONG] field=8 fallback='RAPIER' jp='レイピア' full='Rapier'
+20. x01 [VI_FULL_TOO_LONG] field=4 fallback='SET' jp='落雷' full='Sét đánh'
+21. x01 [VI_FULL_TOO_LONG] field=4 fallback='SHOP' jp='お店' full='Cửa hàng'
+22. x01 [VI_FULL_TOO_LONG] field=10 fallback='SINBAD' jp='シンバッド' full='Sinbad'
+23. x01 [VI_FULL_TOO_LONG] field=4 fallback='SUOI' jp='温泉' full='Suối nóng'
+24. x01 [VI_FULL_TOO_LONG] field=6 fallback='THANG' jp='勝利者' full='Kẻ chiến thắng'
+25. x01 [VI_FULL_TOO_LONG] field=4 fallback='THUOC' jp='丸薬' full='Thuốc viên'
+26. x01 [VI_FULL_TOO_LONG] field=8 fallback='VKCB' jp='基本武器' full='Vũ khí cơ bản'
+27. x01 [VI_FULL_TOO_LONG] field=4 fallback='VON' jp='資金' full='Vốn'
+28. x01 [VI_FULL_TOO_LONG] field=4 fallback='VUON' jp='庭園' full='Vườn'
+29. x01 [VI_FULL_TOO_LONG] field=6 fallback='WARP' jp='ワープ' full='Dịch chuyển'
+30. x01 [VI_FULL_TOO_LONG] field=4 fallback='XUI' jp='不幸' full='Bất hạnh'
+31. x01 [VI_FULL_TOO_LONG] field=8 fallback='YASU' jp='ヤスツナ' full='Yasutsuna'
+32. x01 [VI_FULL_TOO_LONG] field=8 fallback='「DONGDAT」' jp='「地震」' full='Động đất'
+33. x01 [VI_FULL_TOKEN_MISMATCH] field=10 fallback='/V%s/v' jp='/V%sさん/v' full='%s'
+
+NOTE:
+- inventory only; no ROM or source master mutation
+- protection uses B33 final exact set plus proven historical locks
+- next batch should curate the highest-value remaining clusters
+
+RESULT: STATIC INVENTORY PASS
