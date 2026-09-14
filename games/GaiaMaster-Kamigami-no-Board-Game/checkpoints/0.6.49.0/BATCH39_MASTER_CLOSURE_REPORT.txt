@@ -1,0 +1,17 @@
+GAIA MASTER 0.6.49.0 BATCH 39 MASTER RESIDUAL CLOSURE
+================================================================================
+Curated Japanese keys       : 33
+Closure rows exported       : 33
+Protected hits skipped      : 0
+Exact-full-field rows       : 26
+Errors                      : 0
+
+Guards:
+- exact Japanese-keyed manual closure
+- B37/Batch19/runtime-fit historical keys protected
+- runtime token identity/order preserved
+- CP932 field byte-fit required
+- frozen Vietnamese codepage required
+- no ROM/font/pointer modification
+
+RESULT: STATIC MASTER-CLOSURE PASS
