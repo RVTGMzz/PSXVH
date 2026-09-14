@@ -1,0 +1,21 @@
+name: Gaia Master Batch 42 Builder Selftest
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [gaia-character-select-font-atlas-reverse-01]
+    paths:
+      - "games/GaiaMaster-Kamigami-no-Board-Game/tools/build_gaia_06520_batch42_master_closure.py"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/tools/batch40_stage_06500.py"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/translation/BATCH40_FINAL_EXACT_SET_0.6.50.0.csv"
+      - ".github/workflows/gaia-batch42-builder-selftest.yml"
+
+jobs:
+  selftest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - name: Validate Batch42 builder contract
+        run: python games/GaiaMaster-Kamigami-no-Board-Game/tools/build_gaia_06520_batch42_master_closure.py --selftest
