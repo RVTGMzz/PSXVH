@@ -1,0 +1,85 @@
+file,offset_hex,vi_accented,category,note
+PRGPACK.BDP,0x674d0,Đã có,batch20-fit-pressure,V2 pressure sweep; field=12B new=10B
+PRGPACK.BDP,0x675dc,Nộp %d lộ phí,batch20-fit-pressure,V2 pressure sweep; field=24B new=24B
+PRGPACK.BDP,0x675f8,Nhận thẻ VK,batch20-fit-pressure,V2 pressure sweep; field=22B new=22B
+PRGPACK.BDP,0x67808,Cạn quỹ,batch20-fit-pressure,V2 pressure sweep; field=14B new=14B
+PRGPACK.BDP,0x678d4,Ngã rẽ,batch20-fit-pressure,V2 pressure sweep; field=12B new=12B
+PRGPACK.BDP,0x67980,Tăngx4!,batch20-fit-pressure,V2 pressure sweep; field=14B new=14B
+PRGPACK.BDP,0x67990,Phí,batch20-fit-pressure,V2 pressure sweep; field=8B new=6B
+PRGPACK.BDP,0x679f4,Nếu dựng,batch20-fit-pressure,V2 pressure sweep; field=20B new=16B
+PRGPACK.BDP,0x67a34,Giảm HP,batch20-fit-pressure,V2 pressure sweep; field=20B new=14B
+PRGPACK.BDP,0x67a4c,Được!,batch20-fit-pressure,V2 pressure sweep; field=10B new=10B
+PRGPACK.BDP,0x67a70,Dừng/qua,batch20-fit-pressure,V2 pressure sweep; field=20B new=16B
+PRGPACK.BDP,0x67ad0,Chọn sạp,batch20-fit-pressure,V2 pressure sweep; field=16B new=16B
+PRGPACK.BDP,0x67af4,Chọn đất,batch20-fit-pressure,V2 pressure sweep; field=16B new=16B
+PRGPACK.BDP,0x67c0c,Khu%s,batch20-fit-pressure,V2 pressure sweep; field=8B new=8B
+PRGPACK.BDP,0x67c18,Khu%s%s,batch20-fit-pressure,V2 pressure sweep; field=10B new=10B
+PRGPACK.BDP,0x67d50,Không có,batch20-fit-pressure,V2 pressure sweep; field=22B new=16B
+PRGPACK.BDP,0x67fc8,Đã bỏ,batch20-fit-pressure,V2 pressure sweep; field=12B new=10B
+PRGPACK.BDP,0x68088,Không có,batch20-fit-pressure,V2 pressure sweep; field=22B new=16B
+PRGPACK.BDP,0x68a04,Xê,batch20-fit-pressure,V2 pressure sweep; field=4B new=4B
+PRGPACK.BDP,0x68a0c,Hê,batch20-fit-pressure,V2 pressure sweep; field=6B new=4B
+PRGPACK.BDP,0x68a38,Láu!,batch20-fit-pressure,V2 pressure sweep; field=8B new=8B
+PRGPACK.BDP,0x68a44,Hả,batch20-fit-pressure,V2 pressure sweep; field=4B new=4B
+PRGPACK.BDP,0x68b9c,Ha! Phá hủy!,batch20-fit-pressure,V2 pressure sweep; field=28B new=24B
+PRGPACK.BDP,0x68bfc,Grrr,batch20-fit-pressure,V2 pressure sweep; field=8B new=8B
+PRGPACK.BDP,0x68ca4,Nhà %s,batch20-fit-pressure,V2 pressure sweep; field=10B new=10B
+PRGPACK.BDP,0x68ce8,Biến đi,batch20-fit-pressure,V2 pressure sweep; field=14B new=14B
+PRGPACK.BDP,0x68cf8,Quỹ gom,batch20-fit-pressure,V2 pressure sweep; field=14B new=14B
+PRGPACK.BDP,0x68da0,Mỗi lần,batch20-fit-pressure,V2 pressure sweep; field=14B new=14B
+PRGPACK.BDP,0x68dc8,Dừng:lộ,batch20-fit-pressure,V2 pressure sweep; field=14B new=14B
+PRGPACK.BDP,0x68e4c,Nhận,batch20-fit-pressure,V2 pressure sweep; field=10B new=8B
+PRGPACK.BDP,0x68e58,1 thẻSK,batch20-fit-pressure,V2 pressure sweep; field=14B new=14B
+PRGPACK.BDP,0x68e68,Dừng:SK,batch20-fit-pressure,V2 pressure sweep; field=14B new=14B
+PRGPACK.BDP,0x68e84,Mở được,batch20-fit-pressure,V2 pressure sweep; field=14B new=14B
+PRGPACK.BDP,0x68e94,Tỉ thí,batch20-fit-pressure,V2 pressure sweep; field=14B new=12B
+PRGPACK.BDP,0x68eb8,Trống,batch20-fit-pressure,V2 pressure sweep; field=10B new=10B
+SLPS_020.75,0x9a0,Ô đấu,batch20-fit-pressure,V2 pressure sweep; field=10B new=10B
+SLPS_020.75,0xa6c,Ô Thánh địa,batch20-fit-pressure,V2 pressure sweep; field=22B new=22B
+SLPS_020.75,0xa84,Nhận thuế,batch20-fit-pressure,V2 pressure sweep; field=26B new=18B
+SLPS_020.75,0x16a4,Khóa,batch20-fit-pressure,V2 pressure sweep; field=12B new=8B
+SLPS_020.75,0x1744,Thủ 1 lần,batch20-fit-pressure,V2 pressure sweep; field=20B new=18B
+SLPS_020.75,0x175c,Mộc,batch20-fit-pressure,V2 pressure sweep; field=8B new=6B
+SLPS_020.75,0x177c,Hồi 1 lần,batch20-fit-pressure,V2 pressure sweep; field=20B new=18B
+SLPS_020.75,0x1828,Rìu đấu,batch20-fit-pressure,V2 pressure sweep; field=14B new=14B
+SLPS_020.75,0x18a4,Jambia,batch20-fit-pressure,V2 pressure sweep; field=12B new=12B
+SLPS_020.75,0x21f4,Đổi,batch20-fit-pressure,V2 pressure sweep; field=10B new=6B
+SLPS_020.75,0x2230,Quỵt,batch20-fit-pressure,V2 pressure sweep; field=10B new=8B
+SLPS_020.75,0x235c,+1,batch20-fit-pressure,V2 pressure sweep; field=6B new=4B
+SLPS_020.75,0x2370,+2,batch20-fit-pressure,V2 pressure sweep; field=6B new=4B
+SLPS_020.75,0x2384,+3,batch20-fit-pressure,V2 pressure sweep; field=6B new=4B
+SLPS_020.75,0x2398,+4,batch20-fit-pressure,V2 pressure sweep; field=6B new=4B
+SLPS_020.75,0x23ac,+5,batch20-fit-pressure,V2 pressure sweep; field=6B new=4B
+SLPS_020.75,0x23c0,+6,batch20-fit-pressure,V2 pressure sweep; field=6B new=4B
+SLPS_020.75,0x23e8,Đổi,batch20-fit-pressure,V2 pressure sweep; field=10B new=6B
+SLPS_020.75,0x2464,Mão,batch20-fit-pressure,V2 pressure sweep; field=8B new=6B
+SLPS_020.75,0x2488,Agat,batch20-fit-pressure,V2 pressure sweep; field=8B new=8B
+SLPS_020.75,0x2c58,Đổi đến 2,batch20-fit-pressure,V2 pressure sweep; field=22B new=18B
+SLPS_020.75,0x2cb8,Ma phá tiệm,batch20-fit-pressure,V2 pressure sweep; field=32B new=22B
+SLPS_020.75,0x2cec,Đi 6 ô,batch20-fit-pressure,V2 pressure sweep; field=14B new=12B
+SLPS_020.75,0x2cfc,Đi 6,batch20-fit-pressure,V2 pressure sweep; field=10B new=8B
+SLPS_020.75,0x2d08,Đi 5 ô,batch20-fit-pressure,V2 pressure sweep; field=14B new=12B
+SLPS_020.75,0x2d18,Đi 5,batch20-fit-pressure,V2 pressure sweep; field=10B new=8B
+SLPS_020.75,0x2d24,Đi 4 ô,batch20-fit-pressure,V2 pressure sweep; field=14B new=12B
+SLPS_020.75,0x2d34,Đi 4,batch20-fit-pressure,V2 pressure sweep; field=10B new=8B
+SLPS_020.75,0x2d40,Đi 3 ô,batch20-fit-pressure,V2 pressure sweep; field=14B new=12B
+SLPS_020.75,0x2d50,Đi 3,batch20-fit-pressure,V2 pressure sweep; field=10B new=8B
+SLPS_020.75,0x2d5c,Đi 2 ô,batch20-fit-pressure,V2 pressure sweep; field=14B new=12B
+SLPS_020.75,0x2d6c,Đi 2,batch20-fit-pressure,V2 pressure sweep; field=10B new=8B
+SLPS_020.75,0x2d78,Đi 1 ô,batch20-fit-pressure,V2 pressure sweep; field=14B new=12B
+SLPS_020.75,0x2da4,Đi 1,batch20-fit-pressure,V2 pressure sweep; field=10B new=8B
+SLPS_020.75,0x2dcc,Cực tốc,batch20-fit-pressure,V2 pressure sweep; field=14B new=14B
+SLPS_020.75,0x2ddc,4 xắc,batch20-fit-pressure,V2 pressure sweep; field=14B new=10B
+SLPS_020.75,0x2e08,Tăng tốc,batch20-fit-pressure,V2 pressure sweep; field=16B new=16B
+SLPS_020.75,0x2e1c,3 xắc,batch20-fit-pressure,V2 pressure sweep; field=14B new=10B
+SLPS_020.75,0x2f58,Dựng nhà thánh,batch20-fit-pressure,V2 pressure sweep; field=28B new=28B
+SLPS_020.75,0x31a8,Phá tượng,batch20-fit-pressure,V2 pressure sweep; field=26B new=18B
+SLPS_020.75,0x3318,Trò thời,batch20-fit-pressure,V2 pressure sweep; field=20B new=16B
+SLPS_020.75,0x3820,Chưa đủ,batch20-fit-pressure,V2 pressure sweep; field=20B new=14B
+SLPS_020.75,0x3838,Thiếu tiền,batch20-fit-pressure,V2 pressure sweep; field=22B new=20B
+SLPS_020.75,0x767e0,Trợ,batch20-fit-pressure,V2 pressure sweep; field=6B new=6B
+SLPS_020.75,0x76804,Ma,batch20-fit-pressure,V2 pressure sweep; field=4B new=4B
+SLPS_020.75,0x76868,%s:,batch20-fit-pressure,V2 pressure sweep; field=4B new=4B
+SLPS_020.75,0x76870,%s!,batch20-fit-pressure,V2 pressure sweep; field=4B new=4B
+SLPS_020.75,0x768d8,Vốn,batch20-fit-pressure,V2 pressure sweep; field=6B new=6B
+SLPS_020.75,0x7690c,%s:,batch20-fit-pressure,V2 pressure sweep; field=4B new=4B
