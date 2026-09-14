@@ -18,10 +18,12 @@ Still allowed:
 ### Batch 20 delta
 
 ```text
-84 exact file+offset compact rows
+75 exact file+offset compact rows
 source band: V2 FIT_PRESSURE only
 pressure band: <= 6 bytes over field before rewrite
 ```
+
+The first draft contained 84 candidates. Static validation correctly rejected 9 keys that already belonged to Batch 19 / historical exact-lock sets. Those 9 rows were removed rather than overriding proven locks.
 
 Data file:
 
