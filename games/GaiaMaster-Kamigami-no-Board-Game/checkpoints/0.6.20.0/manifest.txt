@@ -1,0 +1,7 @@
+GaiaMaster_0.6.20.0_BATCH11_STORY_DIALOG_CARD.zip
+Size: 14885 bytes
+Contents:
+- BUILD_GAIA_MASTER_VI_0.6.20.0.cmd
+- README.txt
+- build_gaia_06200_ONE_FOLDER.py
+Runtime status: candidate / pending QA
