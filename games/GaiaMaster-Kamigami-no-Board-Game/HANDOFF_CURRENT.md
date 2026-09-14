@@ -5,33 +5,33 @@ Branch: `gaia-character-select-font-atlas-reverse-01`
 
 ## Current candidate
 
-**0.6.21.0 — Deep Story / Card / Item Batch 12**
+**0.6.22.0 — Deep Event / Menu / Card Batch 13**
 
 Current scale:
 
 ```text
 story/front mappings  = 19
-Japanese semantic map = 309
-fantasy fallback map  = 256
-dynamic literals      = 86
+Japanese semantic map = 359
+fantasy fallback map  = 284
+dynamic literals      = 103
 ```
 
-Batch 12 delta:
+Batch 13 delta:
 
 ```text
-Japanese semantic new/edited = 92
-fantasy fallback new/edited  = 64
-dynamic literals new/edited  = 15
+Japanese semantic new/edited = 61
+fantasy fallback new/edited  = 58
+dynamic literals new/edited  = 24
 ```
 
 Repo checkpoint material:
 
 ```text
-BATCH12_0.6.21.0.md
-translation/BATCH12_JP_EXACT_0.6.21.0.csv
-translation/BATCH12_STYLE_0.6.21.0.csv
-translation/BATCH12_DYNAMIC_0.6.21.0.csv
-checkpoints/0.6.21.0/
+BATCH13_0.6.22.0.md
+translation/BATCH13_JP_EXACT_0.6.22.0.csv
+translation/BATCH13_STYLE_0.6.22.0.csv
+translation/BATCH13_DYNAMIC_0.6.22.0.csv
+checkpoints/0.6.22.0/
 ```
 
 Production locks remain unchanged:
@@ -53,4 +53,6 @@ NGUOI=CO      -> NGUOI CO
 THEGIOI=BANCO -> THEGIOI BANCO
 ```
 
-`0.6.21.0` is a candidate pending runtime QA. Next priority: story/intro, NPC/tavern dialogue, mid-match menus, card list/help, weapon/item/magic descriptions, area/tax/hospital/Ma vương events, and any remaining Japanese text.
+Batch 13 specifically attacks split runtime fragments, quoted card labels, dynamic names and board/economy labels such as `Giá trị`, `Lộ phí`, `Quỹ`, `Vô chủ`, `Ô GO`, `Ô chiến`, `Ô quán`, tax squares and `Thánh địa`.
+
+`0.6.22.0` is a candidate pending clean-ROM build and runtime QA. Next priority: remaining long story/dialog lines, event text still sourced outside Translation Master, deeper card-help screens, and any Japanese text caught in screenshots.
