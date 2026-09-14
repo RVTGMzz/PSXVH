@@ -1,0 +1,24 @@
+name: Gaia Master Batch 34 Builder Selftest
+
+on:
+  push:
+    branches:
+      - gaia-character-select-font-atlas-reverse-01
+    paths:
+      - 'games/GaiaMaster-Kamigami-no-Board-Game/tools/build_gaia_06440_batch34_curated_compact.py'
+      - 'games/GaiaMaster-Kamigami-no-Board-Game/tools/batch33_stage_06430.py'
+      - 'games/GaiaMaster-Kamigami-no-Board-Game/translation/BATCH33_NEW_EXACT_OFFSET_0.6.43.0.csv'
+      - 'games/GaiaMaster-Kamigami-no-Board-Game/translation/BATCH33_FINAL_EXACT_SET_0.6.43.0.csv'
+      - '.github/workflows/gaia-batch34-builder-selftest.yml'
+  workflow_dispatch:
+
+jobs:
+  selftest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Validate Batch34 builder contract
+        run: python games/GaiaMaster-Kamigami-no-Board-Game/tools/build_gaia_06440_batch34_curated_compact.py --selftest
