@@ -117,13 +117,13 @@ PRGPACK.BDP,0xddd68,ゲームをはじめるよ,Bắt đầu!,18,16,2,BATCH23_CO
 PRGPACK.BDP,0xddd7c,データがないわよ,Không có,16,16,0,BATCH23_COMPACT_0.6.32.0.csv,batch24-residual-exact
 PRGPACK.BDP,0xde110,ＳＬＯＴをえらんでね,Chọn SLOT,20,18,2,BATCH21_SEMANTIC_0.6.30.0.csv,batch24-residual-exact
 SLPS_020.75,0x938,%dゼニーあげるね,Tặng %d Z,16,16,0,BATCH23_COMPACT_0.6.32.0.csv,batch24-residual-exact
-SLPS_020.75,0x958,体力が５０回復したよ！,Hồi 50 HP!,22,20,2,BATCH21_SEMANTIC_0.6.30.0.csv,batch24-residual-exact
+SLPS_020.75,0x958,体力が５０回復したよ！,Hồi 50HP!,22,18,4,BATCH21_SEMANTIC_0.6.30.0.csv,batch24-residual-exact
 SLPS_020.75,0x970,%sに止まったよ,Dừng %s,14,12,2,BATCH22_COMPACT_0.6.31.0.csv,batch24-residual-exact
 SLPS_020.75,0x980,%sの土地に,Đất %s,10,10,0,BATCH21_SEMANTIC_0.6.30.0.csv,batch24-residual-exact
 SLPS_020.75,0x98c,止まっちゃったよ,Đã dừng!,16,16,0,BATCH21_SEMANTIC_0.6.30.0.csv,batch24-residual-exact
 SLPS_020.75,0x9ac,土地をかけて戦うことができるよ,Đấu giành đất,30,26,4,BATCH23_COMPACT_0.6.32.0.csv,batch24-residual-exact
-SLPS_020.75,0x9dc,武器カードが手に入るわ,Nhận thẻ VK,22,22,0,BATCH21_SEMANTIC_0.6.30.0.csv,batch24-residual-exact
-SLPS_020.75,0xa14,所持金の２０％とられるよ,Mất 20% tiền,24,24,0,BATCH21_SEMANTIC_0.6.30.0.csv,batch24-residual-exact
+SLPS_020.75,0x9dc,武器カードが手に入るわ,Nhận VK,22,14,8,BATCH21_SEMANTIC_0.6.30.0.csv,batch24-residual-exact
+SLPS_020.75,0xa14,所持金の２０％とられるよ,Mất20% tiền,24,22,2,BATCH21_SEMANTIC_0.6.30.0.csv,batch24-residual-exact
 SLPS_020.75,0xa50,土地代の２０％とられるよ,-20% giá đất,24,24,0,BATCH22_COMPACT_0.6.31.0.csv,batch24-residual-exact
 SLPS_020.75,0xabc,%sは一回休みよ！,%s nghỉ!,16,14,2,BATCH23_COMPACT_0.6.32.0.csv,batch24-residual-exact
 SLPS_020.75,0xad0,%sの番よ！,Tới %s,10,10,0,BATCH22_COMPACT_0.6.31.0.csv,batch24-residual-exact
