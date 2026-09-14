@@ -1,0 +1,28 @@
+name: Gaia Master Batch 29 Production Stage
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [gaia-character-select-font-atlas-reverse-01]
+    paths:
+      - "games/GaiaMaster-Kamigami-no-Board-Game/tools/batch29_stage_06390.py"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/translation/BATCH29_NEW_EXACT_OFFSET_0.6.39.0.csv"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/translation/BATCH29_FINAL_EXACT_SET_0.6.39.0.csv"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/translation/GAMEPLAY_ACCENT_OVERRIDES_0.6.11.0.csv"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/translation/BATCH3_FALLBACK_ACCENT_MAP_0.6.12.0.csv"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/translation/COMPACT_TRANSLATION_OVERRIDES_0.6.13.0.csv"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/translation/COMPACT_TRANSLATION_OVERRIDES_0.6.14.0.csv"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/translation/COMPACT_TRANSLATION_OVERRIDES_0.6.14.1.csv"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/translation/DYNAMIC_LITERAL_OVERRIDES_0.6.14.0.csv"
+      - ".github/workflows/gaia-batch29-production-stage.yml"
+
+jobs:
+  selftest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Stage real sources, verify precedence, then restore hashes
+        run: python games/GaiaMaster-Kamigami-no-Board-Game/tools/batch29_stage_06390.py
