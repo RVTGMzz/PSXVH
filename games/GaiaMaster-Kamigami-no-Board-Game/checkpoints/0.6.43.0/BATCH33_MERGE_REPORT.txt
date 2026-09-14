@@ -1,0 +1,17 @@
+GAIA MASTER 0.6.43.0 BATCH 33 MERGE
+========================================================================
+B29 new rows               : 282
+B29 final rows             : 295
+B32 curated rows           : 47
+Merged new exact targets   : 329
+Merged final verify set    : 342
+Errors                     : 0
+
+Guards:
+- merge by exact file+offset
+- every row revalidated for CP932 field size, runtime tokens and frozen codepage
+- conflicting wording is a hard error
+- B29 historical/proven rows stay in final verify set
+- no ROM/font/pointer modification
+
+RESULT: STATIC MERGE PASS
