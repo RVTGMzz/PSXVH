@@ -28,15 +28,6 @@ PRGPACK.BDP,0x68ce8,Biến đi,batch20-fit-pressure,V2 pressure sweep; field=14B
 PRGPACK.BDP,0x68cf8,Quỹ gom,batch20-fit-pressure,V2 pressure sweep; field=14B new=14B
 PRGPACK.BDP,0x68da0,Mỗi lần,batch20-fit-pressure,V2 pressure sweep; field=14B new=14B
 PRGPACK.BDP,0x68dc8,Dừng:lộ,batch20-fit-pressure,V2 pressure sweep; field=14B new=14B
-PRGPACK.BDP,0x68e4c,Nhận,batch20-fit-pressure,V2 pressure sweep; field=10B new=8B
-PRGPACK.BDP,0x68e58,1 thẻSK,batch20-fit-pressure,V2 pressure sweep; field=14B new=14B
-PRGPACK.BDP,0x68e68,Dừng:SK,batch20-fit-pressure,V2 pressure sweep; field=14B new=14B
-PRGPACK.BDP,0x68e84,Mở được,batch20-fit-pressure,V2 pressure sweep; field=14B new=14B
-PRGPACK.BDP,0x68e94,Tỉ thí,batch20-fit-pressure,V2 pressure sweep; field=14B new=12B
-PRGPACK.BDP,0x68eb8,Trống,batch20-fit-pressure,V2 pressure sweep; field=10B new=10B
-SLPS_020.75,0x9a0,Ô đấu,batch20-fit-pressure,V2 pressure sweep; field=10B new=10B
-SLPS_020.75,0xa6c,Ô Thánh địa,batch20-fit-pressure,V2 pressure sweep; field=22B new=22B
-SLPS_020.75,0xa84,Nhận thuế,batch20-fit-pressure,V2 pressure sweep; field=26B new=18B
 SLPS_020.75,0x16a4,Khóa,batch20-fit-pressure,V2 pressure sweep; field=12B new=8B
 SLPS_020.75,0x1744,Thủ 1 lần,batch20-fit-pressure,V2 pressure sweep; field=20B new=18B
 SLPS_020.75,0x175c,Mộc,batch20-fit-pressure,V2 pressure sweep; field=8B new=6B
