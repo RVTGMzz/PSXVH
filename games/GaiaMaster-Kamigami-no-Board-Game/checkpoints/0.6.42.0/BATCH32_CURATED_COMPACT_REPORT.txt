@@ -1,0 +1,19 @@
+GAIA MASTER 0.6.42.0 BATCH 32 CURATED COMPACT
+============================================================================
+Curated Japanese keys        : 25
+Curated keys producing rows  : 25
+Protected hits skipped       : 0
+New exact rows exported      : 47
+Exact-full-field rows        : 26
+Errors                       : 1
+
+RULES:
+- Japanese-keyed manual curation only
+- B29/Batch19/runtime-fit historical exact keys are protected
+- runtime tokens preserve identity and order
+- every compact candidate must fit the original CP932 field
+- every non-CP932 glyph must belong to the frozen Vietnamese codepage
+- no ROM/font/pointer modification
+
+ERRORS:
+- unsupported chars ['ễ']: ('SLPS_020.75', '0x16b4') 'Dễ chí mạng'

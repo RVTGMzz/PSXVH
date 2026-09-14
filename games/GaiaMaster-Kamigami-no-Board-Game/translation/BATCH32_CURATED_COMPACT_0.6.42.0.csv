@@ -1,0 +1,48 @@
+﻿file,offset_hex,japanese,vi_accented,field_bytes,vi_bytes,free_bytes,old_fallback,vi_full,source
+PRGPACK.BDP,0x510,やるね,Hay,6,6,0,KHA DAY,Khá đấy,batch32-curated-japanese-key
+PRGPACK.BDP,0x5f8,武器カードは,Thẻ VK,12,12,0,THE VK,,batch32-curated-japanese-key
+PRGPACK.BDP,0x630,武器カードを,Thẻ VK,12,12,0,THE VK,,batch32-curated-japanese-key
+PRGPACK.BDP,0x304d8,終了ターン,Hết,10,6,4,HET,,batch32-curated-japanese-key
+PRGPACK.BDP,0x30600,終了ターン,Hết,10,6,4,HET,,batch32-curated-japanese-key
+PRGPACK.BDP,0x32040,やるね,Hay,6,6,0,KHA DAY,Khá đấy,batch32-curated-japanese-key
+PRGPACK.BDP,0x32128,武器カードは,Thẻ VK,12,12,0,THE VK,,batch32-curated-japanese-key
+PRGPACK.BDP,0x32160,武器カードを,Thẻ VK,12,12,0,THE VK,,batch32-curated-japanese-key
+PRGPACK.BDP,0x3f764,やるね,Hay,6,6,0,KHA DAY,Khá đấy,batch32-curated-japanese-key
+PRGPACK.BDP,0x3f84c,武器カードは,Thẻ VK,12,12,0,THE VK,,batch32-curated-japanese-key
+PRGPACK.BDP,0x3f884,武器カードを,Thẻ VK,12,12,0,THE VK,,batch32-curated-japanese-key
+PRGPACK.BDP,0x4d354,やるね,Hay,6,6,0,KHA DAY,Khá đấy,batch32-curated-japanese-key
+PRGPACK.BDP,0x4d43c,武器カードは,Thẻ VK,12,12,0,THE VK,,batch32-curated-japanese-key
+PRGPACK.BDP,0x4d474,武器カードを,Thẻ VK,12,12,0,THE VK,,batch32-curated-japanese-key
+PRGPACK.BDP,0x5b028,やるね,Hay,6,6,0,KHA DAY,Khá đấy,batch32-curated-japanese-key
+PRGPACK.BDP,0x5b110,武器カードは,Thẻ VK,12,12,0,THE VK,,batch32-curated-japanese-key
+PRGPACK.BDP,0x5b148,武器カードを,Thẻ VK,12,12,0,THE VK,,batch32-curated-japanese-key
+PRGPACK.BDP,0x67504,なにか捨ててね,Bỏ bớt,14,12,2,BO BOT THE,Hãy bỏ bớt một thẻ,batch32-curated-japanese-key
+PRGPACK.BDP,0x6799c,武器カードを,Thẻ VK,12,12,0,THE VK,,batch32-curated-japanese-key
+PRGPACK.BDP,0x67d78,%dゼニーはらってね,Trả %dZ,18,12,6,TRA %d ZENNY,Trả %d Zenny,batch32-curated-japanese-key
+PRGPACK.BDP,0x67f1c,なにか捨ててね,Bỏ bớt,14,12,2,BO BOT THE,Hãy bỏ bớt một thẻ,batch32-curated-japanese-key
+PRGPACK.BDP,0x68ae4,%sのラッキー！！,%s hên!,16,12,4,%s MAY MAN!!,%s gặp may!!,batch32-curated-japanese-key
+PRGPACK.BDP,0x962c0,%sのラッキー！！,%s hên!,16,12,4,%s MAY MAN!!,%s gặp may!!,batch32-curated-japanese-key
+PRGPACK.BDP,0xb9048,%dゼニーはらってね,Trả %dZ,18,12,6,TRA %d ZENNY,Trả %d Zenny,batch32-curated-japanese-key
+SLPS_020.75,0x127c,防御　速度７　使い捨て,Thủ SPD7 1L,22,22,0,DEF SPD7 1L,,batch32-curated-japanese-key
+SLPS_020.75,0x1294,みがわり,Thế,8,6,2,DON,,batch32-curated-japanese-key
+SLPS_020.75,0x143c,死亡するとＨＰ１００で復活,Hồi sinh100HP,26,26,0,HOISINH100HP,,batch32-curated-japanese-key
+SLPS_020.75,0x1458,復活の霊薬,Sống,10,8,2,HSINH,,batch32-curated-japanese-key
+SLPS_020.75,0x1500,あいての命中率を落とす,Giảm CX,22,14,8,GIAM CX,,batch32-curated-japanese-key
+SLPS_020.75,0x1528,指定武器カード１枚を盗む,Cướp thẻ VK,24,22,2,CUOP THE VK,,batch32-curated-japanese-key
+SLPS_020.75,0x1560,盗賊のオーブ,Trộm,12,8,4,DAO,,batch32-curated-japanese-key
+SLPS_020.75,0x15c4,攻撃力を２倍にアップさせる,Công x2,26,14,12,ATK X2,,batch32-curated-japanese-key
+SLPS_020.75,0x15ec,ＨＰを６０回復する,Hồi 60HP,18,16,2,HOI60HP,,batch32-curated-japanese-key
+SLPS_020.75,0x1600,いやしのうた,Hồi HP,12,12,0,CHUAHP,,batch32-curated-japanese-key
+SLPS_020.75,0x1668,ブラッドスピア,G.Máu,14,10,4,GIAOMAU,,batch32-curated-japanese-key
+SLPS_020.75,0x1690,使い捨てアイテム,Đồ 1L,16,10,6,DO 1 LAN,,batch32-curated-japanese-key
+SLPS_020.75,0x16b4,クリティカルがでやすい,Dễ chí mạng,22,22,0,DE CHI MANG,,batch32-curated-japanese-key
+SLPS_020.75,0x21e0,お店破壊,Phá!,8,8,0,PHA SHOP,Phá cửa hàng,batch32-curated-japanese-key
+SLPS_020.75,0x23d4,お店破壊,Phá!,8,8,0,PHA SHOP,Phá cửa hàng,batch32-curated-japanese-key
+SLPS_020.75,0x263c,病院,BV,4,4,0,BENH,Bệnh viện,batch32-curated-japanese-key
+SLPS_020.75,0x264a,騎士団,Kỵ,6,4,2,HIEPSI,Hiệp sĩ đoàn,batch32-curated-japanese-key
+SLPS_020.75,0x2658,修道会,Đạo,6,6,0,TUVIEN,Tu viện,batch32-curated-japanese-key
+SLPS_020.75,0x2674,武器屋,VK,6,4,2,TIEMVK,Tiệm vũ khí,batch32-curated-japanese-key
+SLPS_020.75,0x7683c,騎士団,Kỵ,6,4,2,HIEPSI,Hiệp sĩ đoàn,batch32-curated-japanese-key
+SLPS_020.75,0x76844,修道会,Đạo,6,6,0,TUVIEN,Tu viện,batch32-curated-japanese-key
+SLPS_020.75,0x7684c,病院,BV,4,4,0,BENH,Bệnh viện,batch32-curated-japanese-key
+SLPS_020.75,0x76854,武器屋,VK,6,4,2,TIEMVK,Tiệm vũ khí,batch32-curated-japanese-key
