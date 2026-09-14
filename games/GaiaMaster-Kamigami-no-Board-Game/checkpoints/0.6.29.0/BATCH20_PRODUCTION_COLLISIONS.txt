@@ -1,0 +1,72 @@
+GAIA MASTER 0.6.29.0 BATCH20 PRODUCTION COLLISION AUDIT
+========================================================================
+GAMEPLAY_ACCENT_OVERRIDES_0.6.11.0.csv: 42 collision(s)
+  SLPS_020.75 0x16a4 -> Khóađồ
+  SLPS_020.75 0x1744 -> Thủ 1 lần
+  SLPS_020.75 0x177c -> Hồi 1 lần
+  SLPS_020.75 0x1828 -> RìuChiến
+  SLPS_020.75 0x21f4 -> Đổi đường
+  SLPS_020.75 0x2230 -> Quỵt
+  SLPS_020.75 0x235c -> Tiến1
+  SLPS_020.75 0x2370 -> Tiến2
+  SLPS_020.75 0x2384 -> Tiến3
+  SLPS_020.75 0x2398 -> Tiến4
+  SLPS_020.75 0x23ac -> Tiến5
+  SLPS_020.75 0x23c0 -> Tiến6
+  SLPS_020.75 0x23e8 -> Đổi thẻ
+  SLPS_020.75 0x2c58 -> Đổi tối đa2
+  SLPS_020.75 0x2cb8 -> Ma phá shop khu
+  SLPS_020.75 0x2cec -> Tiến 6 ô
+  SLPS_020.75 0x2cfc -> 「Tiến6」
+  SLPS_020.75 0x2d08 -> Tiến 5 ô
+  SLPS_020.75 0x2d18 -> 「Tiến5」
+  SLPS_020.75 0x2d24 -> Tiến 4 ô
+  SLPS_020.75 0x2d34 -> 「Tiến4」
+  SLPS_020.75 0x2d40 -> Tiến 3 ô
+  SLPS_020.75 0x2d50 -> 「Tiến3」
+  SLPS_020.75 0x2d5c -> Tiến 2 ô
+  SLPS_020.75 0x2d6c -> 「Tiến2」
+  SLPS_020.75 0x2d78 -> Tiến 1 ô
+  SLPS_020.75 0x2da4 -> 「Tiến1」
+  SLPS_020.75 0x2dcc -> Siêutốc!
+  SLPS_020.75 0x2ddc -> 「4 xúcxắc」
+  SLPS_020.75 0x2e08 -> Tăngtốc!
+  SLPS_020.75 0x2e1c -> 「3 xúcxắc」
+  SLPS_020.75 0x2f58 -> Xây thánh
+  SLPS_020.75 0x31a8 -> Phá biểutượng
+  SLPS_020.75 0x3318 -> 「Thần giờ」
+  SLPS_020.75 0x3820 -> Vẫn thiếu
+  SLPS_020.75 0x3838 -> Vẫn thiếu
+  SLPS_020.75 0x767e0 -> Hỗtrợ
+  SLPS_020.75 0x76804 -> Phép
+  SLPS_020.75 0x76868 -> %s của
+  SLPS_020.75 0x76870 -> %s nhé
+  SLPS_020.75 0x768d8 -> Vốn
+  SLPS_020.75 0x7690c -> %s là
+COMPACT_TRANSLATION_OVERRIDES_0.6.13.0.csv: 22 collision(s)
+  PRGPACK.BDP 0x674d0 -> Nhận
+  PRGPACK.BDP 0x675dc -> Trả %d Z
+  PRGPACK.BDP 0x675f8 -> Nhận VK
+  PRGPACK.BDP 0x67808 -> Hết tiền
+  PRGPACK.BDP 0x67d50 -> Không có
+  PRGPACK.BDP 0x67fc8 -> Bỏ cuộc
+  PRGPACK.BDP 0x68088 -> Không có
+  PRGPACK.BDP 0x68a04 -> Lùi
+  PRGPACK.BDP 0x68a0c -> Hê
+  PRGPACK.BDP 0x68a38 -> Láu
+  PRGPACK.BDP 0x68a44 -> Hử?
+  PRGPACK.BDP 0x68b9c -> Phá nào!
+  PRGPACK.BDP 0x68bfc -> Grrr
+  PRGPACK.BDP 0x68ca4 -> Cơ sở %s
+  PRGPACK.BDP 0x68ce8 -> Warp
+  PRGPACK.BDP 0x68cf8 -> Tiền góp
+  PRGPACK.BDP 0x68da0 -> Mỗi lượt
+  PRGPACK.BDP 0x68dc8 -> Dừng: tuyến
+  SLPS_020.75 0x2dcc -> Siêu tốc!
+  SLPS_020.75 0x2e08 -> Tăng tốc!
+  SLPS_020.75 0x2f58 -> Xây nhà thờ
+  SLPS_020.75 0x31a8 -> Phá tượng
+COMPACT_TRANSLATION_OVERRIDES_0.6.14.0.csv: 0 collision(s)
+COMPACT_TRANSLATION_OVERRIDES_0.6.14.1.csv: 0 collision(s)
+
+TOTAL COLLISIONS: 64
