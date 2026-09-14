@@ -1,0 +1,19 @@
+GAIA MASTER 0.6.32.0 BATCH 23 REMAINING COMPACT VALIDATION
+========================================================================
+Batch21 pressure keys : 48
+Batch22 resolved keys : 12
+Remaining target keys : 36
+Batch23 compact keys  : 36
+Pressure rows covered : 97
+Exact-full-field rows : 31
+Total spare bytes     : 268
+Errors                : 0
+
+Guards:
+- Batch23 must equal the complete Batch21 pressure-key remainder after Batch22
+- runtime token identity/order preserved
+- every compact candidate must fit every matching source field
+- CP932/frozen 60-glyph codepage only
+- translation-data only; no ROM/font/pointer modification
+
+RESULT                : STATIC PASS
