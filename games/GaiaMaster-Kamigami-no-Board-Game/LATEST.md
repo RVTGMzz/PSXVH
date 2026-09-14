@@ -2,40 +2,39 @@
 
 Cập nhật: **2026-09-14**
 
-## CURRENT — 0.6.24.0 BATCH 15
+## CURRENT — 0.6.26.0 BATCH 17
 
-Trọng tâm: deep dialog / help / event sweep, dọn các fragment runtime bị game chẻ nhỏ và phần thoại/event sâu còn sót.
+Trọng tâm: **Japanese Extermination** — quét residual `IN_ALPHA_05`, harvest `vi_full` chưa có semantic map và đẩy các duplicate Nhật an toàn sang dynamic literal.
 
-Quy mô hiện tại:
+Base trước runtime harvest:
 
 ```text
 story/front mappings  = 19
-Japanese semantic map = 435
+Japanese semantic map = 436
 fantasy fallback map  = 354
-dynamic literals      = 125
+dynamic literals      = 229
 ```
 
-Batch 15 thêm/chỉnh:
+Batch 17 manual polish:
 
 ```text
-46 Japanese semantic mappings
-38 semantic keys hoàn toàn mới
-8 semantic re-edits
-45 fantasy fallback mappings
-19 dynamic literals
+21 semantic mappings
+21 fantasy fallback mappings
+13 dynamic literals
 ```
+
+Điểm mới quan trọng: lúc build, Batch 17 quét cả 6 Translation Master, thử semantic / vi_full / compact / STYLE / accent fallback cho các row còn trống; sau đó sinh `GaiaMaster_0.6.26.0_RESIDUAL_ALPHA.csv` để biết chính xác phần Alpha nào còn sót.
 
 Repo material:
 
 ```text
-BATCH15_0.6.24.0.md
-translation/BATCH15_JP_EXACT_0.6.24.0.csv
-translation/BATCH15_STYLE_0.6.24.0.csv
-translation/BATCH15_DYNAMIC_0.6.24.0.csv
+BATCH17_0.6.26.0.md
+translation/BATCH17_JP_EXACT_0.6.26.0.csv
+translation/BATCH17_STYLE_0.6.26.0.csv
+translation/BATCH17_DYNAMIC_0.6.26.0.csv
+checkpoints/0.6.26.0/README.md
 ```
 
-Production lock không đổi: native 12x12 / 72-byte / 4bpp, static mapping-only, legacy coverage gate 397/397.
+Production lock không đổi: native 12x12 / 72-byte / 4bpp, static mapping-only, legacy coverage gate 397/397. Font không chỉnh.
 
-Tone vẫn là trung cổ fantasy dễ đọc. Batch 15 đẩy mạnh thoại Ma vương/NPC, bảng cơ sở-chủ-lộ phí-giá trị, thuế, tiền tích lũy, đổi lộ, mini game và wording cho Đạo tặc / Pháp sư / Đại quốc / Thần Vận.
-
-`0.6.24.0` là candidate, chờ clean-ROM build và runtime QA trước khi gọi PASS.
+`0.6.26.0` là candidate; syntax PASS, clean-ROM build và runtime QA vẫn chờ test thực tế.
