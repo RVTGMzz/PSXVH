@@ -7,7 +7,7 @@ production fixes proven by R5 plus the 0.6.55 runtime polish deterministically.
 """
 from pathlib import Path
 
-BASE = Path(__file__).with_name("build_gaia_06100_hybrid_accent_b1_READABLE.py")
+BASE = Path(__file__).with_name("build_gaia_06100_hybrid_accent_b1_LEGACY.py")
 src = BASE.read_text(encoding="utf-8")
 
 
