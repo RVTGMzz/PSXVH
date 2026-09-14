@@ -5,7 +5,7 @@ Branch: `gaia-character-select-font-atlas-reverse-01`
 
 ## Current checkpoint
 
-**0.6.40.0 — Batch 30 Accent Sweep + Whole-Game Discovery**
+**0.6.44.0 — Batch 34 Curated Compact Production Build**
 
 Status: **BUILD-READY / STATIC PASS**.
 
@@ -14,80 +14,95 @@ This is still **not Runtime PASS**.
 Read next:
 
 ```text
-BATCH30_0.6.40.0.md
-checkpoints/0.6.37.0/BATCH28_SAME_ROW_ACCENT_REPORT.txt
-checkpoints/0.6.39.0/BATCH29_MERGE_VALIDATION.txt
-translation/BATCH29_NEW_EXACT_OFFSET_0.6.39.0.csv
-translation/BATCH29_FINAL_EXACT_SET_0.6.39.0.csv
-tools/batch29_stage_06390.py
-tools/build_gaia_06400_batch30_accent_sweep.py
+BATCH34_0.6.44.0.md
+checkpoints/0.6.41.0/BATCH31_RESIDUAL_ALPHA_PRIORITY_REPORT.txt
+checkpoints/0.6.42.0/BATCH32_CURATED_COMPACT_REPORT.txt
+checkpoints/0.6.43.0/BATCH33_MERGE_REPORT.txt
+translation/BATCH32_CURATED_COMPACT_0.6.42.0.csv
+translation/BATCH33_NEW_EXACT_OFFSET_0.6.43.0.csv
+translation/BATCH33_FINAL_EXACT_SET_0.6.43.0.csv
+tools/batch33_stage_06430.py
+tools/build_gaia_06440_batch34_curated_compact.py
 tools/scan_full_japanese_text_06380.py
 ```
 
-## What changed after runtime screenshots
+## Why Batch31-34 exists
 
-User screenshots proved that closing the 147 residual rows inside the 596-row Translation Master did **not** mean whole-game coverage. Visible Memory Card, story/tutorial and card-help Japanese strings are absent from the current master.
+After 0.6.40, the 596-row Translation Master still contained many Alpha-era ASCII fallbacks even though 295 exact fields were already protected. Batch31 rebuilt the residual inventory instead of redoing already-fixed rows.
 
-The priority is now visible runtime coverage, not merely residual closure inside the old master.
+```text
+Translation Master rows      = 596
+Protected B29 exact keys     = 295
+Residual fallback rows       = 265
+Unique residual clusters     = 242
+```
 
-Two tracks are active:
+Breakdown:
 
-1. upgrade known Alpha ASCII fallback rows to accented Vietnamese where wording can be proven safely;
-2. scan CLEAN PRGPACK/SLPS to discover Japanese strings that never entered the current Translation Master.
+```text
+NO_VI_FULL            = 34 clusters / 44 rows
+VI_FULL_TOO_LONG      = 207 clusters / 220 rows
+VI_FULL_TOKEN_MISMATCH= 1 cluster / 1 row
+```
 
-## Accent sweep state
+The main remaining problem inside the known master is therefore field pressure, not lack of semantic translation.
 
-Batch27 Japanese-key promotion added 2 safe rows.
+## Batch32 curated compact sweep
 
-Batch28 same-row lexical transplant, after excluding all runtime-fit historical locks and Batch19 exact locks, adds **71 safe accented rewrites**.
+25 Japanese semantic keys were manually compacted into codepage-safe Vietnamese. This exported **47 new exact rows**.
+
+The first CI pass caught unsupported `ễ` in `Dễ chí mạng`; the wording was changed to `Hay CM` rather than expanding the frozen codepage.
+
+Final Batch32 result:
+
+```text
+Curated Japanese keys       = 25
+Curated keys producing rows = 25
+New exact rows exported     = 47
+Exact-full-field rows       = 25
+Errors                      = 0
+RESULT                      = STATIC CURATED PASS
+```
 
 Examples:
 
 ```text
-NHAN THE SK   -> Nhận thẻ SK
-THE VK DA DAY -> Thẻ VK đã đầy
-DOI DUONG?    -> Đổi đường?
-HUY            -> Hủy
-CHON KHU?      -> Chọn khu?
-PHA CAI NAO!!  -> Phá cái nào!!
+武器カードを / 武器カードは -> Thẻ VK
+終了ターン                 -> Hết
+%sのラッキー！！           -> %s hên!
+なにか捨ててね             -> Bỏ bớt
+騎士団                     -> Kỵ
+お店破壊                   -> Phá!
+%dゼニーはらってね         -> Trả %dZ
+いやしのうた               -> Hồi HP
+指定武器カード１枚を盗む   -> Cướp thẻ VK
+あいての命中率を落とす     -> Giảm CX
+ＨＰを６０回復する         -> Hồi 60HP
+死亡するとＨＰ１００で復活 -> Hồi sinh100HP
 ```
 
-## Batch29 merged exact state
+## Batch33 merged exact state
 
 ```text
-Input candidates B20/B24/B27/B28 = 295
-Unique final candidate keys       = 295
-Runtime-fit protected keys        = 49
-Historical no-op/unfit rows       = 13
-Already-locked identical          = 13
-Protected wording conflicts       = 0
-New exact rows exported           = 282
-Final exact verification set      = 295
-Errors                            = 0
-RESULT                            = STATIC PASS
+B29 new rows               = 282
+B29 final rows             = 295
+B32 curated rows           = 47
+Merged new exact targets   = 329
+Merged final verify set    = 342
+Errors                     = 0
+RESULT                     = STATIC MERGE PASS
 ```
 
-## Batch30 production staging / builder contract
+## Batch34 production staging / builder contract
 
-CI selftest proves:
+The stage wrapper reuses the already-audited Batch29/30 precedence implementation rather than introducing a new patch engine.
 
-```text
-New exact targets     = 282
-Final exact verify    = 295
-Legacy shadows        = 282
-Dynamic sinks         = 5
-Legacy gate           = 397/397
-Gameplay masks        = 180
-Compact13 masks       = 67
-Compact14 masks       = 2
-Global-map preserves  = 33
-Source restore        = PASS
-```
+CI has executed the real temporary stage + restore cycle successfully.
 
-Production chain remains the proven chain:
+Production chain remains:
 
 ```text
-0.6.40 staging
+0.6.44 staging
  -> 0.6.14
     -> 0.6.13
        -> 0.6.12
@@ -95,16 +110,10 @@ Production chain remains the proven chain:
              -> 0.6.10 exact builder
 ```
 
-Windows build entrypoint:
-
-```text
-tools/00_BUILD_0.6.40.0_BATCH30_ACCENT_SWEEP.cmd
-```
-
 Python builder:
 
 ```text
-tools/build_gaia_06400_batch30_accent_sweep.py
+tools/build_gaia_06440_batch34_curated_compact.py
 ```
 
 Clean Japan BIN required:
@@ -113,33 +122,53 @@ Clean Japan BIN required:
 SHA1 f4d5298583c90d89c4b7e51d2dde160ee07f2aec
 ```
 
-After a real local build, the output BIN must pass **295/295 exact byte verification** before the builder reports success.
-
-## Whole-game Japanese scanner
-
-Read-only scanner:
+Hard post-build contract:
 
 ```text
-tools/00_SCAN_0.6.38.0_FULL_JAPANESE.cmd
-tools/scan_full_japanese_text_06380.py
+new exact targets staged = 329
+final exact fields        = 342/342 byte verification required
+legacy Alpha gate         = 397/397
+source restoration        = PASS
 ```
 
-It scans CLEAN `PRGPACK.BDP` + `SLPS_020.75`, excludes font/mapping regions, and compares candidates against the current 596-row master.
+A mismatch blocks the build.
 
-Outputs expected from the user:
+## EASY package
+
+Current test package:
+
+```text
+GaiaMaster_0.6.44.0_Batch34_EASY.zip
+```
+
+Root launchers:
+
+```text
+00_VIET_HOA_GAME.cmd
+01_QUET_TOAN_BO_GAME.cmd
+02_DOC_TRUOC.txt
+```
+
+The build launcher auto-selects the CLEAN BIN by SHA1. The scanner remains read-only.
+
+## Whole-game Japanese scanner remains critical
+
+Runtime screenshots already proved that closing known master rows does not equal whole-game coverage. Memory Card, story/tutorial and card-help Japanese can exist outside the 596-row master.
+
+Run:
+
+```text
+01_QUET_TOAN_BO_GAME.cmd
+```
+
+Return:
 
 ```text
 GaiaMaster_0.6.38.0_FULL_JAPANESE_SCAN.csv
 GaiaMaster_0.6.38.0_FULL_JAPANESE_SCAN_REPORT.txt
 ```
 
-These files are the next critical input for story/tutorial expansion.
-
-## Runtime screenshot interpretation
-
-`XONG!` and `LUOT ジガ` are separate runtime keys. The `%sの番よ！` key is already exact-mapped to `Tới %s`. If a runtime screenshot still shows `LUOT`, the emulator is not running the successfully built current output.
-
-Use the 0.6.40 EASY launcher, which auto-selects the CLEAN BIN by SHA1, then boot the newly generated 0.6.40 output rather than an emulator Recent/History entry.
+These are the next critical input for visible story/tutorial expansion.
 
 ## Production architecture remains frozen
 
@@ -157,16 +186,15 @@ Hard exclusions remain:
 - no 12x16
 - no 6x12
 - no composite overlay
-- no font retuning without new runtime evidence
+- no font retuning without runtime evidence
 
 Preserve `%s`, `%d`, `%4d`, `%+3d`, `/V` and token order.
 
 ## Next priority
 
-1. User runs 0.6.40 EASY build against CLEAN Japan BIN.
-2. Require `GaiaMaster_0.6.40.0_BATCH30_FINAL_REPORT.txt` to show 295/295 exact byte verification and 397/397 legacy gate.
-3. User runs the whole-game scanner against the same CLEAN BIN.
-4. Import/review scanner output, prioritizing `UNSEEN-JAPANESE` and screenshot anchor hits.
-5. Expand Translation Master with story/tutorial/help strings by exact offset.
-6. Build the next large visible-coverage batch.
-7. Never call Runtime PASS without actual gameplay screenshots/logs.
+1. Build 0.6.44 from CLEAN Japan BIN.
+2. Require `GaiaMaster_0.6.44.0_BATCH34_FINAL_REPORT.txt` to show **342/342** exact byte verification and **397/397** legacy gate.
+3. Boot the newly generated 0.6.44 image, not an emulator Recent/History entry pointing to an older image.
+4. Run the whole-game scanner on the CLEAN BIN.
+5. Import scanner output and prioritize UNSEEN-JAPANESE story/tutorial/help strings by exact offset.
+6. Never call Runtime PASS before actual gameplay screenshots/logs are reviewed.
