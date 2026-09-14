@@ -7,6 +7,9 @@ on:
     paths:
       - ".github/workflows/gaia-06551-easy-package.yml"
       - "games/GaiaMaster-Kamigami-no-Board-Game/tools/build_gaia_06551_batch45r2_font_micro_polish.py"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/tools/find_clean_bin_06551.py"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/tools/package_launcher_06551.cmd"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/tools/package_root_launcher_06551.cmd"
       - "games/GaiaMaster-Kamigami-no-Board-Game/tools/00_BUILD_0.6.55.1_BATCH45R2_FONT_POLISH.cmd"
       - "games/GaiaMaster-Kamigami-no-Board-Game/BATCH45R2_0.6.55.1_FONT_MICRO_POLISH.md"
 
@@ -22,7 +25,18 @@ jobs:
           set -euo pipefail
           ROOT="games/GaiaMaster-Kamigami-no-Board-Game"
           python -m py_compile "$ROOT/tools/build_gaia_06551_batch45r2_font_micro_polish.py"
+          python -m py_compile "$ROOT/tools/find_clean_bin_06551.py"
           python "$ROOT/tools/build_gaia_06551_batch45r2_font_micro_polish.py" --selftest
+
+          python - <<'PY'
+          from pathlib import Path
+          root = Path("games/GaiaMaster-Kamigami-no-Board-Game/tools")
+          for name in ("package_root_launcher_06551.cmd", "package_launcher_06551.cmd"):
+              data = (root / name).read_bytes()
+              assert all(b < 128 for b in data), (name, "non-ASCII byte")
+              assert b"\r\n" in data, (name, "missing CRLF")
+          print("Windows launcher byte-format gates: PASS")
+          PY
 
       - name: Prepare EASY package
         shell: bash
@@ -34,110 +48,48 @@ jobs:
           cp -a "$ROOT"/. "$PKG/Core"/
           find "$PKG/Core" -type f \( -iname '*.bin' -o -iname '*.cue' -o -iname '*.iso' -o -iname '*.img' -o -iname '*.chd' \) -delete
 
-          cat > "$PKG/00_VIET_HOA_GAME.cmd" <<'EOF'
-          @echo off
-          setlocal EnableExtensions
-          chcp 65001 >nul
-          title Gaia Master 0.6.55.1 - Batch45R2 Font Micro Polish
-          set "CLEAN_SHA=F4D5298583C90D89C4B7E51D2DDE160EE07F2AEC"
-          set "GAIA_ROOT=%~dp0"
-          set "GAIA_SHA=%CLEAN_SHA%"
-          echo ============================================================
-          echo   GAIA MASTER 0.6.55.1 - BATCH45R2 FONT MICRO POLISH
-          echo ============================================================
-          echo.
-          set "BIN=%~1"
-          if defined BIN (
-            if not exist "%BIN%" set "BIN="
-          )
-          if defined BIN (
-            if /I not "%~x1"==".bin" set "BIN="
-          )
-          if not defined BIN (
-            for /f "usebackq delims=" %%F in (`powershell -NoProfile -ExecutionPolicy Bypass -Command "$ErrorActionPreference='SilentlyContinue'; $root=$env:GAIA_ROOT; $sha=$env:GAIA_SHA; Get-ChildItem -LiteralPath $root -Filter '*.bin' -File -Recurse ^| Where-Object { (Get-FileHash -LiteralPath $_.FullName -Algorithm SHA1).Hash -eq $sha } ^| Select-Object -First 1 -ExpandProperty FullName"`) do set "BIN=%%F"
-          )
-          if not defined BIN goto :NO_BIN
-          if not exist "%BIN%" goto :NO_BIN
-          for %%F in ("%BIN%") do set "BIN=%%~fF"
-          echo CLEAN BIN: "%BIN%"
-          echo.
-
-          where py >nul 2>&1
-          if %errorlevel%==0 (
-            set "PY=py -3"
-          ) else (
-            set "PY=python"
-          )
-
-          echo [1/2] Static selftest...
-          %PY% "%~dp0Core\tools\build_gaia_06551_batch45r2_font_micro_polish.py" --selftest
-          if errorlevel 1 goto :FAIL
-
-          echo.
-          echo [2/2] CLEAN build + font geometry gates...
-          %PY% "%~dp0Core\tools\build_gaia_06551_batch45r2_font_micro_polish.py" "%BIN%"
-          if errorlevel 1 goto :FAIL
-
-          echo.
-          echo ============================================================
-          echo XONG! Build 0.6.55.1 thanh cong.
-          echo Mo DUNG file CUE/BIN co ten 0.6.55.1.
-          echo Gui lai GaiaMaster_0.6.55.1_BATCH45R2_FINAL_REPORT.txt
-          echo va screenshot gameplay co chu đ / Đ / â-ê-ô / dau kep neu co.
-          echo CHUA GOI RUNTIME PASS neu chua co screenshot.
-          echo ============================================================
-          echo.
-          pause
-          exit /b 0
-
-          :FAIL
-          echo.
-          echo [LOI] Build/selftest chua thanh cong.
-          echo Gui nguyen cua so BUILD_LOG nay, dung sua tiep bang tay.
-          echo.
-          pause
-          exit /b 9
-
-          :NO_BIN
-          echo [!] Khong tim thay CLEAN Japan BIN dung SHA1.
-          echo.
-          echo Cach de nhat:
-          echo   1. Chep CLEAN Japan .BIN vao CUNG thu muc voi 00_VIET_HOA_GAME.cmd.
-          echo   2. Hoac keo-tha CLEAN .BIN truc tiep len file CMD nay.
-          echo.
-          echo SHA1 can dung: %CLEAN_SHA%
-          echo.
-          pause
-          exit /b 2
-          EOF
+          cp "$ROOT/tools/package_root_launcher_06551.cmd" "$PKG/00_VIET_HOA_GAME.cmd"
 
           cat > "$PKG/01_DOC_TRUOC.txt" <<'EOF'
           GAIA MASTER 0.6.55.1 - BATCH45R2 FONT MICRO POLISH
           ==================================================
 
-          Muc tieu runtime:
-          - đ thuong: bar neo vao dung than doc ben PHAI cua native d, cao hon 0.6.55.0 1 px.
-          - Đ hoa: rule rieng theo than doc ben TRAI, tra ve vertical placement truoc Batch45.
-          - â/ê/ô: dau ^ tach than ro hon.
-          - ấ/ế/ố...: tone khong de len ^.
-          - ắ: acute khong de len breve.
+          QUAN TRONG:
+          1. GIAI NEN TOAN BO ZIP ra mot thu muc binh thuong.
+          2. Chep CLEAN Japan BIN vao CUNG thu muc voi 00_VIET_HOA_GAME.cmd.
+          3. Double-click 00_VIET_HOA_GAME.cmd.
+          4. Cua so launcher moi se LUON pause khi ket thuc hoac gap loi.
 
-          Safety:
-          - frozen 60 glyph codepage
-          - native 12x12 / 72-byte / 4bpp / mapping-only
-          - 37 glyph ngoai scope phai byte-identical voi generator 0.6.55.0
-          - PRGPACK phai byte-for-byte khong doi boi font patch R2
-          - EDC/ECC duoc regen cho raw SLPS sectors bi sua
-          - Batch42 exact + intro Batch45 duoc recheck truoc va sau font patch
+          Launcher moi:
+          - root CMD chi call Core/tools/package_launcher_06551.cmd;
+          - khong dung PowerShell;
+          - CMD la ASCII + CRLF;
+          - Python finder tim CLEAN BIN bang SHA1;
+          - builder tu check CLEAN SHA1 lan nua.
+
+          Font target:
+          - lowercase d-stroke: anchor to the actual right stem;
+          - uppercase D-stroke: separate left-stem rule;
+          - circumflex/breve raised for more breathing room;
+          - stacked tone marks use a separate lane.
 
           CLEAN BIN SHA1:
           f4d5298583c90d89c4b7e51d2dde160ee07f2aec
 
-          QUAN TRONG:
-          Static/build PASS KHONG phai Runtime PASS.
-          Can gameplay screenshot de khoa font.
-          Goi nay KHONG kem ROM/game goc.
+          Static/build PASS is NOT Runtime PASS.
+          Gameplay screenshots are still required.
+          This package does not include the original game ROM.
           EOF
+
+          python - <<'PY'
+          from pathlib import Path
+          p = Path("GaiaMaster_0.6.55.1_Batch45R2_FONT_EASY/00_VIET_HOA_GAME.cmd")
+          data = p.read_bytes()
+          assert all(b < 128 for b in data)
+          assert b"\r\n" in data
+          assert b"powershell" not in data.lower()
+          print("Packaged root launcher gates: PASS")
+          PY
 
       - uses: actions/upload-artifact@v4
         with:
