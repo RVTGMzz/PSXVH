@@ -12,29 +12,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Build user package
-        run: |
-          ROOT="games/GaiaMaster-Kamigami-no-Board-Game"
-          PKG="GaiaMaster_0.6.35.0_Batch26_BUILD_READY"
-          mkdir -p "$PKG"
-          cp -a "$ROOT"/. "$PKG"/
-          find "$PKG" -type f \( -iname '*.bin' -o -iname '*.cue' -o -iname '*.iso' -o -iname '*.img' -o -iname '*.chd' \) -delete
-          cat > "$PKG/00_READ_ME_FIRST.txt" <<'EOF'
-Gaia Master PS1 Viet hoa - 0.6.35.0 Batch26 BUILD-READY
-
-1. Mo thu muc tools.
-2. Keo CLEAN Japan BIN vao:
-   00_BUILD_0.6.35.0_BATCH26_FINAL_EXACT.cmd
-3. CLEAN BIN SHA1 bat buoc:
-   f4d5298583c90d89c4b7e51d2dde160ee07f2aec
-4. Sau build, gui lai GaiaMaster_0.6.35.0_BATCH26_FINAL_REPORT.txt va screenshot runtime de QA.
-
-KHONG kem ROM/game goc.
-Status hien tai: STATIC PASS / BUILD-READY, chua phai Runtime PASS.
-EOF
-          zip -r -9 "GaiaMaster_0.6.35.0_Batch26_BUILD_READY.zip" "$PKG" >/dev/null
-      - uses: actions/upload-artifact@v4
+      - name: Upload Batch26 build-ready package
+        uses: actions/upload-artifact@v4
         with:
           name: GaiaMaster_0.6.35.0_Batch26_BUILD_READY
-          path: GaiaMaster_0.6.35.0_Batch26_BUILD_READY.zip
+          path: games/GaiaMaster-Kamigami-no-Board-Game
           if-no-files-found: error
+          include-hidden-files: false
