@@ -1,0 +1,23 @@
+name: Gaia Master Batch 30 Builder Selftest
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [gaia-character-select-font-atlas-reverse-01]
+    paths:
+      - "games/GaiaMaster-Kamigami-no-Board-Game/tools/build_gaia_06400_batch30_accent_sweep.py"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/tools/batch29_stage_06390.py"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/translation/BATCH29_NEW_EXACT_OFFSET_0.6.39.0.csv"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/translation/BATCH29_FINAL_EXACT_SET_0.6.39.0.csv"
+      - ".github/workflows/gaia-batch30-builder-selftest.yml"
+
+jobs:
+  selftest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Validate Batch30 builder contract
+        run: python games/GaiaMaster-Kamigami-no-Board-Game/tools/build_gaia_06400_batch30_accent_sweep.py --selftest
