@@ -1,0 +1,561 @@
+﻿file,offset_hex,japanese,vi_accented,field_bytes,vi_bytes,free_bytes,source,category
+PRGPACK.BDP,0x434,酒場へようこそ,Chào!,14,10,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x444,ちょうどタイクツしてたんだ,Đang chán quá,26,26,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x460,わたしと一勝負してかないかい,Đấu với ta?,28,22,6,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x480,今からふるダイスの目がこのダイス,So số sắp gieo,32,28,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x4a4,より大きいかちいさいか当てるんだよ,Đoán lớn/nhỏ,34,24,10,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x4c8,最初の賞品はこいつさ,Thưởng đầu,20,20,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x4e0,なんだい、もう終わりかい,Nghỉ rồi à?,24,22,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x4fc,…つまんないね,...Chán,14,14,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x510,やるね,Hay,6,6,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x518,もう勝負は終わりだよ,Đấu xong,20,16,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x540,もう一勝負してくかい？,Đấu nữa?,22,16,6,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x558,つぎの賞品はこいつだよ,Thưởng tiếp,22,22,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x570,%d枚の武器カードが手に入ったよ,Nhận %d thẻ VK,30,26,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x590,でももう持ち切れないみたい,Hết chỗ rồi,26,22,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x5ac,いらないカードを捨ててね,Bỏ thẻ thừa,24,22,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x5f8,武器カードは,Thẻ VK,12,12,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x608,手に入らなかったよ,Không có,18,16,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x61c,%d枚、手に入れたよ,Có %d thẻ,18,16,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x630,武器カードを,Thẻ VK,12,12,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x640,「%s」を捨てて、,"Bỏ %s,",16,10,6,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x654,「%s」を手に入れたよ,Nhận %s,20,12,8,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x66c,「%s」を手に入れたけど,"Có %s, nhưng",22,22,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x684,捨てたよ,Bỏ!,8,6,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x304a8,セリフ速度,Tốc,10,6,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x304b4,セリフ表示,Thoại,10,10,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x304c0,ボイス,âm,6,4,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x304c8,アニメーション,H.ảnh,14,10,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x304d8,終了ターン,Hết,10,6,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x304e4,プレイヤー設定,Cài đặt,14,14,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x304f4,しんどう設定,Rung,12,8,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x30504,１　（速い）,1Nhanh,12,12,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x30514,２　（ふつう）,2 Vừa,14,10,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x30600,   終了ターン,Hết,13,6,7,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x30658,○ボタンをおしてね,Nhấn O,18,12,6,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x3066c,%sはコントローラ%sだよ！,%s tay %s,24,14,10,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x31f64,酒場へようこそ,Chào!,14,10,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x31f74,ちょうどタイクツしてたんだ,Đang chán quá,26,26,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x31f90,わたしと一勝負してかないかい,Đấu với ta?,28,22,6,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x31fb0,今からふるダイスの目がこのダイス,So số sắp gieo,32,28,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x31fd4,より大きいかちいさいか当てるんだよ,Đoán lớn/nhỏ,34,24,10,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x31ff8,最初の賞品はこいつさ,Thưởng đầu,20,20,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x32010,なんだい、もう終わりかい,Nghỉ rồi à?,24,22,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x3202c,…つまんないね,...Chán,14,14,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x32040,やるね,Hay,6,6,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x32048,もう勝負は終わりだよ,Đấu xong,20,16,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x32070,もう一勝負してくかい？,Đấu nữa?,22,16,6,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x32088,つぎの賞品はこいつだよ,Thưởng tiếp,22,22,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x320a0,%d枚の武器カードが手に入ったよ,Nhận %d thẻ VK,30,26,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x320c0,でももう持ち切れないみたい,Hết chỗ rồi,26,22,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x320dc,いらないカードを捨ててね,Bỏ thẻ thừa,24,22,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x32128,武器カードは,Thẻ VK,12,12,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x32138,手に入らなかったよ,Không có,18,16,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x3214c,%d枚、手に入れたよ,Có %d thẻ,18,16,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x32160,武器カードを,Thẻ VK,12,12,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x32170,「%s」を捨てて、,"Bỏ %s,",16,10,6,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x32184,「%s」を手に入れたよ,Nhận %s,20,12,8,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x3219c,「%s」を手に入れたけど,"Có %s, nhưng",22,22,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x321b4,捨てたよ,Bỏ!,8,6,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x3f688,酒場へようこそ,Chào!,14,10,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x3f698,ちょうどタイクツしてたんだ,Đang chán quá,26,26,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x3f6b4,わたしと一勝負してかないかい,Đấu với ta?,28,22,6,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x3f6d4,今からふるダイスの目がこのダイス,So số sắp gieo,32,28,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x3f6f8,より大きいかちいさいか当てるんだよ,Đoán lớn/nhỏ,34,24,10,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x3f71c,最初の賞品はこいつさ,Thưởng đầu,20,20,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x3f734,なんだい、もう終わりかい,Nghỉ rồi à?,24,22,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x3f750,…つまんないね,...Chán,14,14,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x3f764,やるね,Hay,6,6,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x3f76c,もう勝負は終わりだよ,Đấu xong,20,16,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x3f794,もう一勝負してくかい？,Đấu nữa?,22,16,6,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x3f7ac,つぎの賞品はこいつだよ,Thưởng tiếp,22,22,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x3f7c4,%d枚の武器カードが手に入ったよ,Nhận %d thẻ VK,30,26,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x3f7e4,でももう持ち切れないみたい,Hết chỗ rồi,26,22,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x3f800,いらないカードを捨ててね,Bỏ thẻ thừa,24,22,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x3f84c,武器カードは,Thẻ VK,12,12,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x3f85c,手に入らなかったよ,Không có,18,16,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x3f870,%d枚、手に入れたよ,Có %d thẻ,18,16,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x3f884,武器カードを,Thẻ VK,12,12,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x3f894,「%s」を捨てて、,"Bỏ %s,",16,10,6,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x3f8a8,「%s」を手に入れたよ,Nhận %s,20,12,8,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x3f8c0,「%s」を手に入れたけど,"Có %s, nhưng",22,22,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x3f8d8,捨てたよ,Bỏ!,8,6,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x4d278,酒場へようこそ,Chào!,14,10,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x4d288,ちょうどタイクツしてたんだ,Đang chán quá,26,26,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x4d2a4,わたしと一勝負してかないかい,Đấu với ta?,28,22,6,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x4d2c4,今からふるダイスの目がこのダイス,So số sắp gieo,32,28,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x4d2e8,より大きいかちいさいか当てるんだよ,Đoán lớn/nhỏ,34,24,10,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x4d30c,最初の賞品はこいつさ,Thưởng đầu,20,20,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x4d324,なんだい、もう終わりかい,Nghỉ rồi à?,24,22,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x4d340,…つまんないね,...Chán,14,14,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x4d354,やるね,Hay,6,6,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x4d35c,もう勝負は終わりだよ,Đấu xong,20,16,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x4d384,もう一勝負してくかい？,Đấu nữa?,22,16,6,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x4d39c,つぎの賞品はこいつだよ,Thưởng tiếp,22,22,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x4d3b4,%d枚の武器カードが手に入ったよ,Nhận %d thẻ VK,30,26,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x4d3d4,でももう持ち切れないみたい,Hết chỗ rồi,26,22,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x4d3f0,いらないカードを捨ててね,Bỏ thẻ thừa,24,22,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x4d43c,武器カードは,Thẻ VK,12,12,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x4d44c,手に入らなかったよ,Không có,18,16,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x4d460,%d枚、手に入れたよ,Có %d thẻ,18,16,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x4d474,武器カードを,Thẻ VK,12,12,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x4d484,「%s」を捨てて、,"Bỏ %s,",16,10,6,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x4d498,「%s」を手に入れたよ,Nhận %s,20,12,8,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x4d4b0,「%s」を手に入れたけど,"Có %s, nhưng",22,22,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x4d4c8,捨てたよ,Bỏ!,8,6,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x5af4c,酒場へようこそ,Chào!,14,10,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x5af5c,ちょうどタイクツしてたんだ,Đang chán quá,26,26,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x5af78,わたしと一勝負してかないかい,Đấu với ta?,28,22,6,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x5af98,今からふるダイスの目がこのダイス,So số sắp gieo,32,28,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x5afbc,より大きいかちいさいか当てるんだよ,Đoán lớn/nhỏ,34,24,10,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x5afe0,最初の賞品はこいつさ,Thưởng đầu,20,20,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x5aff8,なんだい、もう終わりかい,Nghỉ rồi à?,24,22,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x5b014,…つまんないね,...Chán,14,14,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x5b028,やるね,Hay,6,6,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x5b030,もう勝負は終わりだよ,Đấu xong,20,16,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x5b058,もう一勝負してくかい？,Đấu nữa?,22,16,6,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x5b070,つぎの賞品はこいつだよ,Thưởng tiếp,22,22,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x5b088,%d枚の武器カードが手に入ったよ,Nhận %d thẻ VK,30,26,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x5b0a8,でももう持ち切れないみたい,Hết chỗ rồi,26,22,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x5b0c4,いらないカードを捨ててね,Bỏ thẻ thừa,24,22,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x5b110,武器カードは,Thẻ VK,12,12,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x5b120,手に入らなかったよ,Không có,18,16,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x5b134,%d枚、手に入れたよ,Có %d thẻ,18,16,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x5b148,武器カードを,Thẻ VK,12,12,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x5b158,「%s」を捨てて、,"Bỏ %s,",16,10,6,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x5b16c,「%s」を手に入れたよ,Nhận %s,20,12,8,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x5b184,「%s」を手に入れたけど,"Có %s, nhưng",22,22,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x5b19c,捨てたよ,Bỏ!,8,6,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x674d0,手に入れたよ,Đã có,12,10,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x674e0,手持ちの武器カードがいっぱいだよ,Thẻ VK đã đầy,32,26,6,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67504,なにか捨ててね,Bỏ bớt,14,12,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67540,この土地を買うよ,Mua đất,16,14,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67558,かいしめ,Thâu,8,8,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x675dc,通行税%dゼニーはらってね,Nộp %d lộ phí,24,24,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x675f8,武器カードをもらえるよ,Nhận thẻ VK,22,22,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67610,イベントカードをもらえるよ,Nhận thẻ SK,26,22,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67644,修道会が戦いを止めてくれたよ,Tu viện ngăn,28,24,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67664,戦いをしかけることができるよ,Thách đấu được,28,28,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x677e4,%dゼニーもとられちゃった,mất %d Zenny,24,22,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67800,所得税,TN,6,4,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67808,お金がないから,Cạn quỹ,14,14,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67818,関係なかったみたい,Không sao,18,18,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x6782c,土地税,TĐ,6,4,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67834,土地を一つも持ってないから,chưa có đất,26,22,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67850,プール金取得,Quỹ,12,6,6,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67860,%dゼニーもらっちゃった,Nhận %d Z,22,16,6,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67878,税金たまってないじゃない,Chưa có thuế,24,24,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67894,タイミング悪すぎぃ,xui quá,18,14,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x678a8,あーあ,Ôi,6,4,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x678d4,分岐マスだよ,Ngã rẽ,12,12,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x678e4,ルートを切りかえる？,Đổi đường?,20,20,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67920,ルートを切りかえたよ,Đã đổi,20,12,8,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x6793c,このままにしとくわよ,Giữ nguyên,20,20,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67954,ルートを切りかえるね,Đổi đường,20,18,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x6796c,売却,B.,4,4,0,BATCH39_MASTER_CLOSURE_0.6.49.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67974,抵当,TC,4,4,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67980,４倍にするよ！,Tăngx4!,14,14,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67990,通行税を,Phí,8,6,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x6799c,武器カードを,Thẻ VK,12,12,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x679ac,イベントカードを,Thẻ SK,16,12,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x679c0,自分が止まると,Dừng,14,8,6,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x679d0,ことがあるよ！,có thể!,14,14,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x679e0,戦いをさけられる,Tránh,16,10,6,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x679f4,建てれば、その土地の,Nếu dựng,20,16,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67a0c,ことができるよ！,có thể!,16,14,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67a20,して戦闘をしかける,Thách đấu,18,18,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67a34,あいての体力をひくく,Giảm HP,20,14,6,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67a4c,くれるよ！,Được!,10,10,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67a70,自分が止まるか、通過,Dừng/qua,20,16,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67ab8,価格,G.,4,4,0,BATCH39_MASTER_CLOSURE_0.6.49.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67ac0,お店,CH,4,4,0,BATCH39_MASTER_CLOSURE_0.6.49.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67ac8,資金,V.,4,4,0,BATCH39_MASTER_CLOSURE_0.6.49.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67ad0,どのお店にする？,Chọn sạp,16,16,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67aec,土地名,Tên,6,6,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67af4,どの土地にする？,Chọn đất,16,16,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67b08,合計金額,Tổng,8,8,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67b14,物件,TS,4,4,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67b1c,どの物件を売るの？,Bán đâu?,18,16,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67b30,不足金額,Nợ,8,4,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67b4c,どの土地をせめる？,Đánh đất?,18,18,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67b60,シンボル,Biểu,8,8,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67b6c,どれを壊すの？,Phá gì?,14,14,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67b7c,抵当額,TC$,6,6,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67b84,どこを戻すの？,Chuộc?,14,12,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67b94,どの物件を売る？,Bán đâu?,16,16,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67ba8,エリア名,Khu,8,6,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67bb4,どのエリアにする？,Chọn khu?,18,18,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67bc8,どこに建てる？,Xây?,14,8,6,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67c0c,%sエリア,Khu%s,8,8,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67c18,%sエリア%s,Khu%s%s,10,10,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67c64,ＯＫをえらんでね,Chọn OK,16,14,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67c78,価値,GT,4,4,0,BATCH39_MASTER_CLOSURE_0.6.49.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67c80,通行税,Phí,6,6,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67c88,物件を決めたら、,"Chọn TS,",16,16,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67d50,そんな土地ないじゃない,Không có,22,16,6,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67d68,%sを建てたよ,xây %s,12,10,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67d78,%dゼニーはらってね,Trả %dZ,18,12,6,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67d8c,/V%sさん/v,/V%s/v,10,6,4,BATCH39_MASTER_CLOSURE_0.6.49.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67d98,お金たりないじゃない！,Thiếu tiền!,22,22,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67db0,不足金額： %dゼニー,Thiếu:%dZ,19,16,3,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67dc4,あーあぁ,Chán,8,8,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67dec,%sさんの資産とカードが,TS+thẻ %s,22,16,6,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67e04,%sさんのものになるよ,thuộc %s,20,14,6,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67edc,次の武器カードをもらったよ,Nhận thẻ VK,26,22,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67ef8,手持ちの武器カードがいっぱいだよ,Thẻ VK đã đầy,32,26,6,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67f1c,なにか捨ててね,Bỏ bớt,14,12,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67f2c,次のイベントカードをもらったよ,Nhận thẻ SK,30,22,8,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67f4c,手持ちのイベントカードがいっぱいで,Thẻ SK đã đầy,34,26,8,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67fa4,「%s」を手に入れたよ,Nhận %s,20,12,8,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67fc8,あきらめたよ,Đã bỏ,12,10,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67fd8,レベル５裏武器カード,VK ẩn LV5,20,18,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x67ff0,レベル５表武器カード,VK LV5,20,12,8,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68024,表武器カード,Thẻ VK,12,12,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68088,そんな土地ないじゃない,Không có,22,16,6,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x680a0,%sを売ったよ,bán %s,12,10,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68698,もう１回行動できるよ！！,Thêm lượt!!,24,22,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x686b4,同じマスに止まってる人のお金を,Lấy tiền cùng ô,30,30,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x686d4,はんぶん盗めるよ！！,Trộm 1/2!!,20,20,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x686ec,通行税なんかふみたおしちゃえ！！,Quỵt phí QD!!,32,26,6,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68710,シンボルを一つ壊せるよ,Phá 1 biểu,22,20,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68748,神さまからのプレゼント！！,Quà thần!!,26,20,6,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68764,土地を１つもらえるよ！！,Nhận 1 đất!!,24,24,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68780,もらえるお金が倍になるよ！！,Tiền nhận x2!!,28,28,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x687a0,お店破壊なんてガードしちゃえ！！,Chặn phá shop!!,32,30,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x687c4,ほかの人と同じマスに止まったよ,Trùng ô người,30,26,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x687e4,戦いをしかけるよ？,Đấu nhé?,18,16,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x687f8,お金なんかふみたおしちゃえ！！,Quỵt tiền!!,30,22,8,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68888,飛ばすぜ ！！,Bay!!,13,10,3,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68898,なにぃ～い 通行税だと？,Phí à?,23,12,11,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x688b0,何で わしが はらわにゃ ならんのだ！！,Sao ta phải trả!!,37,34,3,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x688ec,金斗雲,Mây,6,6,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68968,あっなんか,Ơ...,10,8,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68974,多くもらっちゃった,Nhận thêm,18,18,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68988,お金が 持ち切れないみたい,Tiền đầy,25,16,9,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x689a4,最大 99999までよ,TĐ99999,16,14,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x689b8,聖地に 預けておいたから,Gửi Thánh,23,18,5,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x689d0,聖地で 引き落としてね,Rút Thánh,21,18,3,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x689e8,(速い者順),(Tốc),10,10,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x689f4,我が けんぞくよ,Hạ ta,15,10,5,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68a04,退け,Xê,4,4,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68a0c,へへん,Hê,6,4,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68a28,我に 近付くとは,Dám gần,15,14,1,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68a38,小賢しい,Láu!,8,8,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68a44,ん？,Hả,4,4,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68a4c,いっちょう やってみっか,Đấu nhé?,23,16,7,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68a64,勝利者,VĐ,6,4,2,BATCH39_MASTER_CLOSURE_0.6.49.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68aa8,俺さまが遊んでやるぜ！,Ta chơi!,22,16,6,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68ae4,%sのラッキー！！,%s hên!,16,12,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68afc,悪いな%s,Xin%s,8,8,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68b08,%dゼニーもらってゆくぜ,lấy %d Zenny,22,22,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68b20,%dゼニー,%d Z,8,6,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68b9c,は～はっは 破壊じゃ 破壊じゃ,Ha! Phá hủy!,28,24,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68bbc,どれを 破壊してくれようぞ！！,Phá cái nào!!,29,26,3,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68bdc,この シンボルは,Biểu:,15,10,5,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68bf4,カスが ,Rác,7,6,1,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68bfc,ぐぬぅ～,Grrr,8,8,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68c08,なんか 気がのらん,Chán,17,8,9,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68c30,墓地,Mộ,4,4,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68c38,浴場,T.,4,4,0,BATCH39_MASTER_CLOSURE_0.6.49.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68ca4,施設    %s,Nhà %s,10,10,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68cb0,所有者  %s,Chủ %s,10,10,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68cbc,通行税  %4d,Phí%4d,11,9,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68cc8,価値    %4d,Giá%4d,11,9,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68cd4,買えません,Không,10,10,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68ce0,します,Làm,6,6,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68ce8,どこかにワープ,Biến đi,14,14,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68cf8,たまったお金が,Quỹ gom,14,14,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68d08,大不幸、不幸で,Do xui,14,12,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68d18,所得税、土地税,TN/TĐ,14,10,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68d28,らいます,nhận,8,8,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68d44,止まると所持金,Tiền có,14,14,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68d54,としてしはらい,trả,14,6,8,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68d64,の２０％を税金,Thuế20%,14,14,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68d74,止まると土地代,Đất,14,6,8,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68d84,わります,đổi,8,6,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68d90,ルートが切りか,Đổi,14,6,8,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68da0,１ターンごとに,Mỗi lần,14,14,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68db8,を切りかえられ,Đổi,14,6,8,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68dc8,止まるとルート,Dừng:lộ,14,14,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68dd8,が手に入ります,sẽ nhận,14,14,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68de8,てば武器カード,thẻ VK,14,12,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68df8,ームができ、勝,Thắng,14,10,4,BATCH39_MASTER_CLOSURE_0.6.49.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68e08,止まるとミニゲ,Mini,14,8,6,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68e38,通過するとお金,Qua +$,14,12,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68e4c,もらえます,Nhận,10,8,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68e58,トカードが１枚,1 thẻ,14,10,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68e68,止まるとイベン,Sự kiện,14,14,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68e78,できます,Được,8,8,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68e84,しかけることが,Mở,14,4,10,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68e94,あいてに戦闘を,Đấu,14,6,8,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68ea4,止まると好きな,Tùy,14,6,8,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68eb8,所有者なし,Trống,10,10,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68edc,通行税 %4d,Phí%4d,10,9,1,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x68ee8,通行税 %+3d％,Phí%+3d%,13,12,1,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0x962c0,%sのラッキー！！,%s hên!,16,12,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0xb9048,%dゼニーはらってね,Trả %dZ,18,12,6,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0xbfbec,この設定でいいかしら？,Xác nhận?,22,18,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0xbfd2c,キャラクターをえらんでね,Chọn tướng,24,20,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0xbfe4c,○ボタンをおしてね！,Nhấn O!,20,14,6,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0xddd68,ゲームをはじめるよ,Bắt đầu!,18,16,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0xddd7c,データがないわよ,Không có,16,16,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+PRGPACK.BDP,0xde110,ＳＬＯＴをえらんでね,Chọn SLOT,20,18,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x938,%dゼニーあげるね,Tặng %d Z,16,16,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x94c,ＧＯマス,Ô GO,8,8,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x958,体力が５０回復したよ！,Hồi 50HP!,22,18,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x970,%sに止まったよ,Dừng %s,14,12,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x980,%sの土地に,Đất %s,10,10,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x98c,止まっちゃったよ,Đã dừng!,16,16,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x9ac,土地をかけて戦うことができるよ,Chiến lấy đất,30,26,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x9dc,武器カードが手に入るわ,Nhận VK,22,14,8,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0xa14,所持金の２０％とられるよ,Mất20% tiền,24,22,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0xa50,土地代の２０％とられるよ,Mất20% đất,24,20,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0xabc,%sは一回休みよ！,%s nghỉ,16,12,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0xad0,%sの番よ！,Tới %s,10,10,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0xb08,戦いをしかけるよね？,Thách đấu?,20,20,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0xdf8,「%s」を捨てて,Bỏ %s,14,8,6,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0xe08,「%s」を手に入れたよ,Nhận %s,20,12,8,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0xe20,「%s」を手に入れたけど,"Có %s, nhưng",22,22,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0xe38,捨てたよ,Bỏ!,8,6,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0xe54,これでいい？,Được?,12,10,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0xe64,はい　　いいえ,Có/Ko,14,10,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0xe9c,使用するカードをえらんでね,Chọn thẻ,26,16,10,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0xeb8,「%s」を使うね,Dùng %s,14,12,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x1130,サンダー,Sấm,8,6,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x1158,ハリケーン,Bão,10,6,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x117c,クロスボウ,Nỏ,10,4,6,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x11a0,ロングソード,Kiếm,12,8,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x11e0,ハンマー,Búa,8,6,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x11ec,運がよければ敵を倒せるかも,May hạ địch,26,22,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x1208,特殊　速度６　使い捨て,ĐB tốc6 1L,22,20,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x1220,いちかばちか,Liều!,12,10,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x1230,あいてのカード一枚を破壊する,Phá thẻ địch,28,24,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x1260,ポリタンがみがわりに！？,Politan chắn,24,24,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x127c,防御　速度７　使い捨て,Thủ SPD7 1L,22,22,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x1294,みがわり,Thế,8,6,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x13b0,封いんされた魔法,Phong ấn,16,16,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x13e0,ダークメテオ,Meteor,12,12,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x1408,伝説の聖剣,Kiếm,10,8,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x142c,エクスカリバー,Excal,14,10,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x143c,死亡するとＨＰ１００で復活,Hồi sinh100HP,26,26,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x1458,復活の霊薬,Sống,10,8,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x1464,最強の魔法,Phép+,10,10,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x148c,メテオフォール,Meteor,14,12,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x149c,最強の弓,Cung,8,8,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x14c0,ほのおの弓,C.lửa,10,10,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x14cc,最強の魔剣,Ma,10,4,6,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x14f0,魔剣ムラマサ,Murama,12,12,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x1500,あいての命中率を落とす,Giảm CX,22,14,8,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x1518,まどわしの玉,Ngọc,12,8,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x1528,指定武器カード１枚を盗む,Cướp thẻ VK,24,22,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x1560,盗賊のオーブ,Trộm,12,8,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x158c,アースクエイク,Đ.đất,14,10,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x15b4,ストームソード,K.bão,14,10,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x15c4,攻撃力を２倍にアップさせる,Công x2,26,14,12,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x15e0,力の指輪,Lực,8,6,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x15ec,ＨＰを６０回復する,Hồi 60HP,18,16,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x1600,いやしのうた,Hồi HP,12,12,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x1628,フェザーレイ,Feath,12,10,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x1638,ダメージの１／２を奪う,Hút 1/2 DMG,22,22,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x1668,ブラッドスピア,G.Máu,14,10,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x1678,アイテムを使えなくする,Khóa đồ,22,14,8,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x1690,使い捨てアイテム,Đồ 1L,16,10,6,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x16a4,アイテム封じ,Khóa,12,8,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x16b4,クリティカルがでやすい,Hay CM,22,12,10,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x16e8,スノーストーム,B.tuyết,14,14,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x16f8,速度が速い,Nhanh,10,10,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x171c,せつなの剣,Kiếm,10,8,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x1728,ダメージを１／２にへらす,Giảm 1/2 DMG,24,24,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x1744,使い捨て防御アイテム,Thủ 1 lần,20,18,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x175c,シールド,Mộc,8,6,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x177c,使い捨て回復アイテム,Hồi 1 lần,20,18,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x1818,ジプシータロウ,Gypsy,14,10,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x1828,バトルアックス,Rìu đấu,14,14,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x1838,レイピア,Rapi,8,8,0,BATCH39_MASTER_CLOSURE_0.6.49.0.csv,batch40-final-exact
+SLPS_020.75,0x18a4,ジャンビーヤ,Jambia,12,12,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x18cc,クレイモア,Claym,10,10,0,BATCH39_MASTER_CLOSURE_0.6.49.0.csv,batch40-final-exact
+SLPS_020.75,0x18f0,ボーイナイフ,Bowie,12,10,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x1900,基本武器,VKCB,8,8,0,BATCH39_MASTER_CLOSURE_0.6.49.0.csv,batch40-final-exact
+SLPS_020.75,0x190c,ダメージ,Sát,8,6,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x1918,武器破壊,Phá,8,6,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x195c,Ｌ/V%d（あと/V%d）,L/V%d C/V%d,18,14,4,BATCH39_MASTER_CLOSURE_0.6.49.0.csv,batch40-final-exact
+SLPS_020.75,0x1970,ランダム武器破壊,Phá VK,16,12,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x1984,指定武器破壊,Phá VK,12,12,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x1994,指定武器取得,Lấy VK,12,12,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x1a48,ボーイナイフ,Bowie,12,10,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2014,大不幸,Xui,6,6,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2028,不幸,X.,4,4,0,BATCH39_MASTER_CLOSURE_0.6.49.0.csv,batch40-final-exact
+SLPS_020.75,0x203c,幸運,M.,4,4,0,BATCH39_MASTER_CLOSURE_0.6.49.0.csv,batch40-final-exact
+SLPS_020.75,0x2050,大幸運,May,6,6,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2064,盗賊の援助,Trộm+,10,10,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2078,魔法使いの援助,Pháp sư,14,14,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x208c,ＧＯマスおくり,Tới GO,14,12,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x20a0,ワープ,DC,6,4,2,BATCH39_MASTER_CLOSURE_0.6.49.0.csv,batch40-final-exact
+SLPS_020.75,0x20b4,大国の混乱,Loạn,10,8,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x20c8,領主からの使者,Sứ giả,14,12,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x20dc,小領主の協力,L.chúa,12,12,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x20f0,大領主の協力,Đại LC,12,12,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2104,じしん,ĐĐ,6,4,2,BATCH39_MASTER_CLOSURE_0.6.49.0.csv,batch40-final-exact
+SLPS_020.75,0x2118,落雷,S.,4,4,0,BATCH39_MASTER_CLOSURE_0.6.49.0.csv,batch40-final-exact
+SLPS_020.75,0x212c,大国からの使者,Sứ giả,14,12,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2140,大国からの使者,Sứ giả,14,12,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2154,大国の援助,Viện+,10,10,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2168,領地購入,Mua,8,6,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x217c,魔王のこうりん,Ma tới,14,12,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2190,魔王しょうかん,Gọi ma,14,12,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x21a4,魔王のきょうふ,sợ Ma,14,10,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x21b8,魔王の気まぐれ,Ma quậy,14,14,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x21cc,魔王のゆうわく,cám dỗ,14,12,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x21e0,お店破壊,Phá!,8,8,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x21f4,ルート変更,Đổi,10,6,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2208,時の神のいたず,Thời,14,8,6,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x221c,運の神の休息,May,12,6,6,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2230,ふみたおし,Quỵt,10,8,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2244,バトルカード,Thẻ,12,6,6,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2258,地震,ĐĐ,4,4,0,BATCH39_MASTER_CLOSURE_0.6.49.0.csv,batch40-final-exact
+SLPS_020.75,0x226c,邪神像,Tà,6,4,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2280,悪魔の塔,Ma,8,4,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2294,はかば,Mộ,6,4,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x22a8,温泉,SN,4,4,0,BATCH39_MASTER_CLOSURE_0.6.49.0.csv,batch40-final-exact
+SLPS_020.75,0x22bc,女神像,Nữ,6,4,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x22d0,庭園,V.,4,4,0,BATCH39_MASTER_CLOSURE_0.6.49.0.csv,batch40-final-exact
+SLPS_020.75,0x22e4,大聖堂,Đền,6,6,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x22f8,サーカス,xiếc,8,8,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x230c,呪いの沼,Đầm,8,6,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2320,死神像,Tử,6,4,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2334,ダイス３つ,3 xúc,10,10,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2348,ダイス４つ,4 xúc,10,10,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x235c,１進む,+1,6,4,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2370,２進む,+2,6,4,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2384,３進む,+3,6,4,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2398,４進む,+4,6,4,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x23ac,５進む,+5,6,4,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x23c0,６進む,+6,6,4,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x23d4,お店破壊,Phá!,8,8,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x23e8,カード交換,Đổi,10,6,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x244c,ヤスツナ,Yasu,8,8,0,BATCH39_MASTER_CLOSURE_0.6.49.0.csv,batch40-final-exact
+SLPS_020.75,0x2458,ガラハッド,Galhd,10,10,0,BATCH39_MASTER_CLOSURE_0.6.49.0.csv,batch40-final-exact
+SLPS_020.75,0x2464,ティアラ,Mão,8,6,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2470,ゴライアス,Golia,10,10,0,BATCH39_MASTER_CLOSURE_0.6.49.0.csv,batch40-final-exact
+SLPS_020.75,0x247c,メグメグ,Megu,8,8,0,BATCH39_MASTER_CLOSURE_0.6.49.0.csv,batch40-final-exact
+SLPS_020.75,0x2488,アガート,Agat,8,8,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2494,シンバッド,Sinba,10,10,0,BATCH39_MASTER_CLOSURE_0.6.49.0.csv,batch40-final-exact
+SLPS_020.75,0x2580,れん金術,Giả,8,6,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x263c,病院,BV,4,4,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x264a,騎士団,Kỵ,6,4,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2658,修道会,Đạo,6,6,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2666,れん金術,Giả,8,6,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2674,武器屋,VK,6,4,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2858,やったー！！,Hay!!,12,10,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2868,このエリアはあなたのものよ！！,Khu của bạn!!,30,26,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2888,このエリアはあなたたちのものよ！！,Khu của các bạn!!,34,34,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x28ac,土地の資産価値もどーんとアップ！,Giá trị đất tăng,32,32,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x28d0,土地の持ち主が変わったよ,Đổi chủ đất,24,22,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x28ec,体力が０になったから、ちりょうひ,HP0 trả viện phí,32,32,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2910,２００ゼニーをもらうわよ！,Nhận 200Z!,26,20,6,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2c44,何がおこるのかな,Có gì?,16,12,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2c58,２枚まで交換できるよ！,Đổi đến 2,22,18,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2c70,大チャンス！ライバルと武器カードを,Cơ hội Đổi thẻ VK,34,34,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2ca4,壊してくれるわよ,Sẽ phá,16,12,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2cb8,えらんだエリアのお店を魔王が全部,Ma phá tiệm,32,22,10,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2cdc,「お店破壊」,「Phá」,12,10,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2cec,６マス進めるよ,Đi 6 ô,14,12,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2cfc,「６進む」,Đi 6,10,8,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2d08,５マス進めるよ,Đi 5 ô,14,12,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2d18,「５進む」,Đi 5,10,8,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2d24,４マス進めるよ,Đi 4 ô,14,12,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2d34,「４進む」,Đi 4,10,8,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2d40,３マス進めるよ,Đi 3 ô,14,12,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2d50,「３進む」,Đi 3,10,8,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2d5c,２マス進めるよ,Đi 2 ô,14,12,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2d6c,「２進む」,Đi 2,10,8,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2d78,１マス進めるよ,Đi 1 ô,14,12,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2d88,使うとダイスをふるかわりに,thay xúc xắc,26,24,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2da4,「１進む」,Đi 1,10,8,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2db0,ダイスの数が４つになるよ,Xúc xắc x4,24,20,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2dcc,超特急ーーー！,Cực tốc,14,14,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2ddc,「ダイス４つ」,4 xắc,14,10,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2dec,ダイスの数が３つになるよ,Xúc xắc x3,24,20,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2e08,スピードアップ！,Tăng tốc,16,16,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2e1c,「ダイス３つ」,3 xắc,14,10,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2e2c,まわりの通行税が３０％下がるよ！,Phí giảm30%,32,22,10,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2e50,死神のシンボルを建てると、,Xây Tử thần,26,22,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2e84,１０％、まわりの通行税ダウン！,Phí giảm10%,30,22,8,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2ea4,沼のシンボルを建てれば、,Xây đầm lầy,24,22,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2edc,まわりの通行税が２倍になるよ！,Phí x2,30,12,18,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2efc,サーカスのシンボルを建てると、,Xây xiếc,30,16,14,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2f38,まわりの通行税が３倍になるよ！,Phí x3,30,12,18,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2f58,大聖堂のシンボルを建てると、,Dựng nhà thánh,28,28,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2f90,まわりの通行税が７０％上がるよ！,Phí tăng70%,32,22,10,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2fb4,庭園のシンボルを建てると、,Xây vườn,26,16,10,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x2fe8,まわりの通行税が５０％上がるよ！,Phí tăng50%,32,22,10,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x300c,女神のシンボルを建てると、,Xây Nữ thần,26,22,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x3040,まわりの通行税が３０％上がるよ！,Phí tăng30%,32,22,10,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x3064,温泉のシンボルを建てると、,Xây suối,26,16,10,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x3098,まわりの通行税が５０％下がるよ！,Phí giảm50%,32,22,10,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x30bc,はかばのシンボルを建てると、,Xây nghĩa,28,18,10,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x30f4,まわりの通行税が７０％下がるよ！,Phí giảm70%,32,22,10,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x3118,塔のシンボルを建てると、,Xây tháp,24,16,8,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x3150,まわりの通行税が９０％下がるよ！,Phí giảm90%,32,22,10,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x3174,邪神のシンボルを建てると、,Xây Tà thần,26,22,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x31a8,邪魔なシンボルを壊せるよ！,Phá tượng,26,18,8,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x31c4,このカードを使うと、,Dùng thẻ:,20,18,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x31dc,「地震」,「ĐĐ」,8,8,0,BATCH39_MASTER_CLOSURE_0.6.49.0.csv,batch40-final-exact
+SLPS_020.75,0x31e8,戦闘をしかけることができるよ！,Thách đấu được!,30,30,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x3208,このカードを使えば、ライバルに,Dùng thẻ địch,30,26,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x3228,「バトルカード」,「Thẻ」,16,10,6,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x323c,土地マスを無効にできるよ,Vô hiệu đất,24,22,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x3258,１ターンのあいだ自分の番だけ、,1 lượt của bạn,30,28,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x3278,「ふみたおし」,「Quỵt」,14,12,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x3288,特殊マスが効かなくなっちゃう,Vô hiệu ô ĐB,28,24,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x32a8,氷の女神のくちづけでしばらく,Nụ thần băng,28,24,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x32c8,「氷の女神のくちづけ」,「hôn băng」,22,20,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x32e0,を入れかえちゃう,Đổi chỗ,16,14,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x32f4,いたずら好きの時の神がみんなの場所,Thần TG đổi chỗ,34,30,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x3318,「時の神のいたずら」,Trò thời,20,16,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x3330,ルートを変えてあげる,Đổi đường,20,18,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x3348,全ての分岐マスを切りかえて、,Đổi mọi rẽ,28,20,8,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x3368,「ルート変更」,「Đổi」,14,10,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x3394,「%s」を手に入れたよ,Nhận %s,20,12,8,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x33ac,手持ちのイベントカードがいっぱいで,Thẻ SK đã đầy,34,26,8,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x33d0,もう持ち切れないよ,Hết chỗ,18,14,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x33e4,どれを捨てる？,Bỏ gì?,14,12,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x33f4,「%s」を捨てて,Bỏ %s,14,8,6,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x3758,あいての体力,HPđịch,12,12,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x37bc,本当にやめるの？,Dừng?,16,10,6,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x37d0,お金が足りないけど,Thiếu $,18,14,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x37e4,何か売っちゃう ？,Bán gì?,17,14,3,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x380c,総資産を見たけど ,tổng TS,17,14,3,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x3820,これじゃたりないわよ,Chưa đủ,20,14,6,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x3838,まだお金が足りないけど,Thiếu tiền,22,20,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x3850,総資産を見たけど,tổng TS,16,14,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x3864,も～何やってるの？,Làm gì?,18,14,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x3878,早く決めてよね！！,Nhanh!!,18,14,4,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x388c,もうっ！,Ôi!,8,6,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x3898,早く決めてってばぁ～,Nhanh!,20,12,8,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x7679c,氷の弓,Ice,6,6,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x767a4,丸薬,T.,4,4,0,BATCH39_MASTER_CLOSURE_0.6.49.0.csv,batch40-final-exact
+SLPS_020.75,0x767ac,ダーツ,Phi,6,6,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x767b4,如意棒,Gậy,6,6,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x767c4,クナイ,Kun,6,6,0,BATCH39_MASTER_CLOSURE_0.6.49.0.csv,batch40-final-exact
+SLPS_020.75,0x767cc,野太刀,Đao,6,6,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x767d4,メイス,Búa,6,6,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x767e0,支援系,Trợ,6,6,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x767e8,回復系,Hồi,6,6,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x767f0,無属性,Vô,6,4,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x767fc,投射,Xa,4,4,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x76804,魔法,Ma,4,4,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x7681c,ダンテ,Dte,6,6,0,BATCH39_MASTER_CLOSURE_0.6.49.0.csv,batch40-final-exact
+SLPS_020.75,0x76824,孫悟空,Ngộ,6,6,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x7682c,ハヤテ,Hyt,6,6,0,BATCH39_MASTER_CLOSURE_0.6.49.0.csv,batch40-final-exact
+SLPS_020.75,0x76834,ジガー,Jig,6,6,0,BATCH39_MASTER_CLOSURE_0.6.49.0.csv,batch40-final-exact
+SLPS_020.75,0x7683c,騎士団,Kỵ,6,4,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x76844,修道会,Đạo,6,6,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x7684c,病院,BV,4,4,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x76854,武器屋,VK,6,4,2,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x7685c,バンク,NH,6,4,2,BATCH39_MASTER_CLOSURE_0.6.49.0.csv,batch40-final-exact
+SLPS_020.75,0x76868,%sの,%s:,4,4,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x76870,%sね,%s!,4,4,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x768d0,軍資金,Quỹ,6,6,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x768d8,資金額,Vốn,6,6,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact
+SLPS_020.75,0x7690c,%sは,%s:,4,4,0,BATCH37_FINAL_EXACT_SET_0.6.47.0.csv,batch40-final-exact

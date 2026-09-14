@@ -1,0 +1,16 @@
+GAIA MASTER 0.6.50.0 BATCH 40 MASTER-CLOSURE MERGE
+================================================================================
+B37 new rows               : 514
+B37 final rows             : 527
+B39 closure rows           : 33
+Merged new exact targets   : 547
+Merged final verify set    : 560
+Errors                     : 0
+
+Guards:
+- merge by exact file+offset
+- byte fit/token/codepage revalidated
+- conflicts hard-fail
+- no ROM/font/pointer modification
+
+RESULT: STATIC MERGE PASS
