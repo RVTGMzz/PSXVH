@@ -1,0 +1,103 @@
+file,offset_hex,japanese,vi_accented,field_bytes,vi_bytes,free_bytes,confidence,source_priority,source,category
+PRGPACK.BDP,0xbf2e0,バトルカード,Thẻ,12,6,6,HIGH,REPEATED-UNMAPPED,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xddd1c,使えないよ,Không,10,10,0,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xddd28,同じデータだから、対戦には,Trùng dữ liệu,26,26,0,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xddd44,このデータはさっきロードしたのと,Dữ liệu vừa tải,32,30,2,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xddd90,データを正しくロードできたよ,Đã tải dữ liệu,28,28,0,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xdddb0,正しく初期化できなかったわ,Khởi tạo lỗi,26,24,2,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xdddcc,に設定するわよ,Đặt là,14,12,2,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xddddc,コントローラ１（１－Ａ）,Tay 1 (1-A),24,22,2,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xdddf8,すべてのコントローラを,Mọi tay cầm,22,22,0,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xdde10,ないよ！,Ko!,8,6,2,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xdde1c,データをロードするわね,Tải dữ liệu,22,22,0,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xdde34,データをセーブするね,Lưu game,20,16,4,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xdde4c,どのデータをロードするの？,Tải mục nào?,26,24,2,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xdde68,初期化中はメモリーカードを,Đang tạo thẻ,26,24,2,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xdde84,初期化中よ,Đang,10,8,2,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xdde90,このままゲームをつづける？,Chơi tiếp?,26,20,6,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xddeac,データのセーブが終わったよ,Lưu xong,26,16,10,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xddec8,かまわないの？,ổn chứ?,14,14,0,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xdded8,まえのデータは消えちゃうけど,Sẽ xóa dữ liệu,28,28,0,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xddef8,空き容量が必要なの,Cần trống,18,18,0,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xddf0c,セーブには　２　ブロックの,Cần 2 block,26,22,4,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xddf28,空き容量が足りないよ,Thiếu chỗ,20,18,2,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xddf40,コンティニューデータがないわよ,Không có save,30,26,4,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xddf60,ガイアマスターの,Gaia,16,8,8,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xddf74,このメモリーカードには,Thẻ này có,22,20,2,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xddf8c,メモリーカードを,Thẻ nhớ,16,14,2,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xddfa0,メモリーカードのチェック中よ,Đang kiểm thẻ,28,26,2,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xddfc0,セーブ中はメモリーカードを,"Đang lưu, thẻ",26,26,0,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xddfdc,データのセーブ中よ,Đang lưu,18,16,2,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xddff0,ぜったいにぬかないでね,Đừng rút!,22,18,4,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xde008,ロード中はメモリーカードを,"Đang tải, thẻ",26,26,0,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xde024,データのロード中よ,Đang tải,18,16,2,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xde038,データを正しくセーブできなかったわ,Không lưu được,34,28,6,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xde05c,データを正しくロードできなかったわ,Không tải được,34,28,6,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xde080,メモリーカードがささってないよ,Chưa gắn thẻ,30,24,6,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xde0a0,はい　　　いいえ,Có    Không,22,22,0,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xde0b8,ないよ！初期化する？,Chưa! Tạo?,20,20,0,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xde0d0,このメモリーカードは初期化されて,Thẻ chưa tạo,32,24,8,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xde0f8,どこにセーブするの？,Lưu ở đâu?,20,20,0,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xde230,ガイアマスター　セーブデータ,Gaia save,28,18,10,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xde278,いちかばちか,Liều!,12,10,2,HIGH,REPEATED-UNMAPPED,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xde294,みがわり,Thế,8,6,2,HIGH,REPEATED-UNMAPPED,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xde2a0,アガート新武器,VK Agat,14,14,0,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xde2b0,メグメグ新武器,VK Megu,14,14,0,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xde2c0,ティアラ新武器,VK Tiar,14,14,0,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xde2d0,ゴクウ新武器,VK Gok,12,12,0,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xde2e0,ダンテ新武器,VK Dan,12,12,0,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xde2f0,ハヤテ新武器,VK Hay,12,12,0,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xde300,ヤスツナ新武器,VK Yasu,14,14,0,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xde310,ゴライアス新武器,VK Golia,16,16,0,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xde324,シンバッド新武器,VK Sinba,16,16,0,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xde338,ガラハッド新武器,VK Galah,16,16,0,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xde34c,ジガー新武器,VK Jig,12,12,0,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xde35c,新ブラッドスピア,Giáo máu,16,16,0,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xde370,新スノーストーム,Bão băng,16,16,0,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xde384,新せつなの剣,Kiếm+,12,10,2,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xde404,メモリーカードのチェック中です。,Đang kiểm thẻ nhớ,34,34,0,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xde428,メモリーカードをぬかないで下さい。,Đừng rút thẻ nhớ.,36,34,2,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xde450,メモリーカードがさされていません。,Chưa gắn thẻ nhớ.,36,34,2,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xde478,データのロードを行いません。,Không tải data,30,28,2,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xde4ac,このメモリーカードは,Thẻ nhớ này,26,22,4,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xde4c8,初期化されていません。,Chưa khởi tạo.,28,28,0,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xde4e8,ガイアマスターのデータがありません。,Không có save.,36,28,8,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xde510,データのロードを行いませんでした。,Không tải data.,34,30,4,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xde534,オートロード中です。,Đang tự tải,22,22,0,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xde554,データのロードにしっぱいしました。,Tải dữ liệu lỗi.,36,32,4,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xde57c,データをロードしました。,Đã tải dữ liệu.,32,30,2,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xde5ac,どのプレイヤーのデータを,Dữ liệu ai?,24,22,2,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xde5c8,ロードする？,Tải?,12,8,4,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0xde5f8,ロード方法をえらんでね,Cách tải?,22,18,4,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0x143090,%sにとばされちゃう！,%s bị dịch!,20,20,0,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0x1430a8,「ワープ」,Dịch,10,8,2,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0x1430b4,持ち主がいなかったら購入できるよ,Vô chủ: mua được,32,32,0,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0x143360,ふつうよね,Bình,10,8,2,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0x14336c,止まるか、あいてにかさなるのが,Dừng trùng địch,30,30,0,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0x14338c,戦闘をしたかったら、戦闘マスに,Muốn đấu: ô đấu,30,30,0,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0x1433ac,マスはあなたのもの！,Ô của bạn!,20,20,0,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0x1433c4,あいてに勝てたら,Thắng!,16,12,4,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0x1433d8,戦闘でマスをうばうの！,Cướp ô đấu,22,20,2,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0x1433f0,うまく使えば一発ギャクテンよ！！,Khéo là lật thế!,32,32,0,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0x143414,カードを忘れないでね,Nhớ thẻ!,20,16,4,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0x14342c,お金がもらえるわ！,Có tiền!,18,16,2,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0x143440,ＧＯマスを通れば、カードと,Qua GO: thẻ +,26,26,0,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0x14345c,とくてんもオイシイよ！,có thưởng!,22,20,2,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0x143474,マスの通行税も上がるし、,"Phí ô tăng,",24,22,2,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0x143490,お店を建ててみたら？,Xây shop?,20,18,2,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0x1434ac,くれれば、通行税をもらえるわ！,Thu được phí!,30,26,4,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0x1434cc,あいてが自分のマスに止まって,Địch dừng ô ta,28,28,0,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0x1434ec,とにかくマスをそろえることね,Cứ gom đủ ô,28,22,6,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0x14350c,増やすのよ！,Tăng!,12,10,2,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0x14351c,ターンまでに自分の資産を,Tới hạn: vốn,24,24,0,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0x143538,もうかるわよ！！,Có lời!!,16,16,0,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0x14354c,そうすれば、価値が上がって,Giá sẽ tăng,26,22,4,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0x143568,同じエリアのマスを3つそろえるの！,Gom 3 ô cùng khu,33,32,1,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0x14358c,このターンでおしまいだよ,Lượt cuối!,24,20,4,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0x1435a8,最後まであきらめないでね！,Đừng bỏ cuộc!,26,26,0,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0x1435c4,あと%dターンでおしまいだよ,Còn %d lượt,26,20,6,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0x1435e0,ちなみに今のトップは%sさん,Dẫn đầu: %s,26,20,6,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0x1435fc,ちなみに今のトップは,Dẫn đầu:,20,16,4,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0x143614,%sさん %sさん,%s %s,13,6,7,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0x143624,%sさん %sさん %sさん,%s %s %s,20,10,10,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
+PRGPACK.BDP,0x14363c,%sさん %sさん %sさん %sさん,%s %s %s %s,27,14,13,HIGH,UNSEEN-JAPANESE,FULL_JAPANESE_SCAN_0.6.38.0,batch43-visible-wholegame
