@@ -2,15 +2,15 @@
 
 Cập nhật: **2026-09-15**
 
-## CURRENT — 0.6.55.0 BATCH45 FRONT-FACE POLISH
+## CURRENT — 0.6.55.1 BATCH45R2 FONT MICRO POLISH
 
-Trọng tâm hiện tại: **ổn định production chain + tăng chất lượng mặt tiền theo runtime screenshot**.
+Trọng tâm hiện tại: **khóa lỗi font còn lại từ runtime 0.6.55.0 trước khi quay lại reverse asset/text residual**.
 
-Status: **STATIC PASS / PACKAGE READY**. Chưa phải whole-game Runtime PASS.
+Status: **SOURCE READY / STATIC GATES DESIGNED / RUNTIME CHƯA PASS**.
 
 ## Mốc actual build đã chứng minh
 
-Bản **0.6.54.0 R5** đã được user build thật từ CLEAN Japan BIN và PASS:
+Bản **0.6.54.0 R5** vẫn là actual CLEAN-ROM build cuối cùng đã được user chứng minh bằng build log:
 
 ```text
 Batch42 exact fields              = 560 / 560
@@ -25,63 +25,65 @@ Clean BIN SHA1:
 
 `f4d5298583c90d89c4b7e51d2dde160ee07f2aec`
 
-## Runtime audit sau R5
+## Runtime 0.6.55.0
 
-Runtime screenshots cho thấy pipeline đã hoạt động nhưng độ phủ hiển thị vẫn còn xa hoàn chỉnh. Các vùng còn Nhật rõ ràng gồm:
+Screenshot `Thế giới đổi chủ` cho thấy:
 
-- main menu;
-- Character Select;
-- Story mở đầu;
-- chapter/title card `冒険のはじまり`;
-- prompt mua đất;
-- nhiều Story / gameplay / help strings khác.
+- lỗi ký tự rác do `=` trong đoạn được chụp đã không còn xuất hiện;
+- wording intro đọc được;
+- nhưng font vẫn chưa thể khóa.
 
-Main-menu + Character Select tiếp tục được xem là **graphic/texture candidates** cho tới khi asset được reverse chắc chắn.
-
-Runtime còn phát hiện:
-
-- intro có câu gượng và dấu `=` sinh ký tự rác giữa tiếng Việt;
-- thanh ngang của `Đ/đ` nằm quá thấp, khó đọc.
-
-## 0.6.55.0 Batch45
-
-Package:
-
-`GaiaMaster_0.6.55.0_Batch45_FRONTFACE_ONECLICK.zip`
-
-Thay đổi:
+Lỗi mới được runtime chứng minh:
 
 ```text
-19 intro fields rewritten / byte-fit
-unsafe '=' removed from intro
-Đ/đ crossbar raised 1 px
-architecture unchanged
+đ thường: thanh ngang vẫn sai anchor, cần lên thêm 1 px và phải xuyên thân dọc bên phải của d
+â/ê/ô: dấu ^ quá sát thân chữ
+các chữ kiểu ấ/ế/ố...: structural mark + tone dễ nhập/đè nhau
 ```
 
-Static validation:
+Không có bằng chứng runtime cho thấy `Đ` hoa cũ bị lỗi. Vì vậy R2 tách hẳn `Đ` và `đ` thay vì dùng chung rule.
+
+## 0.6.55.1 Batch45R2
+
+Files:
 
 ```text
-Python compile          = 61 files / 0 errors
-Batch42 selftest        = PASS
-Batch44 selftest        = PASS
-Batch45 selftest        = PASS
-base exact              = 560
-whole-game visible      = 102
-combined                = 662
-intro polish            = 19 / 19
-manifest overlap        = 0
+tools/build_gaia_06551_batch45r2_font_micro_polish.py
+tools/00_BUILD_0.6.55.1_BATCH45R2_FONT_POLISH.cmd
+BATCH45R2_0.6.55.1_FONT_MICRO_POLISH.md
 ```
 
-ONECLICK workflow vẫn giữ nguyên:
+Thiết kế sửa:
 
 ```text
-đặt CLEAN BIN cạnh 00_VIET_HOA_GAME.bat
--> double-click BAT
+Đ  = left-stem rule, trả vertical placement về pre-Batch45
+đ  = auto-detect right ascender, bar xuyên stem, lên thêm 1 px so với 0.6.55.0
+^/breve = reserve thêm 1 top row, nâng structural mark 1 px
+stacked tone = tách sang side lane riêng
 ```
+
+R2 **không sửa ngược builder 0.6.55.0**. Nó build lại chain 0.6.55.0 từ CLEAN rồi chỉ patch glyph trong SLPS.
+
+Safety gates:
+
+```text
+60 glyph frozen codepage
+72 bytes/glyph
+bbox phải nằm trong 12x12
+unaffected glyphs phải byte-identical với 0.6.55.0
+Đ/đ phải qua đúng stem rule riêng
+structural/tone rendered pixels không được collision
+PRGPACK phải byte-for-byte không đổi bởi R2
+font bytes phải read-back verify sau EDC/ECC regeneration
+Batch42 560/560 recheck trước + sau font patch
+Batch45 intro 19/19 recheck trước + sau font patch
+```
+
+**Chưa gọi Runtime PASS.** Cần build thật từ CLEAN BIN rồi screenshot gameplay.
 
 ## Reverse Workbench 0.1
 
-Đã thêm bộ reverse **read-only**, không đổi production version và không sửa BIN:
+Bộ reverse read-only vẫn giữ nguyên:
 
 ```text
 tools/gaia_graphic_asset_census_0.1.py
@@ -89,13 +91,6 @@ tools/gaia_runtime_target_locator_0.1.py
 tools/00_RUN_REVERSE_WORKBENCH_0.1.cmd
 REVERSE_WORKBENCH_0.1.md
 ```
-
-Workbench dùng để:
-
-- quét standard PS-X TIM theo từng PRGPACK BDP owner;
-- ưu tiên owner 29 của Character Select;
-- exact-locate `冒険のはじまり` và các chuỗi Nhật lấy từ gameplay screenshot;
-- báo exact offset, owner/local offset và NUL-field context trước khi cân nhắc patch.
 
 Mốc Character Select đã chứng minh:
 
@@ -105,7 +100,7 @@ owner 29 / local +0x580
 キャラクターをえらんでね
 ```
 
-Full scan CSV 0.6.38.0 không được commit vào repo và `冒険のはじまり` không nằm trong manifest Batch43 đã lưu, nên exact offset của chapter card vẫn cần CLEAN BIN để chạy locator.
+Main Menu + phần còn Nhật ở Character Select vẫn là graphic/texture candidates cho tới khi asset được xác định chắc chắn.
 
 ## Kiến trúc vẫn khóa
 
@@ -120,9 +115,10 @@ Không renderer hook, pointer redirect, 12x16, 6x12 hoặc composite overlay.
 
 ## Việc tiếp theo
 
-1. Runtime-test đúng CUE 0.6.55.0, kiểm tra intro và `Đ/đ`.
-2. Nếu screenshot gameplay ổn thì khóa intro/font Batch45.
-3. Chạy/analyze Reverse Workbench 0.1 để reverse graphic assets main menu / Character Select.
-4. Tìm exact offsets cho Story mở đầu, `冒険のはじまり`, prompt mua đất và các chuỗi visible còn Nhật.
-5. Chỉ tạo batch production kế tiếp sau khi CLEAN-source/owner/field/fit/token/overlap gates đều qua.
-6. Không gọi whole-game Runtime PASS trước khi có screenshot gameplay xác nhận.
+1. Build `0.6.55.1` từ exact CLEAN BIN.
+2. Nếu có BUILD_LOG lỗi, sửa đúng gate đầu tiên trước.
+3. Nếu FINAL_REPORT PASS, test `đ`, `Đ`, `â/ê/ô`, `ấ/ế/ố/ắ` nếu gặp được.
+4. Chỉ khóa font khi gameplay screenshot xác nhận.
+5. Sau đó tiếp tục Reverse Workbench Main Menu / Character Select.
+6. Tiếp tục exact-offset discovery cho Story, `冒険のはじまり`, prompt mua đất.
+7. Không gọi whole-game Runtime PASS trước bằng chứng gameplay.
