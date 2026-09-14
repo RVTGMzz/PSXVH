@@ -1,0 +1,22 @@
+name: Gaia Master Batch 37 Stage Selftest
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [gaia-character-select-font-atlas-reverse-01]
+    paths:
+      - "games/GaiaMaster-Kamigami-no-Board-Game/tools/batch37_stage_06470.py"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/translation/BATCH37_NEW_EXACT_OFFSET_0.6.47.0.csv"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/translation/BATCH37_FINAL_EXACT_SET_0.6.47.0.csv"
+      - ".github/workflows/gaia-batch37-stage-selftest.yml"
+
+jobs:
+  selftest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run Batch37 real staging and restore selftest
+        run: python games/GaiaMaster-Kamigami-no-Board-Game/tools/batch37_stage_06470.py
