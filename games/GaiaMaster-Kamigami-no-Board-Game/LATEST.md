@@ -2,94 +2,109 @@
 
 Cập nhật: **2026-09-14**
 
-## CURRENT — 0.6.40.0 BATCH 30
+## CURRENT — 0.6.44.0 BATCH 34
 
-Trọng tâm: **Accent Sweep + Whole-Game Japanese Discovery**.
+Trọng tâm: **Curated Compact Sweep + Whole-Game Japanese Discovery**.
 
-## Vì sao đổi hướng
+## Tiến độ mới sau 0.6.40
 
-Screenshot runtime cho thấy Translation Master 596 dòng hiện tại chưa phủ toàn game. Nhiều story/tutorial/help strings vẫn hoàn toàn bằng tiếng Nhật, trong khi một số row đã biết vẫn có thể rơi xuống fallback Alpha không dấu.
+Batch31 kiểm kê lại toàn bộ fallback còn sót sau tập exact 295 field:
 
-Vì vậy từ Batch30, dự án chạy hai hướng song song:
+```text
+Translation Master rows      = 596
+Protected B29 exact keys     = 295
+Residual fallback rows       = 265
+Unique residual clusters     = 242
+```
 
-1. nâng dấu hàng loạt cho fallback đã có bằng bằng chứng semantic an toàn;
-2. quét trực tiếp CLEAN PRGPACK/SLPS để tìm text Nhật chưa từng vào master.
+Phần lớn residual không phải chưa dịch nghĩa mà là bản `vi_full` quá dài so với field gốc.
 
-## Nâng dấu
+## Batch32 curated compact
 
-Batch27 Japanese-key promotion: **2 row mới**.
+25 Japanese semantic keys được rút gọn thủ công thành tiếng Việt vừa field, không suy nghĩa từ fallback ASCII.
 
-Batch28 same-row lexical accent transplant sau khi bảo vệ historical locks: **71 row mới**.
+```text
+New exact rows exported = 47
+Exact-full-field rows   = 25
+Errors                  = 0
+RESULT                  = STATIC CURATED PASS
+```
 
 Ví dụ:
 
 ```text
-NHAN THE SK   -> Nhận thẻ SK
-THE VK DA DAY -> Thẻ VK đã đầy
-DOI DUONG?    -> Đổi đường?
-HUY            -> Hủy
-CHON KHU?      -> Chọn khu?
-PHA CAI NAO!!  -> Phá cái nào!!
+武器カードを / 武器カードは -> Thẻ VK
+終了ターン                 -> Hết
+%sのラッキー！！           -> %s hên!
+なにか捨ててね             -> Bỏ bớt
+騎士団                     -> Kỵ
+お店破壊                   -> Phá!
+%dゼニーはらってね         -> Trả %dZ
+いやしのうた               -> Hồi HP
+指定武器カード１枚を盗む   -> Cướp thẻ VK
+あいての命中率を落とす     -> Giảm CX
+ＨＰを６０回復する         -> Hồi 60HP
+死亡するとＨＰ１００で復活 -> Hồi sinh100HP
 ```
 
-## Batch29 exact merge
+Một chữ `ễ` không có trong frozen codepage đã bị CI bắt; wording được sửa thành `Hay CM`, không mở rộng font.
+
+## Batch33 exact merge
 
 ```text
-Input B20/B24/B27/B28          = 295
-Unique final exact keys        = 295
-Runtime-fit protected keys     = 49
-Historical no-op/unfit         = 13
-Already-locked identical       = 13
-Protected wording conflicts    = 0
-New exact rows exported        = 282
-Final exact verification set   = 295
-Errors                         = 0
-RESULT                         = STATIC PASS
+B29 new rows             = 282
+B29 final rows           = 295
+B32 curated rows         = 47
+Merged new exact targets = 329
+Merged final verify set  = 342
+Errors                   = 0
+RESULT                   = STATIC MERGE PASS
 ```
 
-Validation:
-
-`checkpoints/0.6.39.0/BATCH29_MERGE_VALIDATION.txt`
-
-## Batch30 production builder
-
-Windows launcher:
-
-`tools/00_BUILD_0.6.40.0_BATCH30_ACCENT_SWEEP.cmd`
+## Batch34 production builder
 
 Python builder:
 
-`tools/build_gaia_06400_batch30_accent_sweep.py`
+`tools/build_gaia_06440_batch34_curated_compact.py`
 
-Builder selftest PASS:
+Builder/stage selftest đều PASS. Production chain vẫn tái dùng 0.6.14 -> 0.6.10 đã chứng minh, không tạo encoder thứ hai.
+
+Clean-ROM gate:
 
 ```text
-New exact targets     = 282
-Final exact verify    = 295
-Legacy shadows        = 282
-Dynamic sinks         = 5
-Legacy gate           = 397/397
-Gameplay masks        = 180
-Compact13 masks       = 67
-Compact14 masks       = 2
-Global-map preserves  = 33
-Source restore        = PASS
+SHA1 f4d5298583c90d89c4b7e51d2dde160ee07f2aec
 ```
 
-Production chain vẫn là 0.6.14 -> 0.6.10 đã chứng minh. Không tạo encoder hoặc ROM patch engine thứ hai.
+Actual build bắt buộc đạt:
 
-Sau actual clean-ROM build, **295/295 exact fields phải khớp byte-for-byte** mới PASS.
+```text
+329 exact targets staged
+342/342 exact fields byte verification
+397/397 legacy Alpha gate
+source restore PASS
+```
+
+## EASY package hiện tại
+
+`GaiaMaster_0.6.44.0_Batch34_EASY.zip`
+
+Ngoài cùng chỉ cần:
+
+```text
+00_VIET_HOA_GAME.cmd
+01_QUET_TOAN_BO_GAME.cmd
+02_DOC_TRUOC.txt
+```
+
+Build launcher tự tìm đúng CLEAN BIN bằng SHA1.
 
 ## Whole-game scanner
 
-Read-only scanner:
+Read-only scanner vẫn là bước quan trọng nhất để mở rộng khỏi 596-row master:
 
 ```text
-tools/00_SCAN_0.6.38.0_FULL_JAPANESE.cmd
-tools/scan_full_japanese_text_06380.py
+01_QUET_TOAN_BO_GAME.cmd
 ```
-
-Nó quét CLEAN `PRGPACK.BDP` + `SLPS_020.75`, loại vùng font/mapping và so với Translation Master hiện tại.
 
 Output cần gửi lại:
 
@@ -98,19 +113,7 @@ GaiaMaster_0.6.38.0_FULL_JAPANESE_SCAN.csv
 GaiaMaster_0.6.38.0_FULL_JAPANESE_SCAN_REPORT.txt
 ```
 
-Các screenshot anchor được ưu tiên gồm Memory Card, story dialogue, tutorial, battle-card help và end-turn text.
-
-## Clean-ROM gate
-
-```text
-SHA1 f4d5298583c90d89c4b7e51d2dde160ee07f2aec
-```
-
-## Runtime checkpoint
-
-Ảnh cũ còn `LUOT ジガ` cho thấy emulator chưa chạy output mới, vì key `%sの番よ！` đã được exact-map thành `Tới %s` trong manifest hiện tại.
-
-Bản EASY 0.6.40 tự tìm CLEAN BIN bằng SHA1 để tránh build nhầm BIN cũ. Sau build phải mở đúng output có tên 0.6.40.0, không dùng Recent/History của emulator nếu nó trỏ vào image cũ.
+Nó sẽ dùng để bắt story/tutorial/help/Memory Card text chưa từng xuất hiện trong Translation Master.
 
 ## Production architecture không đổi
 
@@ -125,14 +128,14 @@ Không renderer hook, pointer redirect, 12x16, 6x12, composite overlay hoặc fo
 
 ## Status
 
-**0.6.40.0 = BUILD-READY / STATIC PASS.**
+**0.6.44.0 = BUILD-READY / STATIC PASS.**
 
 Chưa phải Runtime PASS.
 
 ## Tiếp theo
 
-1. Build 0.6.40 từ CLEAN BIN.
-2. Kiểm report phải có 295/295 byte verification và gate 397/397.
-3. Chạy whole-game scanner trên CLEAN BIN.
-4. Import scanner output để mở rộng master sang story/tutorial/help.
-5. Làm batch lớn tiếp theo theo visible-runtime coverage, không chỉ dựa trên số row cũ.
+1. Build 0.6.44 từ CLEAN BIN.
+2. Kiểm report có **342/342** byte verification và **397/397** legacy gate.
+3. Boot đúng output 0.6.44.
+4. Chạy whole-game scanner.
+5. Gửi scanner CSV + REPORT để mở batch story/tutorial/help theo exact offset.
