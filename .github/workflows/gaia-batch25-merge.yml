@@ -1,0 +1,34 @@
+name: Gaia Master Batch 25 Merge
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [gaia-character-select-font-atlas-reverse-01]
+    paths:
+      - "games/GaiaMaster-Kamigami-no-Board-Game/tools/build_batch25_merged_exact_06340.py"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/translation/BATCH20_EXACT_OFFSET_0.6.29.0.csv"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/translation/BATCH24_EXACT_OFFSET_0.6.33.0.csv"
+      - ".github/workflows/gaia-batch25-merge.yml"
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Merge exact manifests
+        run: python games/GaiaMaster-Kamigami-no-Board-Game/tools/build_batch25_merged_exact_06340.py
+      - name: Persist merged manifest and validation
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add games/GaiaMaster-Kamigami-no-Board-Game/translation/BATCH25_NEW_EXACT_OFFSET_0.6.34.0.csv
+          git add games/GaiaMaster-Kamigami-no-Board-Game/checkpoints/0.6.34.0/BATCH25_MERGE_VALIDATION.txt
+          if ! git diff --cached --quiet; then
+            git commit -m "Gaia Master 0.6.34.0: store merged exact manifest"
+            git push
+          fi
