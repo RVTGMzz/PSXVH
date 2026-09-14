@@ -1,0 +1,20 @@
+GAIA MASTER 0.6.36.0 BATCH 27 ACCENT PROMOTION
+============================================================================
+Translation Master rows             : 596
+Japanese consensus keys             : 154
+Ambiguous Japanese keys             : 0
+Rows still capable of Alpha fallback: 572
+Already covered by B20/B24 exact    : 222
+New safe accented promotions        : 2
+No Japanese consensus               : 348
+Consensus too long                   : 0
+Unsafe/token rejected                : 0
+
+RULES:
+- Japanese-key consensus only; never infer meaning from accentless fallback.
+- Runtime tokens must preserve identity and order.
+- Candidate must fit original Japanese byte field.
+- Candidate must be CP932/frozen-60-codepage safe.
+- This batch only promotes rows that would otherwise fall back to Alpha text.
+
+RESULT: STATIC PROMOTION PASS
