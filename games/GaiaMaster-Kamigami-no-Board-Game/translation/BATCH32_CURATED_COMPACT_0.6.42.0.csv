@@ -35,7 +35,7 @@ SLPS_020.75,0x15ec,ＨＰを６０回復する,Hồi 60HP,18,16,2,HOI60HP,,batch
 SLPS_020.75,0x1600,いやしのうた,Hồi HP,12,12,0,CHUAHP,,batch32-curated-japanese-key
 SLPS_020.75,0x1668,ブラッドスピア,G.Máu,14,10,4,GIAOMAU,,batch32-curated-japanese-key
 SLPS_020.75,0x1690,使い捨てアイテム,Đồ 1L,16,10,6,DO 1 LAN,,batch32-curated-japanese-key
-SLPS_020.75,0x16b4,クリティカルがでやすい,Dễ chí mạng,22,22,0,DE CHI MANG,,batch32-curated-japanese-key
+SLPS_020.75,0x16b4,クリティカルがでやすい,Hay CM,22,12,10,DE CHI MANG,,batch32-curated-japanese-key
 SLPS_020.75,0x21e0,お店破壊,Phá!,8,8,0,PHA SHOP,Phá cửa hàng,batch32-curated-japanese-key
 SLPS_020.75,0x23d4,お店破壊,Phá!,8,8,0,PHA SHOP,Phá cửa hàng,batch32-curated-japanese-key
 SLPS_020.75,0x263c,病院,BV,4,4,0,BENH,Bệnh viện,batch32-curated-japanese-key

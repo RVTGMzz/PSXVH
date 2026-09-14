@@ -4,8 +4,8 @@ Curated Japanese keys        : 25
 Curated keys producing rows  : 25
 Protected hits skipped       : 0
 New exact rows exported      : 47
-Exact-full-field rows        : 26
-Errors                       : 1
+Exact-full-field rows        : 25
+Errors                       : 0
 
 RULES:
 - Japanese-keyed manual curation only
@@ -15,5 +15,4 @@ RULES:
 - every non-CP932 glyph must belong to the frozen Vietnamese codepage
 - no ROM/font/pointer modification
 
-ERRORS:
-- unsupported chars ['ễ']: ('SLPS_020.75', '0x16b4') 'Dễ chí mạng'
+RESULT: STATIC CURATED PASS
