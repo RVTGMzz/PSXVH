@@ -1,0 +1,39 @@
+name: Gaia Master Batch 36 Curated Compact
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [gaia-character-select-font-atlas-reverse-01]
+    paths:
+      - "games/GaiaMaster-Kamigami-no-Board-Game/tools/build_batch36_curated_compact_06460.py"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/translation/BATCH33_FINAL_EXACT_SET_0.6.43.0.csv"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/translation/TRANSLATION_MASTER_0.6_part*.csv"
+      - ".github/workflows/gaia-batch36-curated-compact.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Compile Batch36 curated compact exact rows
+        run: python games/GaiaMaster-Kamigami-no-Board-Game/tools/build_batch36_curated_compact_06460.py
+      - name: Persist Batch36 outputs
+        if: always()
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add games/GaiaMaster-Kamigami-no-Board-Game/translation/BATCH36_CURATED_COMPACT_0.6.46.0.csv || true
+          git add games/GaiaMaster-Kamigami-no-Board-Game/checkpoints/0.6.46.0/BATCH36_CURATED_COMPACT_REPORT.txt || true
+          if git diff --cached --quiet; then
+            echo "No Batch36 output changes"
+          else
+            git commit -m "Gaia Master 0.6.46.0: persist Batch36 curated compact sweep"
+            git push
+          fi
