@@ -5,61 +5,89 @@ Branch: `gaia-character-select-font-atlas-reverse-01`
 
 ## Current checkpoint
 
-**0.6.35.0 — Batch 26 Final Exact Production Wrapper**
+**0.6.40.0 — Batch 30 Accent Sweep + Whole-Game Discovery**
 
-Status: **BUILD-READY / STATIC PRECEDENCE PASS**.
+Status: **BUILD-READY / STATIC PASS**.
 
 This is still **not Runtime PASS**.
 
 Read next:
 
 ```text
-BATCH26_0.6.35.0.md
-SESSION_HANDOFF_0.6.35.0.md
-NEXT_SESSION_START_0.6.35.0.txt
-checkpoints/0.6.35.0/BATCH26_PRECEDENCE_AUDIT.txt
-tools/batch26_stage_06350.py
-tools/build_gaia_06350_batch26_final.py
+BATCH30_0.6.40.0.md
+checkpoints/0.6.37.0/BATCH28_SAME_ROW_ACCENT_REPORT.txt
+checkpoints/0.6.39.0/BATCH29_MERGE_VALIDATION.txt
+translation/BATCH29_NEW_EXACT_OFFSET_0.6.39.0.csv
+translation/BATCH29_FINAL_EXACT_SET_0.6.39.0.csv
+tools/batch29_stage_06390.py
+tools/build_gaia_06400_batch30_accent_sweep.py
+tools/scan_full_japanese_text_06380.py
 ```
 
-## Translation closure inherited from Batch 21-25
+## What changed after runtime screenshots
+
+User screenshots proved that closing the 147 residual rows inside the 596-row Translation Master did **not** mean whole-game coverage. Visible Memory Card, story/tutorial and card-help Japanese strings are absent from the current master.
+
+The priority is now visible runtime coverage, not merely residual closure inside the old master.
+
+Two tracks are active:
+
+1. upgrade known Alpha ASCII fallback rows to accented Vietnamese where wording can be proven safely;
+2. scan CLEAN PRGPACK/SLPS to discover Japanese strings that never entered the current Translation Master.
+
+## Accent sweep state
+
+Batch27 Japanese-key promotion added 2 safe rows.
+
+Batch28 same-row lexical transplant, after excluding all runtime-fit historical locks and Batch19 exact locks, adds **71 safe accented rewrites**.
+
+Examples:
 
 ```text
-0.6.28.0 residual Alpha rows = 147
-resolved exact rows           = 147 / 147
-Batch20 + Batch24 candidates  = 222 exact keys
-historical proven locks reused = 13
-new Batch25 exact rows         = 209
-Batch25 merge conflicts        = 0
+NHAN THE SK   -> Nhận thẻ SK
+THE VK DA DAY -> Thẻ VK đã đầy
+DOI DUONG?    -> Đổi đường?
+HUY            -> Hủy
+CHON KHU?      -> Chọn khu?
+PHA CAI NAO!!  -> Phá cái nào!!
 ```
 
-## Batch 26 production-precedence proof
+## Batch29 merged exact state
 
 ```text
-Batch25 new exact targets          = 209
-Legacy shadow rows                 = 209
-Dynamic sink rows                  = 4
-0.6.11 exact collisions masked     = 149
-0.6.13 exact collisions masked     = 23
-0.6.14 exact collisions masked     = 2
-Global-map preservation entries    = 29
-Effective dynamic hits             = 10
-Dynamic hits already identical     = 6
-Dynamic differing hits safely sunk = 4
-Dynamic sink failures              = 0
-Legacy gate before                 = 397
-Legacy gate with wrapper layout    = 397
-Final exact mismatches (static)     = 0
-Errors                              = 0
-RESULT                              = STATIC PRECEDENCE PASS
+Input candidates B20/B24/B27/B28 = 295
+Unique final candidate keys       = 295
+Runtime-fit protected keys        = 49
+Historical no-op/unfit rows       = 13
+Already-locked identical          = 13
+Protected wording conflicts       = 0
+New exact rows exported           = 282
+Final exact verification set      = 295
+Errors                            = 0
+RESULT                            = STATIC PASS
 ```
 
-## Why the wrapper is safe
+## Batch30 production staging / builder contract
 
-Batch 26 keeps the existing production chain and does not introduce a second translation encoder:
+CI selftest proves:
 
 ```text
-0.6.35 staging
+New exact targets     = 282
+Final exact verify    = 295
+Legacy shadows        = 282
+Dynamic sinks         = 5
+Legacy gate           = 397/397
+Gameplay masks        = 180
+Compact13 masks       = 67
+Compact14 masks       = 2
+Global-map preserves  = 33
+Source restore        = PASS
+```
+
+Production chain remains the proven chain:
+
+```text
+0.6.40 staging
  -> 0.6.14
     -> 0.6.13
        -> 0.6.12
@@ -67,24 +95,16 @@ Batch 26 keeps the existing production chain and does not introduce a second tra
              -> 0.6.10 exact builder
 ```
 
-For each new exact target, the primary row receives Batch25 `vi_full` and temporarily hides `vi_game_current` from global promotion. A legacy shadow row immediately after it keeps the exact 397-key Alpha reconstruction intact.
-
-Only four keys need a dynamic sink. The sink absorbs a conflicting 0.6.14 dynamic write, has a zero-byte Japanese source field so 0.6.10 skips it, then the real exact primary is processed.
-
-Filtering old 0.6.11 exemplars would change the 0.6.12 global map, so Batch26 appends 29 temporary preservation rows. Static audit proves the global map stays identical to the production baseline.
-
-All mutable source CSVs are restored in `finally` and hash-checked. CI has executed the real stage/restore cycle successfully.
-
-## Production launcher
+Windows build entrypoint:
 
 ```text
-tools/00_BUILD_0.6.35.0_BATCH26_FINAL_EXACT.cmd
+tools/00_BUILD_0.6.40.0_BATCH30_ACCENT_SWEEP.cmd
 ```
 
-Python entrypoint:
+Python builder:
 
 ```text
-tools/build_gaia_06350_batch26_final.py
+tools/build_gaia_06400_batch30_accent_sweep.py
 ```
 
 Clean Japan BIN required:
@@ -93,23 +113,33 @@ Clean Japan BIN required:
 SHA1 f4d5298583c90d89c4b7e51d2dde160ee07f2aec
 ```
 
-## Post-build hard gate
+After a real local build, the output BIN must pass **295/295 exact byte verification** before the builder reports success.
 
-After the 0.6.14 chain finishes, Batch26 reads the produced BIN and uses the verified readable 0.6.10 encoder/codepage logic to require:
+## Whole-game Japanese scanner
+
+Read-only scanner:
 
 ```text
-222 / 222 final exact fields = byte-for-byte PASS
+tools/00_SCAN_0.6.38.0_FULL_JAPANESE.cmd
+tools/scan_full_japanese_text_06380.py
 ```
 
-One mismatch blocks the build.
+It scans CLEAN `PRGPACK.BDP` + `SLPS_020.75`, excludes font/mapping regions, and compares candidates against the current 596-row master.
 
-CI currently passes:
+Outputs expected from the user:
 
-- production precedence audit;
-- actual source staging/restoration selftest;
-- final builder `--selftest`.
+```text
+GaiaMaster_0.6.38.0_FULL_JAPANESE_SCAN.csv
+GaiaMaster_0.6.38.0_FULL_JAPANESE_SCAN_REPORT.txt
+```
 
-GitHub does not contain the clean ROM, so the real BIN build remains local/user-side.
+These files are the next critical input for story/tutorial expansion.
+
+## Runtime screenshot interpretation
+
+`XONG!` and `LUOT ジガ` are separate runtime keys. The `%sの番よ！` key is already exact-mapped to `Tới %s`. If a runtime screenshot still shows `LUOT`, the emulator is not running the successfully built current output.
+
+Use the 0.6.40 EASY launcher, which auto-selects the CLEAN BIN by SHA1, then boot the newly generated 0.6.40 output rather than an emulator Recent/History entry.
 
 ## Production architecture remains frozen
 
@@ -129,20 +159,14 @@ Hard exclusions remain:
 - no composite overlay
 - no font retuning without new runtime evidence
 
-Translation policy remains Japanese-first. Preserve `%s`, `%d`, `%4d`, `%+3d`, `/V` and token order.
-
-Intro cleanup remains mandatory:
-
-```text
-NGUOI=CO      -> NGUOI CO
-THEGIOI=BANCO -> THEGIOI BANCO
-```
+Preserve `%s`, `%d`, `%4d`, `%+3d`, `/V` and token order.
 
 ## Next priority
 
-1. Run the Batch26 launcher against the verified clean Japan BIN.
-2. Require `GaiaMaster_0.6.35.0_BATCH26_FINAL_REPORT.txt` to show 222/222 byte verification and source restore PASS.
-3. Runtime-test the generated image.
-4. Review screenshots/logs for visible Japanese, clipping, token corruption, intro separators and glyph defects.
-5. Keep font/codepage frozen unless actual runtime evidence proves a glyph problem.
-6. Never call Runtime PASS before actual gameplay evidence.
+1. User runs 0.6.40 EASY build against CLEAN Japan BIN.
+2. Require `GaiaMaster_0.6.40.0_BATCH30_FINAL_REPORT.txt` to show 295/295 exact byte verification and 397/397 legacy gate.
+3. User runs the whole-game scanner against the same CLEAN BIN.
+4. Import/review scanner output, prioritizing `UNSEEN-JAPANESE` and screenshot anchor hits.
+5. Expand Translation Master with story/tutorial/help strings by exact offset.
+6. Build the next large visible-coverage batch.
+7. Never call Runtime PASS without actual gameplay screenshots/logs.
