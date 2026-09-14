@@ -1,0 +1,38 @@
+name: Gaia Master Batch 35 Residual Priority
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [gaia-character-select-font-atlas-reverse-01]
+    paths:
+      - "games/GaiaMaster-Kamigami-no-Board-Game/tools/build_batch35_residual_priority_06450.py"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/translation/BATCH33_FINAL_EXACT_SET_0.6.43.0.csv"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/translation/TRANSLATION_MASTER_0.6_part*.csv"
+      - ".github/workflows/gaia-batch35-residual-priority.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  inventory:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Build post-Batch34 residual inventory
+        run: python games/GaiaMaster-Kamigami-no-Board-Game/tools/build_batch35_residual_priority_06450.py
+      - name: Persist Batch35 outputs
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add games/GaiaMaster-Kamigami-no-Board-Game/translation/BATCH35_RESIDUAL_PRIORITY_0.6.45.0.csv
+          git add games/GaiaMaster-Kamigami-no-Board-Game/checkpoints/0.6.45.0/BATCH35_RESIDUAL_PRIORITY_REPORT.txt
+          if git diff --cached --quiet; then
+            echo "No Batch35 output changes"
+          else
+            git commit -m "Gaia Master 0.6.45.0: persist Batch35 residual priority inventory"
+            git push
+          fi
