@@ -1,0 +1,18 @@
+GAIA MASTER 0.6.46.0 BATCH 36 LARGE CURATED COMPACT
+================================================================================
+Curated Japanese keys        : 184
+Curated keys producing rows  : 184
+Protected hits skipped       : 1
+New exact rows exported      : 185
+Exact-full-field rows        : 65
+Errors                       : 0
+
+RULES:
+- Japanese-keyed manual curation only
+- B33/Batch19/runtime-fit historical exact keys are protected
+- runtime tokens preserve identity and order
+- every candidate must fit the original CP932 field
+- every non-CP932 glyph must belong to the frozen Vietnamese codepage
+- no ROM/font/pointer modification
+
+RESULT: STATIC CURATED PASS
