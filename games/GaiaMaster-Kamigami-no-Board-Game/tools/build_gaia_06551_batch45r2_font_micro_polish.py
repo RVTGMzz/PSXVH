@@ -26,6 +26,7 @@ AFFECTED = {
     if ch in ("Đ", "đ")
     or any(m in TOP_STRUCTURAL for m in base.decompose(ch)[1])
 }
+EXPECTED_AFFECTED = set("âêÔôăĐđấầẩẫậắặếềểệốồổỗộ")
 
 
 def die(msg: str):
@@ -311,6 +312,14 @@ def make_vi_glyph_r2(slps, ch, base_cache):
         dot_y = min(11, y1 + 1)
         _draw_unshifted(g, [(cx, dot_y)], fill, shadow)
 
+    # Runtime bug gate: structural/tone pixels must stay entirely above the
+    # fitted body. This directly prevents the old draw_dual shadow from landing
+    # on the first body row.
+    top_rendered = structural_fill | tone_fill
+    if top_rendered and max(y for _x, y in top_rendered) >= y0:
+        die("R2 top accent touches body row in %r: body_y0=%d pixels=%r" %
+            (ch, y0, sorted(top_rendered)))
+
     if structural_fill & tone_fill:
         die("R2 structural/tone rendered-pixel collision in %r: %r" %
             (ch, sorted(structural_fill & tone_fill)))
@@ -461,6 +470,9 @@ def selftest():
         die("Missing 0.6.55.0 builder")
     if not AFFECTED:
         die("Affected glyph set is empty")
+    if AFFECTED != EXPECTED_AFFECTED:
+        die("R2 affected scope drift: got=%r expected=%r" %
+            (sorted(AFFECTED), sorted(EXPECTED_AFFECTED)))
     if "Đ" not in AFFECTED or "đ" not in AFFECTED:
         die("Đ/đ missing from affected set")
     for required in ("â", "ê", "ô", "ă", "ấ", "ế", "ố"):
@@ -602,6 +614,7 @@ def main():
         "- all 60 glyphs remain exactly 72 bytes",
         "- all generated bboxes remain inside 12x12",
         "- every unaffected glyph is byte-identical to 0.6.55.0 generator",
+        "- top-accent rendered pixels stay above the fitted body row",
         "- structural/tone rendered pixels (fill+shadow) are disjoint",
         "- output glyph bytes re-read and verified after sector regeneration",
         "- PRGPACK byte-for-byte unchanged by font-only R2 patch",
