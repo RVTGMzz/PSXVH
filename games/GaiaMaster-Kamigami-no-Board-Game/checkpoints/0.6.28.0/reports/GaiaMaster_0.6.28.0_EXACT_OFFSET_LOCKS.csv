@@ -1,0 +1,25 @@
+master_part,file,offset_hex,japanese,vi_full,field_bytes,vi_bytes,free_bytes,action,note
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x530,なかなかやるね,Khá lắm,14,14,0,EXPORT,Batch 19 direct vi_full exact-offset lock; historical 0.6.14.1 keys excluded
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x32060,なかなかやるね,Khá lắm,14,14,0,EXPORT,Batch 19 direct vi_full exact-offset lock; historical 0.6.14.1 keys excluded
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x3f784,なかなかやるね,Khá lắm,14,14,0,EXPORT,Batch 19 direct vi_full exact-offset lock; historical 0.6.14.1 keys excluded
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x4d374,なかなかやるね,Khá lắm,14,14,0,EXPORT,Batch 19 direct vi_full exact-offset lock; historical 0.6.14.1 keys excluded
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x5b048,なかなかやるね,Khá lắm,14,14,0,EXPORT,Batch 19 direct vi_full exact-offset lock; historical 0.6.14.1 keys excluded
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x674b8,「%s」と,%s và,8,8,0,EXPORT,Batch 19 direct vi_full exact-offset lock; historical 0.6.14.1 keys excluded
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x674c4,「%s」を,%s,8,2,6,EXPORT,Batch 19 direct vi_full exact-offset lock; historical 0.6.14.1 keys excluded
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x6762c,体力が完全回復したよ,HP hồi đầy,20,20,0,EXPORT,Batch 19 direct vi_full exact-offset lock; historical 0.6.14.1 keys excluded
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x67a58,すると体力を回復して,sẽ hồi HP,20,18,2,EXPORT,Batch 19 direct vi_full exact-offset lock; historical 0.6.14.1 keys excluded
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x67ab0,やめる,Hủy,6,6,0,EXPORT,Batch 19 direct vi_full exact-offset lock; historical 0.6.14.1 keys excluded
+TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x67f94,「%s」を捨てて,Bỏ %s,14,8,6,EXPORT,Batch 19 direct vi_full exact-offset lock; historical 0.6.14.1 keys excluded
+TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x67fbc,「%s」を,%s,8,2,6,EXPORT,Batch 19 direct vi_full exact-offset lock; historical 0.6.14.1 keys excluded
+TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x68728,ダイスの数が４コになるよ！！,Có 4 xúc xắc!!,28,28,0,EXPORT,Batch 19 direct vi_full exact-offset lock; historical 0.6.14.1 keys excluded
+TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x688d8,かぅぁ～もぉ～ん,Come on!,16,16,0,EXPORT,Batch 19 direct vi_full exact-offset lock; historical 0.6.14.1 keys excluded
+TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x68b2c,%sは,%s,4,2,2,EXPORT,Batch 19 direct vi_full exact-offset lock; historical 0.6.14.1 keys excluded
+TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x68bec,ふっ,Hừ,4,4,0,EXPORT,Batch 19 direct vi_full exact-offset lock; historical 0.6.14.1 keys excluded
+TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x68d34,の２０％をしは,trả 20%,14,14,0,EXPORT,Batch 19 direct vi_full exact-offset lock; historical 0.6.14.1 keys excluded
+TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x68db0,ます,sẽ,4,4,0,EXPORT,Batch 19 direct vi_full exact-offset lock; historical 0.6.14.1 keys excluded
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x1768,ＨＰを３０回復する,Hồi 30 HP,18,18,0,EXPORT,Batch 19 direct vi_full exact-offset lock; historical 0.6.14.1 keys excluded
+TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x17b0,ファイアボール,Cầu lửa,14,14,0,EXPORT,Batch 19 direct vi_full exact-offset lock; historical 0.6.14.1 keys excluded
+TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x17f0,エストック,Estoc,10,10,0,EXPORT,Batch 19 direct vi_full exact-offset lock; historical 0.6.14.1 keys excluded
+TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x2c94,「カード交換」,Đổi thẻ,14,14,0,EXPORT,Batch 19 direct vi_full exact-offset lock; historical 0.6.14.1 keys excluded
+TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x3404,「%s」をあきらめたよ,Từ bỏ %s,20,14,6,EXPORT,Batch 19 direct vi_full exact-offset lock; historical 0.6.14.1 keys excluded
+TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x378c,キャンセル,Hủy,10,6,4,EXPORT,Batch 19 direct vi_full exact-offset lock; historical 0.6.14.1 keys excluded

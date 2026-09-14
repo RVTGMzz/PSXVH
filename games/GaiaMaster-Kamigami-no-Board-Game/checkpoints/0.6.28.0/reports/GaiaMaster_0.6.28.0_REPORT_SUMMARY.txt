@@ -1,0 +1,22 @@
+GAIA MASTER 0.6.28.0 BATCH 19 REPORT COMPILER
+========================================================================
+Translation Master rows : 596
+Semantic map entries    : 329
+STYLE map entries       : 230
+Consensus JP entries    : 366
+Consensus FB entries    : 332
+Rows with meaning       : 448
+Rows with fitting cand. : 164
+RESIDUAL_ALPHA rows     : 146
+FIT_PRESSURE rows       : 284
+EXACT_OFFSET locks      : 24
+Historical protected    : 0
+Token-rejected cand.    : 2
+
+SAFETY:
+- report-only; no ROM/BIN/CUE/BDP/font modification
+- frozen codepage/font architecture untouched
+- historical 0.6.14.1 exact locks never overwritten
+- AUTO_EXACT_OVERRIDES contains direct fitting vi_full only
+
+Output: /home/runner/work/Viet-Hoa-PS1/Viet-Hoa-PS1/games/GaiaMaster-Kamigami-no-Board-Game/checkpoints/0.6.28.0/reports
