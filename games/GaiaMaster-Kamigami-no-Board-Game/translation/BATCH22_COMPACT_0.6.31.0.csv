@@ -8,6 +8,6 @@ japanese,vi_compact,note
 あいてのカード一枚を破壊する,Phá thẻ địch,pressure<=6B
 %sの番よ！,Tới %s,pressure<=6B; runtime token preserved
 捨てたよ,Bỏ!,pressure<=6B
-アニメーション,HoạtẢnh,pressure<=6B; compact menu label
+アニメーション,H.ảnh,pressure<=6B; compact menu label
 %sに止まったよ,Dừng %s,pressure<=6B; runtime token preserved
 ハリケーン,Bão,pressure<=6B
