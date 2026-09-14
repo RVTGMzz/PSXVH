@@ -24,10 +24,12 @@ Important safety fix: accentless fallback consensus promotion is disabled. Japan
 
 ```text
 translation/BATCH20_EXACT_OFFSET_0.6.29.0.csv
-rows = 84
+rows = 75
 pressure source = Batch 19 V2 FIT_PRESSURE
 pressure band = <= 6 bytes over field before rewrite
 ```
+
+The first draft had 84 rows. Validation identified 9 protected exact-lock collisions; all 9 were dropped, leaving 75 non-colliding candidates.
 
 Validation:
 
