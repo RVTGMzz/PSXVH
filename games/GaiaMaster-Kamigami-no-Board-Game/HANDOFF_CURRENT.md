@@ -40,13 +40,39 @@ Repo material:
 
 ```text
 BATCH19_0.6.28.0.md
+BATCH19_REPORT_RECONSTRUCTION_0.6.28.0.md
 SESSION_HANDOFF_0.6.28.0.md
 NEXT_SESSION_START_0.6.28.0.txt
 translation/BATCH19_JP_EXACT_0.6.28.0.csv
 translation/BATCH19_STYLE_0.6.28.0.csv
 translation/BATCH19_DYNAMIC_0.6.28.0.csv
+tools/gaia_batch19_report_compiler_06280.py
+tools/00_RUN_0.6.28.0_BATCH19_REPORTS.cmd
 checkpoints/0.6.28.0/README.md
 ```
+
+### 2026-09-14 report-stage reconstruction
+
+Git history audit found that the handoff snapshot contained the Batch 19 translation deltas and documentation, but the executable report stage itself had not been committed. The repo now contains a conservative repo-native reconstruction:
+
+```text
+tools/gaia_batch19_report_compiler_06280.py
+tools/00_RUN_0.6.28.0_BATCH19_REPORTS.cmd
+```
+
+It reads the six Translation Master parts, cumulative Batch semantic/style maps, Batch 18 duplicate consensus, and the historical 0.6.14.1 exact-lock file. It is report-only and does not modify ROM/BIN/CUE/BDP/font data.
+
+Default generated output:
+
+```text
+checkpoints/0.6.28.0/reports/GaiaMaster_0.6.28.0_RESIDUAL_ALPHA.csv
+checkpoints/0.6.28.0/reports/GaiaMaster_0.6.28.0_FIT_PRESSURE.csv
+checkpoints/0.6.28.0/reports/GaiaMaster_0.6.28.0_EXACT_OFFSET_LOCKS.csv
+checkpoints/0.6.28.0/reports/GaiaMaster_0.6.28.0_AUTO_EXACT_OVERRIDES.csv
+checkpoints/0.6.28.0/reports/GaiaMaster_0.6.28.0_REPORT_SUMMARY.txt
+```
+
+The execution environment used during this handoff could not reach GitHub from its local shell, so the compiler has not been run against a checked-out branch here. Do not invent report counts. Run the one-click CMD in a local checkout, then consume the generated CSVs.
 
 Production locks remain unchanged:
 
@@ -72,4 +98,9 @@ THEGIOI=BANCO -> THEGIOI BANCO
 
 ## Next session priority
 
-Read `SESSION_HANDOFF_0.6.28.0.md` first. Ask user for the three Batch 19 report CSVs and runtime screenshots. Use `FIT_PRESSURE` to create exact-offset compact wording for remaining overlong rows, use `RESIDUAL_ALPHA` for remaining untranslated rows, and use visible Japanese screenshots to catch strings outside Translation Master. Font stays frozen.
+1. Run `tools/00_RUN_0.6.28.0_BATCH19_REPORTS.cmd` in a current local checkout.
+2. Consume `FIT_PRESSURE` first and create exact-offset compact wording for remaining overlong rows.
+3. Consume `RESIDUAL_ALPHA` for remaining untranslated Alpha rows.
+4. Review `EXACT_OFFSET_LOCKS` / `AUTO_EXACT_OVERRIDES` before integrating them into a ROM build path.
+5. Use runtime screenshots to catch visible Japanese outside Translation Master.
+6. Font stays frozen unless runtime demonstrates a real glyph defect.
