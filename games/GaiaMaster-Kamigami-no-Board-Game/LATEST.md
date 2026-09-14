@@ -2,96 +2,115 @@
 
 Cập nhật: **2026-09-14**
 
-## CURRENT — 0.6.35.0 BATCH 26
+## CURRENT — 0.6.40.0 BATCH 30
 
-Trọng tâm: **Final Exact Production Wrapper / Build-Ready Static Pass**.
+Trọng tâm: **Accent Sweep + Whole-Game Japanese Discovery**.
 
-## Translation data đã đóng
+## Vì sao đổi hướng
+
+Screenshot runtime cho thấy Translation Master 596 dòng hiện tại chưa phủ toàn game. Nhiều story/tutorial/help strings vẫn hoàn toàn bằng tiếng Nhật, trong khi một số row đã biết vẫn có thể rơi xuống fallback Alpha không dấu.
+
+Vì vậy từ Batch30, dự án chạy hai hướng song song:
+
+1. nâng dấu hàng loạt cho fallback đã có bằng bằng chứng semantic an toàn;
+2. quét trực tiếp CLEAN PRGPACK/SLPS để tìm text Nhật chưa từng vào master.
+
+## Nâng dấu
+
+Batch27 Japanese-key promotion: **2 row mới**.
+
+Batch28 same-row lexical accent transplant sau khi bảo vệ historical locks: **71 row mới**.
+
+Ví dụ:
 
 ```text
-Residual Alpha 0.6.28.0      = 147 rows
-Đã resolve                   = 147 / 147
-Batch20 + Batch24 final set  = 222 exact keys
-Historical proven locks reuse = 13
-Batch25 new exact rows       = 209
-Batch25 conflicts            = 0
+NHAN THE SK   -> Nhận thẻ SK
+THE VK DA DAY -> Thẻ VK đã đầy
+DOI DUONG?    -> Đổi đường?
+HUY            -> Hủy
+CHON KHU?      -> Chọn khu?
+PHA CAI NAO!!  -> Phá cái nào!!
 ```
 
-## Batch 26 production precedence
-
-Batch 26 đã chứng minh 209 exact mới có thể đi xuyên production chain cũ mà không bị các lớp 0.6.11-0.6.14 ghi đè:
+## Batch29 exact merge
 
 ```text
-Legacy shadow rows                 = 209
-Dynamic sink rows                  = 4
-0.6.11 exact collisions masked     = 149
-0.6.13 exact collisions masked     = 23
-0.6.14 exact collisions masked     = 2
-Global-map preservation entries    = 29
-Effective dynamic hits             = 10
-Dynamic hits identical             = 6
-Dynamic differing hits safely sunk = 4
-Legacy gate before                 = 397
-Legacy gate during wrapper         = 397
-Final exact static mismatches      = 0
-Errors                             = 0
-RESULT                             = STATIC PRECEDENCE PASS
+Input B20/B24/B27/B28          = 295
+Unique final exact keys        = 295
+Runtime-fit protected keys     = 49
+Historical no-op/unfit         = 13
+Already-locked identical       = 13
+Protected wording conflicts    = 0
+New exact rows exported        = 282
+Final exact verification set   = 295
+Errors                         = 0
+RESULT                         = STATIC PASS
 ```
 
-Audit:
+Validation:
 
-`checkpoints/0.6.35.0/BATCH26_PRECEDENCE_AUDIT.txt`
+`checkpoints/0.6.39.0/BATCH29_MERGE_VALIDATION.txt`
 
-## Production builder đã sẵn sàng
+## Batch30 production builder
 
 Windows launcher:
 
-`tools/00_BUILD_0.6.35.0_BATCH26_FINAL_EXACT.cmd`
+`tools/00_BUILD_0.6.40.0_BATCH30_ACCENT_SWEEP.cmd`
 
 Python builder:
 
-`tools/build_gaia_06350_batch26_final.py`
+`tools/build_gaia_06400_batch30_accent_sweep.py`
 
-Builder giữ nguyên production chain:
+Builder selftest PASS:
 
 ```text
-0.6.35 staging
- -> 0.6.14
-    -> 0.6.13
-       -> 0.6.12
-          -> 0.6.11
-             -> 0.6.10 exact builder
+New exact targets     = 282
+Final exact verify    = 295
+Legacy shadows        = 282
+Dynamic sinks         = 5
+Legacy gate           = 397/397
+Gameplay masks        = 180
+Compact13 masks       = 67
+Compact14 masks       = 2
+Global-map preserves  = 33
+Source restore        = PASS
 ```
 
-Không tạo encoder/ROM patch engine thứ hai.
+Production chain vẫn là 0.6.14 -> 0.6.10 đã chứng minh. Không tạo encoder hoặc ROM patch engine thứ hai.
+
+Sau actual clean-ROM build, **295/295 exact fields phải khớp byte-for-byte** mới PASS.
+
+## Whole-game scanner
+
+Read-only scanner:
+
+```text
+tools/00_SCAN_0.6.38.0_FULL_JAPANESE.cmd
+tools/scan_full_japanese_text_06380.py
+```
+
+Nó quét CLEAN `PRGPACK.BDP` + `SLPS_020.75`, loại vùng font/mapping và so với Translation Master hiện tại.
+
+Output cần gửi lại:
+
+```text
+GaiaMaster_0.6.38.0_FULL_JAPANESE_SCAN.csv
+GaiaMaster_0.6.38.0_FULL_JAPANESE_SCAN_REPORT.txt
+```
+
+Các screenshot anchor được ưu tiên gồm Memory Card, story dialogue, tutorial, battle-card help và end-turn text.
 
 ## Clean-ROM gate
-
-Chỉ nhận Japan CLEAN BIN:
 
 ```text
 SHA1 f4d5298583c90d89c4b7e51d2dde160ee07f2aec
 ```
 
-## Hard output verification
+## Runtime checkpoint
 
-Sau khi inner production builder chạy xong, 0.6.35 đọc lại BIN đầu ra và dùng readable 0.6.10 encoder + frozen codepage để xác minh toàn bộ final exact set:
+Ảnh cũ còn `LUOT ジガ` cho thấy emulator chưa chạy output mới, vì key `%sの番よ！` đã được exact-map thành `Tới %s` trong manifest hiện tại.
 
-```text
-222 / 222 exact fields phải khớp byte-for-byte
-```
-
-Chỉ một field lệch cũng làm build fail.
-
-## CI hiện tại
-
-Đã PASS:
-
-- production precedence audit;
-- real CSV staging + restoration hash selftest;
-- final Batch26 builder `--selftest`.
-
-GitHub không chứa CLEAN ROM nên chưa chạy actual image build trên CI.
+Bản EASY 0.6.40 tự tìm CLEAN BIN bằng SHA1 để tránh build nhầm BIN cũ. Sau build phải mở đúng output có tên 0.6.40.0, không dùng Recent/History của emulator nếu nó trỏ vào image cũ.
 
 ## Production architecture không đổi
 
@@ -102,18 +121,18 @@ frozen 60-glyph Vietnamese codepage
 legacy Alpha coverage gate = 397/397
 ```
 
-Không renderer hook, pointer redirect, 12x16, 6x12, composite overlay hay retune font nếu chưa có runtime evidence mới.
+Không renderer hook, pointer redirect, 12x16, 6x12, composite overlay hoặc font retune nếu chưa có runtime evidence mới.
 
 ## Status
 
-**0.6.35.0 = BUILD-READY / STATIC PRECEDENCE PASS.**
+**0.6.40.0 = BUILD-READY / STATIC PASS.**
 
 Chưa phải Runtime PASS.
 
 ## Tiếp theo
 
-1. Kéo CLEAN Japan BIN vào `00_BUILD_0.6.35.0_BATCH26_FINAL_EXACT.cmd`.
-2. Yêu cầu report 0.6.35.0 báo **222/222 exact byte verification** và source restore PASS.
-3. Chạy game thật.
-4. Gửi screenshot/log để kiểm Japanese còn sót, clipping, token, intro separators và glyph.
-5. Chỉ khi runtime evidence đạt mới nâng lên Runtime PASS.
+1. Build 0.6.40 từ CLEAN BIN.
+2. Kiểm report phải có 295/295 byte verification và gate 397/397.
+3. Chạy whole-game scanner trên CLEAN BIN.
+4. Import scanner output để mở rộng master sang story/tutorial/help.
+5. Làm batch lớn tiếp theo theo visible-runtime coverage, không chỉ dựa trên số row cũ.
