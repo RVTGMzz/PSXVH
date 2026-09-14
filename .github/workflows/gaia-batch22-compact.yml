@@ -1,0 +1,32 @@
+name: Gaia Master Batch 22 Compact
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [gaia-character-select-font-atlas-reverse-01]
+    paths:
+      - "games/GaiaMaster-Kamigami-no-Board-Game/translation/BATCH22_COMPACT_0.6.31.0.csv"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/tools/validate_batch22_compact_06310.py"
+      - ".github/workflows/gaia-batch22-compact.yml"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Validate compact map
+        run: python games/GaiaMaster-Kamigami-no-Board-Game/tools/validate_batch22_compact_06310.py
+      - name: Persist report
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add games/GaiaMaster-Kamigami-no-Board-Game/checkpoints/0.6.31.0/BATCH22_VALIDATION.txt
+          if ! git diff --cached --quiet; then
+            git commit -m "Gaia Master 0.6.31.0: store Batch 22 compact validation"
+            git push
+          fi
