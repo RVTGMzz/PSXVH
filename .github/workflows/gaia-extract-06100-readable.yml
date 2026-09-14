@@ -1,0 +1,44 @@
+name: Gaia Extract 0.6.10 Readable Builder
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - gaia-character-select-font-atlas-reverse-01
+    paths:
+      - "games/GaiaMaster-Kamigami-no-Board-Game/tools/build_gaia_06100_hybrid_accent_b1.py"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/tools/extract_gaia_06100_readable.py"
+      - ".github/workflows/gaia-extract-06100-readable.yml"
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Extract and verify exact readable source
+        run: python games/GaiaMaster-Kamigami-no-Board-Game/tools/extract_gaia_06100_readable.py
+
+      - name: Syntax check readable source
+        run: python -m py_compile games/GaiaMaster-Kamigami-no-Board-Game/tools/build_gaia_06100_hybrid_accent_b1_READABLE.py
+
+      - name: Commit readable snapshot
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add games/GaiaMaster-Kamigami-no-Board-Game/tools/build_gaia_06100_hybrid_accent_b1_READABLE.py
+          if git diff --cached --quiet; then
+            echo "Readable snapshot already current."
+          else
+            git commit -m "Gaia Master: store verified readable 0.6.10 exact builder"
+            git push
+          fi
