@@ -1,0 +1,22 @@
+GAIA MASTER 0.6.37.0 BATCH 28 SAME-ROW ACCENT TRANSPLANT
+==============================================================================
+Translation Master rows      : 596
+Previously protected exact   : 224
+Fallback rows examined       : 372
+New safe accent rewrites     : 87
+No vi_full reference         : 53
+No lexical proof             : 104
+Too long                     : 128
+Unsafe codepage              : 0
+Runtime token rejected       : 0
+
+SAFETY CONTRACT:
+- same row only: vi_game_current is compared to that row's vi_full
+- only accent/case/word-boundary transfer with accent-fold lexical proof
+- no synonym translation and no fallback-semantic inference
+- abbreviations such as VK/SK remain abbreviations
+- runtime tokens must match identity/order
+- result must fit the original Japanese field
+- result must be frozen-codepage/CP932 safe
+
+RESULT: STATIC TRANSPLANT PASS

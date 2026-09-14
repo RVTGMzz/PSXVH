@@ -1,0 +1,88 @@
+﻿file,offset_hex,japanese,vi_accented,field_bytes,vi_bytes,old_fallback,vi_full_reference,source
+PRGPACK.BDP,0x530,なかなかやるね,Khá lắm,14,14,KHA LAM,Khá lắm,same-row-lexical-accent-transplant
+PRGPACK.BDP,0x32060,なかなかやるね,Khá lắm,14,14,KHA LAM,Khá lắm,same-row-lexical-accent-transplant
+PRGPACK.BDP,0x3f784,なかなかやるね,Khá lắm,14,14,KHA LAM,Khá lắm,same-row-lexical-accent-transplant
+PRGPACK.BDP,0x4d374,なかなかやるね,Khá lắm,14,14,KHA LAM,Khá lắm,same-row-lexical-accent-transplant
+PRGPACK.BDP,0x5b048,なかなかやるね,Khá lắm,14,14,KHA LAM,Khá lắm,same-row-lexical-accent-transplant
+PRGPACK.BDP,0x674e0,手持ちの武器カードがいっぱいだよ,Thẻ VK đã đầy,32,26,THE VK DA DAY,Thẻ vũ khí đã đầy,same-row-lexical-accent-transplant
+PRGPACK.BDP,0x67610,イベントカードをもらえるよ,Nhận thẻ SK,26,22,NHAN THE SK,Nhận một thẻ sự kiện,same-row-lexical-accent-transplant
+PRGPACK.BDP,0x677e4,%dゼニーもとられちゃった,mất %d Zenny,24,22,MAT %d ZENNY,Bị lấy mất %d Zenny,same-row-lexical-accent-transplant
+PRGPACK.BDP,0x67834,土地を一つも持ってないから,chưa có đất,26,22,CHUA CO DAT,Vì chưa có mảnh đất nào,same-row-lexical-accent-transplant
+PRGPACK.BDP,0x67878,税金たまってないじゃない,Chưa có thuế,24,24,CHUA CO THUE,Chưa có tiền thuế tích lũy,same-row-lexical-accent-transplant
+PRGPACK.BDP,0x67894,タイミング悪すぎぃ,xui quá,18,14,XUI QUA,Đúng lúc xui quá,same-row-lexical-accent-transplant
+PRGPACK.BDP,0x678e4,ルートを切りかえる？,Đổi đường?,20,20,DOI DUONG?,Đổi tuyến đường?,same-row-lexical-accent-transplant
+PRGPACK.BDP,0x6793c,このままにしとくわよ,Giữ nguyên,20,20,GIU NGUYEN,Giữ nguyên như vậy,same-row-lexical-accent-transplant
+PRGPACK.BDP,0x67954,ルートを切りかえるね,Đổi đường,20,18,DOI DUONG,Đổi tuyến đường nhé,same-row-lexical-accent-transplant
+PRGPACK.BDP,0x679ac,イベントカードを,Thẻ SK,16,12,THE SK,Thẻ sự kiện,same-row-lexical-accent-transplant
+PRGPACK.BDP,0x679d0,ことがあるよ！,có thể!,14,14,CO THE!,có thể xảy ra!,same-row-lexical-accent-transplant
+PRGPACK.BDP,0x67a0c,ことができるよ！,có thể!,16,14,CO THE!,có thể thực hiện!,same-row-lexical-accent-transplant
+PRGPACK.BDP,0x67a58,すると体力を回復して,hồi HP,20,12,HOI HP,sẽ hồi HP,same-row-lexical-accent-transplant
+PRGPACK.BDP,0x67ab0,やめる,Hủy,6,6,HUY,Hủy,same-row-lexical-accent-transplant
+PRGPACK.BDP,0x67bb4,どのエリアにする？,Chọn khu?,18,18,CHON KHU?,Chọn khu vực nào?,same-row-lexical-accent-transplant
+PRGPACK.BDP,0x67c64,ＯＫをえらんでね,Chọn OK,16,14,CHON OK,Chọn OK nhé,same-row-lexical-accent-transplant
+PRGPACK.BDP,0x67d68,%sを建てたよ,xây %s,12,10,XAY %s,Đã xây %s,same-row-lexical-accent-transplant
+PRGPACK.BDP,0x67dc4,あーあぁ,Chán,8,8,CHAN,Chán thật,same-row-lexical-accent-transplant
+PRGPACK.BDP,0x67dec,%sさんの資産とカードが,TS+thẻ %s,22,16,TS+THE %s,Tài sản và thẻ của %s,same-row-lexical-accent-transplant
+PRGPACK.BDP,0x67e04,%sさんのものになるよ,thuộc %s,20,14,THUOC %s,sẽ thuộc về %s,same-row-lexical-accent-transplant
+PRGPACK.BDP,0x67edc,次の武器カードをもらったよ,Nhận thẻ VK,26,22,NHAN THE VK,Nhận thẻ vũ khí sau,same-row-lexical-accent-transplant
+PRGPACK.BDP,0x67ef8,手持ちの武器カードがいっぱいだよ,Thẻ VK đã đầy,32,26,THE VK DA DAY,Thẻ vũ khí đã đầy,same-row-lexical-accent-transplant
+PRGPACK.BDP,0x67f2c,次のイベントカードをもらったよ,Nhận thẻ SK,30,22,NHAN THE SK,Nhận thẻ sự kiện sau,same-row-lexical-accent-transplant
+PRGPACK.BDP,0x67f4c,手持ちのイベントカードがいっぱいで,Thẻ SK đã đầy,34,26,THE SK DA DAY,Thẻ sự kiện đã đầy,same-row-lexical-accent-transplant
+PRGPACK.BDP,0x67f94,「%s」を捨てて,Bỏ %s,14,8,BO %s,Bỏ %s,same-row-lexical-accent-transplant
+PRGPACK.BDP,0x68024,表武器カード,Thẻ VK,12,12,THE VK,Thẻ vũ khí,same-row-lexical-accent-transplant
+PRGPACK.BDP,0x680a0,%sを売ったよ,bán %s,12,10,BAN %s,Đã bán %s,same-row-lexical-accent-transplant
+PRGPACK.BDP,0x686b4,同じマスに止まってる人のお金を,Lấy tiền cùng ô,30,30,LAY TIEN CUNG O,Lấy tiền người cùng ô,same-row-lexical-accent-transplant
+PRGPACK.BDP,0x686ec,通行税なんかふみたおしちゃえ！！,Quỵt phí QD!!,32,26,QUYT PHI QD!!,Quỵt luôn phí qua đường!!,same-row-lexical-accent-transplant
+PRGPACK.BDP,0x68748,神さまからのプレゼント！！,Quà thần!!,26,20,QUA THAN!!,Quà từ thần linh!!,same-row-lexical-accent-transplant
+PRGPACK.BDP,0x687f8,お金なんかふみたおしちゃえ！！,Quỵt tiền!!,30,22,QUYT TIEN!!,Quỵt luôn tiền phải trả!!,same-row-lexical-accent-transplant
+PRGPACK.BDP,0x688b0,何で わしが はらわにゃ ならんのだ！！,Sao ta phải trả!!,37,34,SAO TA PHAI TRA!!,Sao ta phải trả chứ!!,same-row-lexical-accent-transplant
+PRGPACK.BDP,0x688d8,かぅぁ～もぉ～ん,Come on,16,14,COME ON,Come on!,same-row-lexical-accent-transplant
+PRGPACK.BDP,0x68b08,%dゼニーもらってゆくぜ,lấy %d Zenny,22,22,LAY %d ZENNY,Ta lấy %d Zenny đây,same-row-lexical-accent-transplant
+PRGPACK.BDP,0x68bbc,どれを 破壊してくれようぞ！！,Phá cái nào!!,29,26,PHA CAI NAO!!,Phá cái nào đây!!,same-row-lexical-accent-transplant
+PRGPACK.BDP,0x68bec,ふっ,Hừ,4,4,HU,Hừ,same-row-lexical-accent-transplant
+PRGPACK.BDP,0x68cb0,所有者  %s,Chủ %s,10,10,CHU %s,Chủ sở hữu %s,same-row-lexical-accent-transplant
+PRGPACK.BDP,0x68d28,らいます,nhận,8,8,NHAN,sẽ nhận,same-row-lexical-accent-transplant
+PRGPACK.BDP,0x68d54,としてしはらい,trả,14,6,TRA,được trả dưới dạng,same-row-lexical-accent-transplant
+PRGPACK.BDP,0x68d84,わります,đổi,8,6,DOI,thay đổi,same-row-lexical-accent-transplant
+PRGPACK.BDP,0x68db0,ます,sẽ,4,4,SE,sẽ,same-row-lexical-accent-transplant
+PRGPACK.BDP,0x68dd8,が手に入ります,sẽ nhận,14,14,SE NHAN,sẽ nhận được,same-row-lexical-accent-transplant
+PRGPACK.BDP,0x68de8,てば武器カード,thẻ VK,14,12,THE VK,thẻ vũ khí,same-row-lexical-accent-transplant
+PRGPACK.BDP,0x68e18,ベントカードが,thẻ SK,14,12,THE SK,thẻ sự kiện,same-row-lexical-accent-transplant
+SLPS_020.75,0x17b0,ファイアボール,Cầu lửa,14,14,CAULUA,Cầu lửa,same-row-lexical-accent-transplant
+SLPS_020.75,0x17f0,エストック,Estoc,10,10,ESTOC,Estoc,same-row-lexical-accent-transplant
+SLPS_020.75,0x1818,ジプシータロウ,Gypsy,14,10,GYPSY,Gypsy Taro,same-row-lexical-accent-transplant
+SLPS_020.75,0x18f0,ボーイナイフ,Bowie,12,10,BOWIE,Dao Bowie,same-row-lexical-accent-transplant
+SLPS_020.75,0x1984,指定武器破壊,Phá VK,12,12,PHA VK,Phá vũ khí chỉ định,same-row-lexical-accent-transplant
+SLPS_020.75,0x1994,指定武器取得,Lấy VK,12,12,LAY VK,Lấy vũ khí chỉ định,same-row-lexical-accent-transplant
+SLPS_020.75,0x1a48,ボーイナイフ,Bowie,12,10,BOWIE,Dao Bowie,same-row-lexical-accent-transplant
+SLPS_020.75,0x2078,魔法使いの援助,Pháp sư,14,14,PHAP SU,Pháp sư trợ giúp,same-row-lexical-accent-transplant
+SLPS_020.75,0x20c8,領主からの使者,Sứ giả,14,12,SU GIA,Sứ giả lãnh chúa,same-row-lexical-accent-transplant
+SLPS_020.75,0x20f0,大領主の協力,Đại LC,12,12,DAI LC,Đại lãnh chúa hỗ trợ,same-row-lexical-accent-transplant
+SLPS_020.75,0x212c,大国からの使者,Sứ giả,14,12,SU GIA,Sứ giả đại quốc,same-row-lexical-accent-transplant
+SLPS_020.75,0x2140,大国からの使者,Sứ giả,14,12,SU GIA,Sứ giả đại quốc,same-row-lexical-accent-transplant
+SLPS_020.75,0x21a4,魔王のきょうふ,sợ Ma,14,10,SO MA,Nỗi sợ Ma vương,same-row-lexical-accent-transplant
+SLPS_020.75,0x21cc,魔王のゆうわく,cám dỗ,14,12,CAM DO,Ma vương cám dỗ,same-row-lexical-accent-transplant
+SLPS_020.75,0x22f8,サーカス,xiếc,8,8,XIEC,Rạp xiếc,same-row-lexical-accent-transplant
+SLPS_020.75,0x28ac,土地の資産価値もどーんとアップ！,Giá trị đất tăng,32,32,GIATRI DAT TANG,Giá trị đất tăng mạnh!,same-row-lexical-accent-transplant
+SLPS_020.75,0x2c70,大チャンス！ライバルと武器カードを,Cơ hội Đổi thẻ VK,34,34,COHOI DOI THE VK,Cơ hội lớn! Đổi thẻ vũ khí với đối thủ,same-row-lexical-accent-transplant
+SLPS_020.75,0x2ca4,壊してくれるわよ,Sẽ phá,16,12,SE PHA,Sẽ phá cho bạn,same-row-lexical-accent-transplant
+SLPS_020.75,0x2d88,使うとダイスをふるかわりに,thay xúc xắc,26,24,THAY XUCXAC,Dùng thay cho việc gieo xúc xắc,same-row-lexical-accent-transplant
+SLPS_020.75,0x2e50,死神のシンボルを建てると、,Xây Tử thần,26,22,XAY TU THAN,Xây biểu tượng Tử thần sẽ,same-row-lexical-accent-transplant
+SLPS_020.75,0x2ea4,沼のシンボルを建てれば、,Xây đầm lầy,24,22,XAY DAM LAY,Xây biểu tượng đầm lầy sẽ,same-row-lexical-accent-transplant
+SLPS_020.75,0x2efc,サーカスのシンボルを建てると、,Xây xiếc,30,16,XAY XIEC,Xây biểu tượng rạp xiếc sẽ,same-row-lexical-accent-transplant
+SLPS_020.75,0x2fb4,庭園のシンボルを建てると、,Xây vườn,26,16,XAY VUON,Xây biểu tượng vườn sẽ,same-row-lexical-accent-transplant
+SLPS_020.75,0x300c,女神のシンボルを建てると、,Xây Nữ thần,26,22,XAY NU THAN,Xây biểu tượng Nữ thần sẽ,same-row-lexical-accent-transplant
+SLPS_020.75,0x3064,温泉のシンボルを建てると、,Xây suối,26,16,XAY SUOI,Xây biểu tượng suối nóng sẽ,same-row-lexical-accent-transplant
+SLPS_020.75,0x30bc,はかばのシンボルを建てると、,Xây nghĩa,28,18,XAY NGHIA,Xây biểu tượng nghĩa địa sẽ,same-row-lexical-accent-transplant
+SLPS_020.75,0x3118,塔のシンボルを建てると、,Xây tháp,24,16,XAY THAP,Xây biểu tượng tháp sẽ,same-row-lexical-accent-transplant
+SLPS_020.75,0x3174,邪神のシンボルを建てると、,Xây Tà thần,26,22,XAY TA THAN,Xây biểu tượng Tà thần sẽ,same-row-lexical-accent-transplant
+SLPS_020.75,0x3278,「ふみたおし」,「Quỵt」,14,12,「QUYT」,Quỵt tiền,same-row-lexical-accent-transplant
+SLPS_020.75,0x32a8,氷の女神のくちづけでしばらく,Nụ thần băng,28,24,NU THAN BANG,Nụ hôn Nữ thần băng khiến tạm thời,same-row-lexical-accent-transplant
+SLPS_020.75,0x32c8,「氷の女神のくちづけ」,「hôn băng」,22,20,「HON BANG」,Nụ hôn Nữ thần băng,same-row-lexical-accent-transplant
+SLPS_020.75,0x3330,ルートを変えてあげる,Đổi đường,20,18,DOI DUONG,Đổi tuyến đường,same-row-lexical-accent-transplant
+SLPS_020.75,0x33ac,手持ちのイベントカードがいっぱいで,Thẻ SK đã đầy,34,26,THE SK DA DAY,Thẻ sự kiện đã đầy,same-row-lexical-accent-transplant
+SLPS_020.75,0x3404,「%s」をあきらめたよ,bỏ %s,20,8,BO %s,Từ bỏ %s,same-row-lexical-accent-transplant
+SLPS_020.75,0x378c,キャンセル,Hủy,10,6,HUY,Hủy,same-row-lexical-accent-transplant
+SLPS_020.75,0x37e4,何か売っちゃう ？,Bán gì?,17,14,BAN GI?,Bán thứ gì đó?,same-row-lexical-accent-transplant
+SLPS_020.75,0x380c,総資産を見たけど,tổng TS,16,14,TONG TS,Đã xem tổng tài sản,same-row-lexical-accent-transplant
+SLPS_020.75,0x3850,総資産を見たけど,tổng TS,16,14,TONG TS,Đã xem tổng tài sản,same-row-lexical-accent-transplant
