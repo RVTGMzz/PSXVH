@@ -1,0 +1,53 @@
+GAIA MASTER 0.6.41.0 BATCH 31 RESIDUAL ALPHA PRIORITY
+================================================================================
+Translation Master rows      : 596
+Protected B29 exact keys     : 295
+Protected Batch19 locks      : 24
+Runtime-fit historical locks : 25
+Historical no-op/unfit rows  : 13
+Residual fallback rows       : 265
+Unique JP+fallback clusters  : 242
+
+REASON BREAKDOWN (clusters / rows):
+- NO_VI_FULL                  :  34 /  44
+- VI_FULL_TOO_LONG            : 207 / 220
+- VI_FULL_TOKEN_MISMATCH      :   1 /   1
+
+TOP 30 PRIORITY CLUSTERS:
+01. x06 [NO_VI_FULL] field=12 fallback='THE VK' jp='武器カードを' full=''
+02. x05 [NO_VI_FULL] field=12 fallback='THE VK' jp='武器カードは' full=''
+03. x05 [VI_FULL_TOO_LONG] field=6 fallback='KHA DAY' jp='やるね' full='Khá đấy'
+04. x02 [NO_VI_FULL] field=10 fallback='HET' jp='終了ターン' full=''
+05. x02 [VI_FULL_TOO_LONG] field=16 fallback='%s MAY MAN!!' jp='%sのラッキー！！' full='%s gặp may!!'
+06. x02 [VI_FULL_TOO_LONG] field=4 fallback='BENH' jp='病院' full='Bệnh viện'
+07. x02 [VI_FULL_TOO_LONG] field=14 fallback='BO BOT THE' jp='なにか捨ててね' full='Hãy bỏ bớt một thẻ'
+08. x02 [VI_FULL_TOO_LONG] field=8 fallback='GIA KIM' jp='れん金術' full='Giả kim thuật'
+09. x02 [VI_FULL_TOO_LONG] field=6 fallback='HIEPSI' jp='騎士団' full='Hiệp sĩ đoàn'
+10. x02 [VI_FULL_TOO_LONG] field=8 fallback='PHA SHOP' jp='お店破壊' full='Phá cửa hàng'
+11. x02 [VI_FULL_TOO_LONG] field=6 fallback='TIEMVK' jp='武器屋' full='Tiệm vũ khí'
+12. x02 [VI_FULL_TOO_LONG] field=18 fallback='TRA %d ZENNY' jp='%dゼニーはらってね' full='Trả %d Zenny'
+13. x02 [VI_FULL_TOO_LONG] field=6 fallback='TUVIEN' jp='修道会' full='Tu viện'
+14. x01 [NO_VI_FULL] field=26 fallback='ATK X2' jp='攻撃力を２倍にアップさせる' full=''
+15. x01 [NO_VI_FULL] field=12 fallback='CHUAHP' jp='いやしのうた' full=''
+16. x01 [NO_VI_FULL] field=8 fallback='CUNG' jp='最強の弓' full=''
+17. x01 [NO_VI_FULL] field=24 fallback='CUOP THE VK' jp='指定武器カード１枚を盗む' full=''
+18. x01 [NO_VI_FULL] field=12 fallback='DAO' jp='盗賊のオーブ' full=''
+19. x01 [NO_VI_FULL] field=22 fallback='DE CHI MANG' jp='クリティカルがでやすい' full=''
+20. x01 [NO_VI_FULL] field=22 fallback='DEF SPD7 1L' jp='防御\u3000速度７\u3000使い捨て' full=''
+21. x01 [NO_VI_FULL] field=16 fallback='DO 1 LAN' jp='使い捨てアイテム' full=''
+22. x01 [NO_VI_FULL] field=8 fallback='DON' jp='みがわり' full=''
+23. x01 [NO_VI_FULL] field=14 fallback='DONGDAT' jp='アースクエイク' full=''
+24. x01 [NO_VI_FULL] field=14 fallback='EXCAL' jp='エクスカリバー' full=''
+25. x01 [NO_VI_FULL] field=12 fallback='FEATHR' jp='フェザーレイ' full=''
+26. x01 [NO_VI_FULL] field=22 fallback='GIAM CX' jp='あいての命中率を落とす' full=''
+27. x01 [NO_VI_FULL] field=14 fallback='GIAOMAU' jp='ブラッドスピア' full=''
+28. x01 [NO_VI_FULL] field=18 fallback='HOI60HP' jp='ＨＰを６０回復する' full=''
+29. x01 [NO_VI_FULL] field=26 fallback='HOISINH100HP' jp='死亡するとＨＰ１００で復活' full=''
+30. x01 [NO_VI_FULL] field=10 fallback='HSINH' jp='復活の霊薬' full=''
+
+NOTE:
+- inventory only; no ROM or source master mutation
+- protection is exact file+offset, never global fallback guessing
+- next batch should curate the highest-frequency safe clusters first
+
+RESULT: STATIC INVENTORY PASS
