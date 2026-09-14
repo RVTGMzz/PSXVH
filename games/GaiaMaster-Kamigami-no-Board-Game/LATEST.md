@@ -2,45 +2,48 @@
 
 Cập nhật: **2026-09-14**
 
-## CURRENT — 0.6.27.0 BATCH 18
+## CURRENT — 0.6.28.0 BATCH 19
 
-Trọng tâm: **Residual Killer / Consensus Fit** — săn các row còn trống và các câu đã có nghĩa Việt nhưng chưa từng vừa field PS1.
+Trọng tâm: **Exact-Offset Lock / Session Handoff**.
 
 Base trước runtime harvest:
 
 ```text
 story/front mappings  = 19
 Japanese semantic map = 437
-fantasy fallback map  = 354
-dynamic literals      = 229
+fantasy fallback map  = 355
+dynamic literals      = 231
 ```
 
-Batch 18 manual delta:
+Batch 19 manual delta:
 
 ```text
-9 semantic mappings
-9 fantasy fallback mappings
-5 dynamic literals
+20 Japanese semantic edits
+20 fantasy fallback edits
+12 dynamic literals
 ```
 
-Điểm mới quan trọng của Batch 18:
+Điểm mới quan trọng:
 
-- Consensus translation giữa các row lặp trong 6 Translation Master.
-- Fit V2: semantic -> consensus -> vi_full -> compact -> micro -> ultra -> STYLE -> accent fallback.
-- Whitespace normalization để bắt duplicate chỉ khác khoảng trắng/full-width space.
-- Sinh `GaiaMaster_0.6.27.0_RESIDUAL_ALPHA.csv` cho row Alpha còn trống.
-- Sinh `GaiaMaster_0.6.27.0_FIT_PRESSURE.csv` cho row có bản Việt nhưng vẫn quá dài, kèm số byte vượt.
+- Giữ Residual Killer / Consensus Fit của Batch 18.
+- Export mọi `vi_full` đã fit sang exact `file + offset` compact override path trước khi gọi inner builder.
+- Không ghi đè các historical exact lock 0.6.14.1.
+- Sinh 3 report: `RESIDUAL_ALPHA`, `FIT_PRESSURE`, `EXACT_OFFSET_LOCKS`.
+- Output recovery quét cả package folder và source tạm.
+- Có `SESSION_HANDOFF_0.6.28.0.md` và `NEXT_SESSION_START_0.6.28.0.txt` để chuyển phiên an toàn.
 
 Repo material:
 
 ```text
-BATCH18_0.6.27.0.md
-translation/BATCH18_JP_EXACT_0.6.27.0.csv
-translation/BATCH18_STYLE_0.6.27.0.csv
-translation/BATCH18_DYNAMIC_0.6.27.0.csv
-checkpoints/0.6.27.0/README.md
+BATCH19_0.6.28.0.md
+SESSION_HANDOFF_0.6.28.0.md
+NEXT_SESSION_START_0.6.28.0.txt
+translation/BATCH19_JP_EXACT_0.6.28.0.csv
+translation/BATCH19_STYLE_0.6.28.0.csv
+translation/BATCH19_DYNAMIC_0.6.28.0.csv
+checkpoints/0.6.28.0/README.md
 ```
 
-Production lock không đổi: native 12x12 / 72-byte / 4bpp, static mapping-only, legacy coverage gate 397/397. Font không chỉnh.
+Production lock không đổi: native 12x12 / 72-byte / 4bpp, static mapping-only, frozen codepage, legacy coverage gate 397/397. Font không chỉnh.
 
-`0.6.27.0` là candidate; syntax PASS. Clean-ROM build và runtime QA vẫn chờ test thực tế.
+`0.6.28.0` là candidate; loader syntax PASS. Clean-ROM build và runtime QA vẫn chờ test thực tế.
