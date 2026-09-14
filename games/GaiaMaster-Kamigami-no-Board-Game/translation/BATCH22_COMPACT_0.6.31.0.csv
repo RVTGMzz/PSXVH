@@ -1,12 +1,12 @@
 japanese,vi_compact,note
 今からふるダイスの目がこのダイス,So số sắp gieo,pressure<=6B; preserve fragment meaning
 １　（速い）,1Nhanh,pressure<=6B; menu compact
-土地代の２０％とられるよ,-20% giá đất,pressure<=6B
+土地代の２０％とられるよ,Mất20% đất,pressure<=6B; production lock aligned
 はい　　いいえ,Có/Ko,pressure<=6B; binary choice
-使用するカードをえらんでね,Chọn thẻ dùng,pressure<=6B
+使用するカードをえらんでね,Chọn thẻ,pressure<=6B; production lock aligned
 サンダー,Sấm,pressure<=6B
 あいてのカード一枚を破壊する,Phá thẻ địch,pressure<=6B
-%sの番よ！,Tới %s,pressure<=6B; runtime token preserved
+%sの番よ！,Tới %s,pressure<=6B; runtime token preserved; historical Lượt %s was unfit no-op
 捨てたよ,Bỏ!,pressure<=6B
 アニメーション,H.ảnh,pressure<=6B; compact menu label
 %sに止まったよ,Dừng %s,pressure<=6B; runtime token preserved
