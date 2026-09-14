@@ -5,33 +5,34 @@ Branch: `gaia-character-select-font-atlas-reverse-01`
 
 ## Current candidate
 
-**0.6.22.0 — Deep Event / Menu / Card Batch 13**
+**0.6.23.0 — Property / Economy / Card Batch 14**
 
 Current scale:
 
 ```text
 story/front mappings  = 19
-Japanese semantic map = 359
-fantasy fallback map  = 284
-dynamic literals      = 103
+Japanese semantic map = 397
+fantasy fallback map  = 327
+dynamic literals      = 113
 ```
 
-Batch 13 delta:
+Batch 14 delta:
 
 ```text
-Japanese semantic new/edited = 61
-fantasy fallback new/edited  = 58
-dynamic literals new/edited  = 24
+Japanese semantic map delta = 50
+new semantic keys           = 38
+semantic re-edits           = 1
+fantasy fallback delta      = 46
+dynamic literal delta       = 16
 ```
 
-Repo checkpoint material:
+Repo material:
 
 ```text
-BATCH13_0.6.22.0.md
-translation/BATCH13_JP_EXACT_0.6.22.0.csv
-translation/BATCH13_STYLE_0.6.22.0.csv
-translation/BATCH13_DYNAMIC_0.6.22.0.csv
-checkpoints/0.6.22.0/
+BATCH14_0.6.23.0.md
+translation/BATCH14_JP_EXACT_0.6.23.0.csv
+translation/BATCH14_STYLE_0.6.23.0.csv
+translation/BATCH14_DYNAMIC_0.6.23.0.csv
 ```
 
 Production locks remain unchanged:
@@ -44,7 +45,7 @@ legacy Alpha coverage gate = 397/397
 
 Translation policy: Japanese-first, natural Vietnamese if it fits, compact fallback if needed, preserve runtime tokens `%s`, `%d`, `%4d`, `%+3d`.
 
-Tone: readable medieval fantasy. Prefer terms such as `lãnh địa`, `lộ phí`, `Thánh địa`, `Ma vương`, `Tà thần`, `Thần Thời`, `Thần Vận`, `thánh kiếm`, `ma pháp`, `phong ấn`, `tỉ thí`.
+Tone: readable medieval fantasy. Prefer terms such as `lãnh địa`, `lộ phí`, `ngân quỹ`, `Thánh địa`, `Ma vương`, `Tà thần`, `Thần Thời`, `Thần Vận`, `thần tượng`, `tỉ thí`.
 
 Intro separator cleanup remains mandatory:
 
@@ -53,6 +54,6 @@ NGUOI=CO      -> NGUOI CO
 THEGIOI=BANCO -> THEGIOI BANCO
 ```
 
-Batch 13 specifically attacks split runtime fragments, quoted card labels, dynamic names and board/economy labels such as `Giá trị`, `Lộ phí`, `Quỹ`, `Vô chủ`, `Ô GO`, `Ô chiến`, `Ô quán`, tax squares and `Thánh địa`.
+Batch 14 specifically attacks the property/economy layer and mid-match management UI: sell, mortgage, price, funds, shops, land/area selection, assets, symbols, reclaiming property and card-help toll modifiers.
 
-`0.6.22.0` is a candidate pending clean-ROM build and runtime QA. Next priority: remaining long story/dialog lines, event text still sourced outside Translation Master, deeper card-help screens, and any Japanese text caught in screenshots.
+`0.6.23.0` is a candidate pending clean-ROM build and runtime QA. Next priority: long story/dialog lines, event text sourced outside Translation Master, deeper card-help screens, and any Japanese strings seen in runtime screenshots.
