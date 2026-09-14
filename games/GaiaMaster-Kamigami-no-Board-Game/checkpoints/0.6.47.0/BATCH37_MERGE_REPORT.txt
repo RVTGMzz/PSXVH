@@ -1,0 +1,16 @@
+GAIA MASTER 0.6.47.0 BATCH 37 LARGE MERGE
+============================================================================
+B33 new rows               : 329
+B33 final rows             : 342
+B36 curated rows           : 185
+Merged new exact targets   : 514
+Merged final verify set    : 527
+Errors                     : 0
+
+Guards:
+- merge by exact file+offset
+- revalidate byte fit, runtime tokens and frozen codepage
+- wording conflicts hard-fail
+- no ROM/font/pointer modification
+
+RESULT: STATIC MERGE PASS
