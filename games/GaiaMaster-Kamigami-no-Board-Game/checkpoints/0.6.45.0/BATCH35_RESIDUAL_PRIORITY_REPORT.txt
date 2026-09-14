@@ -1,0 +1,83 @@
+GAIA MASTER 0.6.45.0 BATCH 35 POST-BATCH34 RESIDUAL PRIORITY
+====================================================================================
+Translation Master rows      : 596
+Protected B33 exact keys     : 342
+Protected Batch19 locks      : 24
+Runtime-fit historical locks : 25
+Historical no-op/unfit rows  : 13
+Residual fallback rows       : 218
+Unique JP+fallback clusters  : 217
+
+REASON BREAKDOWN (clusters / rows):
+- NO_VI_FULL                  :  18 /  18
+- VI_FULL_TOO_LONG            : 198 / 199
+- VI_FULL_TOKEN_MISMATCH      :   1 /   1
+
+TOP 60 PRIORITY CLUSTERS:
+01. x02 [VI_FULL_TOO_LONG] field=8 fallback='GIA KIM' jp='れん金術' full='Giả kim thuật'
+02. x01 [NO_VI_FULL] field=8 fallback='CUNG' jp='最強の弓' full=''
+03. x01 [NO_VI_FULL] field=14 fallback='DONGDAT' jp='アースクエイク' full=''
+04. x01 [NO_VI_FULL] field=14 fallback='EXCAL' jp='エクスカリバー' full=''
+05. x01 [NO_VI_FULL] field=12 fallback='FEATHR' jp='フェザーレイ' full=''
+06. x01 [NO_VI_FULL] field=22 fallback='HUT 1/2 DMG' jp='ダメージの１／２を奪う' full=''
+07. x01 [NO_VI_FULL] field=22 fallback='KHOA DO' jp='アイテムを使えなくする' full=''
+08. x01 [NO_VI_FULL] field=10 fallback='KIEM' jp='伝説の聖剣' full=''
+09. x01 [NO_VI_FULL] field=14 fallback='KIEMBAO' jp='ストームソード' full=''
+10. x01 [NO_VI_FULL] field=10 fallback='LUA' jp='ほのおの弓' full=''
+11. x01 [NO_VI_FULL] field=10 fallback='MAKI' jp='最強の魔剣' full=''
+12. x01 [NO_VI_FULL] field=12 fallback='METEOR' jp='ダークメテオ' full=''
+13. x01 [NO_VI_FULL] field=14 fallback='METEOR' jp='メテオフォール' full=''
+14. x01 [NO_VI_FULL] field=12 fallback='MURAMA' jp='魔剣ムラマサ' full=''
+15. x01 [NO_VI_FULL] field=12 fallback='NGOCME' jp='まどわしの玉' full=''
+16. x01 [NO_VI_FULL] field=8 fallback='NHAN' jp='力の指輪' full=''
+17. x01 [NO_VI_FULL] field=8 fallback='O GO' jp='ＧＯマス' full=''
+18. x01 [NO_VI_FULL] field=10 fallback='PHEP+' jp='最強の魔法' full=''
+19. x01 [NO_VI_FULL] field=16 fallback='PHONGAN' jp='封いんされた魔法' full=''
+20. x01 [VI_FULL_TOO_LONG] field=8 fallback='%d ZENNY' jp='%dゼニー' full='%d Zenny'
+21. x01 [VI_FULL_TOO_LONG] field=10 fallback='(NHANH TRUOC)' jp='(速い者順)' full='(Theo thứ tự nhanh)'
+22. x01 [VI_FULL_TOO_LONG] field=30 fallback='1 LUOT RIENG BAN' jp='１ターンのあいだ自分の番だけ、' full='Trong 1 lượt, riêng lượt của bạn'
+23. x01 [VI_FULL_TOO_LONG] field=14 fallback='1 THE SK' jp='トカードが１枚' full='một thẻ sự kiện'
+24. x01 [VI_FULL_TOO_LONG] field=14 fallback='20% THANH THUE' jp='の２０％を税金' full='20% thành thuế'
+25. x01 [VI_FULL_TOO_LONG] field=10 fallback='3 XUCXAC' jp='ダイス３つ' full='3 xúc xắc'
+26. x01 [VI_FULL_TOO_LONG] field=10 fallback='4 XUCXAC' jp='ダイス４つ' full='4 xúc xắc'
+27. x01 [VI_FULL_TOO_LONG] field=4 fallback='BAN' jp='売却' full='Bán'
+28. x01 [VI_FULL_TOO_LONG] field=18 fallback='BAN TS NAO?' jp='どの物件を売るの？' full='Bán tài sản nào?'
+29. x01 [VI_FULL_TOO_LONG] field=16 fallback='BAN TS NAO?' jp='どの物件を売る？' full='Bán tài sản nào?'
+30. x01 [VI_FULL_TOO_LONG] field=14 fallback='BAOTUYET' jp='スノーストーム' full='Bão tuyết'
+31. x01 [VI_FULL_TOO_LONG] field=13 fallback='BAY DI!!' jp='飛ばすぜ ！！' full='Bay đi!!'
+32. x01 [VI_FULL_TOO_LONG] field=8 fallback='BIEUTUONG' jp='シンボル' full='Biểu tượng'
+33. x01 [VI_FULL_TOO_LONG] field=15 fallback='BIEUTUONG NAY' jp='この シンボルは' full='Biểu tượng này'
+34. x01 [VI_FULL_TOO_LONG] field=14 fallback='BO THE NAO?' jp='どれを捨てる？' full='Bỏ thẻ nào?'
+35. x01 [VI_FULL_TOO_LONG] field=6 fallback='CAN DAU VAN' jp='金斗雲' full='Cân Đẩu Vân'
+36. x01 [VI_FULL_TOO_LONG] field=6 fallback='CHAN' jp='あーあ' full='Chán thật'
+37. x01 [VI_FULL_TOO_LONG] field=32 fallback='CHAN PHA SHOP!!' jp='お店破壊なんてガードしちゃえ！！' full='Chặn phá cửa hàng!!'
+38. x01 [VI_FULL_TOO_LONG] field=14 fallback='CHOI VA THANG' jp='ームができ、勝' full='có thể chơi, nếu thắng'
+39. x01 [VI_FULL_TOO_LONG] field=20 fallback='CHON NHANH' jp='早く決めてってばぁ～' full='Nhanh quyết định đi!'
+40. x01 [VI_FULL_TOO_LONG] field=18 fallback='CHON NHANH!!' jp='早く決めてよね！！' full='Quyết định nhanh lên!!'
+41. x01 [VI_FULL_TOO_LONG] field=16 fallback='CHON XONG TS' jp='物件を決めたら、' full='Khi đã chọn tài sản,'
+42. x01 [VI_FULL_TOO_LONG] field=14 fallback='CHUOC DAU?' jp='どこを戻すの？' full='Chuộc lại chỗ nào?'
+43. x01 [VI_FULL_TOO_LONG] field=6 fallback='CHUY' jp='メイス' full='Chùy'
+44. x01 [VI_FULL_TOO_LONG] field=10 fallback='CLAYM' jp='クレイモア' full='Claymore'
+45. x01 [VI_FULL_TOO_LONG] field=16 fallback='CO GI DAY?' jp='何がおこるのかな' full='Chuyện gì sẽ xảy ra?'
+46. x01 [VI_FULL_TOO_LONG] field=8 fallback='CO THE' jp='できます' full='có thể'
+47. x01 [VI_FULL_TOO_LONG] field=14 fallback='CO THE DOI' jp='を切りかえられ' full='có thể chuyển'
+48. x01 [VI_FULL_TOO_LONG] field=14 fallback='CO THE MO' jp='しかけることが' full='có thể phát động'
+49. x01 [VI_FULL_TOO_LONG] field=28 fallback='CO THE THACHDAU' jp='戦いをしかけることができるよ' full='Có thể khiêu chiến'
+50. x01 [VI_FULL_TOO_LONG] field=30 fallback='CO THE THACHDAU' jp='戦闘をしかけることができるよ！' full='Có thể chủ động khiêu chiến!'
+51. x01 [VI_FULL_TOO_LONG] field=6 fallback='CUNG BANG' jp='氷の弓' full='Cung băng'
+52. x01 [VI_FULL_TOO_LONG] field=20 fallback='DA DOI DUONG' jp='ルートを切りかえたよ' full='Đã đổi tuyến đường'
+53. x01 [VI_FULL_TOO_LONG] field=6 fallback='DAI MAY' jp='大幸運' full='Đại may mắn'
+54. x01 [VI_FULL_TOO_LONG] field=6 fallback='DAI XUI' jp='大不幸' full='Đại bất hạnh'
+55. x01 [VI_FULL_TOO_LONG] field=15 fallback='DAM LAI GAN' jp='我に 近付くとは' full='Dám lại gần ta'
+56. x01 [VI_FULL_TOO_LONG] field=8 fallback='DAM NGUYEN' jp='呪いの沼' full='Đầm lầy nguyền rủa'
+57. x01 [VI_FULL_TOO_LONG] field=18 fallback='DANH DAT NAO?' jp='どの土地をせめる？' full='Tấn công đất nào?'
+58. x01 [VI_FULL_TOO_LONG] field=6 fallback='DANTE' jp='ダンテ' full='Dante'
+59. x01 [VI_FULL_TOO_LONG] field=10 fallback='DAO TAC' jp='盗賊の援助' full='Đạo tặc trợ giúp'
+60. x01 [VI_FULL_TOO_LONG] field=23 fallback='DAU 1 TRAN?' jp='いっちょう やってみっか' full='Làm một trận nhé'
+
+NOTE:
+- inventory only; no ROM or source master mutation
+- protection uses B33 final exact set plus proven historical locks
+- next batch should curate the highest-value remaining clusters
+
+RESULT: STATIC INVENTORY PASS
