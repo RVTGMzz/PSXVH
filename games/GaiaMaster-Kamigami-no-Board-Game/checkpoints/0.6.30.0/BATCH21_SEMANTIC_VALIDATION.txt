@@ -1,0 +1,18 @@
+GAIA MASTER 0.6.30.0 BATCH 21 SEMANTIC VALIDATION
+========================================================================
+Semantic keys         : 62
+Residual source rows  : 147
+Residual unique JP    : 62
+Covered residual rows : 147
+Covered unique JP     : 62
+Remaining rows        : 0
+Remaining unique JP   : 0
+Errors                : 0
+
+Guards:
+- semantic key must originate from persisted 0.6.28.0 residual report
+- runtime token identity/order must be preserved
+- Vietnamese text must stay inside CP932 or frozen 60-glyph codepage
+- semantic-only: no ROM/font/pointer modification
+
+RESULT                : STATIC PASS
