@@ -137,6 +137,22 @@ def standalone_string_boundary(data: bytes, off: int, n: int) -> bool:
     return before_ok and after_ok
 
 
+def overlaps_master_owner(file_name: str, off: int, n: int, owner_ranges):
+    """Return the owning master row when a dynamic hit overlaps another source row."""
+    end = off + n
+    for a, b, jp in owner_ranges.get(file_name, ()):
+        if a == off:
+            continue
+        if max(a, off) < min(b, end):
+            return (a, b, jp)
+    return None
+
+
+def dynamic_matches_existing_source(existing_jp: str, dynamic_jp: str) -> bool:
+    """Same offset is insufficient; the source Japanese must match exactly."""
+    return (existing_jp or "") == (dynamic_jp or "")
+
+
 def snapshot_dir(d: Path):
     snap = {}
     for p in d.iterdir():
@@ -232,6 +248,25 @@ def main() -> int:
 
     missing_keys = sorted(set(gameplay) - seen_keys)
 
+    # Current staged Translation Master owns these exact source byte ranges.
+    # Dynamic substring rows must never become a second patch inside an owner.
+    owner_ranges = {}
+    for _path, (_fields, _rows) in part_data.items():
+        for _r in _rows:
+            _name = (_r.get("file") or "").strip()
+            _jp = _r.get("japanese") or ""
+            if not _name or not _jp:
+                continue
+            try:
+                _off = int((_r.get("offset_hex") or "0"), 0)
+                _n = len(_jp.encode("cp932"))
+            except Exception:
+                continue
+            if _n:
+                owner_ranges.setdefault(_name, []).append((_off, _off + _n, _jp))
+    for _name in owner_ranges:
+        owner_ranges[_name].sort()
+
     clean_bytes = clean_bin.read_bytes()
     extracted = {name: extract_extent(clean_bytes, ext, size)
                  for name, (ext, size) in FILES.items()}
@@ -268,6 +303,13 @@ def main() -> int:
                     for path, (fields, rows) in part_data.items():
                         for rr in rows:
                             if (rr["file"].strip(), norm_off(rr["offset_hex"])) == key:
+                                if not dynamic_matches_existing_source(rr.get("japanese") or "", jp):
+                                    dynamic_ignored.append(
+                                        (jp, vi, f"{name}+{hex(off)} same-offset owner has "
+                                         f"different source {rr.get('japanese')!r}")
+                                    )
+                                    found = True
+                                    break
                                 rr["vi_full"] = vi
                                 dynamic_injected.append((key, jp, vi, "existing-row"))
                                 found = True
@@ -275,6 +317,16 @@ def main() -> int:
                         if found:
                             break
                     continue
+
+                owner = overlaps_master_owner(name, off, len(jp_b), owner_ranges)
+                if owner is not None:
+                    a, b, owner_jp = owner
+                    dynamic_ignored.append(
+                        (jp, vi, f"{name}+{hex(off)} overlaps master owner "
+                                 f"{hex(a)}..{hex(b)} {owner_jp!r}")
+                    )
+                    continue
+
                 append_rows.append({
                     "file": name,
                     "offset_hex": hex(off),
