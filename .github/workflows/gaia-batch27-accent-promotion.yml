@@ -1,0 +1,36 @@
+name: Gaia Master Batch 27 Accent Promotion
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [gaia-character-select-font-atlas-reverse-01]
+    paths:
+      - "games/GaiaMaster-Kamigami-no-Board-Game/tools/build_batch27_accent_promotion_06360.py"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/translation/TRANSLATION_MASTER_0.6_part*.csv"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/translation/BATCH20_EXACT_OFFSET_0.6.29.0.csv"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/translation/BATCH24_EXACT_OFFSET_0.6.33.0.csv"
+      - ".github/workflows/gaia-batch27-accent-promotion.yml"
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Compile safe accented promotions
+        run: python games/GaiaMaster-Kamigami-no-Board-Game/tools/build_batch27_accent_promotion_06360.py
+      - name: Persist Batch27 outputs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add games/GaiaMaster-Kamigami-no-Board-Game/translation/BATCH27_ACCENT_PROMOTION_0.6.36.0.csv
+          git add games/GaiaMaster-Kamigami-no-Board-Game/checkpoints/0.6.36.0/BATCH27_ACCENT_PROMOTION_REPORT.txt
+          if ! git diff --cached --quiet; then
+            git commit -m "Gaia Master 0.6.36.0: persist Batch27 accent promotions"
+            git pull --rebase origin "${GITHUB_REF_NAME}"
+            git push
+          fi
