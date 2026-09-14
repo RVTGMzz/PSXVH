@@ -69,22 +69,53 @@ def master_index():
     return out
 
 
-def protected_map():
+def protected_map(master):
+    """Return only locks that the production path can actually encode in-place.
+
+    0.6.14.1 is a candidate override table; its wrapper skips rows whose runtime
+    encoding exceeds the original Japanese field. Treating every CSV row as an
+    applied production lock would therefore over-protect historical no-op rows.
+    Batch19 exact locks are already compiler-proven fitting and stay unconditional.
+    """
     out = {}
+    skipped_hist = []
     for r in rows(HIST):
-        out[key(r)] = ((r.get("vi_accented") or "").strip(), HIST.name)
+        k = key(r)
+        src = master.get(k)
+        text = (r.get("vi_accented") or "").strip()
+        if src is None:
+            skipped_hist.append((k, text, "missing-master"))
+            continue
+        jp = src.get("japanese") or ""
+        try:
+            field = len(jp.encode("cp932"))
+        except UnicodeEncodeError:
+            skipped_hist.append((k, text, "jp-encode"))
+            continue
+        reason = None
+        if rlen(text) > field:
+            reason = f"too-long:{rlen(text)}>{field}"
+        elif tokens(jp) != tokens(text):
+            reason = "token-mismatch"
+        elif bad_chars(text):
+            reason = f"unsupported:{bad_chars(text)!r}"
+        if reason:
+            skipped_hist.append((k, text, reason))
+            continue
+        out[k] = (text, HIST.name)
+
     for r in rows(B19):
         k = key(r)
         value = (r.get("vi_full") or "").strip()
         if k in out and out[k][0] != value:
             raise RuntimeError(f"protected lock conflict before Batch25: {k}: {out[k]} vs {value}")
         out[k] = (value, B19.name)
-    return out
+    return out, skipped_hist
 
 
 def main():
     master = master_index()
-    protected = protected_map()
+    protected, skipped_hist = protected_map(master)
     errors = []
     candidates = {}
 
@@ -166,7 +197,8 @@ def main():
         "=" * 72,
         f"Batch20 + Batch24 input rows : {input_count}",
         f"Unique candidate exact keys  : {len(candidates)}",
-        f"Protected exact keys         : {len(protected)}",
+        f"Runtime-fit protected keys   : {len(protected)}",
+        f"Historical rows skipped as no-op/unfit: {len(skipped_hist)}",
         f"Already-locked identical     : {len(already_locked)}",
         f"Protected wording conflicts  : {len(conflict_locked)}",
         f"New exact rows exported      : {len(output)}",
@@ -174,9 +206,10 @@ def main():
         "",
         "Guards:",
         "- Batch20 and Batch24 exact work is merged by file+offset",
-        "- existing 0.6.14.1 / Batch19 exact locks are never overwritten",
+        "- 0.6.14.1 rows count as protected only when they truly fit and encode under the frozen runtime contract",
+        "- Batch19 exact locks remain unconditionally protected",
         "- identical protected wording is recognized and not exported twice",
-        "- different protected wording is a hard error",
+        "- different runtime-fit protected wording is a hard error",
         "- every candidate is rechecked for field bytes, runtime tokens and frozen codepage",
         "- data compiler only; no ROM/font/pointer modification",
     ]
