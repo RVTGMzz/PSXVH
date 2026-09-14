@@ -1,0 +1,54 @@
+name: Gaia Master Batch 20 Validation
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - gaia-character-select-font-atlas-reverse-01
+    paths:
+      - "games/GaiaMaster-Kamigami-no-Board-Game/translation/BATCH20_EXACT_OFFSET_0.6.29.0.csv"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/translation/COMPACT_TRANSLATION_OVERRIDES_0.6.14.1.csv"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/tools/validate_batch20_06290.py"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/checkpoints/0.6.28.0/reports/GaiaMaster_0.6.28.0_FIT_PRESSURE.csv"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/checkpoints/0.6.28.0/reports/GaiaMaster_0.6.28.0_EXACT_OFFSET_LOCKS.csv"
+      - ".github/workflows/gaia-batch20-validation.yml"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Syntax check
+        run: python -m py_compile games/GaiaMaster-Kamigami-no-Board-Game/tools/validate_batch20_06290.py
+
+      - name: Validate Batch 20 exact-offset sweep
+        run: python games/GaiaMaster-Kamigami-no-Board-Game/tools/validate_batch20_06290.py
+
+      - name: Upload validation report
+        uses: actions/upload-artifact@v4
+        with:
+          name: GaiaMaster-0.6.29.0-Batch20-Validation
+          path: games/GaiaMaster-Kamigami-no-Board-Game/checkpoints/0.6.29.0/BATCH20_VALIDATION.txt
+          if-no-files-found: error
+
+      - name: Commit validation report
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add games/GaiaMaster-Kamigami-no-Board-Game/checkpoints/0.6.29.0/BATCH20_VALIDATION.txt
+          if git diff --cached --quiet; then
+            echo "Validation report is already current."
+          else
+            git commit -m "Gaia Master 0.6.29.0: store Batch 20 validation"
+            git push
+          fi
