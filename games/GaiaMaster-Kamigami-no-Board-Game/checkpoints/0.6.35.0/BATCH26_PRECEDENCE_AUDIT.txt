@@ -1,0 +1,68 @@
+GAIA MASTER 0.6.35.0 BATCH 26 PRODUCTION PRECEDENCE AUDIT
+============================================================================
+Batch25 new exact targets          : 209
+Legacy shadow rows required        : 209
+0.6.11 exact collisions to mask    : 149
+0.6.13 exact collisions to mask    : 23
+0.6.14.1 exact collisions to mask  : 2
+Global-map preservation entries    : 29
+Effective 0.6.14 dynamic collisions: 10
+Legacy gate before                 : 397
+Legacy gate with shadows           : 397
+Final exact mismatches (static)     : 0
+Errors                              : 1
+
+Planned wrapper contract:
+- inject Batch25 exact vi_full into primary rows
+- blank primary vi_game_current and append legacy shadow duplicates
+- temporarily use 0.6.14.1 compact table in the 0.6.14 slot
+- mask Batch25 exact keys from 0.6.11/0.6.13/0.6.14 exact tables
+- preserve the original 0.6.12 global fallback map through temporary EXTRA entries
+- do not filter dynamic literals unless the audit proves a safe per-key guard
+- restore every mutable repo source after build
+
+GLOBAL MAP ENTRIES TO PRESERVE:
+- '+%d ZENNY' -> '+%d Zenny' (gameplay:SLPS_020.75:0x938)
+- 'BAO' -> 'Bão' (gameplay:SLPS_020.75:0x1158)
+- 'BAT DAU!' -> 'Bắt đầu!' (gameplay:PRGPACK.BDP:0xddd68)
+- 'BUA' -> 'Búa' (gameplay:SLPS_020.75:0x11e0)
+- 'CHON NHANVAT' -> 'Chọn tướng' (gameplay:PRGPACK.BDP:0xbfd2c)
+- 'CHON SLOT' -> 'Chọn SLOT' (gameplay:PRGPACK.BDP:0xde110)
+- 'CO/KO' -> 'Có ko' (gameplay:SLPS_020.75:0xe64)
+- 'DB SPD6 1L' -> 'ĐB SPD6 1L' (gameplay:SLPS_020.75:0x1208)
+- 'HOI 1 LAN' -> 'Hồi 1 lần' (gameplay:SLPS_020.75:0x177c)
+- 'KO DATA' -> 'Chưa có' (gameplay:PRGPACK.BDP:0xddd7c)
+- 'LIU!' -> 'Liều!' (gameplay:SLPS_020.75:0x1220)
+- 'LUOT%s' -> 'Lượt%s' (gameplay:SLPS_020.75:0xad0)
+- 'MAY HA DICH' -> 'May hạ địch' (gameplay:SLPS_020.75:0x11ec)
+- 'NHAN NUT O' -> 'Nhấn nút O' (gameplay:PRGPACK.BDP:0xbfe4c)
+- 'NO' -> 'Nỏ' (gameplay:SLPS_020.75:0x117c)
+- 'PHA THE DICH' -> 'Phá thẻ địch' (gameplay:SLPS_020.75:0x1230)
+- 'POLITAN DO' -> 'Politan chắn' (gameplay:SLPS_020.75:0x1260)
+- 'SAM' -> 'Sấm' (gameplay:SLPS_020.75:0x1130)
+- 'THU 1 LAN' -> 'Thủ 1 lần' (gameplay:SLPS_020.75:0x1744)
+- 'XAC NHAN?' -> 'Xác nhận?' (gameplay:PRGPACK.BDP:0xbfbec)
+- '「3 XUCXAC」' -> '「3 xúcxắc」' (gameplay:SLPS_020.75:0x2e1c)
+- '「4 XUCXAC」' -> '「4 xúcxắc」' (gameplay:SLPS_020.75:0x2ddc)
+- '「THAN GIO」' -> '「Thần giờ」' (gameplay:SLPS_020.75:0x3318)
+- '「TIEN1」' -> '「Tiến1」' (gameplay:SLPS_020.75:0x2da4)
+- '「TIEN2」' -> '「Tiến2」' (gameplay:SLPS_020.75:0x2d6c)
+- '「TIEN3」' -> '「Tiến3」' (gameplay:SLPS_020.75:0x2d50)
+- '「TIEN4」' -> '「Tiến4」' (gameplay:SLPS_020.75:0x2d34)
+- '「TIEN5」' -> '「Tiến5」' (gameplay:SLPS_020.75:0x2d18)
+- '「TIEN6」' -> '「Tiến6」' (gameplay:SLPS_020.75:0x2cfc)
+
+DYNAMIC COLLISION BLOCKERS:
+- SLPS_020.75 0x1130 JP='サンダー': exact='Sấm' dynamic='Sấm'
+- SLPS_020.75 0x1158 JP='ハリケーン': exact='Bão' dynamic='Bão'
+- SLPS_020.75 0x117c JP='クロスボウ': exact='Nỏ' dynamic='Nỏ'
+- SLPS_020.75 0x11a0 JP='ロングソード': exact='Kiếm' dynamic='Kiếm'
+- SLPS_020.75 0x11e0 JP='ハンマー': exact='Búa' dynamic='Búa'
+- SLPS_020.75 0x175c JP='シールド': exact='Mộc' dynamic='Thủ'
+- SLPS_020.75 0x1828 JP='バトルアックス': exact='Rìu đấu' dynamic='Rìu'
+- SLPS_020.75 0x18a4 JP='ジャンビーヤ': exact='Jambia' dynamic='Jamb'
+- SLPS_020.75 0x2464 JP='ティアラ': exact='Mão' dynamic='Tiar'
+- SLPS_020.75 0x2488 JP='アガート': exact='Agat' dynamic='Agat'
+
+ERRORS:
+- effective 0.6.14 dynamic collisions need guard: 10
