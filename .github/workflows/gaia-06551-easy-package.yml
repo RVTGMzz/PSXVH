@@ -12,7 +12,39 @@ on:
       - "games/GaiaMaster-Kamigami-no-Board-Game/BATCH45R2_0.6.55.1_FONT_MICRO_POLISH.md"
 
 jobs:
+  windows-smoke:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Real Windows CMD launcher smoke test
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $src = "games/GaiaMaster-Kamigami-no-Board-Game"
+          $pkg = Join-Path $env:RUNNER_TEMP "GaiaMaster LOGFIX3 smoke (1)"
+          New-Item -ItemType Directory -Force -Path (Join-Path $pkg "Core/tools") | Out-Null
+          Copy-Item "$src/tools/package_root_launcher_06551_v3.cmd" (Join-Path $pkg "00_VIET_HOA_GAME.cmd")
+          Copy-Item "$src/tools/package_driver_06551.py" (Join-Path $pkg "Core/tools/package_driver_06551.py")
+          Copy-Item "$src/tools/build_gaia_06551_batch45r2_font_micro_polish.py" (Join-Path $pkg "Core/tools/build_gaia_06551_batch45r2_font_micro_polish.py")
+
+          $env:GAIA_CI = "1"
+          & cmd.exe /d /c ('"' + (Join-Path $pkg "00_VIET_HOA_GAME.cmd") + '"')
+          $rc = $LASTEXITCODE
+          if ($rc -ne 9) { throw "Expected no-ROM diagnostic return code 9, got $rc" }
+
+          $log = Join-Path $pkg "BUILD_LOG_0.6.55.1_BATCH45R2.txt"
+          if (-not (Test-Path $log)) { throw "BUILD_LOG was not created" }
+          $text = Get-Content -Raw -LiteralPath $log
+          Write-Host $text
+          if ($text -notmatch "Normalized package root:") { throw "Driver did not own/write the log" }
+          if ($text -notmatch "BIN candidates found: 0") { throw "Launcher did not reach CLEAN-BIN scan" }
+          if ($text -match "PermissionError") { throw "Windows log file lock regression detected" }
+          if ($text -match "Invalid argument") { throw "Windows argv/path regression detected" }
+          Write-Host "REAL WINDOWS CMD + LOG OWNERSHIP SMOKE TEST: PASS"
+
   package:
+    needs: windows-smoke
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -37,8 +69,10 @@ jobs:
           assert b"package_driver_06551.py" in data
           assert b'for %%I in ("%~dp0.") do set "ROOT=%%~fI"' in data
           assert b'"%ROOT%"' in data
-          assert b'"%~dp0" >>' not in data
-          print("Windows no-trailing-backslash launcher gates: PASS")
+          assert b'"%ROOT%" >>"%LOG%"' not in data
+          assert b'"%ROOT%" >>' not in data
+          assert b'GAIA_CI' in data
+          print("Windows launcher static gates: PASS")
           PY
 
       - name: Prepare EASY package
@@ -46,7 +80,7 @@ jobs:
         run: |
           set -euo pipefail
           ROOT="games/GaiaMaster-Kamigami-no-Board-Game"
-          PKG="GaiaMaster_0.6.55.1_Batch45R2_FONT_EASY_LOGFIX2"
+          PKG="GaiaMaster_0.6.55.1_Batch45R2_FONT_EASY_LOGFIX3"
           mkdir -p "$PKG/Core"
           cp -a "$ROOT"/. "$PKG/Core"/
           find "$PKG/Core" -type f \( -iname '*.bin' -o -iname '*.cue' -o -iname '*.iso' -o -iname '*.img' -o -iname '*.chd' \) -delete
@@ -54,22 +88,25 @@ jobs:
           cp "$ROOT/tools/package_root_launcher_06551_v3.cmd" "$PKG/00_VIET_HOA_GAME.cmd"
 
           cat > "$PKG/01_DOC_TRUOC.txt" <<'EOF'
-          GAIA MASTER 0.6.55.1 - BATCH45R2 FONT MICRO POLISH - LOGFIX2
+          GAIA MASTER 0.6.55.1 - BATCH45R2 FONT MICRO POLISH - LOGFIX3
           ============================================================
 
-          Fix nay xu ly dung loi Windows argv da bat duoc tu BUILD_LOG:
-          - KHONG truyen %%~dp0 co backslash cuoi truc tiep cho Python;
-          - ROOT duoc canonicalize thanh path khong co backslash cuoi;
-          - Python driver cung sanitize quote/backslash rac mot lan nua;
-          - root-argv regression selftest bat buoc PASS trong CI.
+          LOGFIX3 fixes both Windows launcher failures proven by user logs:
+          1. trailing-backslash / quote corruption in PACKAGE_ROOT argv;
+          2. PermissionError caused by CMD redirecting into BUILD_LOG while
+             Python tried to open the same file.
+
+          Safety:
+          - ROOT is canonicalized before Python argv;
+          - Python sanitizes root argv again;
+          - Python is the only active BUILD_LOG writer during execution;
+          - a real windows-latest CMD smoke test must reach BIN scanning without
+            PermissionError or Invalid argument before this package is produced.
 
           Cach chay:
           1. GIAI NEN TOAN BO ZIP.
           2. Chep CLEAN Japan BIN vao CUNG thu muc voi 00_VIET_HOA_GAME.cmd.
           3. Double-click 00_VIET_HOA_GAME.cmd.
-
-          LAUNCHER LUON TAO FILE:
-          BUILD_LOG_0.6.55.1_BATCH45R2.txt
 
           CLEAN SHA1:
           f4d5298583c90d89c4b7e51d2dde160ee07f2aec
@@ -81,18 +118,19 @@ jobs:
 
           python - <<'PY'
           from pathlib import Path
-          p = Path("GaiaMaster_0.6.55.1_Batch45R2_FONT_EASY_LOGFIX2/00_VIET_HOA_GAME.cmd")
+          p = Path("GaiaMaster_0.6.55.1_Batch45R2_FONT_EASY_LOGFIX3/00_VIET_HOA_GAME.cmd")
           data = p.read_bytes()
           assert all(b < 128 for b in data)
           assert b"\r\n" in data
           assert b"BUILD_LOG_0.6.55.1_BATCH45R2.txt" in data
           assert b"powershell" not in data.lower()
           assert b'for %%I in ("%~dp0.") do set "ROOT=%%~fI"' in data
-          print("Packaged LOGFIX2 launcher gates: PASS")
+          assert b'GAIA_CI' in data
+          print("Packaged LOGFIX3 launcher gates: PASS")
           PY
 
       - uses: actions/upload-artifact@v4
         with:
-          name: GaiaMaster_0.6.55.1_Batch45R2_FONT_EASY_LOGFIX2
-          path: GaiaMaster_0.6.55.1_Batch45R2_FONT_EASY_LOGFIX2
+          name: GaiaMaster_0.6.55.1_Batch45R2_FONT_EASY_LOGFIX3
+          path: GaiaMaster_0.6.55.1_Batch45R2_FONT_EASY_LOGFIX3
           if-no-files-found: error
