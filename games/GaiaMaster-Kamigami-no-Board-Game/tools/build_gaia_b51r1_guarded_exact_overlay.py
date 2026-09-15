@@ -9,6 +9,12 @@ layer for runtime candidates that use Vietnamese glyphs outside the frozen
 No glyphs are added. No font/mapping bytes are changed. All B51 CLEAN-source,
 overlap, historical-regression, BDP checksum and raw-sector guards are inherited.
 
+Historical compatibility note:
+B43 manifest field_bytes is authoritative and may be larger than the literal
+Japanese CP932 byte count because the proven B43 builder owns padded fields.
+B51R1 therefore validates field_bytes >= source bytes, matching B43's proven
+contract instead of imposing an exact-length assumption that B43 never used.
+
 Usage:
   python build_gaia_b51r1_guarded_exact_overlay.py CLEAN.bin
   python build_gaia_b51r1_guarded_exact_overlay.py CLEAN.bin --build-from BASE.bin
@@ -123,9 +129,8 @@ def load_b50_r1(cmap: dict[str, int]):
             raise RuntimeError(f"B51R1 overflow {name}+0x{off:X}: {len(enc)}>{field}")
 
         if key in corrections:
-            # Correction may only preserve or reduce the already-approved B50
-            # runtime budget. This prevents charset cleanup from becoming a
-            # stealth field-expansion pass.
+            # Charset cleanup is never allowed to expand the already-approved
+            # B50 byte budget.
             if len(enc) > declared:
                 raise RuntimeError(
                     f"B51R1 correction expands B50 budget {name}+0x{off:X}: "
@@ -169,12 +174,77 @@ def load_b50_r1(cmap: dict[str, int]):
     return out
 
 
+def load_hist_manifest_r1(path: Path, count: int, cmap: dict[str, int]):
+    """Reconstruct a proven historical exact manifest.
+
+    B43 intentionally permits padded source fields. The historical manifest's
+    field_bytes is therefore authoritative. Requiring equality with the literal
+    Japanese byte count would reject a field that the actual B43 builder proved.
+    """
+    fields, rr = core.read_csv(path)
+    need = {"file", "offset_hex", "japanese", "vi_accented", "field_bytes"}
+    if not need.issubset(fields) or len(rr) != count:
+        raise RuntimeError(f"Historical manifest gate failed: {path.name}")
+    out = {}
+    for r in rr:
+        name = (r.get("file") or "").strip()
+        off = core.parse_int(r.get("offset_hex") or "", f"{path.name} offset")
+        field = core.parse_int(r.get("field_bytes") or "", f"{path.name} field")
+        jp = r.get("japanese") or ""
+        vi = r.get("vi_accented") or ""
+        source_len = len(jp.encode("cp932"))
+        if field < source_len:
+            raise RuntimeError(
+                f"Historical field smaller than source {path.name} {name}+0x{off:X}: "
+                f"{field}<{source_len}"
+            )
+        if core.tokens(jp) != core.tokens(vi):
+            raise RuntimeError(f"Historical token mismatch {path.name} {name}+0x{off:X}")
+        enc = core.encode_runtime(vi, cmap)
+        if len(enc) > field:
+            raise RuntimeError(
+                f"Historical runtime overflow {path.name} {name}+0x{off:X}: {len(enc)}>{field}"
+            )
+        key = (name, off)
+        if key in out:
+            raise RuntimeError(f"Historical duplicate key {path.name}: {key}")
+        out[key] = (field, enc + b"\0" * (field - len(enc)), jp, vi)
+    if len(out) != count:
+        raise RuntimeError(f"Historical unique-key gate failed: {path.name}")
+    return out
+
+
+def static_contracts_r1(rows, cmap):
+    b40 = load_hist_manifest_r1(core.B40, core.B40_ROWS, cmap)
+    b43 = load_hist_manifest_r1(core.B43, core.B43_ROWS, cmap)
+    if set(b40) & set(b43):
+        raise RuntimeError("B40/B43 key collision")
+    intro = core.intro_manifest(cmap)
+    eq40 = core.protected_overlap_gate(rows, b40, "B40")
+    eq43 = core.protected_overlap_gate(rows, b43, "B43")
+    eqi = core.protected_overlap_gate(rows, intro, "INTRO19")
+
+    plan = core.b40stage.build_plan()
+    counts = plan["counts"]
+    if counts["final_verify"] != core.B40_ROWS or counts["legacy"] != core.LEGACY_KEYS:
+        raise RuntimeError(
+            f"Batch40 static contract drift: final={counts['final_verify']} legacy={counts['legacy']}"
+        )
+    master_count = 0
+    for path in core.MASTER_PARTS:
+        _fields, rr = core.read_csv(path)
+        master_count += len(rr)
+    if master_count != core.MASTER_ROWS:
+        raise RuntimeError(f"Translation Master rows: {master_count} != {core.MASTER_ROWS}")
+    return b40, b43, intro, (eq40, eq43, eqi), counts, master_count
+
+
 def dry_run_r1(clean: Path):
     clean_sha1, clean_slps, clean_prg, cmap = core.read_clean(clean)
     core.restore_b50()
     rows = load_b50_r1(cmap)
     prg_n, slps_n = core.source_identity_gate(rows, clean_slps, clean_prg)
-    b40, b43, intro, eq, counts, masters = core.static_contracts(rows, cmap)
+    b40, b43, intro, eq, counts, masters = static_contracts_r1(rows, cmap)
     return dict(
         clean_sha1=clean_sha1,
         clean_slps=clean_slps,
@@ -258,7 +328,8 @@ def main() -> int:
     )
     if out.resolve() in {clean.resolve(), base.resolve()}:
         raise RuntimeError("Output must not overwrite CLEAN/base")
-    if out.exists(): out.unlink()
+    if out.exists():
+        out.unlink()
     shutil.copyfile(base, out)
 
     changed = set()
