@@ -1,0 +1,24 @@
+file,offset_hex,japanese,vi_full_reviewed,status,note
+PRGPACK.BDP,0x68e18,ベントカードが,…thẻ sự kiện…,SOURCE_FULL_REVIEWED_FRAGMENT,Chuỗi nguồn bắt đầu giữa từ; không tự phục hồi ký tự Nhật bị thiếu.
+PRGPACK.BDP,0x68e28,武器カード、イ,"Thẻ vũ khí, sự kiện…",SOURCE_FULL_REVIEWED_FRAGMENT,Chuỗi nguồn kết thúc giữa từ イベント; giữ dạng fragment.
+PRGPACK.BDP,0x68e38,通過するとお金,"Khi đi qua, tiền…",SOURCE_FULL_REVIEWED_FRAGMENT,Mảnh câu; không tự hoàn thiện vế sau.
+PRGPACK.BDP,0x68e4c,もらえます,sẽ nhận được,SOURCE_FULL_REVIEWED_FRAGMENT,Mảnh nối của help text.
+PRGPACK.BDP,0x68e58,トカードが１枚,…1 thẻ…,SOURCE_FULL_REVIEWED_FRAGMENT,Chuỗi bắt đầu giữa từ カード; không đoán loại thẻ trong bản nguồn độc lập.
+PRGPACK.BDP,0x68e68,止まるとイベン,"Khi dừng lại, sự kiện…",SOURCE_FULL_REVIEWED_FRAGMENT,Chuỗi kết thúc giữa từ イベント.
+PRGPACK.BDP,0x68e78,できます,có thể…,SOURCE_FULL_REVIEWED_FRAGMENT,Hậu tố câu help; nghĩa đầy đủ phụ thuộc mảnh liền kề.
+PRGPACK.BDP,0x68e84,しかけることが,có thể phát động…,SOURCE_FULL_REVIEWED_FRAGMENT,Mảnh giữa của cấu trúc ～をしかけることができます.
+PRGPACK.BDP,0x68e94,あいてに戦闘を,chiến đấu với đối thủ…,SOURCE_FULL_REVIEWED_FRAGMENT,Mảnh câu; không tự ghép lại ngoài field.
+PRGPACK.BDP,0x68ea4,止まると好きな,"Khi dừng lại, tùy ý…",SOURCE_FULL_REVIEWED_FRAGMENT,Mảnh câu help; giữ mở để ghép với field khác.
+PRGPACK.BDP,0x68eb8,所有者なし,Không có chủ,SOURCE_FULL_REVIEWED,Nhóm nhãn sở hữu.
+PRGPACK.BDP,0x68ec4,プール金%5d,Quân quỹ %5d,SOURCE_FULL_REVIEWED,Giữ nguyên token %5d; thống nhất thuật ngữ quân quỹ.
+PRGPACK.BDP,0x68edc,通行税 %4d,Lộ phí %4d,SOURCE_FULL_REVIEWED,Giữ nguyên token %4d; thống nhất thuật ngữ lộ phí.
+PRGPACK.BDP,0x68ee8,通行税 %+3d％,Lộ phí %+3d%,SOURCE_FULL_REVIEWED,Giữ nguyên token %+3d và thứ tự.
+PRGPACK.BDP,0x962c0,%sのラッキー！！,%s gặp may!!,SOURCE_FULL_REVIEWED,Giữ nguyên token %s.
+PRGPACK.BDP,0xb9048,%dゼニーはらってね,Hãy trả %d Zenny nhé,SOURCE_FULL_REVIEWED,Giữ nguyên token %d.
+SLPS_020.75,0x16e8,スノーストーム,Bão Tuyết,SOURCE_FULL_REVIEWED,Tên kỹ năng/vật phẩm.
+SLPS_020.75,0x16f8,速度が速い,Tốc độ cao,SOURCE_FULL_REVIEWED,Mô tả thuộc tính.
+SLPS_020.75,0x171c,せつなの剣,Kiếm Chớp Nhoáng,SOURCE_FULL_REVIEWED,Tên vũ khí; giữ sắc thái tốc độ tức thời.
+SLPS_020.75,0x1728,ダメージを１／２にへらす,Giảm sát thương còn một nửa,SOURCE_FULL_REVIEWED,Mô tả hiệu ứng.
+SLPS_020.75,0x1744,使い捨て防御アイテム,Vật phẩm phòng thủ dùng một lần,SOURCE_FULL_REVIEWED,Mô tả loại vật phẩm.
+SLPS_020.75,0x175c,シールド,Khiên,SOURCE_FULL_REVIEWED,Tên vật phẩm.
+SLPS_020.75,0x1768,ＨＰを３０回復する,Hồi 30 HP,SOURCE_FULL_REVIEWED,Mô tả hiệu ứng.
