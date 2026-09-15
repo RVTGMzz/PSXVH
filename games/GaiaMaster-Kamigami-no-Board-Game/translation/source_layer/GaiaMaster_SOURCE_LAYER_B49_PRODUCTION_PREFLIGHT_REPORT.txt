@@ -1,0 +1,13 @@
+GAIA MASTER BATCH49 - PRODUCTION PREFLIGHT MERGE
+=================================================
+Translated unique source rows          : 1186
+Translated exact occurrences           : 1229
+Direct vi_full fits                    : 37
+Compact fits B24-B49                   : 1149
+Unique rows ready by static byte-fit   : 1186
+Exact occurrences ready by byte-fit    : 1229
+Unique rows still needing compact      : 0
+Exact occurrences still needing compact: 0
+Candidate-vs-field byte gate           : PASS
+ROM/font/pointer modified              : NO
+Runtime PASS claim                     : NO
