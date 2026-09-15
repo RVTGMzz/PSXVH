@@ -9,8 +9,10 @@ Safety contract:
 - existing non-empty vi_full is never overwritten;
 - dry-run by default; --write is explicit.
 
-The reviewed combat/item overlay has priority over the earlier prepared queue
-for the same exact source key.
+Editorial priority:
+1. prepared exact completion queues establish the 203 target keys;
+2. reviewed repeat lexicon normalizes repeated tavern/settings source text;
+3. reviewed exact combat/item/prompt overlay wins for its exact keys.
 """
 from __future__ import annotations
 
@@ -29,7 +31,8 @@ QUEUE_FILES = [
     TR / "TRANSLATION_COMPLETION_QUEUE_04_PART04.csv",
     TR / "TRANSLATION_COMPLETION_QUEUE_05_PART06.csv",
 ]
-REVIEWED = TR / "TRANSLATION_COMPLETION_REVIEWED_COMBAT_ITEMS_2026-09-15.csv"
+REPEAT_LEXICON = TR / "TRANSLATION_COMPLETION_REVIEWED_REPEAT_LEXICON_2026-09-15.csv"
+REVIEWED_EXACT = TR / "TRANSLATION_COMPLETION_REVIEWED_COMBAT_ITEMS_2026-09-15.csv"
 TOKEN_RE = re.compile(r"%(?:[-+0-9.#]*[A-Za-z%])|/[Vv]")
 
 
@@ -60,10 +63,30 @@ def tokens(text: str):
     return tuple(m.group(0) for m in TOKEN_RE.finditer(text or ""))
 
 
+def load_repeat_lexicon():
+    _fields, rows = read_csv(REPEAT_LEXICON)
+    out = {}
+    for r in rows:
+        jp = r.get("japanese") or ""
+        vi = (r.get("vi_full") or "").strip()
+        if not jp or not vi:
+            raise RuntimeError(f"Blank repeat lexicon row in {REPEAT_LEXICON.name}: {r}")
+        if jp in out and out[jp] != vi:
+            raise RuntimeError(f"Conflicting repeat lexicon translation for {jp!r}")
+        if tokens(jp) != tokens(vi):
+            raise RuntimeError(
+                f"Token mismatch in {REPEAT_LEXICON.name} {jp!r}: "
+                f"{tokens(jp)} != {tokens(vi)}"
+            )
+        out[jp] = vi
+    return out
+
+
 def load_overlay():
     overlay = {}
     origin = {}
 
+    # Base exact-key target set. These five files must stay at 203 unique keys.
     for path in QUEUE_FILES:
         _fields, rows = read_csv(path)
         for r in rows:
@@ -81,28 +104,56 @@ def load_overlay():
             overlay[k] = (jp, vi)
             origin[k] = path.name
 
-    # Explicitly reviewed wording wins for the same exact key.
-    _fields, rows = read_csv(REVIEWED)
+    if len(overlay) != 203:
+        raise RuntimeError(f"Prepared completion key gate failed: {len(overlay)} != 203")
+
+    # Normalize every repeated source phrase through one reviewed translation.
+    lexicon = load_repeat_lexicon()
+    lexicon_used = set()
+    repeat_replaced = 0
+    for k, (jp, old_vi) in list(overlay.items()):
+        new_vi = lexicon.get(jp)
+        if new_vi is None:
+            continue
+        overlay[k] = (jp, new_vi)
+        origin[k] = REPEAT_LEXICON.name
+        lexicon_used.add(jp)
+        repeat_replaced += 1
+
+    unused_lexicon = sorted(set(lexicon) - lexicon_used)
+    if unused_lexicon:
+        raise RuntimeError(
+            "Reviewed repeat lexicon contains unused Japanese source rows: "
+            + repr(unused_lexicon[:10])
+        )
+
+    # Explicitly reviewed exact wording wins last for its 80 selected keys.
+    _fields, rows = read_csv(REVIEWED_EXACT)
+    reviewed_exact_keys = set()
     for r in rows:
         k = key(r)
         jp = r.get("japanese") or ""
         vi = (r.get("vi_full") or "").strip()
         if not vi:
-            raise RuntimeError(f"Blank reviewed translation: {REVIEWED.name} {k}")
+            raise RuntimeError(f"Blank reviewed translation: {REVIEWED_EXACT.name} {k}")
         if tokens(jp) != tokens(vi):
             raise RuntimeError(
-                f"Token mismatch in {REVIEWED.name} {k}: {tokens(jp)} != {tokens(vi)}"
+                f"Token mismatch in {REVIEWED_EXACT.name} {k}: {tokens(jp)} != {tokens(vi)}"
             )
         if k not in overlay:
             raise RuntimeError(f"Reviewed key not present in completion queues: {k}")
         if overlay[k][0] != jp:
             raise RuntimeError(f"Reviewed Japanese mismatch for {k}")
         overlay[k] = (jp, vi)
-        origin[k] = REVIEWED.name
+        origin[k] = REVIEWED_EXACT.name
+        reviewed_exact_keys.add(k)
 
+    if len(reviewed_exact_keys) != 80:
+        raise RuntimeError(f"Reviewed exact key gate failed: {len(reviewed_exact_keys)} != 80")
     if len(overlay) != 203:
         raise RuntimeError(f"Completion overlay gate failed: {len(overlay)} != 203")
-    return overlay, origin
+
+    return overlay, origin, len(lexicon), repeat_replaced, len(reviewed_exact_keys)
 
 
 def main() -> int:
@@ -110,11 +161,12 @@ def main() -> int:
     ap.add_argument("--write", action="store_true", help="write promoted vi_full values into Master")
     args = ap.parse_args()
 
-    missing = [p for p in [*MASTER_PARTS, *QUEUE_FILES, REVIEWED] if not p.is_file()]
+    required = [*MASTER_PARTS, *QUEUE_FILES, REPEAT_LEXICON, REVIEWED_EXACT]
+    missing = [p for p in required if not p.is_file()]
     if missing:
         raise RuntimeError("Missing files:\n" + "\n".join(str(p) for p in missing))
 
-    overlay, origin = load_overlay()
+    overlay, origin, lexicon_count, repeat_replaced, reviewed_exact_count = load_overlay()
     matched = set()
     promoted = []
     already_same = []
@@ -161,11 +213,14 @@ def main() -> int:
     print("GAIA MASTER SOURCE TRANSLATION COMPLETION PROMOTION")
     print("=" * 72)
     print(f"Overlay exact keys       : {len(overlay)} / 203")
+    print(f"Reviewed repeat phrases : {lexicon_count}")
+    print(f"Exact keys normalized    : {repeat_replaced}")
+    print(f"Reviewed exact keys      : {reviewed_exact_count} / 80")
     print(f"Matched in Master        : {len(matched)} / 203")
     print(f"Blank vi_full promoted   : {len(promoted)}")
     print(f"Already identical        : {len(already_same)}")
     print(f"Existing different kept  : {len(existing_different)}")
-    print(f"Runtime fields changed   : 0")
+    print("Runtime fields changed   : 0")
     print(f"Mode                     : {'WRITE' if args.write else 'DRY-RUN'}")
 
     if existing_different:
