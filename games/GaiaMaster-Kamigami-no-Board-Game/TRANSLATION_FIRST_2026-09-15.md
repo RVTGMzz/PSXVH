@@ -60,11 +60,25 @@ The current compact runtime wording remains separate and unchanged. Example: sou
 ## Historical exact-offset source companion pass
 Because the original 0.6.38 full scanner CSV is still unavailable, committed exact-offset manifests are being mined without inventing addresses.
 
-Completed on 2026-09-15:
-- `translation/BATCH40_SOURCE_FULL_TAVERN_SETTINGS_2026-09-15.csv` - 35 exact-offset records covering the tavern dice mini-game and player/settings UI.
-- `translation/BATCH40_SOURCE_FULL_GAMEPLAY_LAND_UI_2026-09-15.csv` - 67 exact-offset records covering cards, taxes, route switching, land/property management, building and related gameplay UI.
-- `translation/BATCH40_SOURCE_FULL_CARDS_EVENTS_CHARACTERS_2026-09-15.csv` - 71 exact-offset records covering build/sell messages, card/event effects, special-character dialogue and property-info UI.
-- Exact-offset source companion records added in this pass: 173.
+The entire `BATCH40_FINAL_EXACT_SET_0.6.50.0.csv` contract is now source-translated: **560/560 exact-offset records**.
+
+Companion files:
+- `translation/BATCH40_SOURCE_FULL_TAVERN_SETTINGS_2026-09-15.csv` - 35 rows
+- `translation/BATCH40_SOURCE_FULL_GAMEPLAY_LAND_UI_2026-09-15.csv` - 67 rows
+- `translation/BATCH40_SOURCE_FULL_CARDS_EVENTS_CHARACTERS_2026-09-15.csv` - 71 rows
+- `translation/BATCH40_SOURCE_FULL_RULE_HELP_PROMPTS_2026-09-15.csv` - 44 rows
+- `translation/BATCH40_SOURCE_FULL_WEAPONS_ITEMS_2026-09-15.csv` - 62 rows
+- `translation/BATCH40_SOURCE_FULL_EVENTS_FACILITIES_NAMES_2026-09-15.csv` - 63 rows
+- `translation/BATCH40_SOURCE_FULL_EVENT_EFFECTS_SYMBOLS_2026-09-15.csv` - 70 rows
+- `translation/BATCH40_SOURCE_FULL_PROMPTS_LOOKUP_LABELS_2026-09-15.csv` - 43 rows
+- `translation/BATCH40_SOURCE_FULL_TAVERN_REPEAT_OFFSETS_2026-09-15.csv` - 92 rows
+- `translation/BATCH40_SOURCE_FULL_FINAL_ONLY_13_2026-09-15.csv` - 13 rows
+- Total: **560/560** rows.
+
+`BATCH40_NEW_EXACT_OFFSET_0.6.50.0.csv` contains 547 data rows; all 547 are covered by the companion set above. `BATCH40_FINAL_EXACT_SET_0.6.50.0.csv` adds 13 rows not present in the NEW manifest; those 13 are covered separately in `BATCH40_SOURCE_FULL_FINAL_ONLY_13_2026-09-15.csv`.
+
+The 13 FINAL-only exact rows are:
+- SLPS `0x958`, `0x970`, `0x980`, `0x98c`, `0x9ac`, `0x9dc`, `0xa14`, `0xa50`, `0xabc`, `0xb08`, `0xe54`, `0xe9c`, `0xeb8`.
 
 These exact-offset rows are historical known-source records and may overlap Japanese strings already represented in Translation Master. They are therefore NOT counted as new entries toward the 6,361 unique unseen-Japanese scanner corpus.
 
@@ -73,7 +87,7 @@ All exact-offset companion rows:
 - keep the current compact runtime wording in `vi_runtime_current`
 - put the natural source-level Vietnamese in `vi_full`
 - use status `SOURCE_FULL_TRANSLATED_ONLY`
-- preserve format tokens and token order
+- preserve format tokens and token order, including `%s`, `%d`, `%4d`, `%+3d`, and `/V%d`
 - preserve sentence-fragment status instead of guessing missing text
 - do not alter runtime/build data
 
@@ -82,10 +96,10 @@ Prepared translation/source-companion row records in this pass:
 - Translation Master blank `vi_full` completion queues: 203
 - Batch43 source-full companion: 102
 - Intro source-full companion: 19
-- Historical exact-offset source companions: 173
-- Total prepared row records: 497
+- Batch40 FINAL exact-offset source companions: 560
+- Total prepared row records: **884**
 
-This is a work-record count, not a claim of 497 unique Japanese strings. Historical exact-offset rows can overlap Translation Master source text.
+This is a work-record count, not a claim of 884 unique Japanese strings. Exact-offset rows can repeat the same Japanese text at multiple addresses and can overlap Translation Master source text.
 
 ## Whole-game translation reality
 Current Translation Master: 596 keys. Existing runtime contract protects 596/596 master coverage, but this is NOT whole-game coverage.
@@ -111,7 +125,7 @@ The actual `GaiaMaster_0.6.38.0_FULL_JAPANESE_SCAN.csv` is not currently present
    - prioritize story/tutorial/help/menu/runtime prompts
 3. Translate in large batches without requiring runtime testing.
 4. Keep runtime integration and fit/byte verification separate from source translation work.
-5. Until the full scanner CSV is recovered, keep mining committed exact-offset manifests for source-full translations without inventing missing offsets.
+5. Until the full scanner CSV is recovered, keep mining committed source/reports for Japanese text not yet represented by a source-full companion, without inventing missing offsets.
 
 ## Existing proven runtime/build contract to preserve later
 - Batch42: 560/560
