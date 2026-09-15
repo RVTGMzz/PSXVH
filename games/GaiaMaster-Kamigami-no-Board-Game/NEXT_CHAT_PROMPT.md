@@ -2,7 +2,7 @@
 
 Copy nguyên câu dưới đây vào phiên mới:
 
-> Tiếp tục Gaia Master từ `games/GaiaMaster-Kamigami-no-Board-Game/HANDOFF_CURRENT.md` trên branch `gaia-character-select-font-atlas-reverse-01` của repo `ronvotri/Viet-Hoa-PS1`. Đọc thêm `LATEST.md`, `BATCH44_0.6.54.0.md`, `BATCH45_0.6.55.0_FRONTFACE_POLISH.md`, `BATCH45R2_0.6.55.1_FONT_MICRO_POLISH.md` và `REVERSE_WORKBENCH_0.1.md`. Mốc actual CLEAN-ROM build cuối cùng đã chứng minh vẫn là `0.6.54.0 R5`: Batch42 560/560, Batch43 102/102, combined 662/662, legacy 397/397, return code 0. User đã runtime-test 0.6.55.0 và gửi screenshot `Thế giới đổi chủ`: lỗi rác do `=` không còn thấy trong dòng này, nhưng font chưa PASS. Lowercase `đ` vẫn sai vì generic stroke rule neo theo mép trái trong khi native `d` có ascender bên phải; user yêu cầu thanh ngang lên thêm 1 px và phải xuyên đúng thân dọc. User cũng phát hiện circumflex `^` ở `â/ê/ô` quá sát thân và stacked marks dễ đè nhau. `0.6.55.1 Batch45R2` đã được thêm để tách `Đ`/`đ`: uppercase `Đ` dùng left-stem + pre-Batch45 vertical placement vì chưa có runtime evidence nó lỗi; lowercase `đ` auto-detect right stem và dùng center-2 (một px cao hơn 0.6.55.0). Circumflex/breve reserve 3 top rows, structural mark lên 1 px, stacked tones sang side lane riêng. R2 patch SLPS font only, yêu cầu PRGPACK byte-for-byte unchanged, all 60 glyphs 72-byte/12x12, unaffected glyphs byte-identical, structural/tone rendered pixels non-overlap, Batch42/intro gates recheck trước+sau. Không được gọi Runtime PASS nếu chưa có screenshot 0.6.55.1. Reverse Workbench 0.1 read-only vẫn dùng cho Main Menu / Character Select / Story/chapter/purchase prompt sau khi font gate ổn. Giữ architecture native 12x12 / mapping-only / frozen 60 glyph, không renderer hook, pointer redirect, 12x16, 6x12 hay composite overlay.
+> Tiếp tục Gaia Master từ `games/GaiaMaster-Kamigami-no-Board-Game/HANDOFF_CURRENT.md` trên branch `gaia-character-select-font-atlas-reverse-01` của repo `ronvotri/Viet-Hoa-PS1`. Đọc thêm `LATEST.md` và `translation/source_layer/checkpoint_B51/README.md`. Current production candidate là **B51R1**. B51R1 STATIC CI PASS đã chứng minh B50 restore 1229/1229, raw B50 có đúng 19 unsupported chars trên 64 rows, correction layer phủ 64/64, sau correction frozen-60 còn 0 unsupported rows, B40/Batch42 560/560, B43 102/102, combined 662/662, intro 19/19, legacy 397/397, Translation Master 596/596, duplicate/overlap/byte/token PASS, font glyph added = 0, B50 canonical mutated = NO. Validated commit `33a5049bf6dc932a95892eeb1dbb99033c8d074b`, GitHub Actions run `35005218964`. B50 vẫn là canonical binary checkpoint vì chưa chạy được BIN thật trong connected environment. Bước kế tiếp là chạy `tools/build_gaia_b51r1_guarded_exact_overlay.py` dry-run trên exact CLEAN Japan BIN SHA1 `f4d5298583c90d89c4b7e51d2dde160ee07f2aec`; chỉ nếu dry-run thật PASS mới build từ known-good runtime base đã có frozen 60-glyph codepage và đã pass 560/102/19. Không dùng CLEAN làm build base. Không đụng font. Không gọi build PASS khi chưa chạy BIN thật và không gọi Runtime PASS khi chưa có screenshot gameplay.
 
 ## Current branch
 
@@ -15,79 +15,128 @@ gaia-character-select-font-atlas-reverse-01
 ```text
 games/GaiaMaster-Kamigami-no-Board-Game/HANDOFF_CURRENT.md
 games/GaiaMaster-Kamigami-no-Board-Game/LATEST.md
-games/GaiaMaster-Kamigami-no-Board-Game/BATCH44_0.6.54.0.md
-games/GaiaMaster-Kamigami-no-Board-Game/BATCH45_0.6.55.0_FRONTFACE_POLISH.md
-games/GaiaMaster-Kamigami-no-Board-Game/BATCH45R2_0.6.55.1_FONT_MICRO_POLISH.md
-games/GaiaMaster-Kamigami-no-Board-Game/REVERSE_WORKBENCH_0.1.md
+games/GaiaMaster-Kamigami-no-Board-Game/translation/source_layer/checkpoint_B51/README.md
+games/GaiaMaster-Kamigami-no-Board-Game/translation/source_layer/checkpoint_B51/B51R1_STATIC_CI_PROOF.txt
+games/GaiaMaster-Kamigami-no-Board-Game/translation/source_layer/B51_RUNTIME_CHARSET_CORRECTIONS.csv
 ```
 
-## Current R2 builder
+## Current production tools
 
 ```text
-tools/build_gaia_06551_batch45r2_font_micro_polish.py
-tools/00_BUILD_0.6.55.1_BATCH45R2_FONT_POLISH.cmd
+tools/build_gaia_b51_guarded_exact_overlay.py
+tools/build_gaia_b51r1_guarded_exact_overlay.py
+tools/validate_gaia_b51_static.py
+tools/00_RUN_B51R1_GUARDED_DRYRUN.cmd
+tools/00_BUILD_B51R1_GUARDED_EXACT_OVERLAY.cmd
 ```
 
 ## First action in next chat
 
 ```text
-1. Nếu user gửi BUILD_LOG: sửa đúng lỗi gate đầu tiên trước, không nhảy sang việc khác.
-2. Nếu user gửi FINAL_REPORT 0.6.55.1 + screenshot: audit đ / Đ / â-ê-ô / stacked accents ngay.
-3. Chỉ khi screenshot chứng minh ổn mới khóa font Batch45R2.
-4. Sau font gate, phân tích Reverse Workbench và reverse main-menu / Character Select asset.
-5. Continue exact-offset discovery for Story / chapter `冒険のはじまり` / purchase prompt.
+1. Nếu có CLEAN BIN thật: chạy B51R1 guarded dry-run trước.
+2. Nếu dry-run fail: sửa đúng gate đầu tiên, không bypass.
+3. Chỉ nếu dry-run PASS: build từ known-good runtime base BIN, không phải CLEAN.
+4. Sau build: yêu cầu B51R1 1229/1229 output bytes + historical 560/102/19 + font/mapping read-back unchanged.
+5. Sau đó mới test gameplay và xem screenshot.
+6. Runtime PASS chỉ khi screenshot gameplay chứng minh ổn.
 ```
 
-## Runtime font expectations 0.6.55.1
+## B51R1 static proof
 
 ```text
-đ  : thanh ngang phải xuyên thân dọc bên phải của d, cao hơn 0.6.55.0 một pixel
-Đ  : giữ left-stem form; không tự retune thêm nếu chưa có screenshot chứng minh lỗi
-âêô: ^ phải tách khỏi thân rõ hơn
-ấếố...: tone không được nhập/đè với ^
-ắ: acute không được đè với breve
+Validated commit                  = 33a5049bf6dc932a95892eeb1dbb99033c8d074b
+GitHub Actions run                = 35005218964
+B50 exact candidates              = 1229/1229
+Raw B50 unsupported chars         = 19/19 known debt
+Raw B50 bad rows                  = 64/64 known debt
+B51R1 exact-key corrections       = 64/64
+Corrected frozen-60 charset       = PASS, 0 unsupported rows
+B50 canonical mutated             = NO
+New font glyphs                   = 0
+B40 / Batch42                     = 560/560
+B43                               = 102/102
+Combined                          = 662/662
+Intro                             = 19/19
+Legacy Alpha                      = 397/397
+Translation Master               = 596/596
+Duplicate/overlap/byte/token      = PASS
+ROM/font/pointer modified         = NO
+Runtime PASS                      = NO
 ```
 
-## Reverse Workbench 0.1 outputs
+## B43 historical padding rule
+
+Do not reintroduce the bad assumption that every historical B43 `field_bytes` must equal literal Japanese CP932 length.
+
+The proven B43 builder supports padded fields. For B40/B43 historical manifest reconstruction use manifest field size as authoritative and require:
 
 ```text
-GaiaMaster_GRAPHIC_ASSET_CENSUS_0.1_REPORT.txt
-GaiaMaster_GRAPHIC_ASSET_CENSUS_0.1_OWNERS.csv
-GaiaMaster_GRAPHIC_ASSET_CENSUS_0.1_TIM.csv
-GaiaMaster_RUNTIME_TARGET_LOCATOR_0.1_REPORT.txt
+field_bytes >= literal Japanese CP932 byte length
 ```
 
-Known Character Select anchor:
+B50 exact source fields remain strict.
+
+Known example:
 
 ```text
-PRGPACK.BDP + 0xBFD2C
-owner = 29
-owner-local = +0x580
-source = キャラクターをえらんでね
+PRGPACK.BDP+0xDE0A0
+Japanese = はい　　　いいえ
+field_bytes = 22
 ```
 
-Do not invent the offset of `冒険のはじまり`; the committed repo still lacks the full 0.6.38 scanner CSV.
+## CLEAN dry-run command
+
+```text
+python tools/build_gaia_b51r1_guarded_exact_overlay.py "GaiaMaster - Kamigami no Board Game (Japan).bin"
+```
+
+Windows launcher:
+
+```text
+tools/00_RUN_B51R1_GUARDED_DRYRUN.cmd
+```
+
+## Guarded build command
+
+Only after the real dry-run passes:
+
+```text
+python tools/build_gaia_b51r1_guarded_exact_overlay.py "GaiaMaster - Kamigami no Board Game (Japan).bin" --build-from "KNOWN_GOOD_RUNTIME_BASE.bin"
+```
+
+Windows launcher:
+
+```text
+tools/00_BUILD_B51R1_GUARDED_EXACT_OVERLAY.cmd
+```
 
 ## Hard contracts
 
 ```text
-CLEAN SHA1 = f4d5298583c90d89c4b7e51d2dde160ee07f2aec
-Batch42 exact = 560/560
-Batch43 visible = 102/102
-Combined exact = 662/662
-Legacy = 397/397
-Architecture = native 12x12 / 72-byte / 4bpp / mapping-only / frozen 60 glyphs
+CLEAN SHA1        = f4d5298583c90d89c4b7e51d2dde160ee07f2aec
+B50 rows          = 1229
+B50 direct        = 41
+B50 compact       = 1188
+B51R1 corrections = 64
+Batch42/B40       = 560/560
+Batch43           = 102/102
+Combined          = 662/662
+Intro             = 19/19
+Legacy            = 397/397
+Master            = 596/596
+Architecture      = native 12x12 / 72-byte / 4bpp / mapping-only / frozen 60 glyphs
 ```
 
 ## Do not regress
 
-- production source must consume staged `Core/translation`;
-- dynamic rows must not overlap master-owned ranges;
-- same-offset dynamic replacement requires exact source identity;
-- Batch43 source identity is checked against CLEAN ROM;
-- Batch43 may not overlap the 560 exact fields;
-- preserve `%s`, `%d`, `%4d`, `%+3d`, `/V` and token order;
-- do not equate 596/596 Translation Master coverage with whole-game coverage;
-- Reverse Workbench is read-only discovery, not production promotion proof;
-- do not create Batch46 while Batch45R2 runtime font gate is unresolved;
-- do not call Runtime PASS before gameplay screenshots prove it.
+- B50 canonical checkpoint stays immutable;
+- B51R1 corrections are a separate text-only layer;
+- no automatic new font glyphs;
+- no READABLE/R5/Batch45 font-builder invocation from B51R1;
+- no renderer hook or pointer redirect;
+- preserve `%s`, `%d`, `%2d`, `%4d`, `%5d`, `%+3d`, `/V`, `/v`, `/Pxx`, `/PFx` order;
+- no partial/conflicting overlap with B40/B43/intro protected spans;
+- build base must already contain frozen-60 and historical 560/102/19;
+- font atlas and mapping must be byte-identical before/after B51R1 build;
+- do not call real dry-run/build PASS from CI-only evidence;
+- do not call Runtime PASS before gameplay screenshots.
