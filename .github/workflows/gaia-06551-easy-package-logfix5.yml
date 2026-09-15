@@ -1,0 +1,133 @@
+name: Gaia Master 0.6.55.1 Batch45R2 LOGFIX5
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [gaia-character-select-font-atlas-reverse-01]
+    paths:
+      - ".github/workflows/gaia-06551-easy-package-logfix5.yml"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/tools/package_driver_06551.py"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/tools/package_driver_06551_logsafe.py"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/tools/package_root_launcher_06551_v5.cmd"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/tools/build_gaia_06551_batch45r2_font_micro_polish.py"
+
+jobs:
+  windows-smoke:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Real Windows rename-safe log and UTF-8 smoke test
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $src = "games/GaiaMaster-Kamigami-no-Board-Game"
+          $pkg = Join-Path $env:RUNNER_TEMP "GaiaMaster LOGFIX5 smoke (1)"
+          New-Item -ItemType Directory -Force -Path (Join-Path $pkg "Core/tools") | Out-Null
+          Copy-Item "$src/tools/package_root_launcher_06551_v5.cmd" (Join-Path $pkg "00_VIET_HOA_GAME.cmd")
+          Copy-Item "$src/tools/package_driver_06551.py" (Join-Path $pkg "Core/tools/package_driver_06551.py")
+          Copy-Item "$src/tools/package_driver_06551_logsafe.py" (Join-Path $pkg "Core/tools/package_driver_06551_logsafe.py")
+          Copy-Item "$src/tools/build_gaia_06551_batch45r2_font_micro_polish.py" (Join-Path $pkg "Core/tools/build_gaia_06551_batch45r2_font_micro_polish.py")
+
+          $env:GAIA_CI = "1"
+          & cmd.exe /d /c ('"' + (Join-Path $pkg "00_VIET_HOA_GAME.cmd") + '"')
+          $rc = $LASTEXITCODE
+          if ($rc -ne 9) { throw "Expected no-ROM diagnostic return code 9, got $rc" }
+
+          $log = Join-Path $pkg "BUILD_LOG_0.6.55.1_R2.txt"
+          if (-not (Test-Path $log)) { throw "Rename-safe BUILD_LOG was not created" }
+          $text = Get-Content -Raw -LiteralPath $log
+          Write-Host $text
+          if ($text -notmatch "Normalized package root:") { throw "Driver did not reach normalized root" }
+          if ($text -notmatch "BIN candidates found: 0") { throw "Launcher did not reach CLEAN-BIN scan" }
+          if ($text -match "PermissionError") { throw "Windows log file lock regression detected" }
+          if ($text -match "Invalid argument") { throw "Windows argv/path regression detected" }
+
+          python "$src/tools/package_driver_06551_logsafe.py" --selftest
+          if ($LASTEXITCODE -ne 0) { throw "Rename-safe driver selftest failed" }
+
+          $old = "BUILD_LOG_0.6.55.1_R2.txt"
+          $new = $old.Replace("0.6.13.0","0.6.14.0").Replace("06130","06140").Replace("BATCH4","BATCH5")
+          if ($new -ne $old) { throw "Historical 0.6.14 rename rule still mutates persistent log name" }
+          Write-Host "REAL WINDOWS LOGFIX5 RENAME-SAFETY SMOKE TEST: PASS"
+          exit 0
+
+  package:
+    needs: windows-smoke
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Compile and static selftests
+        shell: bash
+        run: |
+          set -euo pipefail
+          ROOT="games/GaiaMaster-Kamigami-no-Board-Game"
+          python -m py_compile "$ROOT/tools/package_driver_06551.py"
+          python -m py_compile "$ROOT/tools/package_driver_06551_logsafe.py"
+          python -m py_compile "$ROOT/tools/build_gaia_06551_batch45r2_font_micro_polish.py"
+          python "$ROOT/tools/package_driver_06551_logsafe.py" --selftest
+          python "$ROOT/tools/build_gaia_06551_batch45r2_font_micro_polish.py" --selftest
+
+          python - <<'PY'
+          from pathlib import Path
+          p = Path("games/GaiaMaster-Kamigami-no-Board-Game/tools/package_root_launcher_06551_v5.cmd")
+          data = p.read_bytes()
+          assert all(b < 128 for b in data), "launcher has non-ASCII bytes"
+          assert b"\r\n" in data, "launcher missing CRLF"
+          assert b"BUILD_LOG_0.6.55.1_R2.txt" in data
+          assert b"package_driver_06551_logsafe.py" in data
+          assert b"BUILD_LOG_0.6.55.1_BATCH45R2.txt" not in data
+          assert b'for %%I in ("%~dp0.") do set "ROOT=%%~fI"' in data
+          assert b"powershell" not in data.lower()
+          print("LOGFIX5 launcher static gates: PASS")
+          PY
+
+      - name: Prepare EASY package
+        shell: bash
+        run: |
+          set -euo pipefail
+          ROOT="games/GaiaMaster-Kamigami-no-Board-Game"
+          PKG="GaiaMaster_0.6.55.1_Batch45R2_FONT_EASY_LOGFIX5"
+          mkdir -p "$PKG/Core"
+          cp -a "$ROOT"/. "$PKG/Core"/
+          find "$PKG/Core" -type f \( -iname '*.bin' -o -iname '*.cue' -o -iname '*.iso' -o -iname '*.img' -o -iname '*.chd' \) -delete
+          cp "$ROOT/tools/package_root_launcher_06551_v5.cmd" "$PKG/00_VIET_HOA_GAME.cmd"
+
+          cat > "$PKG/01_DOC_TRUOC.txt" <<'EOF'
+          GAIA MASTER 0.6.55.1 - BATCH45R2 - LOGFIX5
+          ===========================================
+
+          LOGFIX5 fixes the Windows file-lock proven by the user build log.
+          Historical builder 0.6.14 renames changed files containing BATCH4.
+          The old persistent log name contained BATCH45R2, so Windows tried to
+          rename the open log and raised PermissionError 13.
+
+          This package does NOT modify the historical 0.6.14 builder.
+          Instead the diagnostic log is now rename-safe:
+          BUILD_LOG_0.6.55.1_R2.txt
+
+          Previous fixes are preserved:
+          - canonical package root without trailing-backslash argv corruption;
+          - Python is sole active log writer;
+          - nested Python stdio forced to UTF-8;
+          - frozen 12x12 / mapping-only / 60-glyph architecture unchanged.
+
+          Usage:
+          1. Extract the whole ZIP to a new normal folder.
+          2. Put the exact CLEAN Japan BIN beside 00_VIET_HOA_GAME.cmd.
+          3. Double-click 00_VIET_HOA_GAME.cmd.
+
+          CLEAN SHA1:
+          f4d5298583c90d89c4b7e51d2dde160ee07f2aec
+
+          Static/build PASS is NOT Runtime PASS.
+          Gameplay screenshots are still required before font lock.
+          This package does not include the original game ROM.
+          EOF
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: GaiaMaster_0.6.55.1_Batch45R2_FONT_EASY_LOGFIX5
+          path: GaiaMaster_0.6.55.1_Batch45R2_FONT_EASY_LOGFIX5
+          if-no-files-found: error
