@@ -8,6 +8,7 @@ on:
     paths:
       - "games/GaiaMaster-Kamigami-no-Board-Game/tools/build_gaia_b51_guarded_exact_overlay.py"
       - "games/GaiaMaster-Kamigami-no-Board-Game/tools/build_gaia_b51r1_guarded_exact_overlay.py"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/tools/find_gaia_b51r1_runtime_base.py"
       - "games/GaiaMaster-Kamigami-no-Board-Game/tools/validate_gaia_b51_static.py"
       - "games/GaiaMaster-Kamigami-no-Board-Game/tools/build_gaia_06100_hybrid_accent_b1_LEGACY.py"
       - "games/GaiaMaster-Kamigami-no-Board-Game/tools/batch40_stage_06500.py"
@@ -37,6 +38,7 @@ jobs:
         run: |
           python -m py_compile games/GaiaMaster-Kamigami-no-Board-Game/tools/build_gaia_b51_guarded_exact_overlay.py
           python -m py_compile games/GaiaMaster-Kamigami-no-Board-Game/tools/build_gaia_b51r1_guarded_exact_overlay.py
+          python -m py_compile games/GaiaMaster-Kamigami-no-Board-Game/tools/find_gaia_b51r1_runtime_base.py
           python -m py_compile games/GaiaMaster-Kamigami-no-Board-Game/tools/validate_gaia_b51_static.py
 
       - name: Run B51R1 static checkpoint validator
