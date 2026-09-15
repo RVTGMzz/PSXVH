@@ -141,7 +141,7 @@ def main() -> int:
     if corrected_bad:
         raise RuntimeError(f"B51R1 still has unsupported runtime chars: {corrected_bad[:8]}")
 
-    b40, b43, intro, eq, counts, masters = core.static_contracts(rows, fake_cmap)
+    b40, b43, intro, eq, counts, masters = r1.static_contracts_r1(rows, fake_cmap)
     eq40, eq43, eqi = eq
     direct = sum(p.production_status == "DIRECT_FIT_VI_FULL" for p in rows)
     compact = len(rows) - direct
