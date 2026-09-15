@@ -11,6 +11,9 @@ on:
       - '.github/workflows/gaia-source-review-audit.yml'
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   source-review-audit:
     runs-on: ubuntu-latest
@@ -60,6 +63,30 @@ jobs:
           set -o pipefail
           python games/GaiaMaster-Kamigami-no-Board-Game/tools/audit_master_source_review_596_20260915.py \
             2>&1 | tee GAIA_SOURCE_REVIEW_POSTWRITE_AUDIT.log
+
+      - name: Commit verified Translation Master vi_full
+        shell: bash
+        run: |
+          set -euo pipefail
+          PREFIX='games/GaiaMaster-Kamigami-no-Board-Game/translation/TRANSLATION_MASTER_0.6_part'
+
+          unexpected="$(git diff --name-only | grep -Ev '^games/GaiaMaster-Kamigami-no-Board-Game/translation/TRANSLATION_MASTER_0\.6_part0[1-6]\.csv$' || true)"
+          if [ -n "$unexpected" ]; then
+            echo '[BLOCKED] Unexpected tracked files changed by materialization:'
+            echo "$unexpected"
+            exit 1
+          fi
+
+          if git diff --quiet -- "${PREFIX}"*.csv; then
+            echo 'Translation Master already materialized; nothing to commit.'
+            exit 0
+          fi
+
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add "${PREFIX}"*.csv
+          git commit -m 'Gaia Master: materialize 596 reviewed source translations'
+          git push origin "HEAD:${GITHUB_REF_NAME}"
 
       - name: Upload source-review logs
         if: always()
