@@ -14,6 +14,41 @@ BUILDER_NAME = "build_gaia_06551_batch45r2_font_micro_polish.py"
 LOG_NAME = "BUILD_LOG_0.6.55.1_BATCH45R2.txt"
 
 
+def normalize_root_arg(raw: str) -> str:
+    """Normalize a package-root argv value before Path() sees it.
+
+    Windows launchers commonly expose %%~dp0 with a trailing backslash. If that
+    path is passed as a quoted argv value, the closing quote can leak into the
+    argument seen by Python. Be deliberately defensive here so a dirty launcher
+    cannot create an invalid log path.
+    """
+    s = str(raw).strip()
+    while s.startswith('"'):
+        s = s[1:]
+    s = s.rstrip(' \t\r\n"')
+    while len(s) > 3 and s.endswith(("\\", "/")):
+        s = s[:-1]
+        s = s.rstrip(' \t\r\n"')
+    if not s:
+        raise ValueError("Package root argument is empty after normalization")
+    return s
+
+
+def _selftest() -> int:
+    cases = {
+        'C:\\Users\\win\\Downloads\\Pkg\\': 'C:\\Users\\win\\Downloads\\Pkg',
+        'C:\\Users\\win\\Downloads\\Pkg" ': 'C:\\Users\\win\\Downloads\\Pkg',
+        '"C:\\Users\\win\\Downloads\\Pkg\\"': 'C:\\Users\\win\\Downloads\\Pkg',
+        '  "C:\\Users\\win\\Downloads\\Pkg"  ': 'C:\\Users\\win\\Downloads\\Pkg',
+    }
+    for raw, want in cases.items():
+        got = normalize_root_arg(raw)
+        if got != want:
+            raise RuntimeError("root argv normalization failed: %r -> %r, want %r" % (raw, got, want))
+    print("PACKAGE DRIVER ROOT-ARGV SELFTEST PASS")
+    return 0
+
+
 def sha1_file(path: Path) -> str:
     h = hashlib.sha1()
     with path.open("rb") as f:
@@ -84,11 +119,15 @@ def run_logged(cmd, cwd: Path, log, label: str) -> int:
 
 
 def main() -> int:
+    if len(sys.argv) == 2 and sys.argv[1] == "--selftest":
+        return _selftest()
     if len(sys.argv) != 2:
         print("Usage: package_driver_06551.py PACKAGE_ROOT")
         return 2
 
-    root = Path(sys.argv[1]).expanduser().resolve()
+    raw_root = sys.argv[1]
+    clean_root = normalize_root_arg(raw_root)
+    root = Path(clean_root).expanduser().resolve()
     log_path = root / LOG_NAME
     tools = root / "Core" / "tools"
     builder = tools / BUILDER_NAME
@@ -98,7 +137,8 @@ def main() -> int:
             log_line(log, "GAIA MASTER 0.6.55.1 BATCH45R2 - FAIL-PERSISTENT DRIVER")
             log_line(log, "Python: %s" % sys.executable)
             log_line(log, "Python version: %s" % sys.version.replace("\n", " "))
-            log_line(log, "Package root: %s" % root)
+            log_line(log, "Raw root argv: %r" % raw_root)
+            log_line(log, "Normalized package root: %s" % root)
             log_line(log, "Expected CLEAN SHA1: %s" % CLEAN_SHA1)
 
             if not root.is_dir():
