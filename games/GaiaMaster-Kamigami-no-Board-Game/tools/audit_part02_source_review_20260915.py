@@ -4,12 +4,17 @@
 
 Read-only translation-source audit. No Master/runtime writes.
 
-Priority:
-1. exact Batch40 source-full companion by file + offset + exact Japanese;
-2. reviewed repeat lexicon by exact Japanese, only if no exact companion exists.
+Exact-source priority, highest first:
+1. exact completion-review companion;
+2. Master-only exact source companion;
+3. Batch43 source-full companions;
+4. Batch40 source-full companions;
+5. reviewed repeat lexicon by Japanese phrase, only if no exact companion exists.
 
-The intent is to reuse already-reviewed source translations instead of
-creating another 100-row duplicate companion.
+Multiple exact companions may intentionally contain different editorial wording.
+That is not a source conflict when file + offset + Japanese identity agree: the
+higher-priority reviewed source wins. A different Japanese source at the same
+exact key remains a hard error.
 """
 from __future__ import annotations
 
@@ -21,7 +26,8 @@ ROOT = Path(__file__).resolve().parent.parent
 TR = ROOT / "translation"
 MASTER = TR / "TRANSLATION_MASTER_0.6_part02.csv"
 LEXICON = TR / "TRANSLATION_COMPLETION_REVIEWED_REPEAT_LEXICON_2026-09-15.csv"
-BATCH40_GLOB = "BATCH40_SOURCE_FULL_*_2026-09-15.csv"
+COMPLETION_EXACT = TR / "TRANSLATION_COMPLETION_REVIEWED_COMBAT_ITEMS_2026-09-15.csv"
+MASTER_ONLY = TR / "MASTER_ONLY_EXACT_GAMEPLAY_SOURCE_FULL_2026-09-15.csv"
 TOKEN_RE = re.compile(r"%(?:[-+0-9.#]*[A-Za-z%])|/[Vv]")
 
 
@@ -45,21 +51,33 @@ def tokens(text: str):
     return tuple(m.group(0) for m in TOKEN_RE.finditer(text or ""))
 
 
+def exact_source_files():
+    files = []
+    if COMPLETION_EXACT.is_file():
+        files.append((COMPLETION_EXACT, "completion-reviewed"))
+    if MASTER_ONLY.is_file():
+        files.append((MASTER_ONLY, "master-only"))
+    files.extend((p, "batch43") for p in sorted(TR.glob("BATCH43_SOURCE_FULL_*_2026-09-15.csv")))
+    files.extend((p, "batch40") for p in sorted(TR.glob("BATCH40_SOURCE_FULL_*_2026-09-15.csv")))
+    return files
+
+
 def main() -> int:
     if not MASTER.is_file() or not LEXICON.is_file():
         raise RuntimeError("Missing Part02 Master or reviewed repeat lexicon")
 
-    source_files = sorted(TR.glob(BATCH40_GLOB))
+    source_files = exact_source_files()
     if not source_files:
-        raise RuntimeError("No Batch40 source-full companions found")
+        raise RuntimeError("No reviewed exact source companions found")
 
     master_rows = read_csv(MASTER)
     if len(master_rows) != 100:
         raise RuntimeError(f"Part02 row-count gate failed: {len(master_rows)} != 100")
 
+    # Highest-priority source is inserted first. Lower-priority wording for the
+    # same exact key is ignored as long as Japanese identity is identical.
     exact = {}
-    exact_conflicts = []
-    for path in source_files:
+    for path, source_class in source_files:
         for row in read_csv(path):
             if not {"file", "offset_hex", "japanese", "vi_full"}.issubset(row):
                 continue
@@ -68,14 +86,15 @@ def main() -> int:
             vi = (row.get("vi_full") or "").strip()
             if not vi:
                 continue
-            item = (jp, vi, path.name)
             old = exact.get(k)
-            if old is not None and old[:2] != item[:2]:
-                exact_conflicts.append((k, old, item))
+            if old is not None:
+                if old[0] != jp:
+                    raise RuntimeError(
+                        f"Exact companion Japanese conflict {k}: "
+                        f"{old[0]!r} from {old[2]} != {jp!r} from {path.name}"
+                    )
                 continue
-            exact[k] = item
-    if exact_conflicts:
-        raise RuntimeError(f"Batch40 exact companion conflicts: {exact_conflicts[:5]}")
+            exact[k] = (jp, vi, path.name, source_class)
 
     lex = {}
     for row in read_csv(LEXICON):
@@ -88,6 +107,7 @@ def main() -> int:
         lex[jp] = vi
 
     exact_used = []
+    source_class_counts = {}
     lex_used = []
     missing = []
     token_fail = []
@@ -101,13 +121,14 @@ def main() -> int:
         chosen = None
         item = exact.get(k)
         if item is not None:
-            src_jp, vi, origin = item
+            src_jp, vi, origin, source_class = item
             if src_jp != jp:
                 raise RuntimeError(
                     f"Exact source mismatch {k}: master={jp!r} companion={src_jp!r}"
                 )
             chosen = (vi, origin)
             exact_used.append((k, origin))
+            source_class_counts[source_class] = source_class_counts.get(source_class, 0) + 1
         elif jp in lex:
             chosen = (lex[jp], LEXICON.name)
             lex_used.append(k)
@@ -124,8 +145,6 @@ def main() -> int:
     if missing:
         raise RuntimeError(f"Part02 reviewed-source gaps: {missing[:20]}")
 
-    # Read-only script: this should remain tautologically unchanged, but retain
-    # the snapshot as an explicit contract statement for future refactors.
     runtime_after = [(key(r), r.get("vi_game_current", "")) for r in master_rows]
     if runtime_snapshot != runtime_after:
         raise RuntimeError("Part02 vi_game_current mutated unexpectedly")
@@ -133,7 +152,9 @@ def main() -> int:
     print("GAIA MASTER PART02 SOURCE REVIEW REUSE AUDIT")
     print("=" * 68)
     print(f"Master rows                : {len(master_rows)} / 100")
-    print(f"Batch40 exact companions   : {len(exact_used)}")
+    print(f"Exact-source companions    : {len(exact_used)}")
+    for source_class in ("completion-reviewed", "master-only", "batch43", "batch40"):
+        print(f"  {source_class:20s}: {source_class_counts.get(source_class, 0)}")
     print(f"Repeat-lexicon fallbacks   : {len(lex_used)}")
     print(f"Missing reviewed source    : {len(missing)}")
     print("Exact Japanese identity    : PASS")
