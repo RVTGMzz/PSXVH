@@ -1,0 +1,44 @@
+GAIA MASTER B51R1 STATIC CI PROOF
+========================================================================
+Branch                              : gaia-character-select-font-atlas-reverse-01
+Validated commit                    : 33a5049bf6dc932a95892eeb1dbb99033c8d074b
+GitHub Actions run                  : 35005218964
+Workflow                            : Gaia Master B51R1 Static Validation
+Workflow result                     : SUCCESS
+
+B51/B51R1 module import + syntax    : PASS
+B50 restored SHA256                 : 448bc34afa675299b0de20c54d804d5765e7f9954f67c39058884b318de504b7
+B50 restored size                   : 162851/162851
+B50 exact candidate rows            : 1229/1229
+Raw B50 unsupported characters      : 19/19 (known production-charset debt)
+Raw B50 rows needing cleanup        : 64/64 (known production-charset debt)
+B51R1 exact-key text corrections    : 64/64
+Corrected frozen-60 charset gate    : PASS (0 unsupported rows)
+B50 canonical checkpoint mutated    : NO
+New font glyphs added               : 0
+B50 direct vi_full                  : 41/41
+B50 compact candidates              : 1188/1188
+B40 protected manifest              : 560/560
+B43 protected manifest              : 102/102
+Combined historical exact manifests : 662/662
+Intro protected manifest            : 19/19
+Equivalent B51R1/B40 overlaps       : 0
+Equivalent B51R1/B43 overlaps       : 0
+Equivalent B51R1/Intro overlaps     : 0
+Legacy Alpha static contract        : 397/397
+Translation Master row contract     : 596/596
+Duplicate/overlap/byte/token gates  : PASS
+ROM/font/pointer modified           : NO
+
+IMPORTANT LIMITS
+------------------------------------------------------------------------
+CLEAN source identity tested        : NO (requires the real CLEAN BIN)
+Build/output bytes tested           : NO (requires a proven runtime base BIN)
+Runtime PASS claim                  : NO
+
+RESULT: B51R1 STATIC CI PASS
+
+This proof is a static/CI checkpoint only. It does not promote B51R1 to a
+binary-build checkpoint or Runtime PASS. The next required step is the guarded
+B51R1 dry-run against CLEAN Japan BIN SHA1:
+f4d5298583c90d89c4b7e51d2dde160ee07f2aec
