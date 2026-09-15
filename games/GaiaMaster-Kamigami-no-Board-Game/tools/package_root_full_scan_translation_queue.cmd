@@ -18,14 +18,25 @@ echo "%INNER%"
 echo.
 echo Package khong day du. Hay dung goi LOGFIX moi.
 echo.
+if defined GAIA_CI exit /b 1
 pause
 exit /b 1
 
 :inner_ok
+if defined GAIA_CI goto ci_run
 if "%~1"=="" goto no_arg
 "%ComSpec%" /d /k call "%INNER%" "%~f1"
 exit /b %errorlevel%
 
 :no_arg
 "%ComSpec%" /d /k call "%INNER%"
+exit /b %errorlevel%
+
+:ci_run
+if "%~1"=="" goto ci_no_arg
+call "%INNER%" "%~f1"
+exit /b %errorlevel%
+
+:ci_no_arg
+call "%INNER%"
 exit /b %errorlevel%
