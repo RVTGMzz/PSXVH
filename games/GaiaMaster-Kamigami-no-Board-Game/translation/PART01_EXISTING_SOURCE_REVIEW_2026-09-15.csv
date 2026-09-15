@@ -1,0 +1,9 @@
+file,offset_hex,japanese,vi_full_reviewed,status,note
+PRGPACK.BDP,0x510,やるね,Khá lắm!,SOURCE_FULL_REVIEWED,Lời khen ngắn sau một lượt chơi.
+PRGPACK.BDP,0x530,なかなかやるね,Giỏi đấy!,SOURCE_FULL_REVIEWED,Lời khen mạnh hơn やるね.
+PRGPACK.BDP,0x32040,やるね,Khá lắm!,SOURCE_FULL_REVIEWED,Bản lặp exact-offset cùng ngữ cảnh mini-game.
+PRGPACK.BDP,0x32060,なかなかやるね,Giỏi đấy!,SOURCE_FULL_REVIEWED,Bản lặp exact-offset cùng ngữ cảnh mini-game.
+PRGPACK.BDP,0x3f764,やるね,Khá lắm!,SOURCE_FULL_REVIEWED,Bản lặp exact-offset cùng ngữ cảnh mini-game.
+PRGPACK.BDP,0x3f784,なかなかやるね,Giỏi đấy!,SOURCE_FULL_REVIEWED,Bản lặp exact-offset cùng ngữ cảnh mini-game.
+PRGPACK.BDP,0x4d354,やるね,Khá lắm!,SOURCE_FULL_REVIEWED,Bản lặp exact-offset cùng ngữ cảnh mini-game.
+PRGPACK.BDP,0x4d374,なかなかやるね,Giỏi đấy!,SOURCE_FULL_REVIEWED,Bản lặp exact-offset cùng ngữ cảnh mini-game.
