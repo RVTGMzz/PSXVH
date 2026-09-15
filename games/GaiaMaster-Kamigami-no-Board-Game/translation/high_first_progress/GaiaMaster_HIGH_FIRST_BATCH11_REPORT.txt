@@ -1,0 +1,21 @@
+GAIA MASTER HIGH-FIRST TRANSLATION BATCH11
+============================================================
+New readable source translated     : 1
+PUA scanner artifacts classified   : 137
+Overlap/mojibake artifacts         : 30
+
+Cumulative translated rows         : 1136
+Cumulative proper-name rows        : 58
+Cumulative system-table rows       : 10
+Cumulative false positives         : 191
+Cumulative context-review rows     : 10
+Rows still untouched               : 2099
+
+Key translation:
+- 魔王ｶｰﾄﾞ 何それ？ -> Thẻ Ma Vương? Cái gì vậy?
+
+Notes:
+- Original Japanese/file/offset evidence preserved.
+- PUA-containing strings classified as scanner artifacts, not translated.
+- Obvious odd-byte overlap fragments classified separately.
+- Runtime/build untouched.
