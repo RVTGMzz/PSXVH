@@ -42,6 +42,7 @@ jobs:
           if ($text -match "PermissionError") { throw "Windows log file lock regression detected" }
           if ($text -match "Invalid argument") { throw "Windows argv/path regression detected" }
           Write-Host "REAL WINDOWS CMD + LOG OWNERSHIP SMOKE TEST: PASS"
+          exit 0
 
   package:
     needs: windows-smoke
