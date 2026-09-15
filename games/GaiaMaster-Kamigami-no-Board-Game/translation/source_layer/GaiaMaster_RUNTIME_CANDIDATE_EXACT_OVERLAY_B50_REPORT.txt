@@ -1,0 +1,17 @@
+GAIA MASTER BATCH50 - EXACT-OFFSET RUNTIME CANDIDATE OVERLAY
+==============================================================
+Exact occurrences expected           : 1229
+Exact occurrences materialized       : 1229
+Unique file+offset collisions         : 0
+Byte-fit violations                  : 0
+Negative free-byte rows              : 0
+
+Direct vi_full exact occurrences     : 41
+Compact-candidate exact occurrences  : 1188
+
+Static exact-occurrence gate         : PASS
+ROM/font/pointer modified            : NO
+Runtime PASS claim                   : NO
+
+This overlay is ready for a future patch/build step, but it has NOT been
+written into PRGPACK.BDP or SLPS_020.75 yet.
