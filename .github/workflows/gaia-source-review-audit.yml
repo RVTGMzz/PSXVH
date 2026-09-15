@@ -32,5 +32,17 @@ jobs:
             games/GaiaMaster-Kamigami-no-Board-Game/tools/audit_master_source_review_596_20260915.py
 
       - name: Audit all 596 Translation Master source rows
+        shell: bash
         run: |
-          python games/GaiaMaster-Kamigami-no-Board-Game/tools/audit_master_source_review_596_20260915.py
+          set -o pipefail
+          python games/GaiaMaster-Kamigami-no-Board-Game/tools/audit_master_source_review_596_20260915.py \
+            2>&1 | tee GAIA_SOURCE_REVIEW_AUDIT.log
+
+      - name: Upload source-review audit log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: GaiaMaster_596_Source_Review_Audit_Log
+          path: GAIA_SOURCE_REVIEW_AUDIT.log
+          if-no-files-found: warn
+          retention-days: 30
