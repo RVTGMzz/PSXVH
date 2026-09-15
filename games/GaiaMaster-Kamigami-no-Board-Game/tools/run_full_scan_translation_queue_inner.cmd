@@ -1,6 +1,6 @@
 @echo off
 setlocal EnableExtensions
-for %%I in ("%~dp0..\..\..") do set "ROOT=%%~fI"
+for %%I in ("%~dp0..\..") do set "ROOT=%%~fI"
 cd /d "%ROOT%"
 
 set "SCANNER=%ROOT%\Core\tools\scan_full_japanese_text_06380.py"
