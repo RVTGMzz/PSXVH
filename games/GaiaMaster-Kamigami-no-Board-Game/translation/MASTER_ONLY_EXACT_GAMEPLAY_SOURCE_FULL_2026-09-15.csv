@@ -1,0 +1,13 @@
+file,offset_hex,japanese,vi_full,vi_runtime_current,status,note
+SLPS_020.75,0x9a0,戦闘マスね,Đây là ô Chiến đấu.,Chiến,SOURCE_FULL_TRANSLATED_ONLY,"Exact Japanese recovered from Translation Master part04"
+SLPS_020.75,0x9cc,酒場マスだよ,Đây là ô Quán rượu.,Quán,SOURCE_FULL_TRANSLATED_ONLY,"Exact Japanese recovered from Translation Master part04"
+SLPS_020.75,0x9f4,所得税マスにとまっちゃった！,Bạn đã dừng vào ô Thuế Thu Nhập!,Thuế thu nhập,SOURCE_FULL_TRANSLATED_ONLY,"Exact Japanese recovered from Translation Master part04"
+SLPS_020.75,0xa30,土地税マスに止まっちゃった！,Bạn đã dừng vào ô Thuế Đất!,Ô thuế đất!,SOURCE_FULL_TRANSLATED_ONLY,"Exact Japanese recovered from Translation Master part04"
+SLPS_020.75,0xa6c,聖地マスに止まったよ！,Bạn đã dừng tại ô Thánh Địa!,Ô thánh địa,SOURCE_FULL_TRANSLATED_ONLY,"Exact Japanese recovered from Translation Master part04"
+SLPS_020.75,0xa84,たまった税金をあげるね！！,Bạn nhận toàn bộ số thuế đã tích lũy nhé!!,Nhận thuế,SOURCE_FULL_TRANSLATED_ONLY,"Exact Japanese recovered from Translation Master part04"
+SLPS_020.75,0xaa0,どこにいっちゃうのかしら,Không biết sẽ đi đến đâu nhỉ?,Đi đâu đây?,SOURCE_FULL_TRANSLATED_ONLY,"Exact Japanese recovered from Translation Master part04"
+SLPS_020.75,0xadc,おまたせ！,Đợi lâu rồi nhé!,Xong!,SOURCE_FULL_TRANSLATED_ONLY,"Exact Japanese recovered from Translation Master part04"
+SLPS_020.75,0xae8,ほかの人と同じマスに止まったよ,Bạn đã dừng cùng ô với người khác.,Trùng ô người,SOURCE_FULL_TRANSLATED_ONLY,"Exact Japanese recovered from Translation Master part04"
+SLPS_020.75,0x1768,ＨＰを３０回復する,Hồi 30 HP.,Hồi30HP,SOURCE_FULL_TRANSLATED_ONLY,"Exact Japanese recovered from Translation Master part04"
+SLPS_020.75,0x17b0,ファイアボール,Cầu Lửa,CầuLửa,SOURCE_FULL_TRANSLATED_ONLY,"Exact Japanese recovered from Translation Master part05"
+SLPS_020.75,0x17f0,エストック,Estoc,Estoc,SOURCE_FULL_TRANSLATED_ONLY,"Exact Japanese recovered from Translation Master part05"
