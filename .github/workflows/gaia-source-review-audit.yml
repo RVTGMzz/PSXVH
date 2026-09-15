@@ -7,6 +7,7 @@ on:
     paths:
       - 'games/GaiaMaster-Kamigami-no-Board-Game/translation/**'
       - 'games/GaiaMaster-Kamigami-no-Board-Game/tools/audit_*_20260915.py'
+      - 'games/GaiaMaster-Kamigami-no-Board-Game/tools/materialize_master_source_review_596_20260915.py'
       - '.github/workflows/gaia-source-review-audit.yml'
   workflow_dispatch:
 
@@ -23,13 +24,14 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Compile source-review audit scripts
+      - name: Compile source-review tools
         run: |
           python -m py_compile \
             games/GaiaMaster-Kamigami-no-Board-Game/tools/audit_part01_source_review_20260915.py \
             games/GaiaMaster-Kamigami-no-Board-Game/tools/audit_part02_source_review_20260915.py \
             games/GaiaMaster-Kamigami-no-Board-Game/tools/audit_part04_source_review_20260915.py \
-            games/GaiaMaster-Kamigami-no-Board-Game/tools/audit_master_source_review_596_20260915.py
+            games/GaiaMaster-Kamigami-no-Board-Game/tools/audit_master_source_review_596_20260915.py \
+            games/GaiaMaster-Kamigami-no-Board-Game/tools/materialize_master_source_review_596_20260915.py
 
       - name: Audit all 596 Translation Master source rows
         shell: bash
@@ -38,11 +40,45 @@ jobs:
           python games/GaiaMaster-Kamigami-no-Board-Game/tools/audit_master_source_review_596_20260915.py \
             2>&1 | tee GAIA_SOURCE_REVIEW_AUDIT.log
 
-      - name: Upload source-review audit log
+      - name: Dry-run materialization
+        shell: bash
+        run: |
+          set -o pipefail
+          python games/GaiaMaster-Kamigami-no-Board-Game/tools/materialize_master_source_review_596_20260915.py \
+            2>&1 | tee GAIA_MASTER_596_MATERIALIZE_DRYRUN.log
+
+      - name: Materialize reviewed vi_full in CI checkout
+        shell: bash
+        run: |
+          set -o pipefail
+          python games/GaiaMaster-Kamigami-no-Board-Game/tools/materialize_master_source_review_596_20260915.py --write \
+            2>&1 | tee GAIA_MASTER_596_MATERIALIZE_WRITE.log
+
+      - name: Re-audit after materialization
+        shell: bash
+        run: |
+          set -o pipefail
+          python games/GaiaMaster-Kamigami-no-Board-Game/tools/audit_master_source_review_596_20260915.py \
+            2>&1 | tee GAIA_SOURCE_REVIEW_POSTWRITE_AUDIT.log
+
+      - name: Upload source-review logs
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: GaiaMaster_596_Source_Review_Audit_Log
-          path: GAIA_SOURCE_REVIEW_AUDIT.log
+          path: |
+            GAIA_SOURCE_REVIEW_AUDIT.log
+            GAIA_MASTER_596_MATERIALIZE_DRYRUN.log
+            GAIA_MASTER_596_MATERIALIZE_WRITE.log
+            GAIA_SOURCE_REVIEW_POSTWRITE_AUDIT.log
           if-no-files-found: warn
+          retention-days: 30
+
+      - name: Upload materialized Translation Master
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: GaiaMaster_596_Source_Reviewed_Master
+          path: games/GaiaMaster-Kamigami-no-Board-Game/translation/TRANSLATION_MASTER_0.6_part*.csv
+          if-no-files-found: error
           retention-days: 30
