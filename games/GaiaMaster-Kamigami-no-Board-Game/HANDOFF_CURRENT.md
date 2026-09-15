@@ -1,18 +1,19 @@
 # HANDOFF CURRENT - Gaia Master PS1 Viet hoa
 
-Updated: 2026-09-16 00:16 +07
+Updated: 2026-09-16
 Branch: `gaia-character-select-font-atlas-reverse-01`
 Repo: `ronvotri/Viet-Hoa-PS1`
 
 ## Current priority
 
-Translation-first source work has reached the B50 exact-offset runtime-candidate overlay milestone.
+Translation-first source work has reached **B51R1 STATIC CI PASS**.
 
-B51 guarded exact-offset tooling is now implemented, but **B50 remains the canonical validated checkpoint** until the B51 dry-run/build is executed against the actual CLEAN/runtime BIN files.
+Important distinction:
 
-Do not resume the old font-first priority automatically. Font work is parked unless the user explicitly returns to it.
-
-Do not call Runtime PASS without gameplay screenshot evidence.
+- **B50 remains the canonical validated binary/source checkpoint** because no real CLEAN BIN/runtime base BIN was available inside the connected environment for actual binary execution.
+- **B51R1 STATIC CI PASS is proven** and is the production-candidate layer to use for the next real BIN dry-run/build.
+- Do not resume font work unless the user explicitly returns to it.
+- Do not call Runtime PASS without gameplay screenshots.
 
 ## Clean source contract
 
@@ -20,243 +21,292 @@ Exact CLEAN Japan BIN SHA1:
 
 `f4d5298583c90d89c4b7e51d2dde160ee07f2aec`
 
-Never patch an unknown or already modified BIN.
+Never patch an unknown or already modified BIN as the CLEAN source oracle.
 
-## Scanner/source triage completion
+## Source-layer state
 
-Full scanner run from the CLEAN BIN produced:
+Full scanner/source triage is closed.
 
-- scanner candidates: 13,330
-- raw unseen unique Japanese: 6,361
-- reviewed committed unique JP already known: 634
-- new source occurrences: 12,517
-- new unique Japanese queue: 6,229
-- HIGH-FIRST: 3,504
-- REVIEW-MEDIUM: 2,725
+Final translated source layer before production materialization:
 
-Both HIGH-FIRST and REVIEW-MEDIUM source triage are closed.
+- unique translated Japanese rows: `1,186`
+- exact source occurrences: `1,229`
+- context rows intentionally parked: `4`
 
-Final full 6,229-row triage state before context cleanup:
-
-- source-translated: 1,177
-- proper names preserved: 59
-- system/input-table rows preserved: 16
-- scanner false positives: 4,963
-- context-review rows: 14
-- untouched: 0
-
-Batch22 then resolved 9 context rows as real source translations and reclassified 1 known overlap artifact.
-
-Current translated source layer:
-
-- unique translated Japanese rows: 1,186
-- exact source occurrences: 1,229
-- context rows still intentionally parked: 4
-
-The 4 parked rows are:
+Parked rows:
 
 - `PRGPACK.BDP 0x1269bc` - `俺は`
 - `PRGPACK.BDP 0xde9fc` - `ファ：`
 - `PRGPACK.BDP 0x16e580` - `（未使用`
 - `PRGPACK.BDP 0x96290` - `体力が%d%s`
 
-Do not guess these four without better context.
+Do not guess these four without better runtime context.
 
-## B22R1 exact occurrence correction
+## B23-B49 static-fit history
 
-B22 originally split `all_exact_refs` using the wrong delimiter. B22R1 fixed it to `|`.
+B23 established the runtime field-budget model:
 
-B22R1 proof:
+- source field = Japanese CP932 byte budget
+- ordinary display chars = two runtime bytes
+- `%...`, `/V`, `/v`, `/Pxx`, `/PFx` controls keep raw/control byte lengths
 
-- unique translated Japanese rows: 1,186
-- expanded exact occurrences: 1,229
-- expected occurrence_count sum: 1,229
-- exact-ref parse/conservation: PASS
-- token/control audit: PASS
+B24-B49 produced compact runtime candidates without overwriting meaning-first `vi_full`.
 
-## B23 static byte-fit preflight
+Final B49:
 
-Method:
-
-- source field size = exact CP932 byte length of Japanese source
-- ordinary display chars = 2 runtime bytes
-- `%...`, `/V`, `/v`, `/Pxx`, `/PFx` controls retain their control/ASCII byte lengths
-
-Initial B23 result:
-
-- unique translations: 1,186
-- direct `vi_full` fits: 37
-- rows needing compact: 1,149
-
-No ROM/font/pointer data was modified.
-
-## B24-B49 compact-fit completion
-
-B24 through B49 produced separate `vi_compact` runtime candidates without overwriting meaning-first `vi_full`.
-
-Final B49 result:
-
-- translated unique source rows: 1,186
-- exact occurrences represented: 1,229
-- direct `vi_full` fits: 37
-- compact fits B24-B49: 1,149
-- unique rows ready by static byte-fit: 1,186 / 1,186
-- exact occurrences ready by byte-fit: 1,229 / 1,229
-- unique rows still needing compact: 0
-- exact occurrences still needing compact: 0
+- unique translated rows ready: `1186/1186`
+- exact occurrences ready: `1229/1229`
+- rows still needing compact: `0`
 - candidate-vs-field byte gate: PASS
 - ROM/font/pointer modified: NO
-- Runtime PASS claim: NO
-
-Important: compact text is a static-field candidate. Some aggressively shortened story fragments and abbreviations must still be judged in gameplay before final editorial lock.
+- Runtime PASS: NO
 
 ## B50 canonical exact-offset overlay
-
-B50 expands the completed source layer to every real file+offset occurrence.
-
-B50 result:
-
-- exact occurrences expected: 1,229
-- exact occurrences materialized: 1,229
-- file+offset collisions: 0
-- byte-fit violations: 0
-- negative free-byte rows: 0
-- direct `vi_full` exact occurrences: 41
-- compact exact occurrences: 1,188
-- static exact-occurrence gate: PASS
-- ROM/font/pointer modified: NO
-- Runtime PASS claim: NO
 
 Canonical artifact:
 
 `GaiaMaster_RUNTIME_CANDIDATE_EXACT_OVERLAY_B50.csv`
 
-Original byte size: `162851`
+Archived under:
 
-Original SHA256:
+`translation/source_layer/checkpoint_B50/`
 
-`448bc34afa675299b0de20c54d804d5765e7f9954f67c39058884b318de504b7`
-
-The exact overlay is archived in the repo as gzip -> base64 -> 4 UTF-8 text parts under:
-
-`translation/source_layer/checkpoint_B50/parts/`
-
-Restore with:
+Restore script:
 
 `translation/source_layer/checkpoint_B50/restore_b50_overlay.py`
 
-Checkpoint README:
+Raw size:
 
-`translation/source_layer/checkpoint_B50/README.md`
+`162851`
 
-The restore script verifies gzip SHA256, raw byte size, and raw SHA256 before writing the CSV.
+Raw SHA256:
 
-## B51 guarded exact-offset layer implementation
+`448bc34afa675299b0de20c54d804d5765e7f9954f67c39058884b318de504b7`
 
-B51 tool:
+Gzip SHA256:
+
+`4b8373f53ea04b3b89420c874870b07016fd817c51e603b5644643e6cc122b60`
+
+B50 static materialization:
+
+- exact rows: `1229/1229`
+- direct `vi_full`: `41`
+- compact candidates: `1188`
+- duplicate exact keys: `0`
+- overlapping exact fields: `0`
+- byte-fit violations: `0`
+- negative free-byte rows: `0`
+- token/control preservation: PASS
+- ROM/font/pointer modified: NO
+- Runtime PASS: NO
+
+## Important B51 discovery: B50 byte-fit was not enough
+
+The first B51 production encoder audit found that B50 contained Unicode Vietnamese characters outside the frozen 60-glyph runtime codepage.
+
+Full static census proved exactly:
+
+- unsupported runtime characters: `19`
+- affected exact B50 rows: `64`
+
+The unsupported set was:
+
+`À Á Â É è õ ý Ă Ư ẳ ẵ ẹ Ế ễ Ồ Ở ỡ Ừ ỳ`
+
+This is production-charset debt in B50, not a request to expand the font.
+
+## B51R1 frozen-60 text correction layer
+
+Correction manifest:
+
+`translation/source_layer/B51_RUNTIME_CHARSET_CORRECTIONS.csv`
+
+Production wrapper:
+
+`tools/build_gaia_b51r1_guarded_exact_overlay.py`
+
+B51R1 rules:
+
+- keep canonical B50 immutable
+- apply exactly `64` file+offset text corrections
+- correction must match the exact old B50 candidate before replacement
+- preserve formatter/control token order
+- correction must fit the exact B50 source field
+- correction may not exceed the already-approved B50 candidate byte budget
+- no new glyphs
+- no font/mapping mutation
+
+One correction was tightened after CI caught a byte overflow:
+
+`PRGPACK.BDP+0x90054` changed from proposed `hay bị dí` to `bị dí`, staying within the original 16-byte field/budget.
+
+## B43 padded-field compatibility correction
+
+CI then exposed an overly strict new validator assumption at:
+
+`PRGPACK.BDP+0xDE0A0`
+
+Historical B43 manifest row:
+
+- Japanese: `はい　　　いいえ`
+- Vietnamese: `Có    Không`
+- `field_bytes = 22`
+
+The proven B43 builder treats manifest `field_bytes` as authoritative and permits padded source fields. It does **not** require `field_bytes == len(japanese.encode(cp932))`.
+
+B51R1 therefore uses the historical compatible rule for B40/B43 regression manifests:
+
+`field_bytes >= literal Japanese CP932 bytes`
+
+This relaxation applies only to historical manifest reconstruction. B50 exact source-field identity remains strict.
+
+## B51R1 STATIC CI PASS
+
+Static validator:
+
+`tools/validate_gaia_b51_static.py`
+
+Workflow:
+
+`.github/workflows/gaia-b51-static-validation.yml`
+
+Validated commit:
+
+`33a5049bf6dc932a95892eeb1dbb99033c8d074b`
+
+GitHub Actions run:
+
+`35005218964`
+
+Result: **SUCCESS**
+
+Proof file:
+
+`translation/source_layer/checkpoint_B51/B51R1_STATIC_CI_PROOF.txt`
+
+Exact CI result:
+
+- B51/B51R1 import + syntax: PASS
+- B50 restore SHA256: PASS
+- B50 size: `162851/162851`
+- B50 exact candidate rows: `1229/1229`
+- raw B50 unsupported chars: `19/19` known debt
+- raw B50 rows needing charset cleanup: `64/64` known debt
+- B51R1 exact-key corrections: `64/64`
+- corrected frozen-60 charset gate: PASS, `0` unsupported rows
+- canonical B50 mutated: NO
+- new font glyphs added: `0`
+- B50 direct `vi_full`: `41/41`
+- B50 compact candidates: `1188/1188`
+- B40 / Batch42 protected exact manifest: `560/560`
+- B43 protected exact manifest: `102/102`
+- combined protected historical fields: `662/662`
+- intro protected exact manifest: `19/19`
+- B51R1 overlap with B40: `0`
+- B51R1 overlap with B43: `0`
+- B51R1 overlap with intro19: `0`
+- legacy Alpha static contract: `397/397`
+- Translation Master row contract: `596/596`
+- duplicate/overlap/byte/token gates: PASS
+- ROM/font/pointer modified: NO
+- CLEAN source identity tested: NO, needs real CLEAN BIN
+- build/output bytes tested: NO, needs real runtime base BIN
+- Runtime PASS: NO
+
+## B51/B51R1 architecture
+
+Core B51 tool:
 
 `tools/build_gaia_b51_guarded_exact_overlay.py`
 
-B51 checkpoint notes:
+B51R1 production wrapper:
 
-`translation/source_layer/checkpoint_B51/README.md`
+`tools/build_gaia_b51r1_guarded_exact_overlay.py`
 
-Important architecture decision:
+B50/B51R1 is an additive text layer, not a replacement superset of older runtime manifests.
 
-B50 is an **additive source layer**, not a replacement superset of the older 560/102/19 exact runtime fields.
+Historical exact spans are protected:
 
-B51 therefore protects historical spans instead of requiring them to exist inside B50:
+- B40/Batch42 `560`
+- B43 `102`
+- intro `19`
 
-- B50 non-overlapping exact writes are allowed;
-- exact same-span + exact same-byte overlap with a protected historical field is allowed;
-- partial/conflicting overlap hard-fails;
-- build base must already byte-verify Batch42/B40 `560/560`, Batch43 `102/102`, and intro `19/19` before B50 is applied;
-- those same exact historical fields are byte-verified again after B50 is applied.
+A new write may not partially/conflictingly overlap a protected historical field.
 
-B51 implemented guards:
+Build mode requires a known-good runtime base that already carries frozen-60 and already byte-verifies `560/102/19` before B51R1. These contracts are rechecked after patching.
 
-1. Require CLEAN Japan BIN SHA1 exactly `f4d5298583c90d89c4b7e51d2dde160ee07f2aec`.
-2. Restore B50 from the four checkpoint parts and verify gzip/raw hashes plus raw size.
-3. Require the exact B50 CSV schema:
-   `file,offset_hex,japanese,vi_runtime_candidate,field_bytes,runtime_candidate_bytes,free_bytes,production_status,queue_tier,source_status`.
-4. Require exactly `1229` rows, split as `41` direct `vi_full` + `1188` compact candidates.
-5. Verify exact CLEAN CP932 source identity and field size at every file+offset.
-6. Preserve control order for `%...`, `/V`, `/v`, `/Pxx`, `/PFx`.
-7. Reject duplicate B50 keys and overlapping B50 write spans.
-8. Reject B50 writes touching frozen font-atlas or font-mapping ranges.
-9. Verify BDP owner boundaries before writes.
-10. Rebuild nested/top BDP checksums and affected raw-sector ECC/EDC after text writes.
-11. Verify legacy Alpha static contract `397/397` via the historical B40 staging plan without entering its source-mutation context.
-12. Verify Translation Master row contract `596/596`.
-13. In build mode, require a proven runtime base BIN with the frozen 60-glyph mapping already installed.
-14. Snapshot font atlas + mapping from the build base and require byte-identical values in memory and after output read-back.
-15. Re-run B50 `1229/1229` exact output verification plus Batch42/B40 `560/560`, Batch43 `102/102`, and intro `19/19` output regressions.
-16. Never call Runtime PASS from this tool.
+B51R1 also snapshots font atlas + mapping and requires byte-identical values in memory and after output read-back.
 
-B51 deliberately imports the historical `build_gaia_06100_hybrid_accent_b1_LEGACY.py` only for frozen constants/encoding/ISO/BDP/checksum helpers. It does **not** import or invoke `READABLE`, `R5_PATCHED`, Batch45 font-polish code, or any font builder.
+It does not invoke `READABLE`, `R5_PATCHED`, Batch45 font-polish code, or any font builder.
 
-### B51 execution status
+## Windows launchers
 
-The B51 Python implementation has been syntax-compiled in the working environment.
+Guarded dry-run:
 
-However the raw CLEAN BIN and a proven runtime base BIN are not available inside the current connected runtime, so the real binary dry-run/build has **not** been executed here.
+`tools/00_RUN_B51R1_GUARDED_DRYRUN.cmd`
 
-Therefore current claims are intentionally limited to:
+Guarded build:
 
-- B51 guarded tool implementation: DONE
-- B51 actual guarded dry-run PASS: **NOT YET CLAIMED**
-- B51 actual build/static byte PASS: **NOT YET CLAIMED**
-- Runtime PASS: **NO**
+`tools/00_BUILD_B51R1_GUARDED_EXACT_OVERLAY.cmd`
 
-### Next local commands
+The dry-run launcher defaults to:
 
-Guarded dry-run first:
+`GaiaMaster - Kamigami no Board Game (Japan).bin`
+
+The build launcher requires a separate known-good runtime base BIN and explicitly warns not to use CLEAN as the build base.
+
+## Next required step
+
+Run the **real B51R1 guarded dry-run** against the exact CLEAN BIN:
 
 ```bash
-python tools/build_gaia_b51_guarded_exact_overlay.py "GaiaMaster - Kamigami no Board Game (Japan).bin"
+python tools/build_gaia_b51r1_guarded_exact_overlay.py "GaiaMaster - Kamigami no Board Game (Japan).bin"
 ```
 
-Only if that succeeds, build from a known-good runtime BIN that already passes frozen-60 + `560/102/19`:
+Or use:
+
+`tools/00_RUN_B51R1_GUARDED_DRYRUN.cmd`
+
+Only after the real CLEAN dry-run passes, build from a known-good runtime base:
 
 ```bash
-python tools/build_gaia_b51_guarded_exact_overlay.py \
+python tools/build_gaia_b51r1_guarded_exact_overlay.py \
   "GaiaMaster - Kamigami no Board Game (Japan).bin" \
   --build-from "KNOWN_GOOD_RUNTIME_BASE.bin"
 ```
 
-Do not use the CLEAN BIN itself as `--build-from`. B51 is text-only and intentionally does not install/regenerate font data.
+Or use:
 
-## Historical runtime/build contracts that must not regress
+`tools/00_BUILD_B51R1_GUARDED_EXACT_OVERLAY.cmd`
 
-Previously proven build contracts include:
+Do not use CLEAN itself as `--build-from`.
 
-- Batch42 exact fields: 560 / 560
-- Batch43: 102 / 102
-- combined exact fields: 662 / 662
-- legacy Alpha gate: 397 / 397
-- Translation Master runtime audit: 596 / 596
-- intro exact fields: 19 / 19
+## Allowed claims right now
 
-These are historical regression gates, not whole-game source coverage.
+- B50 exact-offset static byte-fit PASS: YES
+- B51R1 STATIC CI PASS: YES
+- B51R1 real CLEAN guarded dry-run PASS: **NOT YET CLAIMED**
+- B51R1 real build/static byte verification PASS: **NOT YET CLAIMED**
+- Runtime PASS: **NO**
 
 ## Frozen formatting controls
 
-Preserve exact token order where present:
+Preserve exact order where present:
 
 `%s`, `%d`, `%2d`, `%4d`, `%5d`, `%+3d`, `/V`, `/v`, `/Pxx`, `/PFx`
 
 ## Font work parked
 
-Do not let font work distract from B51 unless the user explicitly returns to it.
+Do not let font work distract from the current production pass.
 
-Still remembered:
+Remembered only for a later explicit font session:
 
 - plain lowercase `ă` should revert to the proven historical 0.6.55.0 glyph
-- current `â`/circumflex family should NOT be reset
+- current `â`/circumflex family should not be reset
 - `ẻ/ể` hook-above polish remains separate
-- later regression phrase: `100 năm một lần`
+- regression phrase: `100 năm một lần`
 
-Frozen font architecture remains:
+Frozen architecture remains:
 
 - native 12x12 / 72-byte / 4bpp / LOW nibble first
 - static mapping-only
@@ -271,4 +321,4 @@ Frozen font architecture remains:
 
 Use:
 
-`Tiếp tục Gaia Master từ HANDOFF_CURRENT.md trên branch gaia-character-select-font-atlas-reverse-01. B51 guarded exact-overlay tool đã implement nhưng B50 vẫn là canonical validated checkpoint vì chưa chạy được BIN trong môi trường hiện tại. Chạy B51 guarded dry-run trên CLEAN SHA1 f4d5298583c90d89c4b7e51d2dde160ee07f2aec; nếu PASS thì build từ known-good runtime base đã pass frozen-60 + 560/102/19. Không đụng font và không gọi Runtime PASS khi chưa có screenshot gameplay.`
+`Tiếp tục Gaia Master từ HANDOFF_CURRENT.md trên branch gaia-character-select-font-atlas-reverse-01. B51R1 STATIC CI PASS đã chứng minh 1229/1229, correction frozen-60 64/64, 0 unsupported sau correction, historical 560/102/662/19/397/596 đều PASS. B50 vẫn là canonical binary checkpoint vì chưa chạy BIN thật. Bước kế tiếp là chạy build_gaia_b51r1_guarded_exact_overlay.py dry-run trên CLEAN SHA1 f4d5298583c90d89c4b7e51d2dde160ee07f2aec; chỉ sau khi PASS mới build từ known-good runtime base. Không đụng font và không gọi Runtime PASS khi chưa có screenshot gameplay.`
