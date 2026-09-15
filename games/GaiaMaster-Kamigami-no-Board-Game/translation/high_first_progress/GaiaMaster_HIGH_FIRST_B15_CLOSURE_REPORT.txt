@@ -1,0 +1,29 @@
+GAIA MASTER HIGH-FIRST BATCH15 - FINAL RESIDUAL CLEANUP / CLOSURE
+===================================================================
+Batch15 residual rows classified : 1169
+
+HIGH-FIRST TOTAL                 : 3504
+Source-translated rows           : 1136
+Proper-name rows preserved       : 58
+System/input-table rows preserved: 12
+Scanner false positives          : 2286
+Context-review rows              : 12
+Untouched rows                   : 0
+
+CLOSURE GATES
+-------------
+- Full-width kana in residual untouched rows before closeout : 0
+- Protected halfwidth UI keyword hits before closeout       : 0
+- Row conservation                                       : PASS
+- Original Japanese/file/offset metadata                 : PRESERVED
+- Runtime/build                                          : UNTOUCHED
+- Runtime PASS claim                                     : NO
+
+Interpretation:
+- HIGH-FIRST translation/source triage is now structurally CLOSED: 0 untouched rows.
+- 12 context-review fragments remain intentionally parked rather than guessed.
+- False-positive count is scanner triage, not translated game-text count.
+- This does NOT mean the whole game is translated; REVIEW-MEDIUM remains a separate queue.
+
+Local checkpoint ZIP SHA256:
+3208461c5e8d7cbb6c323c86b7cb68d2636caab264b9f820cafa5973a1373f11
