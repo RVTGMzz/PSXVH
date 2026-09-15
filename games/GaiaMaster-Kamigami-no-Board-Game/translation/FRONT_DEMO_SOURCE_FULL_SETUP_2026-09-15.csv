@@ -1,0 +1,13 @@
+file,offset_hex,japanese,vi_full,vi_runtime_current,status,note
+PRGPACK.BDP,0xbfc20,武器スキルのデータをロードする？,Bạn có muốn tải dữ liệu Kỹ năng Vũ khí không?,Tải dữ liệu VK?,SOURCE_FULL_TRANSLATED_ONLY,"Front demo exact source"
+PRGPACK.BDP,0xbfc44,あたらしく武器スキルのデータを,Dữ liệu Kỹ năng Vũ khí mới...,Tải mới kỹ năng,SOURCE_FULL_TRANSLATED_ONLY,"Mảnh câu; nối với các field kế tiếp"
+PRGPACK.BDP,0xbfc64,ロードしなかったら、ロードされ,Nếu không tải, dữ liệu đã được tải...,Nếu không tải,SOURCE_FULL_TRANSLATED_ONLY,"Mảnh câu; nối field 0xbfc84"
+PRGPACK.BDP,0xbfc84,ているデータをそのまま使うよ　　↓,...sẽ được giữ nguyên để sử dụng. ↓,Dùng dữ liệu cũ,SOURCE_FULL_TRANSLATED_ONLY,"Mảnh câu kết; giữ ký hiệu mũi tên"
+PRGPACK.BDP,0xbfca8,武器スキルは１レベルではじまるよ,Kỹ năng Vũ khí sẽ bắt đầu từ cấp 1.,Kỹ năng Lv1,SOURCE_FULL_TRANSLATED_ONLY,"Giữ giá trị cấp 1"
+PRGPACK.BDP,0xbfccc,セーブの時は上書きに気をつけてね,Khi lưu, hãy cẩn thận đừng ghi đè nhầm nhé.,Cẩn thận khi lưu,SOURCE_FULL_TRANSLATED_ONLY,"Thông báo save"
+PRGPACK.BDP,0xbfd48,/VＣＯＭ%dのキャラをえらんでね,/VHãy chọn nhân vật cho COM%d nhé.,/VCOM%d chọn NV,SOURCE_FULL_TRANSLATED_ONLY,"Giữ token /V và %d theo thứ tự nguồn"
+PRGPACK.BDP,0xbfd80,ほんとにこのキャラでいいの？,Bạn chắc chắn chọn nhân vật này chứ?,Nhân vật này?,SOURCE_FULL_TRANSLATED_ONLY,"Prompt xác nhận nhân vật"
+PRGPACK.BDP,0xbfda0,ほんとにこの設定でいいのね？,Bạn chắc chắn dùng thiết lập này chứ?,Xác nhận?,SOURCE_FULL_TRANSLATED_ONLY,"Prompt xác nhận thiết lập"
+PRGPACK.BDP,0xbfe64,使うコントローラの,Tay cầm sẽ sử dụng...,Tay cầm,SOURCE_FULL_TRANSLATED_ONLY,"Mảnh câu"
+PRGPACK.BDP,0xbfc04,    はい     　　　　いいえ,    Có                 Không,Có      Ko,SOURCE_FULL_TRANSLATED_ONLY,"Giữ vai trò lựa chọn Có/Không; khoảng trắng runtime tách riêng"
+PRGPACK.BDP,0xbfe00,  はい   いいえ,  Có   Không,Có   Ko,SOURCE_FULL_TRANSLATED_ONLY,"Biến thể lựa chọn Có/Không"
