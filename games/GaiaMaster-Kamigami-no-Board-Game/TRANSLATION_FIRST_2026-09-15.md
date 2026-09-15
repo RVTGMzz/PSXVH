@@ -51,6 +51,41 @@ Rules used:
 
 This does not increase the proven 662 exact runtime fields. It improves the translation source so later integration can choose compact byte-fit wording without losing the intended full meaning.
 
+## Intro full-source companion pass
+All 19 Batch45 intro fields now have a natural Vietnamese source-level translation in:
+- `translation/INTRO_SOURCE_FULL_2026-09-15.csv` - 19 rows
+
+The current compact runtime wording remains separate and unchanged. Example: source `世界はもはや人のものではなくなった` is recorded as `Thế giới đã không còn thuộc về con người nữa.`, while the current compact runtime line remains `Thế giới đổi chủ`.
+
+## Historical exact-offset source companion pass
+Because the original 0.6.38 full scanner CSV is still unavailable, committed exact-offset manifests are being mined without inventing addresses.
+
+Completed on 2026-09-15:
+- `translation/BATCH40_SOURCE_FULL_TAVERN_SETTINGS_2026-09-15.csv` - 35 exact-offset records covering the tavern dice mini-game and player/settings UI.
+- `translation/BATCH40_SOURCE_FULL_GAMEPLAY_LAND_UI_2026-09-15.csv` - 67 exact-offset records covering cards, taxes, route switching, land/property management, building and related gameplay UI.
+- Exact-offset source companion records added in this pass: 102.
+
+These exact-offset rows are historical known-source records and may overlap Japanese strings already represented in Translation Master. They are therefore NOT counted as new entries toward the 6,361 unique unseen-Japanese scanner corpus.
+
+All exact-offset companion rows:
+- keep `file` and `offset_hex` from the committed exact-offset source manifest
+- keep the current compact runtime wording in `vi_runtime_current`
+- put the natural source-level Vietnamese in `vi_full`
+- use status `SOURCE_FULL_TRANSLATED_ONLY`
+- preserve format tokens and token order
+- preserve sentence-fragment status instead of guessing missing text
+- do not alter runtime/build data
+
+## Translation-first artifact count so far
+Prepared translation/source-companion row records in this pass:
+- Translation Master blank `vi_full` completion queues: 203
+- Batch43 source-full companion: 102
+- Intro source-full companion: 19
+- Historical exact-offset source companions: 102
+- Total prepared row records: 426
+
+This is a work-record count, not a claim of 426 unique Japanese strings. Historical exact-offset rows can overlap Translation Master source text.
+
 ## Whole-game translation reality
 Current Translation Master: 596 keys. Existing runtime contract protects 596/596 master coverage, but this is NOT whole-game coverage.
 
@@ -75,7 +110,7 @@ The actual `GaiaMaster_0.6.38.0_FULL_JAPANESE_SCAN.csv` is not currently present
    - prioritize story/tutorial/help/menu/runtime prompts
 3. Translate in large batches without requiring runtime testing.
 4. Keep runtime integration and fit/byte verification separate from source translation work.
-5. Until the full scanner CSV is recovered, keep mining committed source/reports for untranslated Japanese without inventing missing offsets.
+5. Until the full scanner CSV is recovered, keep mining committed exact-offset manifests for source-full translations without inventing missing offsets.
 
 ## Existing proven runtime/build contract to preserve later
 - Batch42: 560/560
