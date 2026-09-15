@@ -1,103 +1,258 @@
 master_part,file,offset_hex,japanese,field_bytes,candidate,candidate_bytes,over_bytes,candidate_source,tokens,vi_game_current
-TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x2d88,使うとダイスをふるかわりに,26,Dùng thay cho việc gieo xúc xắc,62,36,consensus:japanese,,THAY XUCXAC
-TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x230c,呪いの沼,8,Đầm lầy nguyền rủa,36,28,consensus:japanese,,DAM NGUYEN
-TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x3878,早く決めてよね！！,18,Quyết định nhanh lên!!,44,26,consensus:japanese,,CHON NHANH!!
-TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x2154,大国の援助,10,Đại quốc viện trợ,34,24,semantic:BATCH15_JP_EXACT_0.6.24.0.csv,,VIEN TRO
-TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x22e4,大聖堂,6,Đại thánh đường,30,24,consensus:japanese,,THANHDUONG
-TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x3864,も～何やってるの？,18,"Này, đang làm gì vậy?",42,24,consensus:japanese,,LAM GI DAY?
-TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x217c,魔王のこうりん,14,Ma vương giáng lâm,36,22,consensus:japanese,,MA VUONG
-TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x2190,魔王しょうかん,14,Triệu hồi Ma vương,36,22,consensus:japanese,,GOI MA
-TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x2db0,ダイスの数が４つになるよ,24,Số xúc xắc tăng thành 4,46,22,consensus:japanese,,XUCXAC X4
-TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x2dec,ダイスの数が３つになるよ,24,Số xúc xắc tăng thành 3,46,22,consensus:japanese,,XUCXAC X3
-TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x3850,総資産を見たけど,16,Đã xem tổng tài sản,38,22,consensus:japanese,,TONG TS
-TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x380c,総資産を見たけど ,17,Đã xem tổng tài sản,38,21,consensus:japanese,,TONG TS
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x480,今からふるダイスの目がこのダイス,32,Hãy đoán xem mặt xúc xắc sắp gieo so với mặt xúc xắc này...,118,86,consensus:japanese,,DOAN XUC XAC NAY
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x31fb0,今からふるダイスの目がこのダイス,32,Hãy đoán xem mặt xúc xắc sắp gieo so với mặt xúc xắc này...,118,86,consensus:japanese,,DOAN XUC XAC NAY
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x3f6d4,今からふるダイスの目がこのダイス,32,Hãy đoán xem mặt xúc xắc sắp gieo so với mặt xúc xắc này...,118,86,consensus:japanese,,DOAN XUC XAC NAY
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x4d2c4,今からふるダイスの目がこのダイス,32,Hãy đoán xem mặt xúc xắc sắp gieo so với mặt xúc xắc này...,118,86,consensus:japanese,,DOAN XUC XAC NAY
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x5af98,今からふるダイスの目がこのダイス,32,Hãy đoán xem mặt xúc xắc sắp gieo so với mặt xúc xắc này...,118,86,consensus:japanese,,DOAN XUC XAC NAY
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x590,でももう持ち切れないみたい,26,Nhưng có vẻ bạn không mang thêm được nữa.,82,56,consensus:japanese,,HET CHO CHUA
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x320c0,でももう持ち切れないみたい,26,Nhưng có vẻ bạn không mang thêm được nữa.,82,56,consensus:japanese,,HET CHO CHUA
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x3f7e4,でももう持ち切れないみたい,26,Nhưng có vẻ bạn không mang thêm được nữa.,82,56,consensus:japanese,,HET CHO CHUA
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x4d3d4,でももう持ち切れないみたい,26,Nhưng có vẻ bạn không mang thêm được nữa.,82,56,consensus:japanese,,HET CHO CHUA
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x5b0a8,でももう持ち切れないみたい,26,Nhưng có vẻ bạn không mang thêm được nữa.,82,56,consensus:japanese,,HET CHO CHUA
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x9ac,土地をかけて戦うことができるよ,30,Bạn có thể chiến đấu để tranh giành đất.,80,50,consensus:japanese:compact,,CHIEN LAY DAT
+TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x3850,総資産を見たけど,16,"Đã xem tổng tài sản rồi, nhưng...",66,50,consensus:japanese,,TONG TS
+TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x380c,総資産を見たけど ,17,"Đã xem tổng tài sản rồi, nhưng...",66,49,consensus:japanese,,TONG TS
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x460,わたしと一勝負してかないかい,28,"Trước khi đi, làm 1 ván với tôi chứ?",72,44,vi_full:compact,,DAU TOI 1 VAN?
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x4c8,最初の賞品はこいつさ,20,Phần thưởng đầu tiên là thứ này.,64,44,consensus:japanese,,THUONG DAU
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x558,つぎの賞品はこいつだよ,22,Phần thưởng tiếp theo là thứ này.,66,44,consensus:japanese,,THUONG TIEP
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x31f90,わたしと一勝負してかないかい,28,"Trước khi đi, làm 1 ván với tôi chứ?",72,44,vi_full:compact,,DAU TOI 1 VAN?
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x31ff8,最初の賞品はこいつさ,20,Phần thưởng đầu tiên là thứ này.,64,44,consensus:japanese,,THUONG DAU
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x32088,つぎの賞品はこいつだよ,22,Phần thưởng tiếp theo là thứ này.,66,44,consensus:japanese,,THUONG TIEP
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x3f6b4,わたしと一勝負してかないかい,28,"Trước khi đi, làm 1 ván với tôi chứ?",72,44,vi_full:compact,,DAU TOI 1 VAN?
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x3f71c,最初の賞品はこいつさ,20,Phần thưởng đầu tiên là thứ này.,64,44,consensus:japanese,,THUONG DAU
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x3f7ac,つぎの賞品はこいつだよ,22,Phần thưởng tiếp theo là thứ này.,66,44,consensus:japanese,,THUONG TIEP
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x4d2a4,わたしと一勝負してかないかい,28,"Trước khi đi, làm 1 ván với tôi chứ?",72,44,vi_full:compact,,DAU TOI 1 VAN?
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x4d30c,最初の賞品はこいつさ,20,Phần thưởng đầu tiên là thứ này.,64,44,consensus:japanese,,THUONG DAU
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x4d39c,つぎの賞品はこいつだよ,22,Phần thưởng tiếp theo là thứ này.,66,44,consensus:japanese,,THUONG TIEP
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x5afe0,最初の賞品はこいつさ,20,Phần thưởng đầu tiên là thứ này.,64,44,consensus:japanese,,THUONG DAU
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x5b070,つぎの賞品はこいつだよ,22,Phần thưởng tiếp theo là thứ này.,66,44,consensus:japanese,,THUONG TIEP
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x11ec,運がよければ敵を倒せるかも,26,"Nếu may mắn, có thể hạ gục đối thủ.",70,44,consensus:japanese,,MAY HA DICH
+TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x3898,早く決めてってばぁ～,20,Đã bảo quyết định nhanh lên mà～!,64,44,consensus:japanese,,CHON NHANH
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x5af78,わたしと一勝負してかないかい,28,Làm 1 ván với tôi trước khi đi chứ?,70,42,vi_full:compact,,DAU TOI 1 VAN?
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x1208,特殊　速度６　使い捨て,22,Đặc biệt - Tốc độ 6 - Dùng 1 lần,64,42,consensus:japanese:compact,,DB SPD6 1L
+TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x3838,まだお金が足りないけど,22,"Bạn vẫn còn thiếu tiền, nhưng...",64,42,consensus:japanese,,VAN THIEU
+TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x2d88,使うとダイスをふるかわりに,26,"Khi dùng, thay vì gieo xúc xắc...",66,40,consensus:japanese,,THAY XUCXAC
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x444,ちょうどタイクツしてたんだ,26,Đúng lúc tôi đang buồn chán đây.,64,38,vi_full,,DANG CHAN QUA
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x31f74,ちょうどタイクツしてたんだ,26,Đúng lúc tôi đang buồn chán đây.,64,38,vi_full,,DANG CHAN QUA
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x3f698,ちょうどタイクツしてたんだ,26,Đúng lúc tôi đang buồn chán đây.,64,38,vi_full,,DANG CHAN QUA
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x4d288,ちょうどタイクツしてたんだ,26,Đúng lúc tôi đang buồn chán đây.,64,38,vi_full,,DANG CHAN QUA
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0xa14,所持金の２０％とられるよ,24,Bạn sẽ mất 20% số tiền đang có.,62,38,consensus:japanese,,MAT20% TIEN
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x1220,いちかばちか,12,"Được ăn cả, ngã về không!",50,38,consensus:japanese,,LIU!
+TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x33d0,もう持ち切れないよ,18,Bạn không thể mang thêm nữa.,56,38,consensus:japanese,,HET CHO
+TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x37e4,何か売っちゃう ？,17,Bạn muốn bán thứ gì đó chứ?,54,37,consensus:japanese,,BAN GI?
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x5ac,いらないカードを捨ててね,24,Hãy bỏ những lá bài không cần.,60,36,consensus:japanese,,BO THE THUA
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x608,手に入らなかったよ,18,Bạn không nhận được lá nào.,54,36,consensus:japanese,,KO NHAN
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x320dc,いらないカードを捨ててね,24,Hãy bỏ những lá bài không cần.,60,36,consensus:japanese,,BO THE THUA
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x32138,手に入らなかったよ,18,Bạn không nhận được lá nào.,54,36,consensus:japanese,,KO NHAN
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x3f800,いらないカードを捨ててね,24,Hãy bỏ những lá bài không cần.,60,36,consensus:japanese,,BO THE THUA
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x3f85c,手に入らなかったよ,18,Bạn không nhận được lá nào.,54,36,consensus:japanese,,KO NHAN
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x4d3f0,いらないカードを捨ててね,24,Hãy bỏ những lá bài không cần.,60,36,consensus:japanese,,BO THE THUA
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x4d44c,手に入らなかったよ,18,Bạn không nhận được lá nào.,54,36,consensus:japanese,,KO NHAN
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x5b0c4,いらないカードを捨ててね,24,Hãy bỏ những lá bài không cần.,60,36,consensus:japanese,,BO THE THUA
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x5b120,手に入らなかったよ,18,Bạn không nhận được lá nào.,54,36,consensus:japanese,,KO NHAN
+TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x37bc,本当にやめるの？,16,Bạn thật sự muốn dừng chứ?,52,36,consensus:japanese,,DUNG THAT?
+TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x37d0,お金が足りないけど,18,"Bạn không đủ tiền, nhưng...",54,36,consensus:japanese,,THIEU TIEN
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x434,酒場へようこそ,14,Chào mừng đến quán rượu.,48,34,consensus:japanese,,QUAN!
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x31f64,酒場へようこそ,14,Chào mừng đến quán rượu.,48,34,consensus:japanese,,QUAN!
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x3f688,酒場へようこそ,14,Chào mừng đến quán rượu.,48,34,consensus:japanese,,QUAN!
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x4d278,酒場へようこそ,14,Chào mừng đến quán rượu.,48,34,consensus:japanese,,QUAN!
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x5af4c,酒場へようこそ,14,Chào mừng đến quán rượu.,48,34,consensus:japanese,,QUAN!
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x1260,ポリタンがみがわりに！？,24,Politan sẽ thế thân cho bạn!?,58,34,consensus:japanese,,POLITAN DO
+TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x3878,早く決めてよね！！,18,Quyết định nhanh lên nào!!,52,34,consensus:japanese,,CHON NHANH!!
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x66c,「%s」を手に入れたけど,22,"Bạn nhận được “%s”, nhưng...",54,32,consensus:japanese,%s,NHAN %s ROI
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x3219c,「%s」を手に入れたけど,22,"Bạn nhận được “%s”, nhưng...",54,32,consensus:japanese,%s,NHAN %s ROI
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x3f8c0,「%s」を手に入れたけど,22,"Bạn nhận được “%s”, nhưng...",54,32,consensus:japanese,%s,NHAN %s ROI
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x4d4b0,「%s」を手に入れたけど,22,"Bạn nhận được “%s”, nhưng...",54,32,consensus:japanese,%s,NHAN %s ROI
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x5b184,「%s」を手に入れたけど,22,"Bạn nhận được “%s”, nhưng...",54,32,consensus:japanese,%s,NHAN %s ROI
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x98c,止まっちゃったよ,16,...bạn dừng lại mất rồi!,48,32,consensus:japanese,,DA DUNG!
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0xe20,「%s」を手に入れたけど,22,"Bạn nhận được “%s”, nhưng...",54,32,consensus:japanese,%s,NHAN %s ROI
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x9dc,武器カードが手に入るわ,22,Bạn sẽ nhận được 1 Thẻ VK.,52,30,consensus:japanese:compact,,NHAN THE VK
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0xa50,土地代の２０％とられるよ,24,Bạn sẽ mất 20% giá trị đất.,54,30,consensus:japanese,,MAT20% DAT
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0xb08,戦いをしかけるよね？,20,Bạn muốn khiêu chiến chứ?,50,30,consensus:japanese,,THACH DAU?
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x1230,あいてのカード一枚を破壊する,28,Phá hủy 1 lá bài của đối thủ.,58,30,consensus:japanese:compact,,PHA THE DICH
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x5af5c,ちょうどタイクツしてたんだ,26,Đúng lúc tôi đang chán đây.,54,28,vi_full,,DANG CHAN QUA
+TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x230c,呪いの沼,8,Đầm Lầy Nguyền Rủa,36,28,consensus:japanese,,DAM NGUYEN
+TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x3820,これじゃたりないわよ,20,Thế này vẫn chưa đủ đâu.,48,28,consensus:japanese,,VAN THIEU
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x4a4,より大きいかちいさいか当てるんだよ,34,...sẽ lớn hơn hay nhỏ hơn nhé.,60,26,consensus:japanese,,LON HAY NHO HON?
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x4e0,なんだい、もう終わりかい,24,"Sao thế, nghỉ luôn rồi à?",50,26,consensus:japanese,,NGHI ROI?
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x304b4,セリフ表示,10,Hiển thị lời thoại,36,26,consensus:japanese,,THOAI
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x31fd4,より大きいかちいさいか当てるんだよ,34,...sẽ lớn hơn hay nhỏ hơn nhé.,60,26,consensus:japanese,,LON HAY NHO HON?
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x32010,なんだい、もう終わりかい,24,"Sao thế, nghỉ luôn rồi à?",50,26,consensus:japanese,,NGHI ROI?
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x3f6f8,より大きいかちいさいか当てるんだよ,34,...sẽ lớn hơn hay nhỏ hơn nhé.,60,26,consensus:japanese,,LON HAY NHO HON?
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x3f734,なんだい、もう終わりかい,24,"Sao thế, nghỉ luôn rồi à?",50,26,consensus:japanese,,NGHI ROI?
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x4d2e8,より大きいかちいさいか当てるんだよ,34,...sẽ lớn hơn hay nhỏ hơn nhé.,60,26,consensus:japanese,,LON HAY NHO HON?
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x4d324,なんだい、もう終わりかい,24,"Sao thế, nghỉ luôn rồi à?",50,26,consensus:japanese,,NGHI ROI?
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x5afbc,より大きいかちいさいか当てるんだよ,34,...sẽ lớn hơn hay nhỏ hơn nhé.,60,26,consensus:japanese,,LON HAY NHO HON?
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x5aff8,なんだい、もう終わりかい,24,"Sao thế, nghỉ luôn rồi à?",50,26,consensus:japanese,,NGHI ROI?
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0xe9c,使用するカードをえらんでね,26,Hãy chọn lá bài muốn dùng.,52,26,consensus:japanese,,CHON THE DUNG
+TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x20c8,領主からの使者,14,Sứ Giả Của Lãnh Chúa,40,26,consensus:japanese,,SU GIA
+TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x2d40,３マス進めるよ,14,Bạn có thể tiến 3 ô.,40,26,consensus:japanese,,TIEN 3 O
+TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x2d5c,２マス進めるよ,14,Bạn có thể tiến 2 ô.,40,26,consensus:japanese,,TIEN 2 O
+TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x2d78,１マス進めるよ,14,Bạn có thể tiến 1 ô.,40,26,consensus:japanese,,TIEN 1 O
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x540,もう一勝負してくかい？,22,Làm thêm 1 ván nữa chứ?,46,24,consensus:japanese:compact,,DAU THEM?
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x32070,もう一勝負してくかい？,22,Làm thêm 1 ván nữa chứ?,46,24,consensus:japanese:compact,,DAU THEM?
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x3f794,もう一勝負してくかい？,22,Làm thêm 1 ván nữa chứ?,46,24,consensus:japanese:compact,,DAU THEM?
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x4d384,もう一勝負してくかい？,22,Làm thêm 1 ván nữa chứ?,46,24,consensus:japanese:compact,,DAU THEM?
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x5b058,もう一勝負してくかい？,22,Làm thêm 1 ván nữa chứ?,46,24,consensus:japanese:compact,,DAU THEM?
+TRANSLATION_MASTER_0.6_part04.csv,PRGPACK.BDP,0xddd68,ゲームをはじめるよ,18,Bắt đầu trò chơi nhé!,42,24,consensus:japanese,,BAT DAU!
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x980,%sの土地に,10,Trên đất của %s...,34,24,consensus:japanese:compact,%s,DAT %s
+TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x2154,大国の援助,10,Viện Trợ Đại Quốc,34,24,consensus:japanese,,VIEN TRO
+TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x22e4,大聖堂,6,Đại Thánh Đường,30,24,consensus:japanese,,THANHDUONG
+TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x33e4,どれを捨てる？,14,Bạn muốn bỏ lá nào?,38,24,consensus:japanese,,BO THE NAO?
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x518,もう勝負は終わりだよ,20,Ván đấu kết thúc rồi.,42,22,consensus:japanese,,DAU XONG
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x304a8,セリフ速度,10,Tốc độ lời thoại,32,22,consensus:japanese,,TOC
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x304e4,プレイヤー設定,14,Cài đặt người chơi,36,22,consensus:japanese,,CAIDAT
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x32048,もう勝負は終わりだよ,20,Ván đấu kết thúc rồi.,42,22,consensus:japanese,,DAU XONG
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x3f76c,もう勝負は終わりだよ,20,Ván đấu kết thúc rồi.,42,22,consensus:japanese,,DAU XONG
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x4d35c,もう勝負は終わりだよ,20,Ván đấu kết thúc rồi.,42,22,consensus:japanese,,DAU XONG
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x5b030,もう勝負は終わりだよ,20,Ván đấu kết thúc rồi.,42,22,consensus:japanese,,DAU XONG
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0xabc,%sは一回休みよ！,16,%s phải nghỉ 1 lượt!,38,22,consensus:japanese:compact,%s,%s NGHI1
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0xe54,これでいい？,12,Thế này được chứ?,34,22,consensus:japanese,,DONGY?
+TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x212c,大国からの使者,14,Sứ Giả Từ Đại Quốc,36,22,consensus:japanese,,SU GIA
+TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x2140,大国からの使者,14,Sứ Giả Từ Đại Quốc,36,22,consensus:japanese,,SU GIA
+TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x217c,魔王のこうりん,14,Ma Vương Giáng Lâm,36,22,consensus:japanese,,MA VUONG
+TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x2190,魔王しょうかん,14,Triệu Hồi Ma Vương,36,22,consensus:japanese,,GOI MA
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x61c,%d枚、手に入れたよ,18,Bạn nhận được %d lá.,38,20,consensus:japanese,%d,NHAN %d
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x3214c,%d枚、手に入れたよ,18,Bạn nhận được %d lá.,38,20,consensus:japanese,%d,NHAN %d
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x3f870,%d枚、手に入れたよ,18,Bạn nhận được %d lá.,38,20,consensus:japanese,%d,NHAN %d
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x4d460,%d枚、手に入れたよ,18,Bạn nhận được %d lá.,38,20,consensus:japanese,%d,NHAN %d
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x5b134,%d枚、手に入れたよ,18,Bạn nhận được %d lá.,38,20,consensus:japanese,%d,NHAN %d
 TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x68a64,勝利者,6,Kẻ thắng trận,26,20,semantic:BATCH17_JP_EXACT_0.6.26.0.csv,,THANG
-TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x226c,邪神像,6,Tượng tà thần,26,20,consensus:japanese,,TA THAN
-TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x22bc,女神像,6,Tượng nữ thần,26,20,consensus:japanese,,NU THAN
-TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x2320,死神像,6,Tượng tử thần,26,20,consensus:japanese,,TU THAN
-TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x33d0,もう持ち切れないよ,18,Không thể mang thêm,38,20,consensus:japanese,,HET CHO
-TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x37bc,本当にやめるの？,16,Thật sự muốn dừng?,36,20,consensus:japanese,,DUNG THAT?
-TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x3898,早く決めてってばぁ～,20,Nhanh quyết định đi!,40,20,consensus:japanese,,CHON NHANH
-TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x767f0,無属性,6,Vô thuộc tính,26,20,consensus:japanese,,VOTHUOC
+TRANSLATION_MASTER_0.6_part04.csv,PRGPACK.BDP,0xbfbec,この設定でいいかしら？,22,Thiết lập này ổn chứ?,42,20,consensus:japanese,,XAC NHAN?
+TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x226c,邪神像,6,Tượng Tà Thần,26,20,consensus:japanese,,TA THAN
+TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x22bc,女神像,6,Tượng Nữ Thần,26,20,consensus:japanese,,NU THAN
+TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x2320,死神像,6,Tượng Tử Thần,26,20,consensus:japanese,,TU THAN
+TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x767f0,無属性,6,Vô Thuộc Tính,26,20,consensus:japanese,,VOTHUOC
 TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x76824,孫悟空,6,Tôn Ngộ Không,26,20,consensus:japanese,,NGOKHONG
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x640,「%s」を捨てて、,16,"Bỏ “%s” đi, rồi...",34,18,consensus:japanese,%s,"BO %s,"
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x32170,「%s」を捨てて、,16,"Bỏ “%s” đi, rồi...",34,18,consensus:japanese,%s,"BO %s,"
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x3f894,「%s」を捨てて、,16,"Bỏ “%s” đi, rồi...",34,18,consensus:japanese,%s,"BO %s,"
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x4d484,「%s」を捨てて、,16,"Bỏ “%s” đi, rồi...",34,18,consensus:japanese,%s,"BO %s,"
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x5b158,「%s」を捨てて、,16,"Bỏ “%s” đi, rồi...",34,18,consensus:japanese,%s,"BO %s,"
 TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x67800,所得税,6,Thuế lợi tức,24,18,semantic:BATCH11_JP_EXACT_0.6.20.0.csv,,THUE TN
-TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x1900,基本武器,8,Vũ khí cơ bản,26,18,consensus:japanese,,VKCB
+TRANSLATION_MASTER_0.6_part04.csv,PRGPACK.BDP,0xddd7c,データがないわよ,16,Không có dữ liệu.,34,18,consensus:japanese,,KO DATA
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x938,%dゼニーあげるね,16,Tặng bạn %d Z nhé.,34,18,consensus:japanese:compact,%d,+%d ZENNY
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x970,%sに止まったよ,14,Bạn đã dừng ở %s.,32,18,consensus:japanese,%s,DUNG %s
+TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x1900,基本武器,8,Vũ Khí Cơ Bản,26,18,consensus:japanese,,VKCB
 TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x1970,ランダム武器破壊,16,Phá VK ngẫu nhiên,34,18,semantic:BATCH12_JP_EXACT_0.6.21.0.csv,,PHA VK NGAU
 TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x1984,指定武器破壊,12,Phá VK chỉ định,30,18,semantic:BATCH12_JP_EXACT_0.6.21.0.csv,,PHA VK
 TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x1994,指定武器取得,12,Lấy VK chỉ định,30,18,semantic:BATCH12_JP_EXACT_0.6.21.0.csv,,LAY VK
-TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x2014,大不幸,6,Đại bất hạnh,24,18,semantic:BATCH17_JP_EXACT_0.6.26.0.csv,,DAI XUI
-TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x20c8,領主からの使者,14,Sứ giả lãnh chúa,32,18,consensus:japanese,,SU GIA
-TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x264a,騎士団,6,Hiệp sĩ đoàn,24,18,consensus:japanese,,HIEPSI
-TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x7683c,騎士団,6,Hiệp sĩ đoàn,24,18,consensus:japanese,,HIEPSI
+TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x2014,大不幸,6,Đại Bất Hạnh,24,18,consensus:japanese,,DAI XUI
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x4fc,…つまんないね,14,…Chán thật đấy.,30,16,consensus:japanese,,...CHAN
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x570,%d枚の武器カードが手に入ったよ,30,Bạn nhận được %d Thẻ VK.,46,16,consensus:japanese:compact,%d,NHAN %d THE VK
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x654,「%s」を手に入れたよ,20,Bạn nhận được “%s”.,36,16,consensus:japanese,%s,NHAN %s
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x30514,２　（ふつう）,14,2 (Bình thường),30,16,consensus:japanese,,2 VUA
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x3202c,…つまんないね,14,…Chán thật đấy.,30,16,consensus:japanese,,...CHAN
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x320a0,%d枚の武器カードが手に入ったよ,30,Bạn nhận được %d Thẻ VK.,46,16,consensus:japanese:compact,%d,NHAN %d THE VK
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x32184,「%s」を手に入れたよ,20,Bạn nhận được “%s”.,36,16,consensus:japanese,%s,NHAN %s
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x3f750,…つまんないね,14,…Chán thật đấy.,30,16,consensus:japanese,,...CHAN
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x3f7c4,%d枚の武器カードが手に入ったよ,30,Bạn nhận được %d Thẻ VK.,46,16,consensus:japanese:compact,%d,NHAN %d THE VK
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x3f8a8,「%s」を手に入れたよ,20,Bạn nhận được “%s”.,36,16,consensus:japanese,%s,NHAN %s
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x4d340,…つまんないね,14,…Chán thật đấy.,30,16,consensus:japanese,,...CHAN
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x4d3b4,%d枚の武器カードが手に入ったよ,30,Bạn nhận được %d Thẻ VK.,46,16,consensus:japanese:compact,%d,NHAN %d THE VK
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x4d498,「%s」を手に入れたよ,20,Bạn nhận được “%s”.,36,16,consensus:japanese,%s,NHAN %s
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x5b014,…つまんないね,14,…Chán thật đấy.,30,16,consensus:japanese,,...CHAN
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x5b088,%d枚の武器カードが手に入ったよ,30,Bạn nhận được %d Thẻ VK.,46,16,consensus:japanese:compact,%d,NHAN %d THE VK
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x5b16c,「%s」を手に入れたよ,20,Bạn nhận được “%s”.,36,16,consensus:japanese,%s,NHAN %s
 TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x679e0,戦いをさけられる,16,Tránh được chiến,32,16,semantic:BATCH14_JP_EXACT_0.6.23.0.csv,,TRANH CHIEN
+TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x67fa4,「%s」を手に入れたよ,20,Bạn nhận được “%s”.,36,16,consensus:japanese,%s,NHAN %s
 TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x688ec,金斗雲,6,Cân Đẩu Vân,22,16,semantic:BATCH13_JP_EXACT_0.6.22.0.csv,,CAN DAU VAN
 TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x689e8,(速い者順),10,(Nhanh trước),26,16,semantic:BATCH13_JP_EXACT_0.6.22.0.csv,,(NHANH TRUOC)
 TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x68e08,止まるとミニゲ,14,Dừng: thử thách,30,16,semantic:BATCH18_JP_EXACT_0.6.27.0.csv,,DUNG: MINI GAME
-TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x2050,大幸運,6,Đại may mắn,22,16,consensus:japanese,,DAI MAY
-TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x20a0,ワープ,6,Dịch chuyển,22,16,consensus:japanese,,WARP
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0xe08,「%s」を手に入れたよ,20,Bạn nhận được “%s”.,36,16,consensus:japanese,%s,NHAN %s
+TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x2050,大幸運,6,Đại May Mắn,22,16,consensus:japanese,,DAI MAY
+TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x20a0,ワープ,6,Dịch Chuyển,22,16,consensus:japanese,,WARP
 TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x20b4,大国の混乱,10,Đại quốc loạn,26,16,semantic:BATCH15_JP_EXACT_0.6.24.0.csv,,HON LOAN
 TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x20dc,小領主の協力,12,Tiểu lãnh chúa,28,16,style:BATCH15_STYLE_0.6.24.0.csv,,TIEU LC
-TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x212c,大国からの使者,14,Sứ giả đại quốc,30,16,consensus:japanese,,SU GIA
-TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x2140,大国からの使者,14,Sứ giả đại quốc,30,16,consensus:japanese,,SU GIA
-TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x767a4,丸薬,4,Thuốc viên,20,16,consensus:japanese,,THUOC
+TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x2168,領地購入,8,Mua Lãnh Địa,24,16,consensus:japanese,,MUA DAT
+TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x22a8,温泉,4,Linh tuyền,20,16,semantic:BATCH15_JP_EXACT_0.6.24.0.csv,,SUOI
+TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x2db0,ダイスの数が４つになるよ,24,Bạn sẽ có 4 xúc xắc.,40,16,consensus:japanese,,XUCXAC X4
+TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x2dec,ダイスの数が３つになるよ,24,Bạn sẽ có 3 xúc xắc.,40,16,consensus:japanese,,XUCXAC X3
+TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x3394,「%s」を手に入れたよ,20,Bạn nhận được “%s”.,36,16,consensus:japanese,%s,NHAN %s
+TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x767a4,丸薬,4,Thuốc Viên,20,16,consensus:japanese,,THUOC
+TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x767e8,回復系,6,Hệ Hồi Phục,22,16,consensus:japanese,,HOIPHUC
 TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x689f4,我が けんぞくよ,15,Thuộc hạ của ta,30,15,semantic:BATCH11_JP_EXACT_0.6.20.0.csv,,THUOC HA TA
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x304c0,ボイス,6,Lồng tiếng,20,14,consensus:japanese,,AM
 TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x67850,プール金取得,12,Nhận quân quỹ,26,14,semantic:BATCH11_JP_EXACT_0.6.20.0.csv,,NHAN QUY
 TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x679c0,自分が止まると,14,Khi ngươi dừng,28,14,semantic:BATCH14_JP_EXACT_0.6.23.0.csv,,KHI BAN DUNG
 TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x67b84,どこを戻すの？,14,Chuộc nơi nào?,28,14,semantic:BATCH14_JP_EXACT_0.6.23.0.csv,,CHUOC DAU?
-TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x68c30,墓地,4,Nghĩa địa,18,14,semantic:BATCH15_JP_EXACT_0.6.24.0.csv,,NGHIA
+TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x68c30,墓地,4,Nghĩa Địa,18,14,consensus:japanese,,NGHIA
 TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x68d64,の２０％を税金,14,20% thành thuế,28,14,semantic:BATCH15_JP_EXACT_0.6.24.0.csv,,20% THANH THUE
 TRANSLATION_MASTER_0.6_part04.csv,PRGPACK.BDP,0x68e38,通過するとお金,14,Qua: nhận tiền,28,14,semantic:BATCH13_JP_EXACT_0.6.22.0.csv,,QUA: NHAN TIEN
 TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x1728,ダメージを１／２にへらす,24,Giảm nửa sát thương,38,14,semantic:BATCH12_JP_EXACT_0.6.21.0.csv,,GIAM1/2DMG
 TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x20f0,大領主の協力,12,Đại lãnh chúa,26,14,style:BATCH15_STYLE_0.6.24.0.csv,,DAI LC
-TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x22a8,温泉,4,Suối nóng,18,14,consensus:japanese,,SUOI
+TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x264a,騎士団,6,Đoàn Kỵ Sĩ,20,14,consensus:japanese,,HIEPSI
+TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x3404,「%s」をあきらめたよ,20,Bạn đã từ bỏ “%s”.,34,14,consensus:japanese,%s,BO %s
 TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x767b4,如意棒,6,Như Ý Bổng,20,14,consensus:japanese,,NHUYBONG
+TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x7683c,騎士団,6,Đoàn Kỵ Sĩ,20,14,consensus:japanese,,HIEPSI
 TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x68a28,我に 近付くとは,15,Dám lại gần ta,28,13,semantic:BATCH11_JP_EXACT_0.6.20.0.csv,,DAM LAI GAN
-TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x68bdc,この シンボルは,15,Biểu tượng này,28,13,consensus:japanese,,BIEUTUONG NAY
+TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x68bdc,この シンボルは,15,Thần tượng này,28,13,semantic:BATCH15_JP_EXACT_0.6.24.0.csv,,BIEUTUONG NAY
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x684,捨てたよ,8,Đã bỏ rồi.,20,12,consensus:japanese,,BO!
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x304f4,しんどう設定,12,Cài đặt rung,24,12,consensus:japanese,,RUNG
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x30658,○ボタンをおしてね,18,Hãy nhấn nút ○.,30,12,consensus:japanese,,NHAN O
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x321b4,捨てたよ,8,Đã bỏ rồi.,20,12,consensus:japanese,,BO!
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x3f8d8,捨てたよ,8,Đã bỏ rồi.,20,12,consensus:japanese,,BO!
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x4d4c8,捨てたよ,8,Đã bỏ rồi.,20,12,consensus:japanese,,BO!
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x5b19c,捨てたよ,8,Đã bỏ rồi.,20,12,consensus:japanese,,BO!
 TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x67818,関係なかったみたい,18,Không ảnh hưởng,30,12,semantic:BATCH11_JP_EXACT_0.6.20.0.csv,,KHONG ANH HUONG
 TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x678a8,あーあ,6,Chán thật,18,12,semantic:BATCH11_JP_EXACT_0.6.20.0.csv,,CHAN
 TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x67974,抵当,4,Thế chấp,16,12,semantic:BATCH14_JP_EXACT_0.6.23.0.csv,,THECHAP
 TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x67b30,不足金額,8,Vàng thiếu,20,12,style:BATCH14_STYLE_0.6.23.0.csv,,TIEN THIEU
 TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x67b60,シンボル,8,Biểu tượng,20,12,consensus:japanese,,BIEUTUONG
 TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x68aa8,俺さまが遊んでやるぜ！,22,Ta đấu với ngươi!,34,12,style:BATCH15_STYLE_0.6.24.0.csv,,TA CHOI VOI NGUOI
+TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x68b2c,%sは,4,%s thì...,16,12,consensus:japanese,%s,%s
 TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x68ce0,します,6,Thực hiện,18,12,semantic:BATCH15_JP_EXACT_0.6.24.0.csv,,LAM
 TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x68d74,止まると土地代,14,Dừng: giá đất,26,12,semantic:BATCH18_JP_EXACT_0.6.27.0.csv,,DUNG: GIA DAT
 TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x68df8,ームができ、勝,14,Chơi và thắng,26,12,semantic:BATCH15_JP_EXACT_0.6.24.0.csv,,CHOI VA THANG
-TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x190c,ダメージ,8,Sát thương,20,12,semantic:BATCH12_JP_EXACT_0.6.21.0.csv,,DMG
-TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x1918,武器破壊,8,Phá vũ khí,20,12,semantic:BATCH12_JP_EXACT_0.6.21.0.csv,,PHAVK
-TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x2028,不幸,4,Bất hạnh,16,12,consensus:japanese,,XUI
-TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x2118,落雷,4,Sét đánh,16,12,consensus:japanese,,SET
-TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x2258,地震,4,Động đất,16,12,consensus:japanese,,DONGDAT
-TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x2280,悪魔の塔,8,Tháp ác ma,20,12,consensus:japanese,,THAP MA
-TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x2294,はかば,6,Nghĩa địa,18,12,consensus:japanese,,NGHIA
-TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x7679c,氷の弓,6,Cung băng,18,12,consensus:japanese,,CUNG BANG
-TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x7685c,バンク,6,Ngân hàng,18,12,consensus:japanese,,NGANHANG
-TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x37e4,何か売っちゃう ？,17,Bán thứ gì đó?,28,11,consensus:japanese,,BAN GI?
+TRANSLATION_MASTER_0.6_part04.csv,PRGPACK.BDP,0xbfd2c,キャラクターをえらんでね,24,Hãy chọn nhân vật.,36,12,consensus:japanese,,CHON NHANVAT
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0xad0,%sの番よ！,10,Đến lượt %s!,22,12,consensus:japanese,%s,LUOT%s
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0xe38,捨てたよ,8,Đã bỏ rồi.,20,12,consensus:japanese,,BO!
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0xeb8,「%s」を使うね,14,Dùng “%s” nhé.,26,12,consensus:japanese,%s,DUNG %s
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x1158,ハリケーン,10,Cuồng Phong,22,12,consensus:japanese,,BAO
+TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x190c,ダメージ,8,Sát Thương,20,12,consensus:japanese,,DMG
+TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x1918,武器破壊,8,Phá Vũ Khí,20,12,consensus:japanese,,PHAVK
+TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x195c,Ｌ/V%d（あと/V%d）,18,Cấp /V%d (còn /V%d),30,12,consensus:japanese,/V %d /V %d,LV%d CON%d
+TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x2028,不幸,4,Bất Hạnh,16,12,consensus:japanese,,XUI
+TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x2118,落雷,4,Sét Đánh,16,12,consensus:japanese,,SET
+TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x2258,地震,4,Động Đất,16,12,consensus:japanese,,DONGDAT
+TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x2280,悪魔の塔,8,Tháp Ác Ma,20,12,consensus:japanese,,THAP MA
+TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x2294,はかば,6,Nghĩa Địa,18,12,consensus:japanese,,NGHIA
+TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x388c,もうっ！,8,Thật tình!,20,12,consensus:japanese,,TROI!
+TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x7679c,氷の弓,6,Cung Băng,18,12,consensus:japanese,,CUNG BANG
+TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x767e0,支援系,6,Hệ Hỗ Trợ,18,12,consensus:japanese,,HOTRO
+TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x7685c,バンク,6,Ngân Hàng,18,12,consensus:japanese,,NGANHANG
+TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x76868,%sの,4,của %s...,16,12,consensus:japanese,%s,%s CUA
+TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x7690c,%sは,4,%s thì...,16,12,consensus:japanese,%s,%s LA
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x3066c,%sはコントローラ%sだよ！,24,%s dùng tay cầm %s!,34,10,consensus:japanese,%s %s,%s TAY %s
 TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x67504,なにか捨ててね,14,Bỏ bớt 1 thẻ,24,10,semantic:BATCH11_JP_EXACT_0.6.20.0.csv,,BO BOT THE
 TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x6782c,土地税,6,Thuế đất,16,10,semantic:BATCH11_JP_EXACT_0.6.20.0.csv,,THUE DAT
-TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x67b08,合計金額,8,Tổng tiền,18,10,consensus:japanese,,TONG TIEN
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x67b08,合計金額,8,Tổng vàng,18,10,semantic:BATCH14_JP_EXACT_0.6.23.0.csv,,TONG TIEN
 TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x67b14,物件,4,Tài sản,14,10,consensus:japanese,,TAISAN
 TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x67b6c,どれを壊すの？,14,Phá cái nào?,24,10,consensus:japanese,,PHA CAI NAO?
 TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x67b7c,抵当額,6,Thế chấp,16,10,style:BATCH14_STYLE_0.6.23.0.csv,,THECHAP
-TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x67c78,価値,4,Giá trị,14,10,semantic:BATCH13_JP_EXACT_0.6.22.0.csv,,GIATRI
+TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x67c78,価値,4,Giá Trị,14,10,consensus:japanese,,GIATRI
 TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x67c88,物件を決めたら、,16,"Chọn đất rồi,",26,10,semantic:BATCH11_JP_EXACT_0.6.20.0.csv:compact,,CHON XONG TS
 TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x67dc4,あーあぁ,8,Chán thật,18,10,semantic:BATCH11_JP_EXACT_0.6.20.0.csv,,CHAN
 TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x67f1c,なにか捨ててね,14,Bỏ bớt 1 thẻ,24,10,semantic:BATCH11_JP_EXACT_0.6.20.0.csv,,BO BOT THE
 TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x68710,シンボルを一つ壊せるよ,22,Phá 1 thần tượng,32,10,semantic:BATCH17_JP_EXACT_0.6.26.0.csv,,PHA 1 BIEUTUONG
 TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x68afc,悪いな%s,8,Thứ lỗi %s,18,10,semantic:BATCH15_JP_EXACT_0.6.24.0.csv,%s,XINLOI %s
-TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x68c38,浴場,4,Nhà tắm,14,10,semantic:BATCH15_JP_EXACT_0.6.24.0.csv,,NHATAM
+TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x68c38,浴場,4,Nhà Tắm,14,10,consensus:japanese,,NHATAM
+TRANSLATION_MASTER_0.6_part04.csv,PRGPACK.BDP,0xbfe4c,○ボタンをおしてね！,20,Hãy nhấn nút ○!,30,10,consensus:japanese,,NHAN NUT O
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x11a0,ロングソード,12,Trường Kiếm,22,10,consensus:japanese,,KIEM
 TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x13e0,ダークメテオ,12,Thiên thạch,22,10,style:BATCH12_STYLE_0.6.21.0.csv,,METEOR
 TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x1408,伝説の聖剣,10,Thánh kiếm,20,10,semantic:BATCH12_JP_EXACT_0.6.21.0.csv,,KIEM
 TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x149c,最強の弓,8,Thần cung,18,10,semantic:BATCH12_JP_EXACT_0.6.21.0.csv,,CUNG
 TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x1628,フェザーレイ,12,Feather Ray,22,10,semantic:BATCH12_JP_EXACT_0.6.21.0.csv,,FEATHR
-TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x1668,ブラッドスピア,14,Huyết thương,24,10,semantic:BATCH12_JP_EXACT_0.6.21.0.csv,,GIAOMAU
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x1668,ブラッドスピア,14,Huyết Thương,24,10,consensus:japanese,,GIAOMAU
 TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x16f8,速度が速い,10,Tốc độ cao,20,10,semantic:BATCH12_JP_EXACT_0.6.21.0.csv,,TOCDO
-TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x203c,幸運,4,May mắn,14,10,consensus:japanese,,MAY
-TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x208c,ＧＯマスおくり,14,Đưa tới ô GO,24,10,consensus:japanese,,DEN O GO
-TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x2104,じしん,6,Động đất,16,10,consensus:japanese,,DONGDAT
+TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x203c,幸運,4,May Mắn,14,10,consensus:japanese,,MAY
+TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x208c,ＧＯマスおくり,14,Đưa Đến Ô GO,24,10,consensus:japanese,,DEN O GO
+TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x2104,じしん,6,Động Đất,16,10,consensus:japanese,,DONGDAT
 TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x244c,ヤスツナ,8,Yasutsuna,18,10,semantic:BATCH13_JP_EXACT_0.6.22.0.csv,,YASU
-TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x767ac,ダーツ,6,Phi tiêu,16,10,consensus:japanese,,PHITIEU
-TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x767e8,回復系,6,Hồi phục,16,10,consensus:japanese,,HOIPHUC
-TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x768d0,軍資金,6,Quân quỹ,16,10,consensus:japanese,,QUANQUY
+TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x2dcc,超特急ーーー！,14,Siêu tốcーーー!,24,10,consensus:japanese,,SIEUTOC!
+TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x767ac,ダーツ,6,Phi Tiêu,16,10,consensus:japanese,,PHITIEU
+TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x76804,魔法,4,Ma Pháp,14,10,consensus:japanese,,PHEP
+TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x768d0,軍資金,6,Quân Quỹ,16,10,consensus:japanese,,QUANQUY
 TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x68c08,なんか 気がのらん,17,Ta chẳng hứng,26,9,semantic:BATCH15_JP_EXACT_0.6.24.0.csv,,KHONG CO HUNG
 TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x510,やるね,6,Khá đấy,14,8,semantic:BATCH13_JP_EXACT_0.6.22.0.csv,,KHA DAY
 TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x32040,やるね,6,Khá đấy,14,8,semantic:BATCH13_JP_EXACT_0.6.22.0.csv,,KHA DAY
@@ -108,37 +263,37 @@ TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x67558,かいしめ,8,Thâu tóm,
 TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x67644,修道会が戦いを止めてくれたよ,28,Tu viện ngăn chiến,36,8,semantic:BATCH11_JP_EXACT_0.6.20.0.csv,,TUVIEN NGAN DAU
 TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x67aec,土地名,6,Tên đất,14,8,semantic:BATCH14_JP_EXACT_0.6.23.0.csv:compact,,TEN DAT
 TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x67b94,どの物件を売る？,16,Bán gia sản?,24,8,style:BATCH14_STYLE_0.6.23.0.csv,,BAN TS NAO?
+TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x67fc8,あきらめたよ,12,Đã bỏ cuộc,20,8,semantic:BATCH11_JP_EXACT_0.6.20.0.csv,,DA BO
 TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x68968,あっなんか,10,"Ơ, xem ra",18,8,semantic:BATCH17_JP_EXACT_0.6.26.0.csv,,HINH NHU
 TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x689a4,最大 99999までよ,16,Tối đa 99999,24,8,semantic:BATCH11_JP_EXACT_0.6.20.0.csv,,TOI DA 99999
 TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x68cd4,買えません,10,Không mua,18,8,style:BATCH15_STYLE_0.6.24.0.csv,,KHONG MUA
 TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x68d18,所得税、土地税,14,Thuế TN/đất,22,8,style:BATCH18_STYLE_0.6.27.0.csv,,THUE TN/DAT
+TRANSLATION_MASTER_0.6_part04.csv,PRGPACK.BDP,0xde110,ＳＬＯＴをえらんでね,20,Hãy chọn SLOT.,28,8,consensus:japanese,,CHON SLOT
 TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0xadc,おまたせ！,10,Tới lượt!,18,8,semantic:BATCH13_JP_EXACT_0.6.22.0.csv,,XONG!
-TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x1294,みがわり,8,Thế thân,16,8,semantic:BATCH12_JP_EXACT_0.6.21.0.csv,,DON
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x1294,みがわり,8,Thế Thân,16,8,consensus:japanese,,DON
 TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x1458,復活の霊薬,10,Linh dược,18,8,style:BATCH12_STYLE_0.6.21.0.csv,,HSINH
 TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x148c,メテオフォール,14,Thiên thạch,22,8,semantic:BATCH12_JP_EXACT_0.6.21.0.csv,,METEOR
 TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x171c,せつなの剣,10,Kiếm Chớp,18,8,semantic:BATCH12_JP_EXACT_0.6.21.0.csv,,KIEMNHANH
 TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x21e0,お店破壊,8,Phá tiệm,16,8,semantic:BATCH13_JP_EXACT_0.6.22.0.csv,,PHA SHOP
-TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x22f8,サーカス,8,Rạp xiếc,16,8,consensus:japanese,,XIEC
-TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x2334,ダイス３つ,10,3 xúc xắc,18,8,consensus:japanese,,3 XUCXAC
-TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x2348,ダイス４つ,10,4 xúc xắc,18,8,consensus:japanese,,4 XUCXAC
+TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x22f8,サーカス,8,Rạp Xiếc,16,8,consensus:japanese,,XIEC
+TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x2334,ダイス３つ,10,3 Xúc Xắc,18,8,consensus:japanese,,3 XUCXAC
+TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x2348,ダイス４つ,10,4 Xúc Xắc,18,8,consensus:japanese,,4 XUCXAC
 TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x23d4,お店破壊,8,Phá tiệm,16,8,semantic:BATCH13_JP_EXACT_0.6.22.0.csv,,PHA SHOP
 TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x247c,メグメグ,8,Megumegu,16,8,semantic:BATCH13_JP_EXACT_0.6.22.0.csv,,MEGUMEGU
 TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x263c,病院,4,Y viện,12,8,semantic:BATCH12_JP_EXACT_0.6.21.0.csv,,BENH
-TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x2658,修道会,6,Tu viện,14,8,semantic:BATCH12_JP_EXACT_0.6.21.0.csv,,TUVIEN
+TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x2658,修道会,6,Tu Viện,14,8,consensus:japanese,,TUVIEN
 TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x2674,武器屋,6,Tiệm VK,14,8,style:BATCH12_STYLE_0.6.21.0.csv,,TIEMVK
 TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x2c44,何がおこるのかな,16,Điềm gì đây?,24,8,style:BATCH12_STYLE_0.6.21.0.csv,,CO GI DAY?
 TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x31dc,「地震」,8,Động đất,16,8,semantic:BATCH13_JP_EXACT_0.6.22.0.csv,,「DONGDAT」
 TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x3288,特殊マスが効かなくなっちゃう,28,Vô hiệu ô đặc biệt,36,8,semantic:BATCH19_JP_EXACT_0.6.28.0.csv,,VO HIEU O DB
 TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x32e0,を入れかえちゃう,16,Hoán đổi chỗ,24,8,semantic:BATCH11_JP_EXACT_0.6.20.0.csv,,DOI CHO
-TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x33e4,どれを捨てる？,14,Bỏ thẻ nào?,22,8,consensus:japanese,,BO THE NAO?
-TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x3758,あいての体力,12,HP đối thủ,20,8,consensus:japanese,,HP DOI THU
-TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x37d0,お金が足りないけど,18,Không đủ tiền,26,8,consensus:japanese,,THIEU TIEN
-TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x388c,もうっ！,8,Trời ơi!,16,8,consensus:japanese,,TROI!
+TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x3758,あいての体力,12,HP Đối Thủ,20,8,consensus:japanese,,HP DOI THU
 TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x767cc,野太刀,6,Nodachi,14,8,consensus:japanese,,NODACHI
-TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x767fc,投射,4,Tầm xa,12,8,consensus:japanese,,TAMXA
-TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x76844,修道会,6,Tu viện,14,8,semantic:BATCH12_JP_EXACT_0.6.21.0.csv,,TUVIEN
+TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x76844,修道会,6,Tu Viện,14,8,consensus:japanese,,TUVIEN
 TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x7684c,病院,4,Y viện,12,8,semantic:BATCH12_JP_EXACT_0.6.21.0.csv,,BENH
 TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x76854,武器屋,6,Tiệm VK,14,8,style:BATCH12_STYLE_0.6.21.0.csv,,TIEMVK
+TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x76870,%sね,4,%s nhé.,12,8,consensus:japanese,%s,%s NHE
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x30504,１　（速い）,12,1 (Nhanh),18,6,consensus:japanese,,1 NHAN
 TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x67540,この土地を買うよ,16,Mua đất này,22,6,semantic:BATCH11_JP_EXACT_0.6.20.0.csv:compact,,MUA DAT NAY
 TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x67894,タイミング悪すぎぃ,18,Vận rủi thật,24,6,semantic:BATCH11_JP_EXACT_0.6.20.0.csv,,XUI QUA
 TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x67b1c,どの物件を売るの？,18,Bán gia sản?,24,6,style:BATCH14_STYLE_0.6.23.0.csv,,BAN TS NAO?
@@ -147,32 +302,29 @@ TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x67bc8,どこに建てる？,14,X
 TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x67c80,通行税,6,Lộ phí,12,6,semantic:BATCH13_JP_EXACT_0.6.22.0.csv,,PHI QD
 TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x67fd8,レベル５裏武器カード,20,Thẻ VK ẩn Lv5,26,6,semantic:BATCH11_JP_EXACT_0.6.20.0.csv,,THE VK AN LV5
 TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x687c4,ほかの人と同じマスに止まったよ,30,Chung ô người khác,36,6,style:BATCH17_STYLE_0.6.26.0.csv,,TRUNG O NGUOI
+TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x68a38,小賢しい,8,Xảo trá,14,6,semantic:BATCH17_JP_EXACT_0.6.26.0.csv,,LAU CA
 TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x68d08,大不幸、不幸で,14,Do vận rủi,20,6,semantic:BATCH18_JP_EXACT_0.6.27.0.csv,,DO XUI
-TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x68d28,らいます,8,sẽ nhận,14,6,consensus:japanese,,NHAN
+TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x68d28,らいます,8,Sẽ nhận,14,6,semantic:BATCH15_JP_EXACT_0.6.24.0.csv,,NHAN
 TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x68d44,止まると所持金,14,Dừng: tiền,20,6,semantic:BATCH18_JP_EXACT_0.6.27.0.csv,,DUNG: TIEN CO
 TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x68db8,を切りかえられ,14,Có thể đổi,20,6,semantic:BATCH15_JP_EXACT_0.6.24.0.csv,,CO THE DOI
 TRANSLATION_MASTER_0.6_part04.csv,PRGPACK.BDP,0x68ea4,止まると好きな,14,Dừng: chọn,20,6,semantic:BATCH13_JP_EXACT_0.6.22.0.csv,,DUNG: TUY CHON
 TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0xae8,ほかの人と同じマスに止まったよ,30,Chung ô người khác,36,6,style:BATCH17_STYLE_0.6.26.0.csv,,TRUNG O NGUOI
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x1130,サンダー,8,Sấm Sét,14,6,consensus:japanese,,SAM
 TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x1464,最強の魔法,10,Đại pháp,16,6,style:BATCH12_STYLE_0.6.21.0.csv,,PHEP+
-TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x14c0,ほのおの弓,10,Cung Hỏa,16,6,semantic:BATCH12_JP_EXACT_0.6.21.0.csv,,LUA
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x14c0,ほのおの弓,10,Cung Lửa,16,6,consensus:japanese,,LUA
 TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x15e0,力の指輪,8,Sẽ nhận,14,6,style:BATCH15_STYLE_0.6.24.0.csv,,NHAN
 TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x1818,ジプシータロウ,14,Gypsy Taro,20,6,semantic:BATCH13_JP_EXACT_0.6.22.0.csv,,GYPSY
 TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x18cc,クレイモア,10,Claymore,16,6,semantic:BATCH13_JP_EXACT_0.6.22.0.csv,,CLAYM
 TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x18f0,ボーイナイフ,12,Dao Bowie,18,6,semantic:BATCH13_JP_EXACT_0.6.22.0.csv,,BOWIE
 TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x1a48,ボーイナイフ,12,Dao Bowie,18,6,semantic:BATCH13_JP_EXACT_0.6.22.0.csv,,BOWIE
-TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x2168,領地購入,8,Mua đất,14,6,consensus:japanese:compact,,MUA DAT
 TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x2580,れん金術,8,Giả kim,14,6,style:BATCH12_STYLE_0.6.21.0.csv,,GIA KIM
 TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x2666,れん金術,8,Giả kim,14,6,style:BATCH12_STYLE_0.6.21.0.csv,,GIA KIM
 TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x2ea4,沼のシンボルを建てれば、,24,Dựng Đầm nguyền,30,6,semantic:BATCH19_JP_EXACT_0.6.28.0.csv,,XAY DAM LAY
 TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x3318,「時の神のいたずら」,20,Trò Thần Thời,26,6,semantic:BATCH19_JP_EXACT_0.6.28.0.csv,,「THAN GIO」
-TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x3838,まだお金が足りないけど,22,Vẫn thiếu tiền,28,6,consensus:japanese,,VAN THIEU
-TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x767e0,支援系,6,Hỗ trợ,12,6,consensus:japanese,,HOTRO
+TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x767fc,投射,4,Phóng,10,6,consensus:japanese,,TAMXA
 TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x7682c,ハヤテ,6,Hayate,12,6,consensus:japanese,,HAYATE
 TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x76834,ジガー,6,Jigger,12,6,consensus:japanese,,JIGGER
-TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x76868,%sの,4,của %s,10,6,consensus:japanese,%s,%s CUA
-TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x76870,%sね,4,%s nhé,10,6,consensus:japanese,%s,%s NHE
-TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x768d8,資金額,6,Số vốn,12,6,consensus:japanese,,VON
-TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x7690c,%sは,4,%s thì,10,6,vi_full,%s,%s LA
+TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x768d8,資金額,6,Số Vốn,12,6,consensus:japanese,,VON
 TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x689d0,聖地で 引き落としてね,21,Rút Thánh địa,26,5,style:BATCH17_STYLE_0.6.26.0.csv,,RUT O THANH DIA
 TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x68bf4,カスが ,7,Đồ rác,12,5,semantic:BATCH15_JP_EXACT_0.6.24.0.csv,,DO RAC
 TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x675dc,通行税%dゼニーはらってね,24,Nộp %d Z lộ phí,28,4,semantic:BATCH11_JP_EXACT_0.6.20.0.csv,%d,TRA %d ZENNY
@@ -184,32 +336,30 @@ TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x67a34,あいての体力をひ�
 TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x67a4c,くれるよ！,10,sẽ ban!,14,4,style:BATCH14_STYLE_0.6.23.0.csv,,NHE!
 TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x67ac0,お店,4,Tiệm,8,4,semantic:BATCH14_JP_EXACT_0.6.23.0.csv,,SHOP
 TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x67ad0,どのお店にする？,16,Chọn tiệm?,20,4,style:BATCH14_STYLE_0.6.23.0.csv,,CHON SHOP?
-TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x67fc8,あきらめたよ,12,Đã từ bỏ,16,4,consensus:japanese,,DA BO
 TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x68a04,退け,4,Lui!,8,4,semantic:BATCH17_JP_EXACT_0.6.26.0.csv,,LUI RA
 TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x68a0c,へへん,6,Hê hê,10,4,semantic:BATCH11_JP_EXACT_0.6.20.0.csv,,HE HE
-TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x68a38,小賢しい,8,Láu cá,12,4,consensus:japanese,,LAU CA
-TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x68bfc,ぐぬぅ～,8,Grr...,12,4,semantic:BATCH15_JP_EXACT_0.6.24.0.csv,,GRRR
 TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x68ca4,施設    %s,10,Cơ sở %s,14,4,semantic:BATCH15_JP_EXACT_0.6.24.0.csv,%s,COSO %s
 TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x68ce8,どこかにワープ,14,Biến ngẫu,18,4,style:BATCH15_STYLE_0.6.24.0.csv,,WARP NGAU NHIEN
 TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x68cf8,たまったお金が,14,Tiền tích,18,4,style:BATCH15_STYLE_0.6.24.0.csv,,TIEN TICH LUY
 TRANSLATION_MASTER_0.6_part04.csv,PRGPACK.BDP,0x68e4c,もらえます,10,Sẽ nhận,14,4,semantic:BATCH13_JP_EXACT_0.6.22.0.csv,,SE NHAN
-TRANSLATION_MASTER_0.6_part04.csv,PRGPACK.BDP,0x68e78,できます,8,có thể,12,4,consensus:japanese,,CO THE
+TRANSLATION_MASTER_0.6_part04.csv,PRGPACK.BDP,0x68e78,できます,8,Có thể,12,4,semantic:BATCH13_JP_EXACT_0.6.22.0.csv,,CO THE
 TRANSLATION_MASTER_0.6_part04.csv,PRGPACK.BDP,0x68e84,しかけることが,14,Có thể mở,18,4,semantic:BATCH13_JP_EXACT_0.6.22.0.csv,,CO THE MO
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x958,体力が５０回復したよ！,22,HP đã hồi 50!,26,4,consensus:japanese,,HOI 50HP!
 TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x9a0,戦闘マスね,10,Ô chiến,14,4,semantic:BATCH13_JP_EXACT_0.6.22.0.csv,,CHIEN
 TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x142c,エクスカリバー,14,Excalibur,18,4,semantic:BATCH12_JP_EXACT_0.6.21.0.csv,,EXCAL
 TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x14cc,最強の魔剣,10,Ma kiếm,14,4,style:BATCH12_STYLE_0.6.21.0.csv,,MAKI
 TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x14f0,魔剣ムラマサ,12,Muramasa,16,4,semantic:BATCH12_JP_EXACT_0.6.21.0.csv,,MURAMA
 TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x1560,盗賊のオーブ,12,Ngọc đạo,16,4,style:BATCH12_STYLE_0.6.21.0.csv,,DAO
 TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x16a4,アイテム封じ,12,Ấn phong,16,4,style:BATCH12_STYLE_0.6.21.0.csv,,KHOADO
-TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x16e8,スノーストーム,14,Bão tuyết,18,4,consensus:japanese,,BAOTUYET
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x16e8,スノーストーム,14,Bão Tuyết,18,4,semantic:BATCH12_JP_EXACT_0.6.21.0.csv,,BAOTUYET
 TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x1744,使い捨て防御アイテム,20,Đồ thủ 1 lần,24,4,semantic:BATCH12_JP_EXACT_0.6.21.0.csv,,THU 1 LAN
 TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x177c,使い捨て回復アイテム,20,Đồ hồi 1 lần,24,4,semantic:BATCH12_JP_EXACT_0.6.21.0.csv,,HOI 1 LAN
-TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x1828,バトルアックス,14,Rìu chiến,18,4,semantic:BATCH12_JP_EXACT_0.6.21.0.csv,,RIUCHIEN
+TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x1828,バトルアックス,14,Rìu Chiến,18,4,consensus:japanese,,RIUCHIEN
 TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x1838,レイピア,8,Rapier,12,4,semantic:BATCH13_JP_EXACT_0.6.22.0.csv,,RAPIER
 TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x2064,盗賊の援助,10,Đạo tặc,14,4,style:BATCH15_STYLE_0.6.24.0.csv,,DAO TAC
 TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x2208,時の神のいたず,14,Thần Thời,18,4,semantic:BATCH17_JP_EXACT_0.6.26.0.csv,,THAN GIO
 TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x221c,運の神の休息,12,Thần Vận,16,4,style:BATCH17_STYLE_0.6.26.0.csv,,THAN MAY
-TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x2230,ふみたおし,10,Quỵt nợ,14,4,style:BATCH19_STYLE_0.6.28.0.csv,,QUYT
+TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x2230,ふみたおし,10,Quỵt Nợ,14,4,consensus:japanese,,QUYT
 TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x22d0,庭園,4,Vườn,8,4,consensus:japanese,,VUON
 TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x235c,１進む,6,Tiến1,10,4,style:BATCH13_STYLE_0.6.22.0.csv,,TIEN1
 TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x2370,２進む,6,Tiến2,10,4,style:BATCH13_STYLE_0.6.22.0.csv,,TIEN2
@@ -217,22 +367,20 @@ TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x2384,３進む,6,Tiến3,10,4,st
 TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x2398,４進む,6,Tiến4,10,4,style:BATCH13_STYLE_0.6.22.0.csv,,TIEN4
 TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x23ac,５進む,6,Tiến5,10,4,style:BATCH13_STYLE_0.6.22.0.csv,,TIEN5
 TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x23c0,６進む,6,Tiến6,10,4,style:BATCH13_STYLE_0.6.22.0.csv,,TIEN6
-TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x23e8,カード交換,10,Đổi thẻ,14,4,semantic:BATCH13_JP_EXACT_0.6.22.0.csv,,DOI THE
+TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x23e8,カード交換,10,Đổi Thẻ,14,4,consensus:japanese,,DOI THE
 TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x2458,ガラハッド,10,Galahad,14,4,semantic:BATCH13_JP_EXACT_0.6.22.0.csv,,GALAH
 TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x2470,ゴライアス,10,Goliath,14,4,semantic:BATCH13_JP_EXACT_0.6.22.0.csv,,GOLIA
 TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x2cdc,「お店破壊」,12,Phá tiệm,16,4,semantic:BATCH12_JP_EXACT_0.6.21.0.csv,,「PHA SHOP」
-TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x2dcc,超特急ーーー！,14,Siêu tốc!,18,4,consensus:japanese,,SIEUTOC!
 TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x2ddc,「ダイス４つ」,14,4 xúc xắc,18,4,semantic:BATCH13_JP_EXACT_0.6.22.0.csv,,「4 XUCXAC」
 TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x2e1c,「ダイス３つ」,14,3 xúc xắc,18,4,semantic:BATCH13_JP_EXACT_0.6.22.0.csv,,「3 XUCXAC」
 TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x2f58,大聖堂のシンボルを建てると、,28,Dựng Thánh đường,32,4,semantic:BATCH19_JP_EXACT_0.6.28.0.csv,,XAY THDUONG
 TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x3064,温泉のシンボルを建てると、,26,Dựng Linh tuyền,30,4,semantic:BATCH19_JP_EXACT_0.6.28.0.csv,,XAY SUOI
 TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x31c4,このカードを使うと、,20,Dùng thẻ này,24,4,style:BATCH12_STYLE_0.6.21.0.csv,,DUNG THE NAY
-TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x3820,これじゃたりないわよ,20,Vẫn không đủ,24,4,consensus:japanese,,VAN THIEU
 TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x767c4,クナイ,6,Kunai,10,4,consensus:japanese,,KUNAI
-TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x76804,魔法,4,Phép,8,4,consensus:japanese,,PHEP
 TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x7681c,ダンテ,6,Dante,10,4,consensus:japanese,,DANTE
-TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x68888,飛ばすぜ ！！,13,Bay đi!!,16,3,consensus:japanese,,BAY DI!!
+TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x68888,飛ばすぜ ！！,13,Biến đi!,16,3,semantic:BATCH11_JP_EXACT_0.6.20.0.csv,,BAY DI!!
 TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x689b8,聖地に 預けておいたから,23,Gửi Thánh địa,26,3,style:BATCH17_STYLE_0.6.26.0.csv,,GUI O THANH DIA
+TRANSLATION_MASTER_0.6_part01.csv,PRGPACK.BDP,0x304c8,アニメーション,14,Hoạt ảnh,16,2,consensus:japanese,,HOATANH
 TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x674d0,手に入れたよ,12,Đã nhận,14,2,semantic:BATCH13_JP_EXACT_0.6.22.0.csv,,DA NHAN
 TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x67808,お金がないから,14,Cạn tiền,16,2,semantic:BATCH11_JP_EXACT_0.6.20.0.csv,,KHONG CO TIEN
 TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x6796c,売却,4,Bán,6,2,semantic:BATCH14_JP_EXACT_0.6.23.0.csv,,BAN
@@ -241,7 +389,7 @@ TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x67a70,自分が止まるか、�
 TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x67ab8,価格,4,Giá,6,2,semantic:BATCH14_JP_EXACT_0.6.23.0.csv,,GIA
 TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x67ac8,資金,4,Vốn,6,2,consensus:japanese,,VON
 TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x67af4,どの土地にする？,16,Chọn đất?,18,2,semantic:BATCH14_JP_EXACT_0.6.23.0.csv:compact,,CHON DAT?
-TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x67c0c,%sエリア,8,Khu %s,10,2,consensus:japanese,%s,KHU %s
+TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x67c0c,%sエリア,8,Đất %s,10,2,semantic:BATCH14_JP_EXACT_0.6.23.0.csv:compact,%s,KHU %s
 TRANSLATION_MASTER_0.6_part02.csv,PRGPACK.BDP,0x67c18,%sエリア%s,10,Đất %s%s,12,2,style:BATCH14_STYLE_0.6.23.0.csv:compact,%s %s,KHU %s%s
 TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x67d50,そんな土地ないじゃない,22,Không có đất,24,2,semantic:BATCH17_JP_EXACT_0.6.26.0.csv:compact,,KHONG CO DAT
 TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x68088,そんな土地ないじゃない,22,Không có đất,24,2,semantic:BATCH17_JP_EXACT_0.6.26.0.csv:compact,,KHONG CO DAT
@@ -249,14 +397,14 @@ TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x68a44,ん？,4,Hử?,6,2,semanti
 TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x68b9c,は～はっは 破壊じゃ 破壊じゃ,28,Ha ha! Phá hủy!,30,2,semantic:BATCH15_JP_EXACT_0.6.24.0.csv,,HAHA PHA HUY
 TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x68da0,１ターンごとに,14,Mỗi lượt,16,2,semantic:BATCH18_JP_EXACT_0.6.27.0.csv,,MOI 1 LUOT
 TRANSLATION_MASTER_0.6_part03.csv,PRGPACK.BDP,0x68dc8,止まるとルート,14,Dừng: lộ,16,2,semantic:BATCH18_JP_EXACT_0.6.27.0.csv,,DUNG: TUYEN
-TRANSLATION_MASTER_0.6_part04.csv,PRGPACK.BDP,0x68e58,トカードが１枚,14,1 thẻ SK,16,2,semantic:BATCH13_JP_EXACT_0.6.22.0.csv,,1 THE SK
 TRANSLATION_MASTER_0.6_part04.csv,PRGPACK.BDP,0x68e68,止まるとイベン,14,Dừng: SK,16,2,semantic:BATCH13_JP_EXACT_0.6.22.0.csv,,DUNG: SU KIEN
 TRANSLATION_MASTER_0.6_part04.csv,PRGPACK.BDP,0x68e94,あいてに戦闘を,14,Đấu địch,16,2,style:BATCH13_STYLE_0.6.22.0.csv,,DAU DOI THU
 TRANSLATION_MASTER_0.6_part04.csv,PRGPACK.BDP,0x68eb8,所有者なし,10,Vô chủ,12,2,semantic:BATCH13_JP_EXACT_0.6.22.0.csv,,VO CHU
 TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0xa6c,聖地マスに止まったよ！,22,Ô Thánh địa!,24,2,semantic:BATCH13_JP_EXACT_0.6.22.0.csv,,O THANH DIA
 TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0xa84,たまった税金をあげるね！！,26,Nhận quân thuế,28,2,style:BATCH13_STYLE_0.6.22.0.csv,,NHAN THUE GOM
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0xe64,はい　　いいえ,14,Có Không,16,2,consensus:japanese:compact,,CO/KO
 TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x1518,まどわしの玉,12,Ngọc mê,14,2,style:BATCH12_STYLE_0.6.21.0.csv,,NGOCME
-TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x158c,アースクエイク,14,Động đất,16,2,semantic:BATCH12_JP_EXACT_0.6.21.0.csv,,DONGDAT
+TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x158c,アースクエイク,14,Địa Chấn,16,2,consensus:japanese,,DONGDAT
 TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x15b4,ストームソード,14,Kiếm Bão,16,2,semantic:BATCH12_JP_EXACT_0.6.21.0.csv,,KIEMBAO
 TRANSLATION_MASTER_0.6_part04.csv,SLPS_020.75,0x175c,シールド,8,Khiên,10,2,semantic:BATCH12_JP_EXACT_0.6.21.0.csv,,KHIEN
 TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x18a4,ジャンビーヤ,12,Jambiya,14,2,semantic:BATCH13_JP_EXACT_0.6.22.0.csv,,JAMBIYA
@@ -273,11 +421,8 @@ TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x2d08,５マス進めるよ,14,Ti
 TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x2d18,「５進む」,10,Tiến 5,12,2,semantic:BATCH13_JP_EXACT_0.6.22.0.csv,,「TIEN5」
 TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x2d24,４マス進めるよ,14,Tiến 4 ô,16,2,semantic:BATCH12_JP_EXACT_0.6.21.0.csv,,TIEN 4 O
 TRANSLATION_MASTER_0.6_part05.csv,SLPS_020.75,0x2d34,「４進む」,10,Tiến 4,12,2,semantic:BATCH13_JP_EXACT_0.6.22.0.csv,,「TIEN4」
-TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x2d40,３マス進めるよ,14,Tiến 3 ô,16,2,consensus:japanese,,TIEN 3 O
 TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x2d50,「３進む」,10,Tiến 3,12,2,semantic:BATCH13_JP_EXACT_0.6.22.0.csv,,「TIEN3」
-TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x2d5c,２マス進めるよ,14,Tiến 2 ô,16,2,consensus:japanese,,TIEN 2 O
 TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x2d6c,「２進む」,10,Tiến 2,12,2,semantic:BATCH13_JP_EXACT_0.6.22.0.csv,,「TIEN2」
-TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x2d78,１マス進めるよ,14,Tiến 1 ô,16,2,consensus:japanese,,TIEN 1 O
 TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x2da4,「１進む」,10,Tiến 1,12,2,semantic:BATCH13_JP_EXACT_0.6.22.0.csv,,「TIEN1」
 TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x2e08,スピードアップ！,16,Tăng tốc!,18,2,consensus:japanese,,TANGTOC!
 TRANSLATION_MASTER_0.6_part06.csv,SLPS_020.75,0x31a8,邪魔なシンボルを壊せるよ！,26,Phá thần tượng,28,2,style:BATCH12_STYLE_0.6.21.0.csv,,PHA BIEUTUONG

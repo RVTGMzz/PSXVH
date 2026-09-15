@@ -1,25 +1,17 @@
 file,offset_hex,vi_accented,category,note
-PRGPACK.BDP,0x530,Khá lắm,batch19-auto-exact,Generated from fitting Translation Master vi_full; token-safe; historical 0.6.14.1 locks preserved
-PRGPACK.BDP,0x32060,Khá lắm,batch19-auto-exact,Generated from fitting Translation Master vi_full; token-safe; historical 0.6.14.1 locks preserved
-PRGPACK.BDP,0x3f784,Khá lắm,batch19-auto-exact,Generated from fitting Translation Master vi_full; token-safe; historical 0.6.14.1 locks preserved
-PRGPACK.BDP,0x4d374,Khá lắm,batch19-auto-exact,Generated from fitting Translation Master vi_full; token-safe; historical 0.6.14.1 locks preserved
-PRGPACK.BDP,0x5b048,Khá lắm,batch19-auto-exact,Generated from fitting Translation Master vi_full; token-safe; historical 0.6.14.1 locks preserved
-PRGPACK.BDP,0x674b8,%s và,batch19-auto-exact,Generated from fitting Translation Master vi_full; token-safe; historical 0.6.14.1 locks preserved
-PRGPACK.BDP,0x674c4,%s,batch19-auto-exact,Generated from fitting Translation Master vi_full; token-safe; historical 0.6.14.1 locks preserved
-PRGPACK.BDP,0x6762c,HP hồi đầy,batch19-auto-exact,Generated from fitting Translation Master vi_full; token-safe; historical 0.6.14.1 locks preserved
-PRGPACK.BDP,0x67a58,sẽ hồi HP,batch19-auto-exact,Generated from fitting Translation Master vi_full; token-safe; historical 0.6.14.1 locks preserved
+PRGPACK.BDP,0x674c4,“%s”…,batch19-auto-exact,Generated from fitting Translation Master vi_full; token-safe; historical 0.6.14.1 locks preserved
 PRGPACK.BDP,0x67ab0,Hủy,batch19-auto-exact,Generated from fitting Translation Master vi_full; token-safe; historical 0.6.14.1 locks preserved
-PRGPACK.BDP,0x67f94,Bỏ %s,batch19-auto-exact,Generated from fitting Translation Master vi_full; token-safe; historical 0.6.14.1 locks preserved
-PRGPACK.BDP,0x67fbc,%s,batch19-auto-exact,Generated from fitting Translation Master vi_full; token-safe; historical 0.6.14.1 locks preserved
-PRGPACK.BDP,0x68728,Có 4 xúc xắc!!,batch19-auto-exact,Generated from fitting Translation Master vi_full; token-safe; historical 0.6.14.1 locks preserved
-PRGPACK.BDP,0x688d8,Come on!,batch19-auto-exact,Generated from fitting Translation Master vi_full; token-safe; historical 0.6.14.1 locks preserved
-PRGPACK.BDP,0x68b2c,%s,batch19-auto-exact,Generated from fitting Translation Master vi_full; token-safe; historical 0.6.14.1 locks preserved
-PRGPACK.BDP,0x68bec,Hừ,batch19-auto-exact,Generated from fitting Translation Master vi_full; token-safe; historical 0.6.14.1 locks preserved
-PRGPACK.BDP,0x68d34,trả 20%,batch19-auto-exact,Generated from fitting Translation Master vi_full; token-safe; historical 0.6.14.1 locks preserved
-PRGPACK.BDP,0x68db0,sẽ,batch19-auto-exact,Generated from fitting Translation Master vi_full; token-safe; historical 0.6.14.1 locks preserved
+PRGPACK.BDP,0x67d8c,/V%s/v,batch19-auto-exact,Generated from fitting Translation Master vi_full; token-safe; historical 0.6.14.1 locks preserved
+PRGPACK.BDP,0x67f94,Bỏ “%s”.,batch19-auto-exact,Generated from fitting Translation Master vi_full; token-safe; historical 0.6.14.1 locks preserved
+PRGPACK.BDP,0x68bfc,Gừừ～,batch19-auto-exact,Generated from fitting Translation Master vi_full; token-safe; historical 0.6.14.1 locks preserved
+PRGPACK.BDP,0x68db0,…,batch19-auto-exact,Generated from fitting Translation Master vi_full; token-safe; historical 0.6.14.1 locks preserved
+SLPS_020.75,0x94c,Ô GO,batch19-auto-exact,Generated from fitting Translation Master vi_full; token-safe; historical 0.6.14.1 locks preserved
+SLPS_020.75,0xdf8,Bỏ “%s”.,batch19-auto-exact,Generated from fitting Translation Master vi_full; token-safe; historical 0.6.14.1 locks preserved
+SLPS_020.75,0x117c,Nỏ,batch19-auto-exact,Generated from fitting Translation Master vi_full; token-safe; historical 0.6.14.1 locks preserved
+SLPS_020.75,0x11e0,Búa,batch19-auto-exact,Generated from fitting Translation Master vi_full; token-safe; historical 0.6.14.1 locks preserved
 SLPS_020.75,0x1768,Hồi 30 HP,batch19-auto-exact,Generated from fitting Translation Master vi_full; token-safe; historical 0.6.14.1 locks preserved
-SLPS_020.75,0x17b0,Cầu lửa,batch19-auto-exact,Generated from fitting Translation Master vi_full; token-safe; historical 0.6.14.1 locks preserved
+SLPS_020.75,0x17b0,Cầu Lửa,batch19-auto-exact,Generated from fitting Translation Master vi_full; token-safe; historical 0.6.14.1 locks preserved
 SLPS_020.75,0x17f0,Estoc,batch19-auto-exact,Generated from fitting Translation Master vi_full; token-safe; historical 0.6.14.1 locks preserved
-SLPS_020.75,0x2c94,Đổi thẻ,batch19-auto-exact,Generated from fitting Translation Master vi_full; token-safe; historical 0.6.14.1 locks preserved
-SLPS_020.75,0x3404,Từ bỏ %s,batch19-auto-exact,Generated from fitting Translation Master vi_full; token-safe; historical 0.6.14.1 locks preserved
+SLPS_020.75,0x33f4,Bỏ “%s”.,batch19-auto-exact,Generated from fitting Translation Master vi_full; token-safe; historical 0.6.14.1 locks preserved
 SLPS_020.75,0x378c,Hủy,batch19-auto-exact,Generated from fitting Translation Master vi_full; token-safe; historical 0.6.14.1 locks preserved
+SLPS_020.75,0x3864,Trời ơi,batch19-auto-exact,Generated from fitting Translation Master vi_full; token-safe; historical 0.6.14.1 locks preserved

@@ -3,15 +3,15 @@ GAIA MASTER 0.6.28.0 BATCH 19 REPORT COMPILER
 Translation Master rows : 596
 Semantic map entries    : 329
 STYLE map entries       : 230
-Consensus JP entries    : 366
-Consensus FB entries    : 332
-Rows with meaning       : 447
-Rows with fitting cand. : 164
-RESIDUAL_ALPHA rows     : 147
-FIT_PRESSURE rows       : 283
-EXACT_OFFSET locks      : 24
-Historical protected    : 0
-Token-rejected cand.    : 2
+Consensus JP entries    : 466
+Consensus FB entries    : 414
+Rows with meaning       : 596
+Rows with fitting cand. : 168
+RESIDUAL_ALPHA rows     : 0
+FIT_PRESSURE rows       : 428
+EXACT_OFFSET locks      : 16
+Historical protected    : 1
+Token-rejected cand.    : 1
 
 SAFETY:
 - report-only; no ROM/BIN/CUE/BDP/font modification
