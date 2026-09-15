@@ -1,0 +1,10 @@
+japanese,vi_full,vi_runtime_historical,status,note
+   終了ターン,   Kết Thúc Lượt,Xong,SEMANTIC_SOURCE_FULL_TRANSLATED_ONLY,"Giữ ý lệnh kết thúc lượt; khoảng trắng runtime xử lý riêng"
+大不幸、不幸で,Khi gặp Đại Bất Hạnh hoặc Bất Hạnh...,Do vận rủi,SEMANTIC_SOURCE_FULL_TRANSLATED_ONLY,"Mảnh câu"
+所得税、土地税,"Thuế Thu Nhập, Thuế Đất",Thuế lợi tức/đất,SEMANTIC_SOURCE_FULL_TRANSLATED_ONLY,"Mảnh câu"
+止まると所持金,Khi dừng lại, số tiền đang có...,Dừng: tiền,SEMANTIC_SOURCE_FULL_TRANSLATED_ONLY,"Mảnh câu"
+止まると土地代,Khi dừng lại, giá đất...,Dừng: giá đất,SEMANTIC_SOURCE_FULL_TRANSLATED_ONLY,"Mảnh câu"
+ルートが切りか,Tuyến đường sẽ được chuyển...,Đổi lộ,SEMANTIC_SOURCE_FULL_TRANSLATED_ONLY,"Nguồn bị cắt cuối"
+１ターンごとに,Mỗi lượt...,Mỗi lượt,SEMANTIC_SOURCE_FULL_TRANSLATED_ONLY,"Mảnh câu"
+止まるとルート,Khi dừng lại, tuyến đường...,Dừng: lộ,SEMANTIC_SOURCE_FULL_TRANSLATED_ONLY,"Mảnh câu"
+止まるとミニゲ,Khi dừng lại, mini-ga...,Dừng: thử thách,SEMANTIC_SOURCE_FULL_TRANSLATED_ONLY,"Nguồn kết thúc giữa ミニゲーム"
