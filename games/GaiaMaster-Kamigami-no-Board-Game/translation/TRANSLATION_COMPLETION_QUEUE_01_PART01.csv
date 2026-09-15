@@ -1,0 +1,93 @@
+file,offset_hex,japanese,vi_full,status
+PRGPACK.BDP,0x434,酒場へようこそ,Chào mừng đến quán rượu,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x444,ちょうどタイクツしてたんだ,Đúng lúc ta đang chán,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x460,わたしと一勝負してかないかい,Đấu với ta một ván chứ?,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x480,今からふるダイスの目がこのダイス,Đoán mặt xúc xắc sắp tung,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x4a4,より大きいかちいさいか当てるんだよ,lớn hay nhỏ hơn viên này nhé,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x4c8,最初の賞品はこいつさ,Phần thưởng đầu là món này,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x4e0,なんだい、もう終わりかい,"Sao, nghỉ rồi à?",PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x4fc,…つまんないね,…Chán thật đấy,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x518,もう勝負は終わりだよ,Ván đấu kết thúc rồi,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x540,もう一勝負してくかい？,Làm thêm một ván chứ?,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x558,つぎの賞品はこいつだよ,Phần thưởng tiếp là món này,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x570,%d枚の武器カードが手に入ったよ,Nhận được %d thẻ vũ khí,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x590,でももう持ち切れないみたい,Nhưng hình như hết chỗ rồi,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x5ac,いらないカードを捨ててね,Hãy bỏ thẻ không cần,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x5f8,武器カードは,Thẻ vũ khí,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x608,手に入らなかったよ,không nhận được,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x61c,%d枚、手に入れたよ,Đã nhận %d thẻ,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x630,武器カードを,Thẻ vũ khí,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x640,「%s」を捨てて、,"Bỏ %s,",PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x654,「%s」を手に入れたよ,Đã nhận %s,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x66c,「%s」を手に入れたけど,Đã nhận %s nhưng,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x684,捨てたよ,Đã bỏ rồi,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x304a8,セリフ速度,Tốc độ thoại,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x304b4,セリフ表示,Hiển thị thoại,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x304c0,ボイス,Giọng nói,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x304c8,アニメーション,Hoạt ảnh,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x304d8,終了ターン,Kết thúc lượt,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x304e4,プレイヤー設定,Cài đặt người chơi,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x304f4,しんどう設定,Cài đặt rung,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x30504,１　（速い）,1 (Nhanh),PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x30514,２　（ふつう）,2 (Thường),PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x30600,   終了ターン,Kết thúc lượt,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x30658,○ボタンをおしてね,Nhấn nút O nhé,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x3066c,%sはコントローラ%sだよ！,%s dùng tay cầm %s!,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x31f64,酒場へようこそ,Chào mừng đến quán rượu,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x31f74,ちょうどタイクツしてたんだ,Đúng lúc ta đang chán,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x31f90,わたしと一勝負してかないかい,Đấu với ta một ván chứ?,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x31fb0,今からふるダイスの目がこのダイス,Đoán mặt xúc xắc sắp tung,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x31fd4,より大きいかちいさいか当てるんだよ,lớn hay nhỏ hơn viên này nhé,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x31ff8,最初の賞品はこいつさ,Phần thưởng đầu là món này,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x32010,なんだい、もう終わりかい,"Sao, nghỉ rồi à?",PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x3202c,…つまんないね,…Chán thật đấy,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x32048,もう勝負は終わりだよ,Ván đấu kết thúc rồi,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x32070,もう一勝負してくかい？,Làm thêm một ván chứ?,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x32088,つぎの賞品はこいつだよ,Phần thưởng tiếp là món này,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x320a0,%d枚の武器カードが手に入ったよ,Nhận được %d thẻ vũ khí,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x320c0,でももう持ち切れないみたい,Nhưng hình như hết chỗ rồi,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x320dc,いらないカードを捨ててね,Hãy bỏ thẻ không cần,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x32128,武器カードは,Thẻ vũ khí,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x32138,手に入らなかったよ,không nhận được,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x3214c,%d枚、手に入れたよ,Đã nhận %d thẻ,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x32160,武器カードを,Thẻ vũ khí,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x32170,「%s」を捨てて、,"Bỏ %s,",PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x32184,「%s」を手に入れたよ,Đã nhận %s,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x3219c,「%s」を手に入れたけど,Đã nhận %s nhưng,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x321b4,捨てたよ,Đã bỏ rồi,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x3f688,酒場へようこそ,Chào mừng đến quán rượu,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x3f698,ちょうどタイクツしてたんだ,Đúng lúc ta đang chán,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x3f6b4,わたしと一勝負してかないかい,Đấu với ta một ván chứ?,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x3f6d4,今からふるダイスの目がこのダイス,Đoán mặt xúc xắc sắp tung,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x3f6f8,より大きいかちいさいか当てるんだよ,lớn hay nhỏ hơn viên này nhé,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x3f71c,最初の賞品はこいつさ,Phần thưởng đầu là món này,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x3f734,なんだい、もう終わりかい,"Sao, nghỉ rồi à?",PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x3f750,…つまんないね,…Chán thật đấy,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x3f76c,もう勝負は終わりだよ,Ván đấu kết thúc rồi,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x3f794,もう一勝負してくかい？,Làm thêm một ván chứ?,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x3f7ac,つぎの賞品はこいつだよ,Phần thưởng tiếp là món này,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x3f7c4,%d枚の武器カードが手に入ったよ,Nhận được %d thẻ vũ khí,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x3f7e4,でももう持ち切れないみたい,Nhưng hình như hết chỗ rồi,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x3f800,いらないカードを捨ててね,Hãy bỏ thẻ không cần,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x3f84c,武器カードは,Thẻ vũ khí,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x3f85c,手に入らなかったよ,không nhận được,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x3f870,%d枚、手に入れたよ,Đã nhận %d thẻ,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x3f884,武器カードを,Thẻ vũ khí,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x3f894,「%s」を捨てて、,"Bỏ %s,",PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x3f8a8,「%s」を手に入れたよ,Đã nhận %s,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x3f8c0,「%s」を手に入れたけど,Đã nhận %s nhưng,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x3f8d8,捨てたよ,Đã bỏ rồi,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x4d278,酒場へようこそ,Chào mừng đến quán rượu,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x4d288,ちょうどタイクツしてたんだ,Đúng lúc ta đang chán,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x4d2a4,わたしと一勝負してかないかい,Đấu với ta một ván chứ?,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x4d2c4,今からふるダイスの目がこのダイス,Đoán mặt xúc xắc sắp tung,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x4d2e8,より大きいかちいさいか当てるんだよ,lớn hay nhỏ hơn viên này nhé,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x4d30c,最初の賞品はこいつさ,Phần thưởng đầu là món này,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x4d324,なんだい、もう終わりかい,"Sao, nghỉ rồi à?",PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x4d340,…つまんないね,…Chán thật đấy,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x4d35c,もう勝負は終わりだよ,Ván đấu kết thúc rồi,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x4d384,もう一勝負してくかい？,Làm thêm một ván chứ?,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x4d39c,つぎの賞品はこいつだよ,Phần thưởng tiếp là món này,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x4d3b4,%d枚の武器カードが手に入ったよ,Nhận được %d thẻ vũ khí,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x4d3d4,でももう持ち切れないみたい,Nhưng hình như hết chỗ rồi,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x4d3f0,いらないカードを捨ててね,Hãy bỏ thẻ không cần,PREPARED_TRANSLATION_ONLY
