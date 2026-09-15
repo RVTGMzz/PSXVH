@@ -2,39 +2,39 @@ GAIA MASTER 0.6.41.0 BATCH 31 RESIDUAL ALPHA PRIORITY
 ================================================================================
 Translation Master rows      : 596
 Protected B29 exact keys     : 295
-Protected Batch19 locks      : 24
+Protected Batch19 locks      : 16
 Runtime-fit historical locks : 25
 Historical no-op/unfit rows  : 13
-Residual fallback rows       : 265
-Unique JP+fallback clusters  : 243
+Residual fallback rows       : 278
+Unique JP+fallback clusters  : 252
 
 REASON BREAKDOWN (clusters / rows):
-- FULL_FITS_BUT_NOT_PROMOTED  :   4 /   4
-- VI_FULL_TOO_LONG            : 239 / 261
+- FULL_FITS_BUT_NOT_PROMOTED  :   1 /   1
+- VI_FULL_TOO_LONG            : 251 / 277
 
 TOP 30 PRIORITY CLUSTERS:
 01. x06 [VI_FULL_TOO_LONG] field=12 fallback='THE VK' jp='武器カードを' full='Thẻ Vũ khí...'
 02. x05 [VI_FULL_TOO_LONG] field=6 fallback='KHA DAY' jp='やるね' full='Khá lắm!'
-03. x05 [VI_FULL_TOO_LONG] field=12 fallback='THE VK' jp='武器カードは' full='Thẻ Vũ khí thì...'
-04. x02 [VI_FULL_TOO_LONG] field=16 fallback='%s MAY MAN!!' jp='%sのラッキー！！' full='%s gặp may!!'
-05. x02 [VI_FULL_TOO_LONG] field=4 fallback='BENH' jp='病院' full='Bệnh Viện'
-06. x02 [VI_FULL_TOO_LONG] field=14 fallback='BO BOT THE' jp='なにか捨ててね' full='Hãy bỏ bớt một lá nhé.'
-07. x02 [VI_FULL_TOO_LONG] field=8 fallback='GIA KIM' jp='れん金術' full='Giả Kim Thuật'
-08. x02 [VI_FULL_TOO_LONG] field=10 fallback='HET' jp='終了ターン' full='Kết thúc lượt'
-09. x02 [VI_FULL_TOO_LONG] field=6 fallback='HIEPSI' jp='騎士団' full='Đoàn Kỵ Sĩ'
-10. x02 [VI_FULL_TOO_LONG] field=8 fallback='PHA SHOP' jp='お店破壊' full='Phá Cửa Hàng'
-11. x02 [VI_FULL_TOO_LONG] field=6 fallback='TIEMVK' jp='武器屋' full='Tiệm Vũ Khí'
-12. x02 [VI_FULL_TOO_LONG] field=6 fallback='TUVIEN' jp='修道会' full='Tu Viện'
-13. x01 [FULL_FITS_BUT_NOT_PROMOTED] field=10 fallback='/V%s/v' jp='/V%sさん/v' full='/V%s/v'
+03. x05 [VI_FULL_TOO_LONG] field=14 fallback='KHA LAM' jp='なかなかやるね' full='Giỏi đấy!'
+04. x05 [VI_FULL_TOO_LONG] field=12 fallback='THE VK' jp='武器カードは' full='Thẻ Vũ khí thì...'
+05. x02 [VI_FULL_TOO_LONG] field=16 fallback='%s MAY MAN!!' jp='%sのラッキー！！' full='%s gặp may!!'
+06. x02 [VI_FULL_TOO_LONG] field=4 fallback='BENH' jp='病院' full='Bệnh Viện'
+07. x02 [VI_FULL_TOO_LONG] field=14 fallback='BO BOT THE' jp='なにか捨ててね' full='Hãy bỏ bớt một lá nhé.'
+08. x02 [VI_FULL_TOO_LONG] field=8 fallback='GIA KIM' jp='れん金術' full='Giả Kim Thuật'
+09. x02 [VI_FULL_TOO_LONG] field=10 fallback='HET' jp='終了ターン' full='Kết thúc lượt'
+10. x02 [VI_FULL_TOO_LONG] field=6 fallback='HIEPSI' jp='騎士団' full='Đoàn Kỵ Sĩ'
+11. x02 [VI_FULL_TOO_LONG] field=8 fallback='PHA SHOP' jp='お店破壊' full='Phá Cửa Hàng'
+12. x02 [VI_FULL_TOO_LONG] field=6 fallback='TIEMVK' jp='武器屋' full='Tiệm Vũ Khí'
+13. x02 [VI_FULL_TOO_LONG] field=6 fallback='TUVIEN' jp='修道会' full='Tu Viện'
 14. x01 [FULL_FITS_BUT_NOT_PROMOTED] field=14 fallback='1 THE SK' jp='トカードが１枚' full='…1 thẻ…'
-15. x01 [FULL_FITS_BUT_NOT_PROMOTED] field=18 fallback='LAM GI DAY?' jp='も～何やってるの？' full='Trời ơi'
-16. x01 [FULL_FITS_BUT_NOT_PROMOTED] field=8 fallback='O GO' jp='ＧＯマス' full='Ô GO'
-17. x01 [VI_FULL_TOO_LONG] field=8 fallback='%d ZENNY' jp='%dゼニー' full='%d Zenny'
-18. x01 [VI_FULL_TOO_LONG] field=10 fallback='(NHANH TRUOC)' jp='(速い者順)' full='(Theo thứ tự từ người nhanh nhất)'
-19. x01 [VI_FULL_TOO_LONG] field=30 fallback='1 LUOT RIENG BAN' jp='１ターンのあいだ自分の番だけ、' full='Trong một lượt, chỉ trong lượt của bạn...'
-20. x01 [VI_FULL_TOO_LONG] field=14 fallback='20% THANH THUE' jp='の２０％を税金' full='...20% của... làm thuế...'
-21. x01 [VI_FULL_TOO_LONG] field=10 fallback='3 XUCXAC' jp='ダイス３つ' full='3 Xúc Xắc'
-22. x01 [VI_FULL_TOO_LONG] field=10 fallback='4 XUCXAC' jp='ダイス４つ' full='4 Xúc Xắc'
+15. x01 [VI_FULL_TOO_LONG] field=8 fallback='%d ZENNY' jp='%dゼニー' full='%d Zenny'
+16. x01 [VI_FULL_TOO_LONG] field=4 fallback='%s' jp='%sは' full='%s thì...'
+17. x01 [VI_FULL_TOO_LONG] field=10 fallback='(NHANH TRUOC)' jp='(速い者順)' full='(Theo thứ tự từ người nhanh nhất)'
+18. x01 [VI_FULL_TOO_LONG] field=30 fallback='1 LUOT RIENG BAN' jp='１ターンのあいだ自分の番だけ、' full='Trong một lượt, chỉ trong lượt của bạn...'
+19. x01 [VI_FULL_TOO_LONG] field=14 fallback='20% THANH THUE' jp='の２０％を税金' full='...20% của... làm thuế...'
+20. x01 [VI_FULL_TOO_LONG] field=10 fallback='3 XUCXAC' jp='ダイス３つ' full='3 Xúc Xắc'
+21. x01 [VI_FULL_TOO_LONG] field=10 fallback='4 XUCXAC' jp='ダイス４つ' full='4 Xúc Xắc'
+22. x01 [VI_FULL_TOO_LONG] field=28 fallback='4 XUCXAC!!' jp='ダイスの数が４コになるよ！！' full='Bạn sẽ có 4 xúc xắc!!'
 23. x01 [VI_FULL_TOO_LONG] field=26 fallback='ATK X2' jp='攻撃力を２倍にアップさせる' full='Tăng gấp đôi sức tấn công.'
 24. x01 [VI_FULL_TOO_LONG] field=4 fallback='BAN' jp='売却' full='Bán'
 25. x01 [VI_FULL_TOO_LONG] field=18 fallback='BAN TS NAO?' jp='どの物件を売るの？' full='Bạn muốn bán tài sản nào?'
