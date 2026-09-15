@@ -63,7 +63,8 @@ Because the original 0.6.38 full scanner CSV is still unavailable, committed exa
 Completed on 2026-09-15:
 - `translation/BATCH40_SOURCE_FULL_TAVERN_SETTINGS_2026-09-15.csv` - 35 exact-offset records covering the tavern dice mini-game and player/settings UI.
 - `translation/BATCH40_SOURCE_FULL_GAMEPLAY_LAND_UI_2026-09-15.csv` - 67 exact-offset records covering cards, taxes, route switching, land/property management, building and related gameplay UI.
-- Exact-offset source companion records added in this pass: 102.
+- `translation/BATCH40_SOURCE_FULL_CARDS_EVENTS_CHARACTERS_2026-09-15.csv` - 71 exact-offset records covering build/sell messages, card/event effects, special-character dialogue and property-info UI.
+- Exact-offset source companion records added in this pass: 173.
 
 These exact-offset rows are historical known-source records and may overlap Japanese strings already represented in Translation Master. They are therefore NOT counted as new entries toward the 6,361 unique unseen-Japanese scanner corpus.
 
@@ -81,10 +82,10 @@ Prepared translation/source-companion row records in this pass:
 - Translation Master blank `vi_full` completion queues: 203
 - Batch43 source-full companion: 102
 - Intro source-full companion: 19
-- Historical exact-offset source companions: 102
-- Total prepared row records: 426
+- Historical exact-offset source companions: 173
+- Total prepared row records: 497
 
-This is a work-record count, not a claim of 426 unique Japanese strings. Historical exact-offset rows can overlap Translation Master source text.
+This is a work-record count, not a claim of 497 unique Japanese strings. Historical exact-offset rows can overlap Translation Master source text.
 
 ## Whole-game translation reality
 Current Translation Master: 596 keys. Existing runtime contract protects 596/596 master coverage, but this is NOT whole-game coverage.
