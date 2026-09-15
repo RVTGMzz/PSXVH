@@ -5,11 +5,12 @@
 Read-only translation-source audit. No Master/runtime writes.
 
 Exact-source priority, highest first:
-1. exact completion-review companion;
-2. Master-only exact source companion;
-3. Batch43 source-full companions;
-4. Batch40 source-full companions;
-5. reviewed repeat lexicon by Japanese phrase, only if no exact companion exists.
+1. dedicated Part02 reviewed gap patch;
+2. exact completion-review companion;
+3. Master-only exact source companion;
+4. Batch43 source-full companions;
+5. Batch40 source-full companions;
+6. reviewed repeat lexicon by Japanese phrase, only if no exact companion exists.
 
 Multiple exact companions may intentionally contain different editorial wording.
 That is not a source conflict when file + offset + Japanese identity agree: the
@@ -26,6 +27,7 @@ ROOT = Path(__file__).resolve().parent.parent
 TR = ROOT / "translation"
 MASTER = TR / "TRANSLATION_MASTER_0.6_part02.csv"
 LEXICON = TR / "TRANSLATION_COMPLETION_REVIEWED_REPEAT_LEXICON_2026-09-15.csv"
+PART02_GAPS = TR / "PART02_SOURCE_REVIEW_GAPS_2026-09-15.csv"
 COMPLETION_EXACT = TR / "TRANSLATION_COMPLETION_REVIEWED_COMBAT_ITEMS_2026-09-15.csv"
 MASTER_ONLY = TR / "MASTER_ONLY_EXACT_GAMEPLAY_SOURCE_FULL_2026-09-15.csv"
 TOKEN_RE = re.compile(r"%(?:[-+0-9.#]*[A-Za-z%])|/[Vv]")
@@ -53,12 +55,20 @@ def tokens(text: str):
 
 def exact_source_files():
     files = []
+    if PART02_GAPS.is_file():
+        files.append((PART02_GAPS, "part02-gap-review", "vi_full_reviewed"))
     if COMPLETION_EXACT.is_file():
-        files.append((COMPLETION_EXACT, "completion-reviewed"))
+        files.append((COMPLETION_EXACT, "completion-reviewed", "vi_full"))
     if MASTER_ONLY.is_file():
-        files.append((MASTER_ONLY, "master-only"))
-    files.extend((p, "batch43") for p in sorted(TR.glob("BATCH43_SOURCE_FULL_*_2026-09-15.csv")))
-    files.extend((p, "batch40") for p in sorted(TR.glob("BATCH40_SOURCE_FULL_*_2026-09-15.csv")))
+        files.append((MASTER_ONLY, "master-only", "vi_full"))
+    files.extend(
+        (p, "batch43", "vi_full")
+        for p in sorted(TR.glob("BATCH43_SOURCE_FULL_*_2026-09-15.csv"))
+    )
+    files.extend(
+        (p, "batch40", "vi_full")
+        for p in sorted(TR.glob("BATCH40_SOURCE_FULL_*_2026-09-15.csv"))
+    )
     return files
 
 
@@ -74,16 +84,14 @@ def main() -> int:
     if len(master_rows) != 100:
         raise RuntimeError(f"Part02 row-count gate failed: {len(master_rows)} != 100")
 
-    # Highest-priority source is inserted first. Lower-priority wording for the
-    # same exact key is ignored as long as Japanese identity is identical.
     exact = {}
-    for path, source_class in source_files:
+    for path, source_class, vi_field in source_files:
         for row in read_csv(path):
-            if not {"file", "offset_hex", "japanese", "vi_full"}.issubset(row):
+            if not {"file", "offset_hex", "japanese", vi_field}.issubset(row):
                 continue
             k = key(row)
             jp = row.get("japanese") or ""
-            vi = (row.get("vi_full") or "").strip()
+            vi = (row.get(vi_field) or "").strip()
             if not vi:
                 continue
             old = exact.get(k)
@@ -153,7 +161,13 @@ def main() -> int:
     print("=" * 68)
     print(f"Master rows                : {len(master_rows)} / 100")
     print(f"Exact-source companions    : {len(exact_used)}")
-    for source_class in ("completion-reviewed", "master-only", "batch43", "batch40"):
+    for source_class in (
+        "part02-gap-review",
+        "completion-reviewed",
+        "master-only",
+        "batch43",
+        "batch40",
+    ):
         print(f"  {source_class:20s}: {source_class_counts.get(source_class, 0)}")
     print(f"Repeat-lexicon fallbacks   : {len(lex_used)}")
     print(f"Missing reviewed source    : {len(missing)}")
