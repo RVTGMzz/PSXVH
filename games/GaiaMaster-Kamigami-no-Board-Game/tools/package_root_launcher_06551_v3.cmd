@@ -1,13 +1,18 @@
 @echo off
 setlocal EnableExtensions DisableDelayedExpansion
 title Gaia Master 0.6.55.1 - Persistent Log Launcher
-cd /d "%~dp0"
-set "LOG=%~dp0BUILD_LOG_0.6.55.1_BATCH45R2.txt"
-set "DRIVER=%~dp0Core\tools\package_driver_06551.py"
+
+rem IMPORTANT: %%~dp0 always ends in a backslash. Passing "%~dp0" directly
+rem to a Windows Python process can produce a stray trailing quote in argv.
+rem Canonicalize "%~dp0." first so ROOT has no trailing backslash.
+for %%I in ("%~dp0.") do set "ROOT=%%~fI"
+cd /d "%ROOT%"
+set "LOG=%ROOT%\BUILD_LOG_0.6.55.1_BATCH45R2.txt"
+set "DRIVER=%ROOT%\Core\tools\package_driver_06551.py"
 
 >"%LOG%" echo GAIA MASTER 0.6.55.1 - ROOT LAUNCHER STARTED
 >>"%LOG%" echo Time: %DATE% %TIME%
->>"%LOG%" echo Root: %~dp0
+>>"%LOG%" echo Root: %ROOT%
 
 echo ============================================================
 echo   GAIA MASTER 0.6.55.1 - ROOT LAUNCHER STARTED
@@ -20,14 +25,14 @@ if not exist "%DRIVER%" goto MISSING_DRIVER
 
 where py >nul 2>&1
 if errorlevel 1 goto TRY_PYTHON
-py -3 "%DRIVER%" "%~dp0" >>"%LOG%" 2>&1
+py -3 "%DRIVER%" "%ROOT%" >>"%LOG%" 2>&1
 set "RC=%ERRORLEVEL%"
 goto AFTER_RUN
 
 :TRY_PYTHON
 where python >nul 2>&1
 if errorlevel 1 goto NO_PYTHON
-python "%DRIVER%" "%~dp0" >>"%LOG%" 2>&1
+python "%DRIVER%" "%ROOT%" >>"%LOG%" 2>&1
 set "RC=%ERRORLEVEL%"
 goto AFTER_RUN
 
