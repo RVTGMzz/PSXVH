@@ -1,0 +1,32 @@
+file,offset_hex,japanese,vi_full,status
+PRGPACK.BDP,0x4d43c,武器カードは,Thẻ vũ khí,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x4d44c,手に入らなかったよ,không nhận được,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x4d460,%d枚、手に入れたよ,Đã nhận %d thẻ,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x4d474,武器カードを,Thẻ vũ khí,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x4d484,「%s」を捨てて、,"Bỏ %s,",PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x4d498,「%s」を手に入れたよ,Đã nhận %s,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x4d4b0,「%s」を手に入れたけど,Đã nhận %s nhưng,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x4d4c8,捨てたよ,Đã bỏ rồi,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x5af4c,酒場へようこそ,Chào mừng đến quán rượu,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x5af5c,ちょうどタイクツしてたんだ,Đúng lúc ta đang chán,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x5af78,わたしと一勝負してかないかい,Đấu với ta một ván chứ?,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x5af98,今からふるダイスの目がこのダイス,Đoán mặt xúc xắc sắp tung,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x5afbc,より大きいかちいさいか当てるんだよ,lớn hay nhỏ hơn viên này nhé,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x5afe0,最初の賞品はこいつさ,Phần thưởng đầu là món này,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x5aff8,なんだい、もう終わりかい,"Sao, nghỉ rồi à?",PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x5b014,…つまんないね,…Chán thật đấy,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x5b030,もう勝負は終わりだよ,Ván đấu kết thúc rồi,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x5b058,もう一勝負してくかい？,Làm thêm một ván chứ?,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x5b070,つぎの賞品はこいつだよ,Phần thưởng tiếp là món này,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x5b088,%d枚の武器カードが手に入ったよ,Nhận được %d thẻ vũ khí,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x5b0a8,でももう持ち切れないみたい,Nhưng hình như hết chỗ rồi,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x5b0c4,いらないカードを捨ててね,Hãy bỏ thẻ không cần,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x5b110,武器カードは,Thẻ vũ khí,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x5b120,手に入らなかったよ,không nhận được,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x5b134,%d枚、手に入れたよ,Đã nhận %d thẻ,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x5b148,武器カードを,Thẻ vũ khí,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x5b158,「%s」を捨てて、,"Bỏ %s,",PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x5b16c,「%s」を手に入れたよ,Đã nhận %s,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x5b184,「%s」を手に入れたけど,Đã nhận %s nhưng,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x5b19c,捨てたよ,Đã bỏ rồi,PREPARED_TRANSLATION_ONLY
+PRGPACK.BDP,0x6799c,武器カードを,Thẻ vũ khí,PREPARED_TRANSLATION_ONLY
