@@ -17,12 +17,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Real Windows CMD launcher smoke test
+      - name: Real Windows UTF-8 subprocess and CMD launcher smoke test
         shell: pwsh
         run: |
           $ErrorActionPreference = "Stop"
           $src = "games/GaiaMaster-Kamigami-no-Board-Game"
-          $pkg = Join-Path $env:RUNNER_TEMP "GaiaMaster LOGFIX3 smoke (1)"
+
+          # This directly exercises the same child-process environment used by
+          # the real builder chain. It must print U+0103 successfully on Windows.
+          python "$src/tools/package_driver_06551.py" --selftest
+          if ($LASTEXITCODE -ne 0) { throw "Windows driver UTF-8 selftest failed" }
+
+          $pkg = Join-Path $env:RUNNER_TEMP "GaiaMaster LOGFIX4 smoke (1)"
           New-Item -ItemType Directory -Force -Path (Join-Path $pkg "Core/tools") | Out-Null
           Copy-Item "$src/tools/package_root_launcher_06551_v3.cmd" (Join-Path $pkg "00_VIET_HOA_GAME.cmd")
           Copy-Item "$src/tools/package_driver_06551.py" (Join-Path $pkg "Core/tools/package_driver_06551.py")
@@ -81,7 +87,7 @@ jobs:
         run: |
           set -euo pipefail
           ROOT="games/GaiaMaster-Kamigami-no-Board-Game"
-          PKG="GaiaMaster_0.6.55.1_Batch45R2_FONT_EASY_LOGFIX3"
+          PKG="GaiaMaster_0.6.55.1_Batch45R2_FONT_EASY_LOGFIX4"
           mkdir -p "$PKG/Core"
           cp -a "$ROOT"/. "$PKG/Core"/
           find "$PKG/Core" -type f \( -iname '*.bin' -o -iname '*.cue' -o -iname '*.iso' -o -iname '*.img' -o -iname '*.chd' \) -delete
@@ -89,20 +95,21 @@ jobs:
           cp "$ROOT/tools/package_root_launcher_06551_v3.cmd" "$PKG/00_VIET_HOA_GAME.cmd"
 
           cat > "$PKG/01_DOC_TRUOC.txt" <<'EOF'
-          GAIA MASTER 0.6.55.1 - BATCH45R2 FONT MICRO POLISH - LOGFIX3
+          GAIA MASTER 0.6.55.1 - BATCH45R2 FONT MICRO POLISH - LOGFIX4
           ============================================================
 
-          LOGFIX3 fixes both Windows launcher failures proven by user logs:
-          1. trailing-backslash / quote corruption in PACKAGE_ROOT argv;
-          2. PermissionError caused by CMD redirecting into BUILD_LOG while
-             Python tried to open the same file.
+          LOGFIX4 keeps the two proven Windows launcher fixes and also fixes the
+          first real nested-builder failure from the user's BUILD_LOG:
+          - historical builder 0.6.14 printed Vietnamese U+0103 (a-breve);
+          - redirected Windows Python stdout used cp1252;
+          - status printing crashed with UnicodeEncodeError before ROM patching.
 
-          Safety:
-          - ROOT is canonicalized before Python argv;
-          - Python sanitizes root argv again;
-          - Python is the only active BUILD_LOG writer during execution;
-          - a real windows-latest CMD smoke test must reach BIN scanning without
-            PermissionError or Invalid argument before this package is produced.
+          Fix:
+          - package driver forces PYTHONIOENCODING=utf-8 and PYTHONUTF8=1 for the
+            complete R2 -> 0.6.55 -> Batch42 -> historical builder subprocess tree;
+          - historical builder source/logic is not modified;
+          - Windows CI must round-trip U+0103 through an actual child Python
+            process before the package job is allowed to run.
 
           Cach chay:
           1. GIAI NEN TOAN BO ZIP.
@@ -119,19 +126,22 @@ jobs:
 
           python - <<'PY'
           from pathlib import Path
-          p = Path("GaiaMaster_0.6.55.1_Batch45R2_FONT_EASY_LOGFIX3/00_VIET_HOA_GAME.cmd")
-          data = p.read_bytes()
-          assert all(b < 128 for b in data)
-          assert b"\r\n" in data
-          assert b"BUILD_LOG_0.6.55.1_BATCH45R2.txt" in data
-          assert b"powershell" not in data.lower()
-          assert b'for %%I in ("%~dp0.") do set "ROOT=%%~fI"' in data
-          assert b'GAIA_CI' in data
-          print("Packaged LOGFIX3 launcher gates: PASS")
+          pkg = Path("GaiaMaster_0.6.55.1_Batch45R2_FONT_EASY_LOGFIX4")
+          launcher = (pkg / "00_VIET_HOA_GAME.cmd").read_bytes()
+          driver = (pkg / "Core/tools/package_driver_06551.py").read_text(encoding="ascii")
+          assert all(b < 128 for b in launcher)
+          assert b"\r\n" in launcher
+          assert b"BUILD_LOG_0.6.55.1_BATCH45R2.txt" in launcher
+          assert b"powershell" not in launcher.lower()
+          assert b'for %%I in ("%~dp0.") do set "ROOT=%%~fI"' in launcher
+          assert b'GAIA_CI' in launcher
+          assert 'PYTHONIOENCODING' in driver
+          assert 'PYTHONUTF8' in driver
+          print("Packaged LOGFIX4 launcher + UTF-8 gates: PASS")
           PY
 
       - uses: actions/upload-artifact@v4
         with:
-          name: GaiaMaster_0.6.55.1_Batch45R2_FONT_EASY_LOGFIX3
-          path: GaiaMaster_0.6.55.1_Batch45R2_FONT_EASY_LOGFIX3
+          name: GaiaMaster_0.6.55.1_Batch45R2_FONT_EASY_LOGFIX4
+          path: GaiaMaster_0.6.55.1_Batch45R2_FONT_EASY_LOGFIX4
           if-no-files-found: error
