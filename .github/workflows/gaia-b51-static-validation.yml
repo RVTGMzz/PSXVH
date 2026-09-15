@@ -40,6 +40,7 @@ jobs:
         run: python games/GaiaMaster-Kamigami-no-Board-Game/tools/validate_gaia_b51_static.py
 
       - name: Upload static validation report
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: GaiaMaster-B51-Static-Validation
