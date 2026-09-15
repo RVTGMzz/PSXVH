@@ -7,10 +7,8 @@ on:
     paths:
       - ".github/workflows/gaia-06551-easy-package.yml"
       - "games/GaiaMaster-Kamigami-no-Board-Game/tools/build_gaia_06551_batch45r2_font_micro_polish.py"
-      - "games/GaiaMaster-Kamigami-no-Board-Game/tools/find_clean_bin_06551.py"
-      - "games/GaiaMaster-Kamigami-no-Board-Game/tools/package_launcher_06551.cmd"
-      - "games/GaiaMaster-Kamigami-no-Board-Game/tools/package_root_launcher_06551.cmd"
-      - "games/GaiaMaster-Kamigami-no-Board-Game/tools/00_BUILD_0.6.55.1_BATCH45R2_FONT_POLISH.cmd"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/tools/package_driver_06551.py"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/tools/package_root_launcher_06551_v3.cmd"
       - "games/GaiaMaster-Kamigami-no-Board-Game/BATCH45R2_0.6.55.1_FONT_MICRO_POLISH.md"
 
 jobs:
@@ -25,17 +23,18 @@ jobs:
           set -euo pipefail
           ROOT="games/GaiaMaster-Kamigami-no-Board-Game"
           python -m py_compile "$ROOT/tools/build_gaia_06551_batch45r2_font_micro_polish.py"
-          python -m py_compile "$ROOT/tools/find_clean_bin_06551.py"
+          python -m py_compile "$ROOT/tools/package_driver_06551.py"
           python "$ROOT/tools/build_gaia_06551_batch45r2_font_micro_polish.py" --selftest
 
           python - <<'PY'
           from pathlib import Path
-          root = Path("games/GaiaMaster-Kamigami-no-Board-Game/tools")
-          for name in ("package_root_launcher_06551.cmd", "package_launcher_06551.cmd"):
-              data = (root / name).read_bytes()
-              assert all(b < 128 for b in data), (name, "non-ASCII byte")
-              assert b"\r\n" in data, (name, "missing CRLF")
-          print("Windows launcher byte-format gates: PASS")
+          p = Path("games/GaiaMaster-Kamigami-no-Board-Game/tools/package_root_launcher_06551_v3.cmd")
+          data = p.read_bytes()
+          assert all(b < 128 for b in data), "root launcher has non-ASCII bytes"
+          assert b"\r\n" in data, "root launcher missing CRLF"
+          assert b"BUILD_LOG_0.6.55.1_BATCH45R2.txt" in data
+          assert b"package_driver_06551.py" in data
+          print("Persistent Windows launcher byte-format gates: PASS")
           PY
 
       - name: Prepare EASY package
@@ -43,56 +42,48 @@ jobs:
         run: |
           set -euo pipefail
           ROOT="games/GaiaMaster-Kamigami-no-Board-Game"
-          PKG="GaiaMaster_0.6.55.1_Batch45R2_FONT_EASY"
+          PKG="GaiaMaster_0.6.55.1_Batch45R2_FONT_EASY_LOGFIX"
           mkdir -p "$PKG/Core"
           cp -a "$ROOT"/. "$PKG/Core"/
           find "$PKG/Core" -type f \( -iname '*.bin' -o -iname '*.cue' -o -iname '*.iso' -o -iname '*.img' -o -iname '*.chd' \) -delete
 
-          cp "$ROOT/tools/package_root_launcher_06551.cmd" "$PKG/00_VIET_HOA_GAME.cmd"
+          cp "$ROOT/tools/package_root_launcher_06551_v3.cmd" "$PKG/00_VIET_HOA_GAME.cmd"
 
           cat > "$PKG/01_DOC_TRUOC.txt" <<'EOF'
-          GAIA MASTER 0.6.55.1 - BATCH45R2 FONT MICRO POLISH
-          ==================================================
+          GAIA MASTER 0.6.55.1 - BATCH45R2 FONT MICRO POLISH - LOGFIX
+          ===========================================================
 
-          QUAN TRONG:
-          1. GIAI NEN TOAN BO ZIP ra mot thu muc binh thuong.
+          1. GIAI NEN TOAN BO ZIP.
           2. Chep CLEAN Japan BIN vao CUNG thu muc voi 00_VIET_HOA_GAME.cmd.
           3. Double-click 00_VIET_HOA_GAME.cmd.
-          4. Cua so launcher moi se LUON pause khi ket thuc hoac gap loi.
 
-          Launcher moi:
-          - root CMD chi call Core/tools/package_launcher_06551.cmd;
-          - khong dung PowerShell;
-          - CMD la ASCII + CRLF;
-          - Python finder tim CLEAN BIN bang SHA1;
-          - builder tu check CLEAN SHA1 lan nua.
+          LAUNCHER NAY LUON TAO FILE:
+          BUILD_LOG_0.6.55.1_BATCH45R2.txt
 
-          Font target:
-          - lowercase d-stroke: anchor to the actual right stem;
-          - uppercase D-stroke: separate left-stem rule;
-          - circumflex/breve raised for more breathing room;
-          - stacked tone marks use a separate lane.
+          Neu build fail, Notepad se tu mo file log. Gui DUNG file log do.
+          Khong can gui lai cac report 0.6.52 / 0.6.55.0 cu.
 
-          CLEAN BIN SHA1:
+          CLEAN SHA1:
           f4d5298583c90d89c4b7e51d2dde160ee07f2aec
 
           Static/build PASS is NOT Runtime PASS.
-          Gameplay screenshots are still required.
+          Gameplay screenshots are still required before font lock.
           This package does not include the original game ROM.
           EOF
 
           python - <<'PY'
           from pathlib import Path
-          p = Path("GaiaMaster_0.6.55.1_Batch45R2_FONT_EASY/00_VIET_HOA_GAME.cmd")
+          p = Path("GaiaMaster_0.6.55.1_Batch45R2_FONT_EASY_LOGFIX/00_VIET_HOA_GAME.cmd")
           data = p.read_bytes()
           assert all(b < 128 for b in data)
           assert b"\r\n" in data
+          assert b"BUILD_LOG_0.6.55.1_BATCH45R2.txt" in data
           assert b"powershell" not in data.lower()
-          print("Packaged root launcher gates: PASS")
+          print("Packaged persistent launcher gates: PASS")
           PY
 
       - uses: actions/upload-artifact@v4
         with:
-          name: GaiaMaster_0.6.55.1_Batch45R2_FONT_EASY
-          path: GaiaMaster_0.6.55.1_Batch45R2_FONT_EASY
+          name: GaiaMaster_0.6.55.1_Batch45R2_FONT_EASY_LOGFIX
+          path: GaiaMaster_0.6.55.1_Batch45R2_FONT_EASY_LOGFIX
           if-no-files-found: error
