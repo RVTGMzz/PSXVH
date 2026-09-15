@@ -1,0 +1,4 @@
+file,offset_hex,japanese,vi_full,vi_runtime_current,status,note
+PRGPACK.BDP,0x68e18,ベントカードが,...Thẻ Sự kiện...,Thẻ SK,SOURCE_FULL_TRANSLATED_ONLY,"Mảnh câu bắt đầu giữa từ イベントカード; không tự bổ sung phần bị cắt"
+PRGPACK.BDP,0x68e28,武器カード、イ,Thẻ Vũ khí, Thẻ Sự... ,VK/SK,SOURCE_FULL_TRANSLATED_ONLY,"Mảnh câu kết thúc ở chữ イ mở đầu イベント; giữ trạng thái fragment"
+PRGPACK.BDP,0x68ec4,プール金%5d,Quỹ chung %5d,Quỹ %5d,SOURCE_FULL_TRANSLATED_ONLY,"Giữ nguyên token %5d"
