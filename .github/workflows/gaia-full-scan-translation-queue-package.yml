@@ -49,6 +49,7 @@ jobs:
           if ($text -notmatch 'ERROR=clean BIN not found') { throw 'Missing clean-BIN diagnostic in persistent log' }
           if ($text -notmatch 'GaiaMaster LOGFIX smoke \(1\)') { throw 'Package root resolution failed' }
           Write-Host 'WINDOWS LOGFIX smoke: PASS'
+          exit 0
 
   package:
     needs: windows-smoke
