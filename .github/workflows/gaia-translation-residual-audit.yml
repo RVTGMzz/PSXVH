@@ -1,0 +1,48 @@
+name: Gaia Master Committed Residual Japanese Audit
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - gaia-character-select-font-atlas-reverse-01
+    paths:
+      - 'games/GaiaMaster-Kamigami-no-Board-Game/tools/inventory_translation_residual_sources_20260915.py'
+      - '.github/workflows/gaia-translation-residual-audit.yml'
+
+jobs:
+  residual-source-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile inventory tool
+        run: |
+          python -m py_compile \
+            games/GaiaMaster-Kamigami-no-Board-Game/tools/inventory_translation_residual_sources_20260915.py
+
+      - name: Inventory committed residual Japanese sources
+        shell: bash
+        run: |
+          set -o pipefail
+          python games/GaiaMaster-Kamigami-no-Board-Game/tools/inventory_translation_residual_sources_20260915.py \
+            --out-dir gaia_translation_residual_audit \
+            2>&1 | tee GAIA_TRANSLATION_RESIDUAL_AUDIT.log
+
+      - name: Upload residual-source audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: GaiaMaster_Committed_Residual_Japanese_Audit
+          path: |
+            GAIA_TRANSLATION_RESIDUAL_AUDIT.log
+            gaia_translation_residual_audit/*.csv
+            gaia_translation_residual_audit/*.txt
+          if-no-files-found: warn
+          retention-days: 30
