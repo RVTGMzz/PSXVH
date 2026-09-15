@@ -1,0 +1,99 @@
+name: Gaia Master 0.6.55.1 DIRECT Font Package
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [gaia-character-select-font-atlas-reverse-01]
+    paths:
+      - ".github/workflows/gaia-06551-direct-font-package.yml"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/tools/patch_gaia_06551_from_06550_direct.py"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/tools/package_root_launcher_06551_direct.cmd"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/tools/build_gaia_06551_batch45r2_font_micro_polish.py"
+
+jobs:
+  windows-smoke:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Direct patcher selftest and launcher smoke
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $src = "games/GaiaMaster-Kamigami-no-Board-Game"
+          python "$src/tools/patch_gaia_06551_from_06550_direct.py" --selftest
+
+          $pkg = Join-Path $env:RUNNER_TEMP "GaiaMaster DIRECT smoke (1)"
+          New-Item -ItemType Directory -Force -Path (Join-Path $pkg "Core") | Out-Null
+          Copy-Item -Recurse -Force "$src/*" (Join-Path $pkg "Core")
+          Copy-Item "$src/tools/package_root_launcher_06551_direct.cmd" (Join-Path $pkg "00_PATCH_06550_TO_06551.cmd")
+
+          $env:GAIA_CI = "1"
+          & cmd.exe /d /c ('"' + (Join-Path $pkg "00_PATCH_06550_TO_06551.cmd") + '"')
+          $rc = $LASTEXITCODE
+          if ($rc -ne 9) { throw "Expected diagnostic return code 9 with no BINs, got $rc" }
+          $log = Join-Path $pkg "PATCH_LOG_0.6.55.1_R2.txt"
+          if (-not (Test-Path $log)) { throw "Direct PATCH_LOG was not created" }
+          $text = Get-Content -Raw -LiteralPath $log
+          if ($text -match "PermissionError") { throw "Unexpected file-lock regression" }
+          if ($text -match "BATCH45R2.txt") { throw "Historical rename-collision log name returned" }
+          if ($text -notmatch "Exact CLEAN Japan BIN not found") { throw "Launcher did not reach direct patcher input gate" }
+          Write-Host "REAL WINDOWS DIRECT PATCH LAUNCHER SMOKE: PASS"
+          exit 0
+
+  package:
+    needs: windows-smoke
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile and static selftest
+        shell: bash
+        run: |
+          set -euo pipefail
+          ROOT="games/GaiaMaster-Kamigami-no-Board-Game"
+          python -m py_compile "$ROOT/tools/patch_gaia_06551_from_06550_direct.py"
+          python "$ROOT/tools/patch_gaia_06551_from_06550_direct.py" --selftest
+      - name: Prepare direct EASY package
+        shell: bash
+        run: |
+          set -euo pipefail
+          ROOT="games/GaiaMaster-Kamigami-no-Board-Game"
+          PKG="GaiaMaster_0.6.55.1_DIRECT_FONT_ONLY"
+          mkdir -p "$PKG/Core"
+          cp -a "$ROOT"/. "$PKG/Core"/
+          find "$PKG/Core" -type f \( -iname '*.bin' -o -iname '*.cue' -o -iname '*.iso' -o -iname '*.img' -o -iname '*.chd' \) -delete
+          cp "$ROOT/tools/package_root_launcher_06551_direct.cmd" "$PKG/00_PATCH_06550_TO_06551.cmd"
+          cat > "$PKG/01_DOC_TRUOC.txt" <<'EOF'
+          GAIA MASTER 0.6.55.1 - DIRECT FONT-ONLY PATCH
+          ==============================================
+
+          KHONG build lai chain 0.6.10 -> 0.6.55.0.
+          Package nay chi patch font tu output 0.6.55.0 da build thanh cong.
+
+          Dat CANH 00_PATCH_06550_TO_06551.cmd:
+          1. CLEAN Japan BIN, SHA1:
+             f4d5298583c90d89c4b7e51d2dde160ee07f2aec
+          2. File BIN 0.6.55.0 vua build thanh cong, ten co 0.6.55.0.
+          3. Neu co CUE 0.6.55.0 thi copy canh BIN luon. Khong bat buoc.
+
+          Patcher se:
+          - verify Batch42 560/560;
+          - verify Batch43 102/102;
+          - verify intro 19/19;
+          - verify frozen font source 60 glyph;
+          - dung dung historical 0.6.14 v3 baseline cho chu a-breve lowercase;
+          - patch 23 glyph R2 vao SLPS;
+          - bat buoc PRGPACK byte-for-byte unchanged;
+          - verify lai 662/662 + intro 19/19;
+          - tao BIN + CUE 0.6.55.1 va FINAL REPORT.
+
+          Log neu fail:
+          PATCH_LOG_0.6.55.1_R2.txt
+
+          Static/build PASS KHONG phai Runtime PASS.
+          Van can gameplay screenshot truoc khi lock font.
+          EOF
+      - uses: actions/upload-artifact@v4
+        with:
+          name: GaiaMaster_0.6.55.1_DIRECT_FONT_ONLY
+          path: GaiaMaster_0.6.55.1_DIRECT_FONT_ONLY
+          if-no-files-found: error
