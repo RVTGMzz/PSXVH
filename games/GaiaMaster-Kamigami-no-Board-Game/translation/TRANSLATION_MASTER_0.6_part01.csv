@@ -1,101 +1,101 @@
 file,offset_hex,japanese,vi_full,vi_game_current,status,note
-PRGPACK.BDP,0x434,酒場へようこそ,,QUAN!,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x444,ちょうどタイクツしてたんだ,,DANG CHAN QUA,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x460,わたしと一勝負してかないかい,,DAU TOI 1 VAN?,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x480,今からふるダイスの目がこのダイス,,DOAN XUC XAC NAY,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x4a4,より大きいかちいさいか当てるんだよ,,LON HAY NHO HON?,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x4c8,最初の賞品はこいつさ,,THUONG DAU,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x4e0,なんだい、もう終わりかい,,NGHI ROI?,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x4fc,…つまんないね,,...CHAN,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x510,やるね,Khá đấy,KHA DAY,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
-PRGPACK.BDP,0x518,もう勝負は終わりだよ,,DAU XONG,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x530,なかなかやるね,Khá lắm,KHA LAM,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
-PRGPACK.BDP,0x540,もう一勝負してくかい？,,DAU THEM?,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x558,つぎの賞品はこいつだよ,,THUONG TIEP,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x570,%d枚の武器カードが手に入ったよ,,NHAN %d THE VK,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x590,でももう持ち切れないみたい,,HET CHO CHUA,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x5ac,いらないカードを捨ててね,,BO THE THUA,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x5f8,武器カードは,,THE VK,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x608,手に入らなかったよ,,KO NHAN,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x61c,%d枚、手に入れたよ,,NHAN %d,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x630,武器カードを,,THE VK,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x640,「%s」を捨てて、,,"BO %s,",IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x654,「%s」を手に入れたよ,,NHAN %s,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x66c,「%s」を手に入れたけど,,NHAN %s ROI,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x684,捨てたよ,,BO!,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x304a8,セリフ速度,,TOC,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x304b4,セリフ表示,,THOAI,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x304c0,ボイス,,AM,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x304c8,アニメーション,,HOATANH,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x304d8,終了ターン,,HET,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x304e4,プレイヤー設定,,CAIDAT,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x304f4,しんどう設定,,RUNG,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x30504,１　（速い）,,1 NHAN,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x30514,２　（ふつう）,,2 VUA,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x30600,   終了ターン,,HET,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x30658,○ボタンをおしてね,,NHAN O,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x3066c,%sはコントローラ%sだよ！,,%s TAY %s,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x31f64,酒場へようこそ,,QUAN!,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x31f74,ちょうどタイクツしてたんだ,,DANG CHAN QUA,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x31f90,わたしと一勝負してかないかい,,DAU TOI 1 VAN?,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x31fb0,今からふるダイスの目がこのダイス,,DOAN XUC XAC NAY,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x31fd4,より大きいかちいさいか当てるんだよ,,LON HAY NHO HON?,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x31ff8,最初の賞品はこいつさ,,THUONG DAU,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x32010,なんだい、もう終わりかい,,NGHI ROI?,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x3202c,…つまんないね,,...CHAN,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x32040,やるね,Khá đấy,KHA DAY,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
-PRGPACK.BDP,0x32048,もう勝負は終わりだよ,,DAU XONG,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x32060,なかなかやるね,Khá lắm,KHA LAM,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
-PRGPACK.BDP,0x32070,もう一勝負してくかい？,,DAU THEM?,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x32088,つぎの賞品はこいつだよ,,THUONG TIEP,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x320a0,%d枚の武器カードが手に入ったよ,,NHAN %d THE VK,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x320c0,でももう持ち切れないみたい,,HET CHO CHUA,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x320dc,いらないカードを捨ててね,,BO THE THUA,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x32128,武器カードは,,THE VK,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x32138,手に入らなかったよ,,KO NHAN,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x3214c,%d枚、手に入れたよ,,NHAN %d,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x32160,武器カードを,,THE VK,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x32170,「%s」を捨てて、,,"BO %s,",IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x32184,「%s」を手に入れたよ,,NHAN %s,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x3219c,「%s」を手に入れたけど,,NHAN %s ROI,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x321b4,捨てたよ,,BO!,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x3f688,酒場へようこそ,,QUAN!,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x3f698,ちょうどタイクツしてたんだ,,DANG CHAN QUA,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x3f6b4,わたしと一勝負してかないかい,,DAU TOI 1 VAN?,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x3f6d4,今からふるダイスの目がこのダイス,,DOAN XUC XAC NAY,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x3f6f8,より大きいかちいさいか当てるんだよ,,LON HAY NHO HON?,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x3f71c,最初の賞品はこいつさ,,THUONG DAU,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x3f734,なんだい、もう終わりかい,,NGHI ROI?,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x3f750,…つまんないね,,...CHAN,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x3f764,やるね,Khá đấy,KHA DAY,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
-PRGPACK.BDP,0x3f76c,もう勝負は終わりだよ,,DAU XONG,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x3f784,なかなかやるね,Khá lắm,KHA LAM,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
-PRGPACK.BDP,0x3f794,もう一勝負してくかい？,,DAU THEM?,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x3f7ac,つぎの賞品はこいつだよ,,THUONG TIEP,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x3f7c4,%d枚の武器カードが手に入ったよ,,NHAN %d THE VK,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x3f7e4,でももう持ち切れないみたい,,HET CHO CHUA,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x3f800,いらないカードを捨ててね,,BO THE THUA,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x3f84c,武器カードは,,THE VK,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x3f85c,手に入らなかったよ,,KO NHAN,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x3f870,%d枚、手に入れたよ,,NHAN %d,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x3f884,武器カードを,,THE VK,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x3f894,「%s」を捨てて、,,"BO %s,",IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x3f8a8,「%s」を手に入れたよ,,NHAN %s,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x3f8c0,「%s」を手に入れたけど,,NHAN %s ROI,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x3f8d8,捨てたよ,,BO!,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x4d278,酒場へようこそ,,QUAN!,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x4d288,ちょうどタイクツしてたんだ,,DANG CHAN QUA,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x4d2a4,わたしと一勝負してかないかい,,DAU TOI 1 VAN?,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x4d2c4,今からふるダイスの目がこのダイス,,DOAN XUC XAC NAY,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x4d2e8,より大きいかちいさいか当てるんだよ,,LON HAY NHO HON?,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x4d30c,最初の賞品はこいつさ,,THUONG DAU,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x4d324,なんだい、もう終わりかい,,NGHI ROI?,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x4d340,…つまんないね,,...CHAN,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x4d354,やるね,Khá đấy,KHA DAY,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
-PRGPACK.BDP,0x4d35c,もう勝負は終わりだよ,,DAU XONG,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x4d374,なかなかやるね,Khá lắm,KHA LAM,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
-PRGPACK.BDP,0x4d384,もう一勝負してくかい？,,DAU THEM?,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x4d39c,つぎの賞品はこいつだよ,,THUONG TIEP,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x4d3b4,%d枚の武器カードが手に入ったよ,,NHAN %d THE VK,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x4d3d4,でももう持ち切れないみたい,,HET CHO CHUA,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
-PRGPACK.BDP,0x4d3f0,いらないカードを捨ててね,,BO THE THUA,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x434,酒場へようこそ,Chào mừng đến quán rượu.,QUAN!,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x444,ちょうどタイクツしてたんだ,Đúng lúc tôi đang buồn chán đây.,DANG CHAN QUA,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x460,わたしと一勝負してかないかい,"Trước khi đi, làm một ván với tôi chứ?",DAU TOI 1 VAN?,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x480,今からふるダイスの目がこのダイス,Hãy đoán xem mặt xúc xắc sắp gieo so với mặt xúc xắc này...,DOAN XUC XAC NAY,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x4a4,より大きいかちいさいか当てるんだよ,...sẽ lớn hơn hay nhỏ hơn nhé.,LON HAY NHO HON?,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x4c8,最初の賞品はこいつさ,Phần thưởng đầu tiên là thứ này.,THUONG DAU,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x4e0,なんだい、もう終わりかい,"Sao thế, nghỉ luôn rồi à?",NGHI ROI?,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x4fc,…つまんないね,…Chán thật đấy.,...CHAN,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x510,やるね,Khá lắm!,KHA DAY,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x518,もう勝負は終わりだよ,Ván đấu kết thúc rồi.,DAU XONG,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x530,なかなかやるね,Giỏi đấy!,KHA LAM,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x540,もう一勝負してくかい？,Làm thêm một ván nữa chứ?,DAU THEM?,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x558,つぎの賞品はこいつだよ,Phần thưởng tiếp theo là thứ này.,THUONG TIEP,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x570,%d枚の武器カードが手に入ったよ,Bạn nhận được %d Thẻ Vũ khí.,NHAN %d THE VK,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x590,でももう持ち切れないみたい,Nhưng có vẻ bạn không mang thêm được nữa.,HET CHO CHUA,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x5ac,いらないカードを捨ててね,Hãy bỏ những lá bài không cần.,BO THE THUA,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x5f8,武器カードは,Thẻ Vũ khí thì...,THE VK,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x608,手に入らなかったよ,Bạn không nhận được lá nào.,KO NHAN,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x61c,%d枚、手に入れたよ,Bạn nhận được %d lá.,NHAN %d,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x630,武器カードを,Thẻ Vũ khí...,THE VK,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x640,「%s」を捨てて、,"Bỏ “%s” đi, rồi...","BO %s,",IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x654,「%s」を手に入れたよ,Bạn nhận được “%s”.,NHAN %s,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x66c,「%s」を手に入れたけど,"Bạn nhận được “%s”, nhưng...",NHAN %s ROI,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x684,捨てたよ,Đã bỏ rồi.,BO!,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x304a8,セリフ速度,Tốc độ lời thoại,TOC,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x304b4,セリフ表示,Hiển thị lời thoại,THOAI,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x304c0,ボイス,Lồng tiếng,AM,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x304c8,アニメーション,Hoạt ảnh,HOATANH,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x304d8,終了ターン,Kết thúc lượt,HET,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x304e4,プレイヤー設定,Cài đặt người chơi,CAIDAT,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x304f4,しんどう設定,Cài đặt rung,RUNG,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x30504,１　（速い）,1 (Nhanh),1 NHAN,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x30514,２　（ふつう）,2 (Bình thường),2 VUA,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x30600,   終了ターン,Kết thúc lượt,HET,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x30658,○ボタンをおしてね,Hãy nhấn nút ○.,NHAN O,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x3066c,%sはコントローラ%sだよ！,%s dùng tay cầm %s!,%s TAY %s,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x31f64,酒場へようこそ,Chào mừng đến quán rượu.,QUAN!,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x31f74,ちょうどタイクツしてたんだ,Đúng lúc tôi đang buồn chán đây.,DANG CHAN QUA,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x31f90,わたしと一勝負してかないかい,"Trước khi đi, làm một ván với tôi chứ?",DAU TOI 1 VAN?,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x31fb0,今からふるダイスの目がこのダイス,Hãy đoán xem mặt xúc xắc sắp gieo so với mặt xúc xắc này...,DOAN XUC XAC NAY,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x31fd4,より大きいかちいさいか当てるんだよ,...sẽ lớn hơn hay nhỏ hơn nhé.,LON HAY NHO HON?,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x31ff8,最初の賞品はこいつさ,Phần thưởng đầu tiên là thứ này.,THUONG DAU,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x32010,なんだい、もう終わりかい,"Sao thế, nghỉ luôn rồi à?",NGHI ROI?,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x3202c,…つまんないね,…Chán thật đấy.,...CHAN,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x32040,やるね,Khá lắm!,KHA DAY,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x32048,もう勝負は終わりだよ,Ván đấu kết thúc rồi.,DAU XONG,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x32060,なかなかやるね,Giỏi đấy!,KHA LAM,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x32070,もう一勝負してくかい？,Làm thêm một ván nữa chứ?,DAU THEM?,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x32088,つぎの賞品はこいつだよ,Phần thưởng tiếp theo là thứ này.,THUONG TIEP,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x320a0,%d枚の武器カードが手に入ったよ,Bạn nhận được %d Thẻ Vũ khí.,NHAN %d THE VK,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x320c0,でももう持ち切れないみたい,Nhưng có vẻ bạn không mang thêm được nữa.,HET CHO CHUA,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x320dc,いらないカードを捨ててね,Hãy bỏ những lá bài không cần.,BO THE THUA,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x32128,武器カードは,Thẻ Vũ khí thì...,THE VK,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x32138,手に入らなかったよ,Bạn không nhận được lá nào.,KO NHAN,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x3214c,%d枚、手に入れたよ,Bạn nhận được %d lá.,NHAN %d,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x32160,武器カードを,Thẻ Vũ khí...,THE VK,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x32170,「%s」を捨てて、,"Bỏ “%s” đi, rồi...","BO %s,",IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x32184,「%s」を手に入れたよ,Bạn nhận được “%s”.,NHAN %s,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x3219c,「%s」を手に入れたけど,"Bạn nhận được “%s”, nhưng...",NHAN %s ROI,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x321b4,捨てたよ,Đã bỏ rồi.,BO!,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x3f688,酒場へようこそ,Chào mừng đến quán rượu.,QUAN!,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x3f698,ちょうどタイクツしてたんだ,Đúng lúc tôi đang buồn chán đây.,DANG CHAN QUA,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x3f6b4,わたしと一勝負してかないかい,"Trước khi đi, làm một ván với tôi chứ?",DAU TOI 1 VAN?,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x3f6d4,今からふるダイスの目がこのダイス,Hãy đoán xem mặt xúc xắc sắp gieo so với mặt xúc xắc này...,DOAN XUC XAC NAY,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x3f6f8,より大きいかちいさいか当てるんだよ,...sẽ lớn hơn hay nhỏ hơn nhé.,LON HAY NHO HON?,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x3f71c,最初の賞品はこいつさ,Phần thưởng đầu tiên là thứ này.,THUONG DAU,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x3f734,なんだい、もう終わりかい,"Sao thế, nghỉ luôn rồi à?",NGHI ROI?,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x3f750,…つまんないね,…Chán thật đấy.,...CHAN,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x3f764,やるね,Khá lắm!,KHA DAY,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x3f76c,もう勝負は終わりだよ,Ván đấu kết thúc rồi.,DAU XONG,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x3f784,なかなかやるね,Giỏi đấy!,KHA LAM,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x3f794,もう一勝負してくかい？,Làm thêm một ván nữa chứ?,DAU THEM?,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x3f7ac,つぎの賞品はこいつだよ,Phần thưởng tiếp theo là thứ này.,THUONG TIEP,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x3f7c4,%d枚の武器カードが手に入ったよ,Bạn nhận được %d Thẻ Vũ khí.,NHAN %d THE VK,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x3f7e4,でももう持ち切れないみたい,Nhưng có vẻ bạn không mang thêm được nữa.,HET CHO CHUA,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x3f800,いらないカードを捨ててね,Hãy bỏ những lá bài không cần.,BO THE THUA,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x3f84c,武器カードは,Thẻ Vũ khí thì...,THE VK,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x3f85c,手に入らなかったよ,Bạn không nhận được lá nào.,KO NHAN,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x3f870,%d枚、手に入れたよ,Bạn nhận được %d lá.,NHAN %d,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x3f884,武器カードを,Thẻ Vũ khí...,THE VK,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x3f894,「%s」を捨てて、,"Bỏ “%s” đi, rồi...","BO %s,",IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x3f8a8,「%s」を手に入れたよ,Bạn nhận được “%s”.,NHAN %s,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x3f8c0,「%s」を手に入れたけど,"Bạn nhận được “%s”, nhưng...",NHAN %s ROI,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x3f8d8,捨てたよ,Đã bỏ rồi.,BO!,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x4d278,酒場へようこそ,Chào mừng đến quán rượu.,QUAN!,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x4d288,ちょうどタイクツしてたんだ,Đúng lúc tôi đang buồn chán đây.,DANG CHAN QUA,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x4d2a4,わたしと一勝負してかないかい,"Trước khi đi, làm một ván với tôi chứ?",DAU TOI 1 VAN?,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x4d2c4,今からふるダイスの目がこのダイス,Hãy đoán xem mặt xúc xắc sắp gieo so với mặt xúc xắc này...,DOAN XUC XAC NAY,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x4d2e8,より大きいかちいさいか当てるんだよ,...sẽ lớn hơn hay nhỏ hơn nhé.,LON HAY NHO HON?,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x4d30c,最初の賞品はこいつさ,Phần thưởng đầu tiên là thứ này.,THUONG DAU,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x4d324,なんだい、もう終わりかい,"Sao thế, nghỉ luôn rồi à?",NGHI ROI?,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x4d340,…つまんないね,…Chán thật đấy.,...CHAN,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x4d354,やるね,Khá lắm!,KHA DAY,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x4d35c,もう勝負は終わりだよ,Ván đấu kết thúc rồi.,DAU XONG,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x4d374,なかなかやるね,Giỏi đấy!,KHA LAM,TRANSLATED_FOR_06,Bản dịch nguồn có dấu; game fallback chưa chốt encoding.
+PRGPACK.BDP,0x4d384,もう一勝負してくかい？,Làm thêm một ván nữa chứ?,DAU THEM?,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x4d39c,つぎの賞品はこいつだよ,Phần thưởng tiếp theo là thứ này.,THUONG TIEP,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x4d3b4,%d枚の武器カードが手に入ったよ,Bạn nhận được %d Thẻ Vũ khí.,NHAN %d THE VK,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x4d3d4,でももう持ち切れないみたい,Nhưng có vẻ bạn không mang thêm được nữa.,HET CHO CHUA,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
+PRGPACK.BDP,0x4d3f0,いらないカードを捨ててね,Hãy bỏ những lá bài không cần.,BO THE THUA,IN_ALPHA_05,Đã chạy trong Alpha 0.5; cột vi_full sẽ được biên tập có dấu dần.
