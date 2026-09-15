@@ -1,4 +1,4 @@
-name: Gaia Master B51 Static Validation
+name: Gaia Master B51R1 Static Validation
 
 on:
   workflow_dispatch:
@@ -7,11 +7,13 @@ on:
       - gaia-character-select-font-atlas-reverse-01
     paths:
       - "games/GaiaMaster-Kamigami-no-Board-Game/tools/build_gaia_b51_guarded_exact_overlay.py"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/tools/build_gaia_b51r1_guarded_exact_overlay.py"
       - "games/GaiaMaster-Kamigami-no-Board-Game/tools/validate_gaia_b51_static.py"
       - "games/GaiaMaster-Kamigami-no-Board-Game/tools/build_gaia_06100_hybrid_accent_b1_LEGACY.py"
       - "games/GaiaMaster-Kamigami-no-Board-Game/tools/batch40_stage_06500.py"
       - "games/GaiaMaster-Kamigami-no-Board-Game/tools/batch29_stage_06390.py"
       - "games/GaiaMaster-Kamigami-no-Board-Game/translation/source_layer/checkpoint_B50/**"
+      - "games/GaiaMaster-Kamigami-no-Board-Game/translation/source_layer/B51_RUNTIME_CHARSET_CORRECTIONS.csv"
       - "games/GaiaMaster-Kamigami-no-Board-Game/translation/BATCH40_FINAL_EXACT_SET_0.6.50.0.csv"
       - "games/GaiaMaster-Kamigami-no-Board-Game/translation/BATCH43_WHOLEGAME_VISIBLE_0.6.53.0.csv"
       - "games/GaiaMaster-Kamigami-no-Board-Game/translation/TRANSLATION_MASTER_0.6_part*.csv"
@@ -31,18 +33,19 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Syntax check B51 tools
+      - name: Syntax check B51R1 tools
         run: |
           python -m py_compile games/GaiaMaster-Kamigami-no-Board-Game/tools/build_gaia_b51_guarded_exact_overlay.py
+          python -m py_compile games/GaiaMaster-Kamigami-no-Board-Game/tools/build_gaia_b51r1_guarded_exact_overlay.py
           python -m py_compile games/GaiaMaster-Kamigami-no-Board-Game/tools/validate_gaia_b51_static.py
 
-      - name: Run B51 static checkpoint validator
+      - name: Run B51R1 static checkpoint validator
         run: python games/GaiaMaster-Kamigami-no-Board-Game/tools/validate_gaia_b51_static.py
 
       - name: Upload static validation report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: GaiaMaster-B51-Static-Validation
+          name: GaiaMaster-B51R1-Static-Validation
           path: games/GaiaMaster-Kamigami-no-Board-Game/translation/source_layer/checkpoint_B51/STATIC_VALIDATION.txt
           if-no-files-found: error
