@@ -34,6 +34,39 @@ All queue rows use status `PREPARED_TRANSLATION_ONLY`.
 No `vi_game_current` field was changed in this pass.
 Tokens such as `%s` and `%d` were preserved in the prepared translations.
 
+### Editorial review layer for all 203 completion keys
+The prepared queue is now backed by reviewed source wording instead of relying only on first-pass translations.
+
+Reviewed sources:
+- `translation/TRANSLATION_COMPLETION_REVIEWED_REPEAT_LEXICON_2026-09-15.csv`
+  - 34 unique Japanese phrases covering the repeated tavern/settings blocks in Part01 + Part02.
+  - One canonical source translation is reused for every repeated exact offset so repeated UI/dialog cannot drift in wording.
+- `translation/TRANSLATION_COMPLETION_REVIEWED_COMBAT_ITEMS_2026-09-15.csv`
+  - 80 exact keys covering all Part03 + Part04 + Part06 completion rows.
+  - Includes prompts, board spaces, card handling, weapons, spells, items and effect descriptions.
+
+Examples of editorial cleanup:
+- `命中率` -> `tỷ lệ trúng đòn` instead of a vague technical `độ chính xác`.
+- `復活の霊薬` -> `Linh Dược Hồi Sinh`.
+- `ブラッドスピア` -> `Huyết Thương`.
+- `封いんされた魔法` -> `Ma Pháp Bị Phong Ấn`.
+- `いやしのうた` -> `Khúc Ca Trị Liệu`.
+- sentence fragments remain fragments instead of being silently expanded with invented context.
+
+Promotion helper:
+- `tools/promote_translation_completion_20260915.py`
+
+Promotion safety contract:
+- target set is locked to 203 exact `(file + offset + Japanese)` keys;
+- token count/order must match;
+- reviewed repeat lexicon is applied before the exact reviewed overlay;
+- only blank `vi_full` cells may be filled;
+- existing non-empty editorial `vi_full` is preserved;
+- `vi_game_current` is never changed;
+- dry-run is default; writing requires explicit `--write`.
+
+This makes all 203 completion rows editorially reviewed at source level while keeping runtime integration separate.
+
 ## Batch43 full-source translation companion pass
 The complete 102-row `BATCH43_WHOLEGAME_VISIBLE_0.6.53.0.csv` selection now also has full Vietnamese source translations, while its byte-fit runtime strings remain untouched.
 
@@ -91,13 +124,37 @@ All exact-offset companion rows:
 - preserve sentence-fragment status instead of guessing missing text
 - do not alter runtime/build data
 
+## Additional historical source recovery / review
+More committed historical text sources were mined after the initial 560-row Batch40 companion pass.
+
+Added source companions include:
+- current 0.6.14 dynamic-literal map: 38/38 entries;
+- deduplicated historical dynamic literals from Batch11 through Batch19: 79 unique Japanese literals;
+- 12 additional front/setup strings from `FRONT_DEMO_ADDED_061.csv` outside the 19-line intro;
+- the 36 Translation Master keys protected outside Batch40 by historical exact/runtime-fit locks;
+- source-semantic companion passes for Batch11 through Batch19;
+- a full source-semantic companion for `BATCH21_SEMANTIC_0.6.30.0.csv`;
+- reviewed combat/item/prompt wording for the 80 non-repeat completion keys.
+
+Historical repository archaeology also established:
+- the Batch11 note reports `Japanese semantic map = 262`, but `BATCH11_JP_EXACT_0.6.20.0.csv` itself ends below line 80;
+- therefore the 262 figure was a combined builder map assembled from several source layers, not a lost 262-row standalone CSV;
+- the 0.6.19/0.6.20 standalone builder source lived only inside checkpoint ZIP packages and was never committed as a separate `.py` source file;
+- there are no intermediate Git commits between the codepage-safe 0.6.14.1 work and the later 0.6.19 checkpoint sync that expose a hidden Batch6-Batch10 source corpus;
+- `build_gaia_06130_translation_b4.py` and `build_gaia_06140_translation_b5.py` pull text from committed compact/dynamic/Master CSV sources and do not contain a separate hidden Japanese corpus;
+- `BATCH32_CURATED_COMPACT_0.6.42.0.csv` and `BATCH36_CURATED_COMPACT_0.6.46.0.csv` are ancestry/compact layers of text already represented by later exact/source companions.
+
+These findings prevent repeated archaeology and avoid falsely counting the same Japanese text multiple times.
+
 ## Translation-first artifact count so far
-Prepared translation/source-companion row records in this pass:
+Prepared translation/source-companion row records in the initial pass:
 - Translation Master blank `vi_full` completion queues: 203
 - Batch43 source-full companion: 102
 - Intro source-full companion: 19
 - Batch40 FINAL exact-offset source companions: 560
-- Total prepared row records: **884**
+- Initial total prepared row records: **884**
+
+The later review/semantic/dynamic companion layers deliberately are **not** added to this number, because many are editorial refinements or alternate historical representations of the same Japanese source. This avoids inflating progress by double-counting repeated text.
 
 This is a work-record count, not a claim of 884 unique Japanese strings. Exact-offset rows can repeat the same Japanese text at multiple addresses and can overlap Translation Master source text.
 
@@ -112,10 +169,12 @@ The full Japanese scanner report from 0.6.38.0 states:
 - unique unseen Japanese: 6,361
 - screenshot-anchor hits: 18
 
-The actual `GaiaMaster_0.6.38.0_FULL_JAPANESE_SCAN.csv` is not currently present in the repo and has not been recovered from File Library yet. File Library search on 2026-09-15 found the scanner report but not the CSV itself. Do not invent offsets.
+The actual `GaiaMaster_0.6.38.0_FULL_JAPANESE_SCAN.csv` is not currently present in the repo and has not been recovered from File Library. The current branch tree and Git history were both checked; the scanner CSV was not committed and no GitHub Actions run/artifact exists for the scanner-fix commit. Do not invent offsets.
+
+The 18 scanner anchor hits retained by the report are already covered by the 102-row Batch43 whole-game visible expansion.
 
 ## Next translation priority
-1. Recover the full scanner CSV if possible.
+1. Recover or regenerate the full scanner CSV if possible.
 2. If recovered, build a translation-only priority queue:
    - HIGH confidence first
    - null/control-terminated first
@@ -125,7 +184,8 @@ The actual `GaiaMaster_0.6.38.0_FULL_JAPANESE_SCAN.csv` is not currently present
    - prioritize story/tutorial/help/menu/runtime prompts
 3. Translate in large batches without requiring runtime testing.
 4. Keep runtime integration and fit/byte verification separate from source translation work.
-5. Until the full scanner CSV is recovered, keep mining committed source/reports for Japanese text not yet represented by a source-full companion, without inventing missing offsets.
+5. Until the full scanner CSV is recovered, continue source-level editorial review and mine only committed Japanese text not already represented by a source-full companion.
+6. Do not count compact/ancestor duplicates as new whole-game translation coverage.
 
 ## Existing proven runtime/build contract to preserve later
 - Batch42: 560/560
