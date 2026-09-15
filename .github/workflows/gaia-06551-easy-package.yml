@@ -25,6 +25,7 @@ jobs:
           python -m py_compile "$ROOT/tools/build_gaia_06551_batch45r2_font_micro_polish.py"
           python -m py_compile "$ROOT/tools/package_driver_06551.py"
           python "$ROOT/tools/build_gaia_06551_batch45r2_font_micro_polish.py" --selftest
+          python "$ROOT/tools/package_driver_06551.py" --selftest
 
           python - <<'PY'
           from pathlib import Path
@@ -34,7 +35,10 @@ jobs:
           assert b"\r\n" in data, "root launcher missing CRLF"
           assert b"BUILD_LOG_0.6.55.1_BATCH45R2.txt" in data
           assert b"package_driver_06551.py" in data
-          print("Persistent Windows launcher byte-format gates: PASS")
+          assert b'for %%I in ("%~dp0.") do set "ROOT=%%~fI"' in data
+          assert b'"%ROOT%"' in data
+          assert b'"%~dp0" >>' not in data
+          print("Windows no-trailing-backslash launcher gates: PASS")
           PY
 
       - name: Prepare EASY package
@@ -42,7 +46,7 @@ jobs:
         run: |
           set -euo pipefail
           ROOT="games/GaiaMaster-Kamigami-no-Board-Game"
-          PKG="GaiaMaster_0.6.55.1_Batch45R2_FONT_EASY_LOGFIX"
+          PKG="GaiaMaster_0.6.55.1_Batch45R2_FONT_EASY_LOGFIX2"
           mkdir -p "$PKG/Core"
           cp -a "$ROOT"/. "$PKG/Core"/
           find "$PKG/Core" -type f \( -iname '*.bin' -o -iname '*.cue' -o -iname '*.iso' -o -iname '*.img' -o -iname '*.chd' \) -delete
@@ -50,18 +54,22 @@ jobs:
           cp "$ROOT/tools/package_root_launcher_06551_v3.cmd" "$PKG/00_VIET_HOA_GAME.cmd"
 
           cat > "$PKG/01_DOC_TRUOC.txt" <<'EOF'
-          GAIA MASTER 0.6.55.1 - BATCH45R2 FONT MICRO POLISH - LOGFIX
-          ===========================================================
+          GAIA MASTER 0.6.55.1 - BATCH45R2 FONT MICRO POLISH - LOGFIX2
+          ============================================================
 
+          Fix nay xu ly dung loi Windows argv da bat duoc tu BUILD_LOG:
+          - KHONG truyen %%~dp0 co backslash cuoi truc tiep cho Python;
+          - ROOT duoc canonicalize thanh path khong co backslash cuoi;
+          - Python driver cung sanitize quote/backslash rac mot lan nua;
+          - root-argv regression selftest bat buoc PASS trong CI.
+
+          Cach chay:
           1. GIAI NEN TOAN BO ZIP.
           2. Chep CLEAN Japan BIN vao CUNG thu muc voi 00_VIET_HOA_GAME.cmd.
           3. Double-click 00_VIET_HOA_GAME.cmd.
 
-          LAUNCHER NAY LUON TAO FILE:
+          LAUNCHER LUON TAO FILE:
           BUILD_LOG_0.6.55.1_BATCH45R2.txt
-
-          Neu build fail, Notepad se tu mo file log. Gui DUNG file log do.
-          Khong can gui lai cac report 0.6.52 / 0.6.55.0 cu.
 
           CLEAN SHA1:
           f4d5298583c90d89c4b7e51d2dde160ee07f2aec
@@ -73,17 +81,18 @@ jobs:
 
           python - <<'PY'
           from pathlib import Path
-          p = Path("GaiaMaster_0.6.55.1_Batch45R2_FONT_EASY_LOGFIX/00_VIET_HOA_GAME.cmd")
+          p = Path("GaiaMaster_0.6.55.1_Batch45R2_FONT_EASY_LOGFIX2/00_VIET_HOA_GAME.cmd")
           data = p.read_bytes()
           assert all(b < 128 for b in data)
           assert b"\r\n" in data
           assert b"BUILD_LOG_0.6.55.1_BATCH45R2.txt" in data
           assert b"powershell" not in data.lower()
-          print("Packaged persistent launcher gates: PASS")
+          assert b'for %%I in ("%~dp0.") do set "ROOT=%%~fI"' in data
+          print("Packaged LOGFIX2 launcher gates: PASS")
           PY
 
       - uses: actions/upload-artifact@v4
         with:
-          name: GaiaMaster_0.6.55.1_Batch45R2_FONT_EASY_LOGFIX
-          path: GaiaMaster_0.6.55.1_Batch45R2_FONT_EASY_LOGFIX
+          name: GaiaMaster_0.6.55.1_Batch45R2_FONT_EASY_LOGFIX2
+          path: GaiaMaster_0.6.55.1_Batch45R2_FONT_EASY_LOGFIX2
           if-no-files-found: error
