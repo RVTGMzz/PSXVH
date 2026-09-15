@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+import os
 import subprocess
 import sys
 import traceback
@@ -27,6 +28,20 @@ def normalize_root_arg(raw: str) -> str:
     return s
 
 
+def child_env() -> dict[str, str]:
+    """Force UTF-8 stdio through the complete historical builder subprocess tree.
+
+    On Windows a redirected Python stdout may inherit a legacy ANSI encoding
+    (for example cp1252). Historical Gaia builders print Vietnamese characters,
+    so a harmless status line can otherwise abort the build with
+    UnicodeEncodeError before any ROM patching occurs.
+    """
+    env = os.environ.copy()
+    env["PYTHONIOENCODING"] = "utf-8"
+    env["PYTHONUTF8"] = "1"
+    return env
+
+
 def _selftest() -> int:
     cases = {
         'C:\\Users\\win\\Downloads\\Pkg\\': 'C:\\Users\\win\\Downloads\\Pkg',
@@ -38,7 +53,27 @@ def _selftest() -> int:
         got = normalize_root_arg(raw)
         if got != want:
             raise RuntimeError("root argv normalization failed: %r -> %r, want %r" % (raw, got, want))
+
+    probe = subprocess.run(
+        [sys.executable, "-c", "import sys; print(chr(0x103)); print(sys.stdout.encoding)"],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
+        encoding="utf-8",
+        errors="strict",
+        env=child_env(),
+        check=False,
+    )
+    if probe.returncode != 0:
+        raise RuntimeError("UTF-8 child probe failed with return code %d: %r" % (probe.returncode, probe.stdout))
+    lines = probe.stdout.splitlines()
+    if not lines or lines[0] != chr(0x103):
+        raise RuntimeError("UTF-8 child probe did not round-trip U+0103: %r" % probe.stdout)
+    if len(lines) < 2 or "utf-8" not in lines[1].lower():
+        raise RuntimeError("UTF-8 child probe stdout encoding unexpected: %r" % probe.stdout)
+
     print("PACKAGE DRIVER ROOT-ARGV SELFTEST PASS")
+    print("PACKAGE DRIVER UTF-8 SUBPROCESS SELFTEST PASS")
     return 0
 
 
@@ -90,6 +125,7 @@ def run_logged(cmd, cwd: Path, log, label: str) -> int:
     log_line(log, label)
     log_line(log, "CMD: " + " ".join('"%s"' % x if " " in x else x for x in cmd))
     log_line(log, "CWD: %s" % cwd)
+    log_line(log, "Child Python stdio: forced UTF-8")
     log_line(log, "=" * 78)
     cp = subprocess.Popen(
         cmd,
@@ -100,6 +136,7 @@ def run_logged(cmd, cwd: Path, log, label: str) -> int:
         encoding="utf-8",
         errors="replace",
         bufsize=1,
+        env=child_env(),
     )
     assert cp.stdout is not None
     for line in cp.stdout:
@@ -134,6 +171,7 @@ def main() -> int:
             log_line(log, "Raw root argv: %r" % raw_root)
             log_line(log, "Normalized package root: %s" % root)
             log_line(log, "Expected CLEAN SHA1: %s" % CLEAN_SHA1)
+            log_line(log, "Nested builder stdio policy: PYTHONIOENCODING=utf-8 / PYTHONUTF8=1")
 
             if not root.is_dir():
                 raise RuntimeError("Package root does not exist: %s" % root)
