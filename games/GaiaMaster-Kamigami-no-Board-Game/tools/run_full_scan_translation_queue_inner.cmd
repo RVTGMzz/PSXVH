@@ -1,5 +1,7 @@
 @echo off
 setlocal EnableExtensions
+set "PYTHONIOENCODING=utf-8"
+set "PYTHONUTF8=1"
 for %%I in ("%~dp0..\..") do set "ROOT=%%~fI"
 cd /d "%ROOT%"
 
@@ -9,7 +11,7 @@ set "LOG=%ROOT%\FULL_SCAN_TRANSLATION_QUEUE_LOG.txt"
 set "BIN="
 
 >"%LOG%" echo GAIA MASTER FULL SCAN TRANSLATION QUEUE LOGFIX
->>"%LOG%" echo ROOT=%ROOT%
+>>"%LOG%" echo ROOT="%ROOT%"
 >>"%LOG%" echo START=%DATE% %TIME%
 
 echo.
@@ -34,10 +36,10 @@ for %%I in ("%BIN%") do set "OUTDIR=%%~dpI"
 set "SCANCSV=%OUTDIR%GaiaMaster_0.6.38.0_FULL_JAPANESE_SCAN.csv"
 set "QUEUEDIR=%OUTDIR%GaiaMaster_TRANSLATION_QUEUE"
 
-echo [INPUT] %BIN%
-echo [OUT]   %OUTDIR%
->>"%LOG%" echo BIN=%BIN%
->>"%LOG%" echo OUTDIR=%OUTDIR%
+echo [INPUT] "%BIN%"
+echo [OUT]   "%OUTDIR%"
+>>"%LOG%" echo BIN="%BIN%"
+>>"%LOG%" echo OUTDIR="%OUTDIR%"
 
 where py >nul 2>nul
 if not errorlevel 1 goto use_py
@@ -68,13 +70,15 @@ if errorlevel 1 goto queue_fail
 goto done
 
 :missing_scanner
-echo [ERROR] Missing scanner: %SCANNER%
->>"%LOG%" echo ERROR=missing scanner %SCANNER%
+echo [ERROR] Missing scanner:
+echo "%SCANNER%"
+>>"%LOG%" echo ERROR=missing scanner "%SCANNER%"
 goto fail
 
 :missing_queue
-echo [ERROR] Missing queue builder: %QUEUE%
->>"%LOG%" echo ERROR=missing queue builder %QUEUE%
+echo [ERROR] Missing queue builder:
+echo "%QUEUE%"
+>>"%LOG%" echo ERROR=missing queue builder "%QUEUE%"
 goto fail
 
 :missing_bin
@@ -106,13 +110,13 @@ echo ========================================================================
 echo  DONE
 echo ========================================================================
 echo Queue:
-echo   %QUEUEDIR%
+echo "%QUEUEDIR%"
 echo.
 echo Gui Ta file:
 echo   GaiaMaster_TRANSLATION_QUEUE_HIGH_FIRST.csv
 echo.
 echo Log:
-echo   %LOG%
+echo "%LOG%"
 echo.
 echo Cua so nay se GIU NGUYEN de a xem ket qua.
 exit /b 0
@@ -122,7 +126,7 @@ exit /b 0
 >>"%LOG%" echo END=%DATE% %TIME%
 echo.
 echo Log da luu tai:
-echo   %LOG%
+echo "%LOG%"
 echo.
 echo Cua so nay se GIU NGUYEN. Gui Ta file log neu can.
 exit /b 1
