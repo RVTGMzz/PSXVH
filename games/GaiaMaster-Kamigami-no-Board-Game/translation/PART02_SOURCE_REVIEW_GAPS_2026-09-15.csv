@@ -1,0 +1,7 @@
+file,offset_hex,japanese,vi_full_reviewed,status,note
+PRGPACK.BDP,0x5b048,なかなかやるね,Giỏi đấy!,SOURCE_FULL_REVIEWED,Lời khen trong mini-game; thống nhất với Part01.
+PRGPACK.BDP,0x674b8,「%s」と,“%s” và…,SOURCE_FULL_REVIEWED_FRAGMENT,Mảnh đầu của cấu trúc 「%s」と「%s」を手に入れたよ; giữ token %s.
+PRGPACK.BDP,0x674c4,「%s」を,“%s”…,SOURCE_FULL_REVIEWED_FRAGMENT,Mảnh thứ hai trước 手に入れたよ; giữ token %s và không tự hoàn thiện câu.
+PRGPACK.BDP,0x6762c,体力が完全回復したよ,HP đã hồi đầy.,SOURCE_FULL_REVIEWED,Thông báo hồi phục hoàn toàn.
+PRGPACK.BDP,0x67a58,すると体力を回復して,…thì hồi HP rồi…,SOURCE_FULL_REVIEWED_FRAGMENT,Thể て cho biết câu còn nối tiếp; không tự đóng câu.
+PRGPACK.BDP,0x67ab0,やめる,Hủy,SOURCE_FULL_REVIEWED,Nhãn thao tác hủy/dừng hành động hiện tại.
