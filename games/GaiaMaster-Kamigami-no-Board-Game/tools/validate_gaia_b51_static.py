@@ -1,14 +1,17 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Static CI validator for Gaia Master B51.
+"""Static CI validator for Gaia Master B51R1.
 
-No ROM/BIN is required. This validator imports the committed B51 tool, restores
-B50 from its archived parts, audits the whole B50 runtime charset against the
-frozen 60-glyph codepage, then runs the B50 schema/byte/overlap and historical
-static contracts when charset-safe.
+No ROM/BIN is required. This validator proves:
+- canonical B50 restore/hash/schema is intact;
+- the known raw B50 frozen-codepage debt is exactly 19 chars / 64 rows;
+- the 64-row B51R1 text-only correction overlay covers that debt one-for-one;
+- corrected B50 candidates are all production-encodable with frozen 60 glyphs;
+- corrected rows do not expand the approved B50 byte budget;
+- B40/B43/intro overlap guards and legacy/master static contracts still pass.
 
-It does NOT prove CLEAN source identity, BDP ownership against the real ROM,
-raw-sector writing, build output, or runtime behavior.
+It does NOT prove CLEAN source identity, BDP owner identity against the real ROM,
+raw-sector output, a real build, or runtime behavior.
 """
 from __future__ import annotations
 
@@ -20,42 +23,79 @@ import sys
 TOOLS = Path(__file__).resolve().parent
 ROOT = TOOLS.parent
 OUT = ROOT / "translation" / "source_layer" / "checkpoint_B51" / "STATIC_VALIDATION.txt"
+EXPECTED_RAW_UNSUPPORTED_CHARS = 19
+EXPECTED_RAW_BAD_ROWS = 64
 
 sys.path.insert(0, str(TOOLS))
-import build_gaia_b51_guarded_exact_overlay as b51  # noqa: E402
+import build_gaia_b51_guarded_exact_overlay as core  # noqa: E402
+import build_gaia_b51r1_guarded_exact_overlay as r1  # noqa: E402
 
 
-def charset_census(fake_cmap: dict[str, int]):
-    fields, raw_rows = b51.read_csv(b51.RESTORED)
-    if fields != b51.EXPECTED_B50_HEADER:
-        raise RuntimeError(f"B50 schema drift:\nwant={b51.EXPECTED_B50_HEADER}\ngot ={fields}")
-    if len(raw_rows) != b51.B50_ROWS:
-        raise RuntimeError(f"B50 row gate: {len(raw_rows)} != {b51.B50_ROWS}")
+def unsupported_chars(text: str, cmap: dict[str, int]):
+    bad = []
+    i = 0
+    while i < len(text):
+        m = core.CONTROL_RE.match(text, i)
+        if m:
+            i = m.end()
+            continue
+        ch = text[i]
+        if ch in cmap or ch == " " or 0x21 <= ord(ch) <= 0x7E:
+            i += 1
+            continue
+        try:
+            ch.encode("cp932")
+        except UnicodeEncodeError:
+            bad.append(ch)
+        i += 1
+    return bad
+
+
+def raw_charset_census(fake_cmap: dict[str, int]):
+    fields, raw_rows = core.read_csv(core.RESTORED)
+    if fields != core.EXPECTED_B50_HEADER:
+        raise RuntimeError(f"B50 schema drift:\nwant={core.EXPECTED_B50_HEADER}\ngot ={fields}")
+    if len(raw_rows) != core.B50_ROWS:
+        raise RuntimeError(f"B50 row gate: {len(raw_rows)} != {core.B50_ROWS}")
 
     unsupported = defaultdict(list)
-    rows_bad = []
-    for line, r in enumerate(raw_rows, 2):
-        text = r.get("vi_runtime_candidate") or ""
-        i = 0
-        bad_here = []
-        while i < len(text):
-            m = b51.CONTROL_RE.match(text, i)
-            if m:
-                i = m.end()
-                continue
-            ch = text[i]
-            if ch in fake_cmap or ch == " " or 0x21 <= ord(ch) <= 0x7E:
-                i += 1
-                continue
-            try:
-                ch.encode("cp932")
-            except UnicodeEncodeError:
-                unsupported[ch].append((line, r.get("file") or "", r.get("offset_hex") or "", text))
-                bad_here.append(ch)
-            i += 1
-        if bad_here:
-            rows_bad.append((line, r.get("file") or "", r.get("offset_hex") or "", text, "".join(sorted(set(bad_here)))))
-    return unsupported, rows_bad
+    bad_rows = {}
+    raw_by_key = {}
+    for line, row in enumerate(raw_rows, 2):
+        name = (row.get("file") or "").strip()
+        off = core.parse_int(row.get("offset_hex") or "", f"B50 line {line} offset")
+        key = (name, off)
+        if key in raw_by_key:
+            raise RuntimeError(f"B50 duplicate key during census: {key}")
+        raw_by_key[key] = row
+        text = row.get("vi_runtime_candidate") or ""
+        bad = unsupported_chars(text, fake_cmap)
+        if not bad:
+            continue
+        bad_rows[key] = (line, text, tuple(sorted(set(bad), key=ord)))
+        for ch in bad:
+            unsupported[ch].append((line, name, off, text))
+    return unsupported, bad_rows, raw_by_key
+
+
+def correction_coverage_gate(bad_rows, raw_by_key):
+    corrections = r1.load_corrections()
+    bad_keys = set(bad_rows)
+    correction_keys = set(corrections)
+    if bad_keys != correction_keys:
+        missing = sorted(bad_keys - correction_keys)
+        extra = sorted(correction_keys - bad_keys)
+        raise RuntimeError(
+            f"B51R1 correction coverage mismatch: missing={missing[:8]} extra={extra[:8]}"
+        )
+    for key, (old, new) in corrections.items():
+        raw = raw_by_key[key]
+        got = raw.get("vi_runtime_candidate") or ""
+        if got != old:
+            raise RuntimeError(f"Correction old-candidate mismatch {key}: {got!r} != {old!r}")
+        if got == new:
+            raise RuntimeError(f"Correction is a no-op: {key}")
+    return corrections
 
 
 def write_report(lines):
@@ -65,102 +105,93 @@ def write_report(lines):
 
 
 def main() -> int:
-    restored = b51.restore_b50()
+    restored = core.restore_b50()
     raw = restored.read_bytes()
-    got = hashlib.sha256(raw).hexdigest()
-    if len(raw) != b51.B50_RAW_SIZE:
-        raise RuntimeError(f"B50 restored size {len(raw)} != {b51.B50_RAW_SIZE}")
-    if got != b51.B50_RAW_SHA256:
-        raise RuntimeError(f"B50 restored SHA256 {got} != {b51.B50_RAW_SHA256}")
+    got_sha = hashlib.sha256(raw).hexdigest()
+    if len(raw) != core.B50_RAW_SIZE:
+        raise RuntimeError(f"B50 restored size {len(raw)} != {core.B50_RAW_SIZE}")
+    if got_sha != core.B50_RAW_SHA256:
+        raise RuntimeError(f"B50 restored SHA256 {got_sha} != {core.B50_RAW_SHA256}")
 
-    # Static-only surrogate. Any frozen custom glyph remains two runtime bytes.
-    fake_cmap = {ch: 0x889F + i for i, ch in enumerate(b51.legacy.CUSTOM_CHARS)}
+    # Static surrogate: every frozen custom glyph occupies two runtime bytes.
+    fake_cmap = {ch: 0x889F + i for i, ch in enumerate(core.legacy.CUSTOM_CHARS)}
     if len(fake_cmap) != 60:
         raise RuntimeError(f"Frozen custom-char count {len(fake_cmap)} != 60")
 
-    unsupported, bad_rows = charset_census(fake_cmap)
-    if unsupported:
-        lines = [
-            "GAIA MASTER B51 STATIC CI VALIDATION",
-            "=" * 72,
-            "B51 module import / Python syntax      : PASS",
-            f"B50 restored SHA256                   : {got}",
-            f"B50 restored size                     : {len(raw)}/{b51.B50_RAW_SIZE}",
-            f"B50 exact candidate rows              : {b51.B50_ROWS}/{b51.B50_ROWS}",
-            f"Frozen custom glyphs                  : {len(fake_cmap)}/60",
-            f"Unsupported runtime characters        : {len(unsupported)}",
-            f"Rows containing unsupported chars     : {len(bad_rows)}",
-            "Runtime charset gate                   : FAIL",
-            "ROM/font/pointer modified              : NO",
-            "Runtime PASS claim                     : NO",
-            "",
-            "UNSUPPORTED CHARACTER CENSUS",
-            "-" * 72,
-        ]
-        for ch in sorted(unsupported, key=ord):
-            hits = unsupported[ch]
-            lines.append(f"U+{ord(ch):04X} {ch!r} occurrences={len(hits)}")
-            for line, file_name, off, text in hits[:20]:
-                lines.append(f"  line={line} {file_name}+{off}  {text!r}")
-            if len(hits) > 20:
-                lines.append(f"  ... {len(hits)-20} more")
-        lines += ["", "BAD ROWS", "-" * 72]
-        for line, file_name, off, text, chars in bad_rows:
-            lines.append(f"line={line} {file_name}+{off} unsupported={chars!r} text={text!r}")
-        lines += [
-            "",
-            "RESULT: B51 STATIC CI FAIL - B50 CONTAINS GLYPHS OUTSIDE FROZEN CODEPAGE",
-            "Do not add font glyphs automatically. Fix wording/candidates in a later B51 text-only correction layer.",
-        ]
-        write_report(lines)
-        return 4
+    unsupported, bad_rows, raw_by_key = raw_charset_census(fake_cmap)
+    if len(unsupported) != EXPECTED_RAW_UNSUPPORTED_CHARS:
+        raise RuntimeError(
+            f"Raw B50 unsupported-char census drift: {len(unsupported)} != {EXPECTED_RAW_UNSUPPORTED_CHARS}"
+        )
+    if len(bad_rows) != EXPECTED_RAW_BAD_ROWS:
+        raise RuntimeError(
+            f"Raw B50 bad-row census drift: {len(bad_rows)} != {EXPECTED_RAW_BAD_ROWS}"
+        )
 
-    rows = b51.load_b50(fake_cmap)
-    b40, b43, intro, eq, counts, masters = b51.static_contracts(rows, fake_cmap)
+    corrections = correction_coverage_gate(bad_rows, raw_by_key)
+    rows = r1.load_b50_r1(fake_cmap)
+
+    # load_b50_r1() already encodes every corrected candidate. Make the closure
+    # explicit so a future encoder change cannot silently broaden the charset.
+    corrected_bad = []
+    for p in rows:
+        bad = unsupported_chars(p.vi, fake_cmap)
+        if bad:
+            corrected_bad.append((p.file, p.offset, p.vi, bad))
+    if corrected_bad:
+        raise RuntimeError(f"B51R1 still has unsupported runtime chars: {corrected_bad[:8]}")
+
+    b40, b43, intro, eq, counts, masters = core.static_contracts(rows, fake_cmap)
     eq40, eq43, eqi = eq
-
     direct = sum(p.production_status == "DIRECT_FIT_VI_FULL" for p in rows)
     compact = len(rows) - direct
+
     gates = [
-        (len(rows), b51.B50_ROWS, "B50 rows"),
-        (direct, b51.B50_DIRECT, "B50 direct"),
-        (compact, b51.B50_COMPACT, "B50 compact"),
-        (len(b40), b51.B40_ROWS, "B40 rows"),
-        (len(b43), b51.B43_ROWS, "B43 rows"),
-        (len(intro), b51.INTRO_ROWS, "Intro rows"),
-        (counts["legacy"], b51.LEGACY_KEYS, "Legacy keys"),
-        (masters, b51.MASTER_ROWS, "Master rows"),
+        (len(rows), core.B50_ROWS, "B50 rows"),
+        (len(corrections), r1.EXPECTED_CORRECTIONS, "B51R1 corrections"),
+        (direct, core.B50_DIRECT, "B50 direct"),
+        (compact, core.B50_COMPACT, "B50 compact"),
+        (len(b40), core.B40_ROWS, "B40 rows"),
+        (len(b43), core.B43_ROWS, "B43 rows"),
+        (len(intro), core.INTRO_ROWS, "Intro rows"),
+        (counts["legacy"], core.LEGACY_KEYS, "Legacy keys"),
+        (masters, core.MASTER_ROWS, "Master rows"),
     ]
     for got_n, want_n, label in gates:
         if got_n != want_n:
             raise RuntimeError(f"{label}: {got_n} != {want_n}")
 
     lines = [
-        "GAIA MASTER B51 STATIC CI VALIDATION",
+        "GAIA MASTER B51R1 STATIC CI VALIDATION",
         "=" * 72,
-        "B51 module import / Python syntax      : PASS",
-        f"B50 restored SHA256                   : {got}",
-        f"B50 restored size                     : {len(raw)}/{b51.B50_RAW_SIZE}",
-        f"B50 exact candidate rows              : {len(rows)}/{b51.B50_ROWS}",
-        f"B50 direct vi_full                    : {direct}/{b51.B50_DIRECT}",
-        f"B50 compact candidates                : {compact}/{b51.B50_COMPACT}",
-        "Runtime charset / frozen-60 gate        : PASS",
-        f"B40 protected manifest                : {len(b40)}/{b51.B40_ROWS}",
-        f"B43 protected manifest                : {len(b43)}/{b51.B43_ROWS}",
-        f"Combined historical exact manifests   : {len(b40)+len(b43)}/{b51.B40_ROWS+b51.B43_ROWS}",
-        f"Intro protected manifest              : {len(intro)}/{b51.INTRO_ROWS}",
-        f"Equivalent B50/B40 overlaps           : {eq40}",
-        f"Equivalent B50/B43 overlaps           : {eq43}",
-        f"Equivalent B50/Intro overlaps         : {eqi}",
-        f"Legacy Alpha static contract          : {counts['legacy']}/{b51.LEGACY_KEYS}",
-        f"Translation Master row contract       : {masters}/{b51.MASTER_ROWS}",
+        "B51/B51R1 module import + syntax       : PASS",
+        f"B50 restored SHA256                   : {got_sha}",
+        f"B50 restored size                     : {len(raw)}/{core.B50_RAW_SIZE}",
+        f"B50 exact candidate rows              : {len(rows)}/{core.B50_ROWS}",
+        f"Raw B50 unsupported characters        : {len(unsupported)}/{EXPECTED_RAW_UNSUPPORTED_CHARS} (known debt)",
+        f"Raw B50 rows needing charset cleanup  : {len(bad_rows)}/{EXPECTED_RAW_BAD_ROWS} (known debt)",
+        f"B51R1 exact-key text corrections      : {len(corrections)}/{r1.EXPECTED_CORRECTIONS}",
+        "Corrected frozen-60 charset gate       : PASS (0 unsupported rows)",
+        "B50 canonical checkpoint mutated       : NO",
+        "New font glyphs added                  : 0",
+        f"B50 direct vi_full                    : {direct}/{core.B50_DIRECT}",
+        f"B50 compact candidates                : {compact}/{core.B50_COMPACT}",
+        f"B40 protected manifest                : {len(b40)}/{core.B40_ROWS}",
+        f"B43 protected manifest                : {len(b43)}/{core.B43_ROWS}",
+        f"Combined historical exact manifests   : {len(b40)+len(b43)}/{core.B40_ROWS+core.B43_ROWS}",
+        f"Intro protected manifest              : {len(intro)}/{core.INTRO_ROWS}",
+        f"Equivalent B51R1/B40 overlaps         : {eq40}",
+        f"Equivalent B51R1/B43 overlaps         : {eq43}",
+        f"Equivalent B51R1/Intro overlaps       : {eqi}",
+        f"Legacy Alpha static contract          : {counts['legacy']}/{core.LEGACY_KEYS}",
+        f"Translation Master row contract       : {masters}/{core.MASTER_ROWS}",
         "Duplicate/overlap/byte/token gates     : PASS",
         "ROM/font/pointer modified              : NO",
         "CLEAN source identity tested           : NO (requires real CLEAN BIN)",
         "Build/output bytes tested              : NO (requires runtime base BIN)",
         "Runtime PASS claim                     : NO",
         "",
-        "RESULT: B51 STATIC CI PASS",
+        "RESULT: B51R1 STATIC CI PASS",
     ]
     write_report(lines)
     return 0
