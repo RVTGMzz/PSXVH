@@ -1,12 +1,14 @@
 # HANDOFF CURRENT - Gaia Master PS1 Viet hoa
 
-Updated: 2026-09-15 23:59 +07
+Updated: 2026-09-16 00:16 +07
 Branch: `gaia-character-select-font-atlas-reverse-01`
 Repo: `ronvotri/Viet-Hoa-PS1`
 
 ## Current priority
 
 Translation-first source work has reached the B50 exact-offset runtime-candidate overlay milestone.
+
+B51 guarded exact-offset tooling is now implemented, but **B50 remains the canonical validated checkpoint** until the B51 dry-run/build is executed against the actual CLEAN/runtime BIN files.
 
 Do not resume the old font-first priority automatically. Font work is parked unless the user explicitly returns to it.
 
@@ -149,26 +151,80 @@ Checkpoint README:
 
 The restore script verifies gzip SHA256, raw byte size, and raw SHA256 before writing the CSV.
 
-## Next task for the new chat: B51
+## B51 guarded exact-offset layer implementation
 
-Start from the restored B50 exact-offset overlay.
+B51 tool:
 
-B51 goal: create a guarded exact-offset patch/build layer against the exact CLEAN BIN, without silently touching unrelated bytes.
+`tools/build_gaia_b51_guarded_exact_overlay.py`
 
-Required B51 behavior:
+B51 checkpoint notes:
+
+`translation/source_layer/checkpoint_B51/README.md`
+
+Important architecture decision:
+
+B50 is an **additive source layer**, not a replacement superset of the older 560/102/19 exact runtime fields.
+
+B51 therefore protects historical spans instead of requiring them to exist inside B50:
+
+- B50 non-overlapping exact writes are allowed;
+- exact same-span + exact same-byte overlap with a protected historical field is allowed;
+- partial/conflicting overlap hard-fails;
+- build base must already byte-verify Batch42/B40 `560/560`, Batch43 `102/102`, and intro `19/19` before B50 is applied;
+- those same exact historical fields are byte-verified again after B50 is applied.
+
+B51 implemented guards:
 
 1. Require CLEAN Japan BIN SHA1 exactly `f4d5298583c90d89c4b7e51d2dde160ee07f2aec`.
-2. Restore/read B50 overlay from the repo checkpoint.
-3. Before each write, verify the exact Japanese source identity at `file + offset` and verify the expected field byte size.
-4. Preserve token/control order for `%s`, `%d`, `%2d`, `%4d`, `%5d`, `%+3d`, `/V`, `/v`, `/Pxx`, `/PFx`.
-5. Reject duplicate or overlapping writes.
-6. Write only the exact field span, preserving field termination/padding rules used by the proven builders.
-7. Produce a dry-run report first with planned writes, source verification, byte fit, and collisions.
-8. Only after the dry-run is clean should a build artifact be produced.
-9. Re-run historical exact-field regression gates after patching.
-10. Do not call Runtime PASS until the user runs it and provides gameplay screenshots.
+2. Restore B50 from the four checkpoint parts and verify gzip/raw hashes plus raw size.
+3. Require the exact B50 CSV schema:
+   `file,offset_hex,japanese,vi_runtime_candidate,field_bytes,runtime_candidate_bytes,free_bytes,production_status,queue_tier,source_status`.
+4. Require exactly `1229` rows, split as `41` direct `vi_full` + `1188` compact candidates.
+5. Verify exact CLEAN CP932 source identity and field size at every file+offset.
+6. Preserve control order for `%...`, `/V`, `/v`, `/Pxx`, `/PFx`.
+7. Reject duplicate B50 keys and overlapping B50 write spans.
+8. Reject B50 writes touching frozen font-atlas or font-mapping ranges.
+9. Verify BDP owner boundaries before writes.
+10. Rebuild nested/top BDP checksums and affected raw-sector ECC/EDC after text writes.
+11. Verify legacy Alpha static contract `397/397` via the historical B40 staging plan without entering its source-mutation context.
+12. Verify Translation Master row contract `596/596`.
+13. In build mode, require a proven runtime base BIN with the frozen 60-glyph mapping already installed.
+14. Snapshot font atlas + mapping from the build base and require byte-identical values in memory and after output read-back.
+15. Re-run B50 `1229/1229` exact output verification plus Batch42/B40 `560/560`, Batch43 `102/102`, and intro `19/19` output regressions.
+16. Never call Runtime PASS from this tool.
 
-Prefer a new B51 tool/script rather than mutating historical builders.
+B51 deliberately imports the historical `build_gaia_06100_hybrid_accent_b1_LEGACY.py` only for frozen constants/encoding/ISO/BDP/checksum helpers. It does **not** import or invoke `READABLE`, `R5_PATCHED`, Batch45 font-polish code, or any font builder.
+
+### B51 execution status
+
+The B51 Python implementation has been syntax-compiled in the working environment.
+
+However the raw CLEAN BIN and a proven runtime base BIN are not available inside the current connected runtime, so the real binary dry-run/build has **not** been executed here.
+
+Therefore current claims are intentionally limited to:
+
+- B51 guarded tool implementation: DONE
+- B51 actual guarded dry-run PASS: **NOT YET CLAIMED**
+- B51 actual build/static byte PASS: **NOT YET CLAIMED**
+- Runtime PASS: **NO**
+
+### Next local commands
+
+Guarded dry-run first:
+
+```bash
+python tools/build_gaia_b51_guarded_exact_overlay.py "GaiaMaster - Kamigami no Board Game (Japan).bin"
+```
+
+Only if that succeeds, build from a known-good runtime BIN that already passes frozen-60 + `560/102/19`:
+
+```bash
+python tools/build_gaia_b51_guarded_exact_overlay.py \
+  "GaiaMaster - Kamigami no Board Game (Japan).bin" \
+  --build-from "KNOWN_GOOD_RUNTIME_BASE.bin"
+```
+
+Do not use the CLEAN BIN itself as `--build-from`. B51 is text-only and intentionally does not install/regenerate font data.
 
 ## Historical runtime/build contracts that must not regress
 
@@ -215,4 +271,4 @@ Frozen font architecture remains:
 
 Use:
 
-`Tiếp tục Gaia Master từ HANDOFF_CURRENT.md trên branch gaia-character-select-font-atlas-reverse-01. Current canonical checkpoint là B50 exact-offset overlay 1229/1229 static byte-fit PASS. Restore overlay từ translation/source_layer/checkpoint_B50 rồi làm B51 guarded dry-run/build layer. Không đụng font và không gọi Runtime PASS khi chưa có screenshot gameplay.`
+`Tiếp tục Gaia Master từ HANDOFF_CURRENT.md trên branch gaia-character-select-font-atlas-reverse-01. B51 guarded exact-overlay tool đã implement nhưng B50 vẫn là canonical validated checkpoint vì chưa chạy được BIN trong môi trường hiện tại. Chạy B51 guarded dry-run trên CLEAN SHA1 f4d5298583c90d89c4b7e51d2dde160ee07f2aec; nếu PASS thì build từ known-good runtime base đã pass frozen-60 + 560/102/19. Không đụng font và không gọi Runtime PASS khi chưa có screenshot gameplay.`
