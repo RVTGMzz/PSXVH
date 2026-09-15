@@ -1,124 +1,206 @@
 # Gaia Master — trạng thái mới nhất
 
-Cập nhật: **2026-09-15**
+Cập nhật: **2026-09-16**
 
-## CURRENT — 0.6.55.1 BATCH45R2 FONT MICRO POLISH
+## CURRENT — B51R1 GUARDED EXACT-OFFSET / FROZEN-60 TEXT LAYER
 
-Trọng tâm hiện tại: **khóa lỗi font còn lại từ runtime 0.6.55.0 trước khi quay lại reverse asset/text residual**.
+Trọng tâm hiện tại: đưa toàn bộ B50 exact-offset source layer vào production một cách có guard, **không đụng font**.
 
-Status: **SOURCE READY / STATIC GATES DESIGNED / RUNTIME CHƯA PASS**.
+Trạng thái hiện tại:
 
-## Mốc actual build đã chứng minh
+- B50 exact-offset static byte-fit: **PASS**
+- B51R1 static CI: **PASS**
+- B51R1 real CLEAN guarded dry-run: **chưa chạy trong môi trường hiện tại**
+- B51R1 real build/static-byte verification: **chưa chạy trong môi trường hiện tại**
+- Runtime PASS: **NO**
 
-Bản **0.6.54.0 R5** vẫn là actual CLEAN-ROM build cuối cùng đã được user chứng minh bằng build log:
+## CLEAN contract
 
-```text
-Batch42 exact fields              = 560 / 560
-Batch43 visible whole-game fields = 102 / 102
-Combined exact fields             = 662 / 662
-Legacy Alpha gate                 = 397 / 397
-Build return code                 = 0
-Final report                      = YES
-```
-
-Clean BIN SHA1:
+Exact Japan CLEAN BIN SHA1:
 
 `f4d5298583c90d89c4b7e51d2dde160ee07f2aec`
 
-## Runtime 0.6.55.0
+Không patch từ BIN lạ hoặc BIN đã mod khi dùng làm CLEAN source oracle.
 
-Screenshot `Thế giới đổi chủ` cho thấy:
+## B50 canonical checkpoint
 
-- lỗi ký tự rác do `=` trong đoạn được chụp đã không còn xuất hiện;
-- wording intro đọc được;
-- nhưng font vẫn chưa thể khóa.
+Canonical B50 overlay:
 
-Lỗi mới được runtime chứng minh:
+`translation/source_layer/checkpoint_B50/GaiaMaster_RUNTIME_CANDIDATE_EXACT_OVERLAY_B50.csv`
+
+Raw SHA256:
+
+`448bc34afa675299b0de20c54d804d5765e7f9954f67c39058884b318de504b7`
+
+Raw size:
+
+`162851`
+
+B50:
+
+- exact candidates: `1229/1229`
+- direct `vi_full`: `41`
+- compact candidates: `1188`
+- duplicate keys: `0`
+- overlapping spans: `0`
+- byte-fit violations: `0`
+- ROM/font/pointer modified: NO
+
+B50 vẫn là canonical validated binary/source checkpoint vì chưa có BIN thật trong connected runtime để chạy B51R1 binary pass.
+
+## B51 production discovery
+
+B51 production encoder audit phát hiện B50 có một lớp nợ mà static byte-fit chưa bắt được:
+
+- `19` ký tự tiếng Việt nằm ngoài frozen 60-glyph codepage
+- ảnh hưởng `64` exact runtime rows
+
+Unsupported raw-B50 character set:
+
+`À Á Â É è õ ý Ă Ư ẳ ẵ ẹ Ế ễ Ồ Ở ỡ Ừ ỳ`
+
+Không mở rộng font để xử lý lỗi này.
+
+## B51R1 text-only correction layer
+
+Correction manifest:
+
+`translation/source_layer/B51_RUNTIME_CHARSET_CORRECTIONS.csv`
+
+Production wrapper:
+
+`tools/build_gaia_b51r1_guarded_exact_overlay.py`
+
+Quy tắc:
+
+- B50 gốc không bị sửa
+- exact-key correction `64/64`
+- mỗi correction phải match đúng old candidate
+- không đổi token/control order
+- không được dài hơn field
+- không được vượt byte budget B50 đã duyệt
+- thêm glyph mới: `0`
+- font/mapping mutation: NO
+
+## B51R1 STATIC CI PASS
+
+Static validator:
+
+`tools/validate_gaia_b51_static.py`
+
+Workflow:
+
+`.github/workflows/gaia-b51-static-validation.yml`
+
+Validated commit:
+
+`33a5049bf6dc932a95892eeb1dbb99033c8d074b`
+
+GitHub Actions run:
+
+`35005218964`
+
+CI result:
 
 ```text
-đ thường: thanh ngang vẫn sai anchor, cần lên thêm 1 px và phải xuyên thân dọc bên phải của d
-â/ê/ô: dấu ^ quá sát thân chữ
-các chữ kiểu ấ/ế/ố...: structural mark + tone dễ nhập/đè nhau
+B51/B51R1 import + syntax           = PASS
+B50 restored SHA256                = PASS
+B50 restored size                  = 162851/162851
+B50 exact candidates               = 1229/1229
+Raw B50 unsupported chars          = 19/19 known debt
+Raw B50 bad rows                   = 64/64 known debt
+B51R1 corrections                  = 64/64
+Corrected frozen-60 charset        = PASS, 0 unsupported rows
+B50 canonical mutated              = NO
+New font glyphs                    = 0
+B40 / Batch42 protected            = 560/560
+B43 protected                      = 102/102
+Combined historical               = 662/662
+Intro protected                    = 19/19
+Legacy Alpha                       = 397/397
+Translation Master                = 596/596
+Duplicate/overlap/byte/token       = PASS
+ROM/font/pointer modified          = NO
+Runtime PASS                       = NO
 ```
 
-Không có bằng chứng runtime cho thấy `Đ` hoa cũ bị lỗi. Vì vậy R2 tách hẳn `Đ` và `đ` thay vì dùng chung rule.
+Proof:
 
-## 0.6.55.1 Batch45R2
+`translation/source_layer/checkpoint_B51/B51R1_STATIC_CI_PROOF.txt`
 
-Files:
+## Historical B43 padded fields
+
+B51 CI cũng bắt được một giả định validator sai ở `PRGPACK.BDP+0xDE0A0`.
+
+B43 proven builder cho phép `field_bytes` lớn hơn literal Japanese CP932 bytes vì một số field có padding. B51R1 hiện dùng đúng historical contract:
+
+`field_bytes >= literal Japanese bytes`
+
+Rule này chỉ dùng khi reconstruct historical B40/B43 manifests. B50 exact source identity vẫn giữ strict.
+
+## Hard historical contracts
 
 ```text
-tools/build_gaia_06551_batch45r2_font_micro_polish.py
-tools/00_BUILD_0.6.55.1_BATCH45R2_FONT_POLISH.cmd
-BATCH45R2_0.6.55.1_FONT_MICRO_POLISH.md
+Batch42/B40 exact = 560/560
+Batch43 exact     = 102/102
+Combined          = 662/662
+Legacy Alpha      = 397/397
+TranslationMaster = 596/596
+Intro exact       = 19/19
 ```
 
-Thiết kế sửa:
+B51R1 hiện có `0` overlap với B40, B43 và intro19.
 
-```text
-Đ  = left-stem rule, trả vertical placement về pre-Batch45
-đ  = auto-detect right ascender, bar xuyên stem, lên thêm 1 px so với 0.6.55.0
-^/breve = reserve thêm 1 top row, nâng structural mark 1 px
-stacked tone = tách sang side lane riêng
-```
-
-R2 **không sửa ngược builder 0.6.55.0**. Nó build lại chain 0.6.55.0 từ CLEAN rồi chỉ patch glyph trong SLPS.
-
-Safety gates:
-
-```text
-60 glyph frozen codepage
-72 bytes/glyph
-bbox phải nằm trong 12x12
-unaffected glyphs phải byte-identical với 0.6.55.0
-Đ/đ phải qua đúng stem rule riêng
-structural/tone rendered pixels không được collision
-PRGPACK phải byte-for-byte không đổi bởi R2
-font bytes phải read-back verify sau EDC/ECC regeneration
-Batch42 560/560 recheck trước + sau font patch
-Batch45 intro 19/19 recheck trước + sau font patch
-```
-
-**Chưa gọi Runtime PASS.** Cần build thật từ CLEAN BIN rồi screenshot gameplay.
-
-## Reverse Workbench 0.1
-
-Bộ reverse read-only vẫn giữ nguyên:
-
-```text
-tools/gaia_graphic_asset_census_0.1.py
-tools/gaia_runtime_target_locator_0.1.py
-tools/00_RUN_REVERSE_WORKBENCH_0.1.cmd
-REVERSE_WORKBENCH_0.1.md
-```
-
-Mốc Character Select đã chứng minh:
-
-```text
-PRGPACK.BDP + 0xBFD2C
-owner 29 / local +0x580
-キャラクターをえらんでね
-```
-
-Main Menu + phần còn Nhật ở Character Select vẫn là graphic/texture candidates cho tới khi asset được xác định chắc chắn.
-
-## Kiến trúc vẫn khóa
+## Architecture lock
 
 ```text
 native 12x12 / 72-byte / 4bpp / LOW nibble first
 static mapping-only
 frozen 60-glyph Vietnamese codepage
-legacy Alpha gate = 397/397
+no renderer hook
+no pointer redirect
+no 12x16
+no 6x12
+no composite overlay
 ```
 
-Không renderer hook, pointer redirect, 12x16, 6x12 hoặc composite overlay.
+Font work parked. Không tự quay lại Batch45R2/font-first.
 
-## Việc tiếp theo
+## Tools chạy tiếp
 
-1. Build `0.6.55.1` từ exact CLEAN BIN.
-2. Nếu có BUILD_LOG lỗi, sửa đúng gate đầu tiên trước.
-3. Nếu FINAL_REPORT PASS, test `đ`, `Đ`, `â/ê/ô`, `ấ/ế/ố/ắ` nếu gặp được.
-4. Chỉ khóa font khi gameplay screenshot xác nhận.
-5. Sau đó tiếp tục Reverse Workbench Main Menu / Character Select.
-6. Tiếp tục exact-offset discovery cho Story, `冒険のはじまり`, prompt mua đất.
-7. Không gọi whole-game Runtime PASS trước bằng chứng gameplay.
+Dry-run Python:
+
+```text
+python tools/build_gaia_b51r1_guarded_exact_overlay.py "GaiaMaster - Kamigami no Board Game (Japan).bin"
+```
+
+Dry-run Windows:
+
+`tools/00_RUN_B51R1_GUARDED_DRYRUN.cmd`
+
+Sau khi dry-run thật PASS mới build:
+
+```text
+python tools/build_gaia_b51r1_guarded_exact_overlay.py "GaiaMaster - Kamigami no Board Game (Japan).bin" --build-from "KNOWN_GOOD_RUNTIME_BASE.bin"
+```
+
+Build Windows:
+
+`tools/00_BUILD_B51R1_GUARDED_EXACT_OVERLAY.cmd`
+
+Không dùng CLEAN BIN làm `--build-from` vì B51R1 là text-only, không cài font.
+
+## Claim policy
+
+Hiện được phép gọi:
+
+- `B50 static byte-fit PASS`
+- `B51R1 STATIC CI PASS`
+
+Chưa được gọi:
+
+- `B51R1 guarded CLEAN dry-run PASS`
+- `B51R1 build PASS`
+- `Runtime PASS`
+
+Gameplay screenshots vẫn là điều kiện bắt buộc trước Runtime PASS.
