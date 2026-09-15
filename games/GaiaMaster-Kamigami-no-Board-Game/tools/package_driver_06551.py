@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import hashlib
-import os
 import subprocess
 import sys
 import traceback
@@ -15,13 +14,7 @@ LOG_NAME = "BUILD_LOG_0.6.55.1_BATCH45R2.txt"
 
 
 def normalize_root_arg(raw: str) -> str:
-    """Normalize a package-root argv value before Path() sees it.
-
-    Windows launchers commonly expose %%~dp0 with a trailing backslash. If that
-    path is passed as a quoted argv value, the closing quote can leak into the
-    argument seen by Python. Be deliberately defensive here so a dirty launcher
-    cannot create an invalid log path.
-    """
+    """Normalize a package-root argv value before Path() sees it."""
     s = str(raw).strip()
     while s.startswith('"'):
         s = s[1:]
@@ -69,8 +62,6 @@ def find_clean(root: Path, log) -> Path:
     for p in root.rglob("*.bin"):
         if not p.is_file():
             continue
-        # The package itself never contains ROM/BIN files under Core. Skip any
-        # accidental generated output under Core anyway and prefer root-level ROMs.
         try:
             rel = p.relative_to(root)
         except ValueError:
@@ -132,7 +123,10 @@ def main() -> int:
     tools = root / "Core" / "tools"
     builder = tools / BUILDER_NAME
 
-    with log_path.open("w", encoding="utf-8", newline="\n") as log:
+    # The root CMD truncates/creates LOG_NAME before invoking this process.
+    # Open in APPEND mode and let this Python process be the only active writer.
+    # CMD must never redirect Python stdout/stderr into this same file on Windows.
+    with log_path.open("a", encoding="utf-8", newline="\n") as log:
         try:
             log_line(log, "GAIA MASTER 0.6.55.1 BATCH45R2 - FAIL-PERSISTENT DRIVER")
             log_line(log, "Python: %s" % sys.executable)
