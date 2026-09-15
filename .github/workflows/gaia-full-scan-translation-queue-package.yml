@@ -1,0 +1,182 @@
+name: Gaia Master Full Scan Translation Queue Package
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - gaia-character-select-font-atlas-reverse-01
+    paths:
+      - 'games/GaiaMaster-Kamigami-no-Board-Game/tools/scan_full_japanese_text_06380.py'
+      - 'games/GaiaMaster-Kamigami-no-Board-Game/tools/prepare_full_scan_translation_queue_20260915.py'
+      - 'games/GaiaMaster-Kamigami-no-Board-Game/tools/inventory_translation_residual_sources_20260915.py'
+      - 'games/GaiaMaster-Kamigami-no-Board-Game/tools/package_root_full_scan_translation_queue.cmd'
+      - 'games/GaiaMaster-Kamigami-no-Board-Game/tools/build_gaia_06100_hybrid_accent_b1_READABLE.py'
+      - 'games/GaiaMaster-Kamigami-no-Board-Game/tools/build_gaia_06100_hybrid_accent_b1_R5_PATCHED.py'
+      - 'games/GaiaMaster-Kamigami-no-Board-Game/tools/build_gaia_06100_hybrid_accent_b1_LEGACY.py'
+      - 'games/GaiaMaster-Kamigami-no-Board-Game/translation/**'
+      - '.github/workflows/gaia-full-scan-translation-queue-package.yml'
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile scanner and helpers
+        run: |
+          python -m py_compile \
+            games/GaiaMaster-Kamigami-no-Board-Game/tools/scan_full_japanese_text_06380.py \
+            games/GaiaMaster-Kamigami-no-Board-Game/tools/prepare_full_scan_translation_queue_20260915.py \
+            games/GaiaMaster-Kamigami-no-Board-Game/tools/inventory_translation_residual_sources_20260915.py \
+            games/GaiaMaster-Kamigami-no-Board-Game/tools/build_gaia_06100_hybrid_accent_b1_READABLE.py \
+            games/GaiaMaster-Kamigami-no-Board-Game/tools/build_gaia_06100_hybrid_accent_b1_R5_PATCHED.py \
+            games/GaiaMaster-Kamigami-no-Board-Game/tools/build_gaia_06100_hybrid_accent_b1_LEGACY.py
+
+      - name: Verify current committed source corpus has no residual Japanese
+        shell: bash
+        run: |
+          set -o pipefail
+          python games/GaiaMaster-Kamigami-no-Board-Game/tools/inventory_translation_residual_sources_20260915.py \
+            --out-dir /tmp/gaia_residual_gate | tee /tmp/gaia_residual_gate.log
+          grep -F 'Residual committed source rows      : 0' /tmp/gaia_residual_gate/GAIA_COMMITTED_RESIDUAL_JAPANESE_REPORT_2026-09-15.txt
+          grep -F 'Residual UNIQUE Japanese strings    : 0' /tmp/gaia_residual_gate/GAIA_COMMITTED_RESIDUAL_JAPANESE_REPORT_2026-09-15.txt
+
+      - name: Synthetic reviewed-dedupe queue regression test
+        shell: bash
+        run: |
+          cat > /tmp/gaia_synthetic_scan.csv <<'CSV'
+          file,offset_hex,japanese,byte_len,chars,kana,kanji,jp_ratio,terminator,confidence,known_same_offset,known_text_elsewhere,master_offset_text,priority,anchor
+          PRGPACK.BDP,0x100,酒場へようこそ,16,8,7,1,1.000,NUL,HIGH,NO,NO,,UNSEEN-JAPANESE,
+          PRGPACK.BDP,0x200,未翻訳テスト,12,6,4,2,1.000,NUL,HIGH,NO,NO,,UNSEEN-JAPANESE,
+          PRGPACK.BDP,0x300,未翻訳テスト,12,6,4,2,1.000,OTHER,MEDIUM,NO,NO,,UNSEEN-JAPANESE,
+          SLPS_020.75,0x400,新しい文章です,14,7,5,2,1.000,OTHER,MEDIUM,NO,NO,,UNSEEN-JAPANESE,
+          CSV
+          sed -i 's/^          //' /tmp/gaia_synthetic_scan.csv
+          rm -rf /tmp/gaia_synthetic_queue
+          python games/GaiaMaster-Kamigami-no-Board-Game/tools/prepare_full_scan_translation_queue_20260915.py \
+            /tmp/gaia_synthetic_scan.csv --out-dir /tmp/gaia_synthetic_queue
+          grep -F 'NEW UNIQUE Japanese queue      : 2' /tmp/gaia_synthetic_queue/GaiaMaster_TRANSLATION_QUEUE_REPORT.txt
+          grep -F 'HIGH-FIRST unique              : 1' /tmp/gaia_synthetic_queue/GaiaMaster_TRANSLATION_QUEUE_REPORT.txt
+          test "$(($(wc -l < /tmp/gaia_synthetic_queue/GaiaMaster_TRANSLATION_QUEUE_REVIEWED_DEDUPED.csv) - 1))" -eq 2
+          test "$(($(wc -l < /tmp/gaia_synthetic_queue/GaiaMaster_TRANSLATION_QUEUE_HIGH_FIRST.csv) - 1))" -eq 1
+          grep -F '未翻訳テスト' /tmp/gaia_synthetic_queue/GaiaMaster_TRANSLATION_QUEUE_REVIEWED_DEDUPED.csv
+          grep -F '新しい文章です' /tmp/gaia_synthetic_queue/GaiaMaster_TRANSLATION_QUEUE_REVIEWED_DEDUPED.csv
+          if grep -Fq '酒場へようこそ' /tmp/gaia_synthetic_queue/GaiaMaster_TRANSLATION_QUEUE_REVIEWED_DEDUPED.csv; then
+            echo '[BLOCKED] Reviewed Japanese leaked into synthetic new-source queue.'
+            exit 1
+          fi
+
+      - name: Prepare one-click package
+        shell: bash
+        run: |
+          set -euo pipefail
+          SRC='games/GaiaMaster-Kamigami-no-Board-Game'
+          PKG='dist/GaiaMaster_FULL_SCAN_TRANSLATION_QUEUE'
+          rm -rf dist
+          mkdir -p "$PKG/Core/tools" "$PKG/Core/translation"
+
+          python - <<'PY'
+          from pathlib import Path
+          src = Path('games/GaiaMaster-Kamigami-no-Board-Game/tools/package_root_full_scan_translation_queue.cmd')
+          dst = Path('dist/GaiaMaster_FULL_SCAN_TRANSLATION_QUEUE/00_SCAN_AND_BUILD_TRANSLATION_QUEUE.cmd')
+          data = src.read_bytes().replace(b'\r\n', b'\n').replace(b'\r', b'\n')
+          dst.write_bytes(data.replace(b'\n', b'\r\n'))
+          PY
+
+          cp "$SRC/tools/scan_full_japanese_text_06380.py" "$PKG/Core/tools/"
+          cp "$SRC/tools/prepare_full_scan_translation_queue_20260915.py" "$PKG/Core/tools/"
+          cp "$SRC/tools/build_gaia_06100_hybrid_accent_b1_READABLE.py" "$PKG/Core/tools/"
+          cp "$SRC/tools/build_gaia_06100_hybrid_accent_b1_R5_PATCHED.py" "$PKG/Core/tools/"
+          cp "$SRC/tools/build_gaia_06100_hybrid_accent_b1_LEGACY.py" "$PKG/Core/tools/"
+          cp "$SRC/translation/"*.csv "$PKG/Core/translation/"
+
+          cat > "$PKG/README.txt" <<'TXT'
+          GAIA MASTER - FULL JAPANESE SCAN + TRANSLATION QUEUE
+          ===================================================
+
+          Muc dich:
+          - Quet CLEAN Gaia Master Japan BIN de tai tao full Japanese scanner CSV.
+          - Tru toan bo Japanese source da duoc review trong repo hien tai.
+          - Tao queue dich moi da dedupe, uu tien HIGH + NUL/CTRL.
+          - Giu moi file+offset that cua cac cau lap.
+          - KHONG patch ROM. KHONG thay runtime. KHONG phai Runtime PASS.
+
+          CLEAN BIN bat buoc:
+          SHA1 f4d5298583c90d89c4b7e51d2dde160ee07f2aec
+
+          Cach dung tren Windows:
+          1. Giai nen goi nay vao mot thu muc moi.
+          2. Dat CLEAN Japan .BIN canh 00_SCAN_AND_BUILD_TRANSLATION_QUEUE.cmd
+             HOAC keo-tha CLEAN .BIN len file CMD.
+          3. Chay CMD va doi scanner hoan tat.
+
+          File quan trong sau khi chay:
+          - GaiaMaster_0.6.38.0_FULL_JAPANESE_SCAN.csv
+          - GaiaMaster_0.6.38.0_FULL_JAPANESE_SCAN_REPORT.txt
+          - GaiaMaster_TRANSLATION_QUEUE/GaiaMaster_TRANSLATION_QUEUE_HIGH_FIRST.csv
+          - GaiaMaster_TRANSLATION_QUEUE/GaiaMaster_TRANSLATION_QUEUE_REVIEWED_DEDUPED.csv
+          - GaiaMaster_TRANSLATION_QUEUE/GaiaMaster_TRANSLATION_QUEUE_NEW_OCCURRENCES.csv
+          - GaiaMaster_TRANSLATION_QUEUE/GaiaMaster_TRANSLATION_QUEUE_REPORT.txt
+
+          De dich tiep, uu tien gui file HIGH_FIRST truoc.
+          Neu can audit day du, giu ca FULL scanner CSV va queue folder.
+
+          Goi nay KHONG chua ROM/game image.
+          TXT
+          sed -i 's/^          //' "$PKG/README.txt"
+
+      - name: Validate packaged dependency chain and queue tool
+        shell: bash
+        run: |
+          set -euo pipefail
+          PKG='dist/GaiaMaster_FULL_SCAN_TRANSLATION_QUEUE'
+          python - <<'PY'
+          import sys
+          from pathlib import Path
+          tools = Path('dist/GaiaMaster_FULL_SCAN_TRANSLATION_QUEUE/Core/tools').resolve()
+          sys.path.insert(0, str(tools))
+          import build_gaia_06100_hybrid_accent_b1_READABLE as base
+          assert hasattr(base, 'SLPS_EXTENT')
+          assert hasattr(base, 'PRG_EXTENT')
+          print('Readable/R5/legacy dependency chain: PASS')
+          PY
+
+          cp /tmp/gaia_synthetic_scan.csv "$PKG/SYNTHETIC_SCAN_FOR_CI.csv"
+          python "$PKG/Core/tools/prepare_full_scan_translation_queue_20260915.py" \
+            "$PKG/SYNTHETIC_SCAN_FOR_CI.csv" --out-dir "$PKG/SYNTHETIC_QUEUE_FOR_CI"
+          grep -F 'NEW UNIQUE Japanese queue      : 2' "$PKG/SYNTHETIC_QUEUE_FOR_CI/GaiaMaster_TRANSLATION_QUEUE_REPORT.txt"
+          grep -F 'HIGH-FIRST unique              : 1' "$PKG/SYNTHETIC_QUEUE_FOR_CI/GaiaMaster_TRANSLATION_QUEUE_REPORT.txt"
+          rm -rf "$PKG/SYNTHETIC_SCAN_FOR_CI.csv" "$PKG/SYNTHETIC_QUEUE_FOR_CI"
+
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('dist/GaiaMaster_FULL_SCAN_TRANSLATION_QUEUE/00_SCAN_AND_BUILD_TRANSLATION_QUEUE.cmd')
+          data = p.read_bytes()
+          assert b'\r\n' in data
+          assert data.replace(b'\r\n', b'').find(b'\n') == -1
+          text = data.decode('ascii')
+          assert 'f4d5298583c90d89c4b7e51d2dde160ee07f2aec' in text
+          assert 'Core\\tools\\scan_full_japanese_text_06380.py' in text
+          assert 'Core\\tools\\prepare_full_scan_translation_queue_20260915.py' in text
+          print('Windows launcher CRLF/ASCII/path/SHA gate: PASS')
+          PY
+
+          test -f "$PKG/Core/translation/TRANSLATION_MASTER_0.6_part01.csv"
+          test -f "$PKG/Core/translation/TRANSLATION_MASTER_0.6_part06.csv"
+          test -f "$PKG/README.txt"
+          echo "Packaged translation CSV count: $(find "$PKG/Core/translation" -maxdepth 1 -type f -name '*.csv' | wc -l)"
+
+      - name: Upload one-click package
+        uses: actions/upload-artifact@v4
+        with:
+          name: GaiaMaster_FULL_SCAN_TRANSLATION_QUEUE_EASY
+          path: dist/GaiaMaster_FULL_SCAN_TRANSLATION_QUEUE
+          if-no-files-found: error
+          retention-days: 90
