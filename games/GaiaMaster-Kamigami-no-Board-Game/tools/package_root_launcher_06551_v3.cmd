@@ -2,9 +2,8 @@
 setlocal EnableExtensions DisableDelayedExpansion
 title Gaia Master 0.6.55.1 - Persistent Log Launcher
 
-rem IMPORTANT: %%~dp0 always ends in a backslash. Passing "%~dp0" directly
-rem to a Windows Python process can produce a stray trailing quote in argv.
-rem Canonicalize "%~dp0." first so ROOT has no trailing backslash.
+rem %%~dp0 always ends in a backslash. Canonicalize %%~dp0. first so ROOT
+rem has no trailing backslash before it is passed to Python.
 for %%I in ("%~dp0.") do set "ROOT=%%~fI"
 cd /d "%ROOT%"
 set "LOG=%ROOT%\BUILD_LOG_0.6.55.1_BATCH45R2.txt"
@@ -23,16 +22,19 @@ echo.
 
 if not exist "%DRIVER%" goto MISSING_DRIVER
 
+rem IMPORTANT: do NOT redirect Python stdout/stderr to %%LOG%% here.
+rem The Python driver owns and writes that same file. Redirecting from CMD
+rem would keep a Windows file handle open and cause PermissionError in Python.
 where py >nul 2>&1
 if errorlevel 1 goto TRY_PYTHON
-py -3 "%DRIVER%" "%ROOT%" >>"%LOG%" 2>&1
+py -3 "%DRIVER%" "%ROOT%"
 set "RC=%ERRORLEVEL%"
 goto AFTER_RUN
 
 :TRY_PYTHON
 where python >nul 2>&1
 if errorlevel 1 goto NO_PYTHON
-python "%DRIVER%" "%ROOT%" >>"%LOG%" 2>&1
+python "%DRIVER%" "%ROOT%"
 set "RC=%ERRORLEVEL%"
 goto AFTER_RUN
 
@@ -55,6 +57,10 @@ echo ============================================================
 echo.
 type "%LOG%"
 echo.
+
+rem CI smoke test must never block on Notepad/pause.
+if /I "%GAIA_CI%"=="1" exit /b %RC%
+
 echo The log file will now open in Notepad.
 echo Send BUILD_LOG_0.6.55.1_BATCH45R2.txt if RETURN CODE is not 0.
 start "" notepad.exe "%LOG%"
