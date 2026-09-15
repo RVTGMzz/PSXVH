@@ -1,0 +1,36 @@
+name: Gaia Master 596 Source Review Audit
+
+on:
+  push:
+    branches:
+      - gaia-character-select-font-atlas-reverse-01
+    paths:
+      - 'games/GaiaMaster-Kamigami-no-Board-Game/translation/**'
+      - 'games/GaiaMaster-Kamigami-no-Board-Game/tools/audit_*_20260915.py'
+      - '.github/workflows/gaia-source-review-audit.yml'
+  workflow_dispatch:
+
+jobs:
+  source-review-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile source-review audit scripts
+        run: |
+          python -m py_compile \
+            games/GaiaMaster-Kamigami-no-Board-Game/tools/audit_part01_source_review_20260915.py \
+            games/GaiaMaster-Kamigami-no-Board-Game/tools/audit_part02_source_review_20260915.py \
+            games/GaiaMaster-Kamigami-no-Board-Game/tools/audit_part04_source_review_20260915.py \
+            games/GaiaMaster-Kamigami-no-Board-Game/tools/audit_master_source_review_596_20260915.py
+
+      - name: Audit all 596 Translation Master source rows
+        run: |
+          python games/GaiaMaster-Kamigami-no-Board-Game/tools/audit_master_source_review_596_20260915.py
