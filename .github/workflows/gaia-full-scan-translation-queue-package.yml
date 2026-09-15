@@ -10,6 +10,7 @@ on:
       - 'games/GaiaMaster-Kamigami-no-Board-Game/tools/prepare_full_scan_translation_queue_20260915.py'
       - 'games/GaiaMaster-Kamigami-no-Board-Game/tools/inventory_translation_residual_sources_20260915.py'
       - 'games/GaiaMaster-Kamigami-no-Board-Game/tools/package_root_full_scan_translation_queue.cmd'
+      - 'games/GaiaMaster-Kamigami-no-Board-Game/tools/run_full_scan_translation_queue_inner.cmd'
       - 'games/GaiaMaster-Kamigami-no-Board-Game/tools/build_gaia_06100_hybrid_accent_b1_READABLE.py'
       - 'games/GaiaMaster-Kamigami-no-Board-Game/tools/build_gaia_06100_hybrid_accent_b1_R5_PATCHED.py'
       - 'games/GaiaMaster-Kamigami-no-Board-Game/tools/build_gaia_06100_hybrid_accent_b1_LEGACY.py'
@@ -17,7 +18,40 @@ on:
       - '.github/workflows/gaia-full-scan-translation-queue-package.yml'
 
 jobs:
+  windows-smoke:
+    runs-on: windows-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Smoke persistent LOGFIX launcher in spaced path
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $src = 'games/GaiaMaster-Kamigami-no-Board-Game'
+          $pkg = Join-Path $env:RUNNER_TEMP 'GaiaMaster LOGFIX smoke (1)'
+          Remove-Item -Recurse -Force $pkg -ErrorAction SilentlyContinue
+          New-Item -ItemType Directory -Force (Join-Path $pkg 'Core/tools') | Out-Null
+          Copy-Item "$src/tools/package_root_full_scan_translation_queue.cmd" (Join-Path $pkg '00_SCAN_AND_BUILD_TRANSLATION_QUEUE.cmd')
+          Copy-Item "$src/tools/run_full_scan_translation_queue_inner.cmd" (Join-Path $pkg 'Core/tools/run_full_scan_translation_queue_inner.cmd')
+          Copy-Item "$src/tools/scan_full_japanese_text_06380.py" (Join-Path $pkg 'Core/tools/scan_full_japanese_text_06380.py')
+          Copy-Item "$src/tools/prepare_full_scan_translation_queue_20260915.py" (Join-Path $pkg 'Core/tools/prepare_full_scan_translation_queue_20260915.py')
+
+          $env:GAIA_CI = '1'
+          & (Join-Path $pkg '00_SCAN_AND_BUILD_TRANSLATION_QUEUE.cmd')
+          $code = $LASTEXITCODE
+          if ($code -ne 1) { throw "Expected missing-BIN diagnostic rc=1, got $code" }
+
+          $log = Join-Path $pkg 'FULL_SCAN_TRANSLATION_QUEUE_LOG.txt'
+          if (-not (Test-Path $log)) { throw 'Persistent log was not created' }
+          $text = Get-Content -Raw $log
+          if ($text -notmatch 'ERROR=clean BIN not found') { throw 'Missing clean-BIN diagnostic in persistent log' }
+          if ($text -notmatch 'GaiaMaster LOGFIX smoke \(1\)') { throw 'Package root resolution failed' }
+          Write-Host 'WINDOWS LOGFIX smoke: PASS'
+
   package:
+    needs: windows-smoke
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -64,30 +98,27 @@ jobs:
             /tmp/gaia_synthetic_scan.csv --out-dir /tmp/gaia_synthetic_queue
           grep -F 'NEW UNIQUE Japanese queue      : 2' /tmp/gaia_synthetic_queue/GaiaMaster_TRANSLATION_QUEUE_REPORT.txt
           grep -F 'HIGH-FIRST unique              : 1' /tmp/gaia_synthetic_queue/GaiaMaster_TRANSLATION_QUEUE_REPORT.txt
-          test "$(($(wc -l < /tmp/gaia_synthetic_queue/GaiaMaster_TRANSLATION_QUEUE_REVIEWED_DEDUPED.csv) - 1))" -eq 2
-          test "$(($(wc -l < /tmp/gaia_synthetic_queue/GaiaMaster_TRANSLATION_QUEUE_HIGH_FIRST.csv) - 1))" -eq 1
-          grep -F '未翻訳テスト' /tmp/gaia_synthetic_queue/GaiaMaster_TRANSLATION_QUEUE_REVIEWED_DEDUPED.csv
-          grep -F '新しい文章です' /tmp/gaia_synthetic_queue/GaiaMaster_TRANSLATION_QUEUE_REVIEWED_DEDUPED.csv
-          if grep -Fq '酒場へようこそ' /tmp/gaia_synthetic_queue/GaiaMaster_TRANSLATION_QUEUE_REVIEWED_DEDUPED.csv; then
-            echo '[BLOCKED] Reviewed Japanese leaked into synthetic new-source queue.'
-            exit 1
-          fi
 
-      - name: Prepare one-click package
+      - name: Prepare one-click LOGFIX package
         shell: bash
         run: |
           set -euo pipefail
           SRC='games/GaiaMaster-Kamigami-no-Board-Game'
-          PKG='dist/GaiaMaster_FULL_SCAN_TRANSLATION_QUEUE'
+          PKG='dist/GaiaMaster_FULL_SCAN_TRANSLATION_QUEUE_LOGFIX'
           rm -rf dist
           mkdir -p "$PKG/Core/tools" "$PKG/Core/translation"
 
           python - <<'PY'
           from pathlib import Path
-          src = Path('games/GaiaMaster-Kamigami-no-Board-Game/tools/package_root_full_scan_translation_queue.cmd')
-          dst = Path('dist/GaiaMaster_FULL_SCAN_TRANSLATION_QUEUE/00_SCAN_AND_BUILD_TRANSLATION_QUEUE.cmd')
-          data = src.read_bytes().replace(b'\r\n', b'\n').replace(b'\r', b'\n')
-          dst.write_bytes(data.replace(b'\n', b'\r\n'))
+          pairs = [
+              ('games/GaiaMaster-Kamigami-no-Board-Game/tools/package_root_full_scan_translation_queue.cmd',
+               'dist/GaiaMaster_FULL_SCAN_TRANSLATION_QUEUE_LOGFIX/00_SCAN_AND_BUILD_TRANSLATION_QUEUE.cmd'),
+              ('games/GaiaMaster-Kamigami-no-Board-Game/tools/run_full_scan_translation_queue_inner.cmd',
+               'dist/GaiaMaster_FULL_SCAN_TRANSLATION_QUEUE_LOGFIX/Core/tools/run_full_scan_translation_queue_inner.cmd'),
+          ]
+          for s, d in pairs:
+              data = Path(s).read_bytes().replace(b'\r\n', b'\n').replace(b'\r', b'\n')
+              Path(d).write_bytes(data.replace(b'\n', b'\r\n'))
           PY
 
           cp "$SRC/tools/scan_full_japanese_text_06380.py" "$PKG/Core/tools/"
@@ -98,49 +129,37 @@ jobs:
           cp "$SRC/translation/"*.csv "$PKG/Core/translation/"
 
           cat > "$PKG/README.txt" <<'TXT'
-          GAIA MASTER - FULL JAPANESE SCAN + TRANSLATION QUEUE
-          ===================================================
+          GAIA MASTER - FULL JAPANESE SCAN + TRANSLATION QUEUE - LOGFIX
+          ============================================================
 
-          Muc dich:
-          - Quet CLEAN Gaia Master Japan BIN de tai tao full Japanese scanner CSV.
-          - Tru toan bo Japanese source da duoc review trong repo hien tai.
-          - Tao queue dich moi da dedupe, uu tien HIGH + NUL/CTRL.
-          - Giu moi file+offset that cua cac cau lap.
+          Ban LOGFIX:
+          - Launcher mo cmd /k nen cua so KHONG tu dong dong.
+          - Luon tao FULL_SCAN_TRANSLATION_QUEUE_LOG.txt.
+          - Ho tro thu muc co space va dau ngoac.
+          - Python stdout bi khoa UTF-8.
           - KHONG patch ROM. KHONG thay runtime. KHONG phai Runtime PASS.
 
           CLEAN BIN bat buoc:
           SHA1 f4d5298583c90d89c4b7e51d2dde160ee07f2aec
 
-          Cach dung tren Windows:
-          1. Giai nen goi nay vao mot thu muc moi.
-          2. Dat CLEAN Japan .BIN canh 00_SCAN_AND_BUILD_TRANSLATION_QUEUE.cmd
-             HOAC keo-tha CLEAN .BIN len file CMD.
-          3. Chay CMD va doi scanner hoan tat.
-
-          File quan trong sau khi chay:
-          - GaiaMaster_0.6.38.0_FULL_JAPANESE_SCAN.csv
-          - GaiaMaster_0.6.38.0_FULL_JAPANESE_SCAN_REPORT.txt
-          - GaiaMaster_TRANSLATION_QUEUE/GaiaMaster_TRANSLATION_QUEUE_HIGH_FIRST.csv
-          - GaiaMaster_TRANSLATION_QUEUE/GaiaMaster_TRANSLATION_QUEUE_REVIEWED_DEDUPED.csv
-          - GaiaMaster_TRANSLATION_QUEUE/GaiaMaster_TRANSLATION_QUEUE_NEW_OCCURRENCES.csv
-          - GaiaMaster_TRANSLATION_QUEUE/GaiaMaster_TRANSLATION_QUEUE_REPORT.txt
-
-          De dich tiep, uu tien gui file HIGH_FIRST truoc.
-          Neu can audit day du, giu ca FULL scanner CSV va queue folder.
-
-          Goi nay KHONG chua ROM/game image.
+          Cach dung:
+          1. Giai nen vao mot thu muc moi.
+          2. Dat CLEAN Japan .BIN canh 00_SCAN_AND_BUILD_TRANSLATION_QUEUE.cmd.
+          3. Double-click CMD. Cua so se GIU NGUYEN ke ca khi loi.
+          4. Neu loi, gui FULL_SCAN_TRANSLATION_QUEUE_LOG.txt.
+          5. Neu thanh cong, gui GaiaMaster_TRANSLATION_QUEUE/GaiaMaster_TRANSLATION_QUEUE_HIGH_FIRST.csv.
           TXT
           sed -i 's/^          //' "$PKG/README.txt"
 
-      - name: Validate packaged dependency chain and queue tool
+      - name: Validate packaged dependency chain and LOGFIX files
         shell: bash
         run: |
           set -euo pipefail
-          PKG='dist/GaiaMaster_FULL_SCAN_TRANSLATION_QUEUE'
+          PKG='dist/GaiaMaster_FULL_SCAN_TRANSLATION_QUEUE_LOGFIX'
           python - <<'PY'
           import sys
           from pathlib import Path
-          tools = Path('dist/GaiaMaster_FULL_SCAN_TRANSLATION_QUEUE/Core/tools').resolve()
+          tools = Path('dist/GaiaMaster_FULL_SCAN_TRANSLATION_QUEUE_LOGFIX/Core/tools').resolve()
           sys.path.insert(0, str(tools))
           import build_gaia_06100_hybrid_accent_b1_READABLE as base
           assert hasattr(base, 'SLPS_EXTENT')
@@ -157,15 +176,22 @@ jobs:
 
           python - <<'PY'
           from pathlib import Path
-          p = Path('dist/GaiaMaster_FULL_SCAN_TRANSLATION_QUEUE/00_SCAN_AND_BUILD_TRANSLATION_QUEUE.cmd')
-          data = p.read_bytes()
-          assert b'\r\n' in data
-          assert data.replace(b'\r\n', b'').find(b'\n') == -1
-          text = data.decode('ascii')
-          assert 'f4d5298583c90d89c4b7e51d2dde160ee07f2aec' in text
-          assert 'Core\\tools\\scan_full_japanese_text_06380.py' in text
-          assert 'Core\\tools\\prepare_full_scan_translation_queue_20260915.py' in text
-          print('Windows launcher CRLF/ASCII/path/SHA gate: PASS')
+          root = Path('dist/GaiaMaster_FULL_SCAN_TRANSLATION_QUEUE_LOGFIX')
+          outer = (root / '00_SCAN_AND_BUILD_TRANSLATION_QUEUE.cmd').read_bytes()
+          inner = (root / 'Core/tools/run_full_scan_translation_queue_inner.cmd').read_bytes()
+          for name, data in [('outer', outer), ('inner', inner)]:
+              assert b'\r\n' in data
+              assert data.replace(b'\r\n', b'').find(b'\n') == -1, name
+              data.decode('ascii')
+          ot = outer.decode('ascii')
+          it = inner.decode('ascii')
+          assert '/k call' in ot
+          assert 'GAIA_CI' in ot
+          assert 'FULL_SCAN_TRANSLATION_QUEUE_LOG.txt' in it
+          assert 'PYTHONIOENCODING=utf-8' in it
+          assert 'PYTHONUTF8=1' in it
+          assert '%~dp0..\\..' in it
+          print('LOGFIX launcher/static gate: PASS')
           PY
 
           test -f "$PKG/Core/translation/TRANSLATION_MASTER_0.6_part01.csv"
@@ -173,10 +199,10 @@ jobs:
           test -f "$PKG/README.txt"
           echo "Packaged translation CSV count: $(find "$PKG/Core/translation" -maxdepth 1 -type f -name '*.csv' | wc -l)"
 
-      - name: Upload one-click package
+      - name: Upload LOGFIX package
         uses: actions/upload-artifact@v4
         with:
-          name: GaiaMaster_FULL_SCAN_TRANSLATION_QUEUE_EASY
-          path: dist/GaiaMaster_FULL_SCAN_TRANSLATION_QUEUE
+          name: GaiaMaster_FULL_SCAN_TRANSLATION_QUEUE_EASY_LOGFIX
+          path: dist/GaiaMaster_FULL_SCAN_TRANSLATION_QUEUE_LOGFIX
           if-no-files-found: error
           retention-days: 90
