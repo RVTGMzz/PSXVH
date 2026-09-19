@@ -1,206 +1,128 @@
-# Gaia Master — trạng thái mới nhất
+# Gaia Master - trạng thái mới nhất
 
-Cập nhật: **2026-09-16**
+Cập nhật: **2026-09-19**
 
-## CURRENT — B51R1 GUARDED EXACT-OFFSET / FROZEN-60 TEXT LAYER
+Repo: `RVTGMzz/PSXVH`  
+Branch: `gaia-character-select-font-atlas-reverse-01`
 
-Trọng tâm hiện tại: đưa toàn bộ B50 exact-offset source layer vào production một cách có guard, **không đụng font**.
+## CURRENT - UI LIVE-SOURCE REVERSE PIVOT
 
-Trạng thái hiện tại:
+Mốc mới nhất không còn là B51. Translation runtime đã tiến qua B52R12/B52R14R1, và reverse UI đã đi tới B52R21R1.
 
-- B50 exact-offset static byte-fit: **PASS**
-- B51R1 static CI: **PASS**
-- B51R1 real CLEAN guarded dry-run: **chưa chạy trong môi trường hiện tại**
-- B51R1 real build/static-byte verification: **chưa chạy trong môi trường hiện tại**
-- Runtime PASS: **NO**
+### Known exact current base
 
-## CLEAN contract
+B52R14R1:
 
-Exact Japan CLEAN BIN SHA1:
+`0ced9982e1b00566b42ace047236378826c2aa1c`
 
-`f4d5298583c90d89c4b7e51d2dde160ee07f2aec`
+B52R14R1:
+- 23 ISO files indexed
+- 19 Form1 scanned
+- 4 XA/Form2 safely skipped
+- 6 player-count fields patched
+- checksum read-back PASS
+- font/mapping unchanged
 
-Không patch từ BIN lạ hoặc BIN đã mod khi dùng làm CLEAN source oracle.
+Use this exact base for new reverse tools until a newer base is explicitly proven.
 
-## B50 canonical checkpoint
+## What has been proven about the still-Japanese UI
 
-Canonical B50 overlay:
+Target screens still visibly Japanese include:
+- main green menu
+- Character Select title/details
+- `冒険のはじまり`
+- Save/Load/Password-related UI
 
-`translation/source_layer/checkpoint_B50/GaiaMaster_RUNTIME_CANDIDATE_EXACT_OVERLAY_B50.csv`
+B52R15:
+- 41 exact CP932 hits
+- 0 plain candidates
+- all copies already changed in base
 
-Raw SHA256:
+B52R17:
+- 57 encoding hits
+- all CP932 changed copies
+- 0 unchanged alternate-encoding candidate
 
-`448bc34afa675299b0de20c54d804d5765e7f9954f67c39058884b318de504b7`
+B52R18:
+- all 173 raw TIM assets exported/reviewed
+- target UI not found in raw TIM atlas
 
-Raw size:
+B52R19:
+- 39 JIS-compatible targets
+- 0 tile/glyph-index hits
+- 0 unknown-bias live candidates
 
-`162851`
+B52R20:
+- 57/57 landmarks inside BDP owners
+- 5 owner/member centers
+- 8 sibling members exported
+- no recognizable target UI in raw 4/8/16bpp previews
 
-B50:
+B52R21:
+- stopped on `ルール -> Luật` byte overflow 8>6
 
-- exact candidates: `1229/1229`
-- direct `vi_full`: `41`
-- compact candidates: `1188`
-- duplicate keys: `0`
-- overlapping spans: `0`
-- byte-fit violations: `0`
-- ROM/font/pointer modified: NO
+B52R21R1:
+- removed overflowing row
+- normalized known PRGPACK copy locations
+- user runtime screenshots showed **no visible change**
+- main menu, Character Select and `冒険のはじまり` remained Japanese
 
-B50 vẫn là canonical validated binary/source checkpoint vì chưa có BIN thật trong connected runtime để chạy B51R1 binary pass.
+### Current conclusion
 
-## B51 production discovery
+The known PRGPACK CP932 copies are **runtime-dead for those visible screens**.
 
-B51 production encoder audit phát hiện B50 có một lớp nợ mà static byte-fit chưa bắt được:
+Do not repeat:
+- exact PRGPACK patch of those locations
+- alternate encoding scan
+- raw TIM scan
+- JIS/tile-index scan
+- owner sibling raw preview scan
 
-- `19` ký tự tiếng Việt nằm ngoài frozen 60-glyph codepage
-- ảnh hưởng `64` exact runtime rows
+Next direction:
+**compressed/custom-packed data or runtime-generated large-font UI live-source reverse.**
 
-Unsupported raw-B50 character set:
+Recommended first live target:
+`ストーリーモード` on the main menu.
 
-`À Á Â É è õ ý Ă Ư ẳ ẵ ẹ Ế ễ Ồ Ở ỡ Ừ ỳ`
+## Runtime / translation checkpoints
 
-Không mở rộng font để xử lý lỗi này.
+- CLEAN SHA1:
+  `f4d5298583c90d89c4b7e51d2dde160ee07f2aec`
+- B50 exact overlay: 1229/1229 static PASS
+- B51R2 real CLEAN dry-run/build PASS
+- SCR_DATA nested containers: 303, repair checksums bottom-up after mutation
+- B52R10 SHA1:
+  `61f9175d7f14fa94744a7525fcfde6102e65580d`
+- B52R11R3 SHA1:
+  `c305f17c7c1ac9aeb26e8a4c0546c6dc1c3286b7`
+  - quick-path runtime OK
+- B52R12 SHA1:
+  `e4cb8c1f485ed66008d6d69f26d06c906d738692`
+  - user said path OK
+- B52R14R1 SHA1:
+  `0ced9982e1b00566b42ace047236378826c2aa1c`
 
-## B51R1 text-only correction layer
-
-Correction manifest:
-
-`translation/source_layer/B51_RUNTIME_CHARSET_CORRECTIONS.csv`
-
-Production wrapper:
-
-`tools/build_gaia_b51r1_guarded_exact_overlay.py`
-
-Quy tắc:
-
-- B50 gốc không bị sửa
-- exact-key correction `64/64`
-- mỗi correction phải match đúng old candidate
-- không đổi token/control order
-- không được dài hơn field
-- không được vượt byte budget B50 đã duyệt
-- thêm glyph mới: `0`
-- font/mapping mutation: NO
-
-## B51R1 STATIC CI PASS
-
-Static validator:
-
-`tools/validate_gaia_b51_static.py`
-
-Workflow:
-
-`.github/workflows/gaia-b51-static-validation.yml`
-
-Validated commit:
-
-`33a5049bf6dc932a95892eeb1dbb99033c8d074b`
-
-GitHub Actions run:
-
-`35005218964`
-
-CI result:
-
-```text
-B51/B51R1 import + syntax           = PASS
-B50 restored SHA256                = PASS
-B50 restored size                  = 162851/162851
-B50 exact candidates               = 1229/1229
-Raw B50 unsupported chars          = 19/19 known debt
-Raw B50 bad rows                   = 64/64 known debt
-B51R1 corrections                  = 64/64
-Corrected frozen-60 charset        = PASS, 0 unsupported rows
-B50 canonical mutated              = NO
-New font glyphs                    = 0
-B40 / Batch42 protected            = 560/560
-B43 protected                      = 102/102
-Combined historical               = 662/662
-Intro protected                    = 19/19
-Legacy Alpha                       = 397/397
-Translation Master                = 596/596
-Duplicate/overlap/byte/token       = PASS
-ROM/font/pointer modified          = NO
-Runtime PASS                       = NO
-```
-
-Proof:
-
-`translation/source_layer/checkpoint_B51/B51R1_STATIC_CI_PROOF.txt`
-
-## Historical B43 padded fields
-
-B51 CI cũng bắt được một giả định validator sai ở `PRGPACK.BDP+0xDE0A0`.
-
-B43 proven builder cho phép `field_bytes` lớn hơn literal Japanese CP932 bytes vì một số field có padding. B51R1 hiện dùng đúng historical contract:
-
-`field_bytes >= literal Japanese bytes`
-
-Rule này chỉ dùng khi reconstruct historical B40/B43 manifests. B50 exact source identity vẫn giữ strict.
-
-## Hard historical contracts
-
-```text
-Batch42/B40 exact = 560/560
-Batch43 exact     = 102/102
-Combined          = 662/662
-Legacy Alpha      = 397/397
-TranslationMaster = 596/596
-Intro exact       = 19/19
-```
-
-B51R1 hiện có `0` overlap với B40, B43 và intro19.
+Overall Runtime PASS: **NO**
 
 ## Architecture lock
 
-```text
-native 12x12 / 72-byte / 4bpp / LOW nibble first
-static mapping-only
-frozen 60-glyph Vietnamese codepage
-no renderer hook
-no pointer redirect
-no 12x16
-no 6x12
-no composite overlay
-```
+- 12x12 / 72-byte / 4bpp / LOW nibble first
+- frozen 60-glyph codepage
+- mapping-only
+- no renderer hook
+- no pointer redirect
+- font work parked
 
-Font work parked. Không tự quay lại Batch45R2/font-first.
+## Disk-space rule
 
-## Tools chạy tiếp
+Local project is around 20 GB.
 
-Dry-run Python:
+Do not keep generating permanent full BINs for every probe.
+Keep:
+- CLEAN
+- one known current base
+- newest output under test
+- tools/manifests/reports/CSV
 
-```text
-python tools/build_gaia_b51r1_guarded_exact_overlay.py "GaiaMaster - Kamigami no Board Game (Japan).bin"
-```
-
-Dry-run Windows:
-
-`tools/00_RUN_B51R1_GUARDED_DRYRUN.cmd`
-
-Sau khi dry-run thật PASS mới build:
-
-```text
-python tools/build_gaia_b51r1_guarded_exact_overlay.py "GaiaMaster - Kamigami no Board Game (Japan).bin" --build-from "KNOWN_GOOD_RUNTIME_BASE.bin"
-```
-
-Build Windows:
-
-`tools/00_BUILD_B51R1_GUARDED_EXACT_OVERLAY.cmd`
-
-Không dùng CLEAN BIN làm `--build-from` vì B51R1 là text-only, không cài font.
-
-## Claim policy
-
-Hiện được phép gọi:
-
-- `B50 static byte-fit PASS`
-- `B51R1 STATIC CI PASS`
-
-Chưa được gọi:
-
-- `B51R1 guarded CLEAN dry-run PASS`
-- `B51R1 build PASS`
-- `Runtime PASS`
-
-Gameplay screenshots vẫn là điều kiện bắt buộc trước Runtime PASS.
+Plan later:
+`GaiaMaster_SAFE_CLEANUP.cmd` with explicit KEEP/DELETE preview before removal.
