@@ -133,7 +133,30 @@ Current execution order:
 1. chạy B52R22 trên exact B52R14R1;
 2. chạy B52R23 locator trên cùng BIN;
 3. dùng PCSX-Redux GPU Logger + Show origins và CPU breakpoints để correlate `ストーリーモード`;
-4. chỉ khi ownership được chứng minh mới đi B52R24 source-buffer backtrace/patch.
+4. dùng B52R24 exact-MMIO capture để lấy MADR/BCR/CHCR/GP0 + RAM snapshot ở target frame;
+5. chỉ khi target transaction được chứng minh mới đi B52R25 RAM-to-archive ownership/patch.
+
+## B52R24 - DMA SOURCE CAPTURE TOOLING READY
+
+Đã commit:
+
+- `tools/gaia_b52r24_trace_generator.py`
+- `tools/gaia_b52r24_trace_analyzer.py`
+- `tools/00_BUILD_B52R24_PCSX_CAPTURE.cmd`
+- `tools/00_ANALYZE_B52R24_CAPTURE.cmd`
+- `B52R24_RUNTIME_DMA_SOURCE_CAPTURE.md`
+
+B52R24 lấy `GaiaMaster_B52R23_GPU_MMIO_HITS.csv` và sinh Lua breakpoint đúng WRITE instruction của `DMA2_MADR/BCR/CHCR/GP0`. Runtime helper có `gaia_arm24()`, skip-N, next-DMA và `gaia_save24()`; snapshot chỉ 2 MiB RAM, không sinh ROM.
+
+Analyzer decode SyncMode/BCR/MADR, parse linked-list GPU command chain hoặc extract linear DMA payload và report GP0 A0h upload rectangle khi đủ evidence.
+
+Static validation:
+- generator py_compile/self-test PASS
+- analyzer py_compile/self-test PASS
+
+**Real Gaia Master capture pending.** Chưa có source-found claim.
+
+B52R25 chỉ mở khi B52R24 transaction được correlate với visible `ストーリーモード`.
 
 ## Runtime / translation checkpoints
 
