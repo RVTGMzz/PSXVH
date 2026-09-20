@@ -134,7 +134,8 @@ Current execution order:
 2. chạy B52R23 locator trên cùng BIN;
 3. dùng PCSX-Redux GPU Logger + Show origins và CPU breakpoints để correlate `ストーリーモード`;
 4. dùng B52R24 exact-MMIO capture để lấy MADR/BCR/CHCR/GP0 + RAM snapshot ở target frame;
-5. chỉ khi target transaction được chứng minh mới đi B52R25 RAM-to-archive ownership/patch.
+5. nếu B52R24 target transaction là SyncMode 0/1, dùng B52R25 writer-watch để bắt code fill source buffer;
+6. resolve writer PC về SLPS/overlay ownership trước khi nghĩ tới patch.
 
 ## B52R24 - DMA SOURCE CAPTURE TOOLING READY
 
@@ -157,6 +158,26 @@ Static validation:
 **Real Gaia Master capture pending.** Chưa có source-found claim.
 
 B52R25 chỉ mở khi B52R24 transaction được correlate với visible `ストーリーモード`.
+
+## B52R25 - WRITER WATCH TOOLING READY
+
+Đã commit sẵn nhưng chưa được chạy thật:
+
+- `tools/gaia_b52r25_writer_watch_generator.py`
+- `tools/gaia_b52r25_writer_pc_resolver.py`
+- `tools/00_BUILD_B52R25_WRITER_WATCH.cmd`
+- `tools/00_RESOLVE_B52R25_WRITER_PC.cmd`
+- `B52R25_SOURCE_BUFFER_WRITER_WATCH.md`
+
+Nếu B52R24 target capture là SyncMode 0/1, B52R25 sinh PCSX-Redux Write watch cho đúng source RAM range, capture writer PC/RA/SP/A0-A3, rồi resolver map writer PC vào SLPS offset/function/callers/MIPS context.
+
+Nếu SyncMode 2, không dùng linear writer watch như asset proof.
+
+Static validation:
+- writer-watch generator py_compile/self-test PASS
+- writer-PC resolver py_compile/self-test PASS
+
+**Real writer hit pending. No disc-source claim.**
 
 ## Runtime / translation checkpoints
 
