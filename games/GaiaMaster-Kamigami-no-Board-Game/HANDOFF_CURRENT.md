@@ -244,7 +244,7 @@ Contract:
 - tìm command builders A0h CPU->VRAM, 80h VRAM->VRAM, C0h VRAM->CPU;
 - group hit thành heuristic routines + direct `jal` callers;
 - ưu tiên routine có GP0 write đi cùng DMA2 setup;
-- xuất report/CSV + breakpoint shortlist, không tạo BIN/CUE/ISO.
+- xuất report/CSV + breakpoint shortlist + auto-generated PCSX-Redux Lua trace script, không tạo BIN/CUE/ISO.
 
 Local authoring checks:
 - `python -m py_compile`: PASS
@@ -257,6 +257,8 @@ ROM execution:
 - overall Runtime PASS vẫn **NO**.
 
 Runtime correlation target:
+- B52R23 tự sinh `GaiaMaster_B52R23_PCSX_BREAKPOINTS.lua`; load script rồi gọi `gaia_arm()` ngay trước target menu;
+- Lua trace ghi PC/RA/SP, pause ở armed hit đầu tiên và tự remove breakpoint đó;
 - dùng PCSX-Redux interpreter + debugger cho CPU breakpoints;
 - dùng GPU Logger + `Show origins` ở đúng frame main menu;
 - ưu tiên `ストーリーモード`;
