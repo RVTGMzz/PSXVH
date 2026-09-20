@@ -263,7 +263,56 @@ Runtime correlation target:
 - dùng GPU Logger + `Show origins` ở đúng frame main menu;
 - ưu tiên `ストーリーモード`;
 - correlate GPU origin với B52R23 hit PC/routine;
-- chỉ sau live correlation mới được đi B52R24 source-buffer backtrace/patch.
+- sau live correlation dùng B52R24 để capture chính lệnh MMIO + MADR/BCR/CHCR/GP0; disc/archive ownership vẫn để B52R25.
+
+## B52R24 - runtime DMA source capture
+
+Tooling đã được materialize:
+
+- `tools/gaia_b52r24_trace_generator.py`
+- `tools/gaia_b52r24_trace_analyzer.py`
+- `tools/00_BUILD_B52R24_PCSX_CAPTURE.cmd`
+- `tools/00_ANALYZE_B52R24_CAPTURE.cmd`
+- `B52R24_RUNTIME_DMA_SOURCE_CAPTURE.md`
+
+B52R24 không patch ROM. Nó lấy CSV exact MMIO hits của B52R23 và sinh Lua để breakpoint ngay tại WRITE instruction của `DMA2_MADR`, `DMA2_BCR`, `DMA2_CHCR` và `GP0`.
+
+PCSX-Redux API đã được recheck với tài liệu chính thức:
+- breakpoints yêu cầu debugger + interpreter;
+- `PCSX.addBreakpoint`, `PCSX.getRegisters`, `PCSX.pauseEmulator`, `PCSX.getMemPtr` đều đúng contract;
+- breakpoint callback được bọc `pcall`.
+
+Runtime helper:
+- `gaia_arm24()`: arm capture ngay trước target menu;
+- `gaia_arm24(N)`: bỏ qua N DMA start đầu;
+- `gaia_next24()`: arm lại và resume sang DMA start kế;
+- `gaia_save24()`: save TRACE.tsv + 2 MiB RAM snapshot + META.
+
+Analyzer:
+- decode CHCR direction/step/SyncMode/start;
+- decode BCR transfer length;
+- SyncMode 0/1: extract linear DMA source;
+- SyncMode 2: parse linked-list GPU nodes;
+- scan GP0 A0h/80h/C0h;
+- nếu capture được GP0 A0h + 2 parameter words thì report x/y/w/h của VRAM upload.
+
+Local authoring checks:
+- generator py_compile PASS
+- **B52R24 TRACE GENERATOR SELFTEST PASS**
+- analyzer py_compile PASS
+- **B52R24 TRACE ANALYZER SELFTEST PASS**
+
+ROM/runtime state:
+- **PENDING**
+- chưa có TRACE/RAM capture từ Gaia Master thật;
+- chưa được gọi source-found.
+
+Evidence rule:
+MADR/BCR/CHCR chỉ chứng minh RAM source của DMA transaction đã bắt. Nó chưa chứng minh disc file/archive member và cũng chưa chứng minh transaction đó là chính label Nhật. Cần correlate đúng frame với GPU Logger/origin trước khi promote.
+
+B52R25 chỉ được bắt đầu khi B52R24 capture được transaction gắn với visible `ストーリーモード`; nhiệm vụ B52R25 là backtrace RAM buffer về load/decompression/archive ownership rồi mới xác định patch nhỏ nhất.
+
+Overall Runtime PASS vẫn **NO**.
 
 ## Closed/dead reverse paths
 
@@ -285,7 +334,7 @@ Treat remaining visible UI as one of:
 3. custom archive member decoding not exposed by raw preview;
 4. possibly texture/tile composition whose source is not a plain sequential glyph list.
 
-First action remains **B52R22** on exact B52R14R1. Then run **B52R23** to correlate executable GPU/DMA routines with the target frame. If B52R22 exposes decoded target/TIM evidence, B52R23 is the ownership/render correlation layer; if B52R22 is negative, B52R23 becomes the primary runtime VRAM/upload trace entry point. Do not start another whole-disc encoding census.
+Execution order now: **B52R22** static live-source probe on exact B52R14R1, then **B52R23** executable GPU/DMA locator, then **B52R24** exact MMIO/DMA source capture at the target frame. Only after B52R24 proves a target transaction should B52R25 backtrace RAM to disc/archive ownership. Do not start another whole-disc encoding census.
 
 Recommended first target:
 - main menu `ストーリーモード` because it is large, stable, easy to identify visually.
@@ -344,6 +393,7 @@ Allowed:
 - B52R21R1 visible UI source path is runtime-dead based on user screenshots
 - B52R22 tooling source compiles and self-tests PASS; ROM execution is still pending
 - B52R23 GPU upload locator compiles and self-tests PASS; ROM/runtime correlation is still pending
+- B52R24 trace generator/analyzer compile and self-test PASS; real TRACE/RAM capture is still pending
 
 Not allowed:
 - overall Runtime PASS
