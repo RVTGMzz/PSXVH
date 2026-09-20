@@ -1,6 +1,6 @@
 # Gaia Master - trạng thái mới nhất
 
-Cập nhật: **2026-09-19**
+Cập nhật: **2026-09-20**
 
 Repo: `RVTGMzz/PSXVH`  
 Branch: `gaia-character-select-font-atlas-reverse-01`
@@ -83,6 +83,35 @@ Next direction:
 
 Recommended first live target:
 `ストーリーモード` on the main menu.
+
+## B52R22 - LIVE-SOURCE PROBE TOOLING READY
+
+B52R22 đã được commit theo hướng **read-only**, không tạo thêm full BIN:
+
+- `tools/gaia_b52r22_live_source_probe.py`
+- `tools/00_RUN_B52R22_LIVE_SOURCE_PROBE.cmd`
+- `B52R22_LIVE_SOURCE_PROBE.md`
+
+Probe:
+- khóa exact B52R14R1/CLEAN SHA1;
+- index MODE2/2352 ISO9660 trực tiếp;
+- tìm PRGPACK + SCR_DATA;
+- chỉ đi vào 5 owner spans của B52R20;
+- recurse checksum-valid BDP;
+- thử bounded zlib/gzip/raw-deflate/LZ10;
+- tìm target text/TIM **sau decode**;
+- xuất report + 2 CSV, không xuất BIN.
+
+Static authoring validation:
+- py_compile PASS
+- self-test PASS
+
+**ROM execution pending.** Chưa được gọi source-found và overall Runtime PASS vẫn **NO**.
+
+Next:
+1. chạy launcher với exact B52R14R1;
+2. nếu có decoded target/TIM thì đi B52R23 ownership/render proof;
+3. nếu không có thì B52R23 runtime trace `ストーリーモード` VRAM/upload/decompression.
 
 ## Runtime / translation checkpoints
 

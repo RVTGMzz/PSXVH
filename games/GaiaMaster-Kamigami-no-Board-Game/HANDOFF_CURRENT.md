@@ -1,6 +1,6 @@
 # HANDOFF CURRENT - Gaia Master PS1 Việt hóa
 
-Updated: 2026-09-19
+Updated: 2026-09-20
 Repo: `RVTGMzz/PSXVH`
 Branch: `gaia-character-select-font-atlas-reverse-01`
 
@@ -193,6 +193,39 @@ User runtime check after B52R21R1:
 **Conclusion: the known PRGPACK CP932 copies are runtime-dead for these visible screens.**
 Do not spend another batch re-patching these exact offsets.
 
+## B52R22 - read-only live-source compression/custom-pack probe
+
+Tooling đã được materialize và commit:
+
+- `tools/gaia_b52r22_live_source_probe.py`
+- `tools/00_RUN_B52R22_LIVE_SOURCE_PROBE.cmd`
+- `B52R22_LIVE_SOURCE_PROBE.md`
+
+Contract của probe:
+
+- ưu tiên exact B52R14R1 SHA1 `0ced9982e1b00566b42ace047236378826c2aa1c`;
+- CLEAN Japan exact SHA1 chỉ là fallback reverse source;
+- đọc trực tiếp MODE2/2352 + ISO9660, không hard-code SCR_DATA extent;
+- chỉ kiểm 5 owner spans đã có bằng chứng từ B52R20;
+- recurse checksum-valid BDP containers;
+- bounded decode: zlib / gzip / raw-deflate / LZ10 tại các wrapper-prefix nhỏ;
+- tìm target text sau decode và structurally-valid PS-X TIM sau decode;
+- chỉ xuất TXT/CSV, không sinh thêm BIN/CUE/ISO.
+
+Local authoring checks:
+- `python -m py_compile`: PASS
+- `--selftest`: **B52R22 SELFTEST PASS**
+
+ROM execution:
+- **PENDING** trên exact B52R14R1 hoặc CLEAN;
+- chưa có decoded-target/TIM evidence từ ROM thật;
+- chưa được gọi source-found;
+- overall Runtime PASS vẫn **NO**.
+
+Nếu report có decoded target, B52R23 phải chứng minh ownership trước khi patch.
+Nếu chỉ có decoded TIM, B52R23 chỉ render/inspect asset đó.
+Nếu cả hai đều không có, chuyển sang runtime trace VRAM/upload/decompression của `ストーリーモード`, dùng shortlist high-entropy leaves làm source candidates.
+
 ## Closed/dead reverse paths
 
 Do NOT restart these without genuinely new evidence:
@@ -213,7 +246,7 @@ Treat remaining visible UI as one of:
 3. custom archive member decoding not exposed by raw preview;
 4. possibly texture/tile composition whose source is not a plain sequential glyph list.
 
-Next session should use **targeted runtime/live-source reverse**, not another whole-disc encoding census.
+First action should be to run **B52R22** on the exact B52R14R1 BIN and inspect its TXT/CSV evidence. Only if B52R22 finds no decoded live-source proof should the track move to targeted runtime VRAM/upload/decompression tracing. Do not start another whole-disc encoding census.
 
 Recommended first target:
 - main menu `ストーリーモード` because it is large, stable, easy to identify visually.
@@ -270,6 +303,7 @@ Allowed:
 - B52R14R1 static/read-back/checksum PASS
 - B52R15-B52R20 read-only reverse results as recorded
 - B52R21R1 visible UI source path is runtime-dead based on user screenshots
+- B52R22 tooling source compiles and self-tests PASS; ROM execution is still pending
 
 Not allowed:
 - overall Runtime PASS
