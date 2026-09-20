@@ -1,6 +1,6 @@
 # Gaia Master - trạng thái mới nhất
 
-Cập nhật: **2026-09-20**
+Cập nhật: **2026-09-21**
 
 Repo: `RVTGMzz/PSXVH`  
 Branch: `gaia-character-select-font-atlas-reverse-01`
@@ -112,6 +112,28 @@ Next:
 1. chạy launcher với exact B52R14R1;
 2. nếu có decoded target/TIM thì đi B52R23 ownership/render proof;
 3. nếu không có thì B52R23 runtime trace `ストーリーモード` VRAM/upload/decompression.
+
+## B52R23 - GPU TRACE TOOLING READY
+
+B52R23 đã được commit, vẫn **read-only**:
+
+- `tools/gaia_b52r23_gpu_upload_locator.py`
+- `tools/00_RUN_B52R23_GPU_UPLOAD_LOCATOR.cmd`
+- `B52R23_GPU_UPLOAD_RUNTIME_TRACE.md`
+
+Tool tìm MIPS routine chạm GP0/GP1/DMA2, A0h/80h/C0h command builders, `jal` callers và tạo `GPU_BREAKPOINTS.txt` để bắt đúng render/upload path của main menu.
+
+Static authoring validation:
+- py_compile PASS
+- self-test PASS
+
+**ROM/runtime correlation pending.** Chưa được gọi source-found.
+
+Current execution order:
+1. chạy B52R22 trên exact B52R14R1;
+2. chạy B52R23 locator trên cùng BIN;
+3. dùng PCSX-Redux GPU Logger + Show origins và CPU breakpoints để correlate `ストーリーモード`;
+4. chỉ khi ownership được chứng minh mới đi B52R24 source-buffer backtrace/patch.
 
 ## Runtime / translation checkpoints
 
