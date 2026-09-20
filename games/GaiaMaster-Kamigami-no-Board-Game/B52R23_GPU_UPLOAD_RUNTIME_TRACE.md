@@ -34,6 +34,7 @@ GaiaMaster_B52R23_GPU_UPLOAD_LOCATOR_REPORT.txt
 GaiaMaster_B52R23_GPU_MMIO_HITS.csv
 GaiaMaster_B52R23_GPU_COMMAND_BUILDERS.csv
 GaiaMaster_B52R23_GPU_BREAKPOINTS.txt
+GaiaMaster_B52R23_PCSX_BREAKPOINTS.lua
 \`\`\`
 
 No BIN/CUE/ISO output is created.
@@ -49,6 +50,9 @@ The self-test recognizes a synthetic GP0 write and an A0h CPU-to-VRAM command bu
 
 For CPU breakpoints:
 
+- the locator now auto-generates `GaiaMaster_B52R23_PCSX_BREAKPOINTS.lua` from the top 10 scored routines;
+- load that Lua script in PCSX-Redux, then call `gaia_arm()` immediately before entering the target menu;
+- on the first armed hit it logs PC/RA/SP, pauses the emulator, and removes that breakpoint to avoid an immediate breakpoint loop;
 - use the interpreter rather than Dynarec;
 - enable the debugger;
 - set Exec breakpoints on the highest-scoring routine or exact hit PCs from \`GPU_BREAKPOINTS.txt\`;
