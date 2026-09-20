@@ -121,7 +121,7 @@ B52R23 đã được commit, vẫn **read-only**:
 - `tools/00_RUN_B52R23_GPU_UPLOAD_LOCATOR.cmd`
 - `B52R23_GPU_UPLOAD_RUNTIME_TRACE.md`
 
-Tool tìm MIPS routine chạm GP0/GP1/DMA2, A0h/80h/C0h command builders, `jal` callers và tạo `GPU_BREAKPOINTS.txt` để bắt đúng render/upload path của main menu.
+Tool tìm MIPS routine chạm GP0/GP1/DMA2, A0h/80h/C0h command builders, `jal` callers, tạo `GPU_BREAKPOINTS.txt`, và tự sinh `GaiaMaster_B52R23_PCSX_BREAKPOINTS.lua`. Lua script có `gaia_arm()` để chỉ pause/log PC/RA/SP khi bạn chủ động arm ngay trước target menu.
 
 Static authoring validation:
 - py_compile PASS
