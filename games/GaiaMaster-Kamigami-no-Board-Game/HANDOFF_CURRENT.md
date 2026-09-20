@@ -314,6 +314,52 @@ B52R25 chỉ được bắt đầu khi B52R24 capture được transaction gắn
 
 Overall Runtime PASS vẫn **NO**.
 
+## B52R25 - source-buffer writer watch tooling
+
+Tooling đã được chuẩn bị, nhưng **execution gate vẫn phụ thuộc B52R24 real capture**:
+
+- `tools/gaia_b52r25_writer_watch_generator.py`
+- `tools/gaia_b52r25_writer_pc_resolver.py`
+- `tools/00_BUILD_B52R25_WRITER_WATCH.cmd`
+- `tools/00_RESOLVE_B52R25_WRITER_PC.cmd`
+- `B52R25_SOURCE_BUFFER_WRITER_WATCH.md`
+
+Writer-watch generator:
+- input `GaiaMaster_B52R24_TRACE.tsv`;
+- hỗ trợ linear DMA SyncMode 0/1;
+- tính source RAM range từ MADR/BCR/CHCR;
+- đặt Write breakpoint cho cả KSEG0 + KSEG1 alias;
+- Lua helper `gaia_arm25(N)` có thể skip N distinct writer PCs;
+- capture actual write address/width/cause + PC/RA/SP + A0-A3;
+- `gaia_save25()` xuất `GaiaMaster_B52R25_WRITER_TRACE.tsv`.
+
+SyncMode 2 linked-list không được giả định là linear asset source. Với mode 2 phải quay lại GPU-origin/texture-upload evidence hoặc bắt transaction SyncMode 0/1 phù hợp.
+
+Writer-PC resolver:
+- nhận WRITER_TRACE.tsv + exact B52R14R1/CLEAN BIN;
+- verify SHA1;
+- map main-EXE writer PC về exact `SLPS_020.75` file offset;
+- tìm heuristic function start + direct `jal` callers;
+- in +/-12 MIPS instructions;
+- phân loại BIOS;
+- nếu PC ở RAM nhưng ngoài main SLPS text, đánh dấu likely overlay/runtime-loaded code thay vì gán bừa.
+
+Local authoring checks:
+- **B52R25 WRITER WATCH GENERATOR SELFTEST PASS**
+- **B52R25 WRITER PC RESOLVER SELFTEST PASS**
+- py_compile PASS cho cả hai.
+
+Real runtime:
+- **PENDING**
+- chưa có writer hit thật;
+- chưa có disc/archive ownership proof;
+- chưa patch ROM.
+
+Evidence rule:
+CPU Write breakpoint chỉ bắt CPU writes. Nếu buffer được fill hoàn toàn bằng hardware DMA và không có CPU transform, writer watch có thể không fire; lúc đó phải pivot sang CD/DMA load ownership.
+
+Overall Runtime PASS vẫn **NO**.
+
 ## Closed/dead reverse paths
 
 Do NOT restart these without genuinely new evidence:
@@ -334,7 +380,7 @@ Treat remaining visible UI as one of:
 3. custom archive member decoding not exposed by raw preview;
 4. possibly texture/tile composition whose source is not a plain sequential glyph list.
 
-Execution order now: **B52R22** static live-source probe on exact B52R14R1, then **B52R23** executable GPU/DMA locator, then **B52R24** exact MMIO/DMA source capture at the target frame. Only after B52R24 proves a target transaction should B52R25 backtrace RAM to disc/archive ownership. Do not start another whole-disc encoding census.
+Execution order now: **B52R22** static probe → **B52R23** GPU/DMA locator → **B52R24** exact MMIO/DMA capture. If B52R24 proves a linear target transaction, use prepared **B52R25 writer-watch** to catch the CPU code filling that source buffer, then resolve the writer PC before any disc-side patch. If B52R24 is SyncMode 2 only, stay on GPU-origin/texture-upload tracing instead of treating command-list RAM as an asset. Do not start another whole-disc encoding census.
 
 Recommended first target:
 - main menu `ストーリーモード` because it is large, stable, easy to identify visually.
@@ -394,6 +440,7 @@ Allowed:
 - B52R22 tooling source compiles and self-tests PASS; ROM execution is still pending
 - B52R23 GPU upload locator compiles and self-tests PASS; ROM/runtime correlation is still pending
 - B52R24 trace generator/analyzer compile and self-test PASS; real TRACE/RAM capture is still pending
+- B52R25 writer-watch generator/resolver compile and self-test PASS; execution remains gated on a target B52R24 capture
 
 Not allowed:
 - overall Runtime PASS
