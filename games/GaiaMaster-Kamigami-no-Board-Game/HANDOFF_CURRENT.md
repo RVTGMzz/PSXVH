@@ -1,6 +1,6 @@
 # HANDOFF CURRENT - Gaia Master PS1 Việt hóa
 
-Updated: 2026-09-20
+Updated: 2026-09-21
 Repo: `RVTGMzz/PSXVH`
 Branch: `gaia-character-select-font-atlas-reverse-01`
 
@@ -226,6 +226,43 @@ Nếu report có decoded target, B52R23 phải chứng minh ownership trước k
 Nếu chỉ có decoded TIM, B52R23 chỉ render/inspect asset đó.
 Nếu cả hai đều không có, chuyển sang runtime trace VRAM/upload/decompression của `ストーリーモード`, dùng shortlist high-entropy leaves làm source candidates.
 
+## B52R23 - GPU upload/runtime-trace locator
+
+Tooling mới đã được commit:
+
+- `tools/gaia_b52r23_gpu_upload_locator.py`
+- `tools/00_RUN_B52R23_GPU_UPLOAD_LOCATOR.cmd`
+- `B52R23_GPU_UPLOAD_RUNTIME_TRACE.md`
+
+B52R23 là read-only fallback/correlation layer sau B52R22. Nó không patch ROM.
+
+Contract:
+- chấp nhận exact B52R14R1 hoặc CLEAN;
+- đọc `SLPS_020.75` trực tiếp từ known disc extent;
+- parse PS-X EXE text mapping;
+- tìm MIPS accesses tới GP0 / GP1-GPUSTAT / DMA2 MADR-BCR-CHCR / DPCR-DICR;
+- tìm command builders A0h CPU->VRAM, 80h VRAM->VRAM, C0h VRAM->CPU;
+- group hit thành heuristic routines + direct `jal` callers;
+- ưu tiên routine có GP0 write đi cùng DMA2 setup;
+- xuất report/CSV + breakpoint shortlist, không tạo BIN/CUE/ISO.
+
+Local authoring checks:
+- `python -m py_compile`: PASS
+- `--selftest`: **B52R23 SELFTEST PASS**
+
+ROM execution:
+- **PENDING**;
+- chưa có GPU-origin/runtime ownership proof từ Gaia Master thật;
+- chưa được gọi live source found;
+- overall Runtime PASS vẫn **NO**.
+
+Runtime correlation target:
+- dùng PCSX-Redux interpreter + debugger cho CPU breakpoints;
+- dùng GPU Logger + `Show origins` ở đúng frame main menu;
+- ưu tiên `ストーリーモード`;
+- correlate GPU origin với B52R23 hit PC/routine;
+- chỉ sau live correlation mới được đi B52R24 source-buffer backtrace/patch.
+
 ## Closed/dead reverse paths
 
 Do NOT restart these without genuinely new evidence:
@@ -246,7 +283,7 @@ Treat remaining visible UI as one of:
 3. custom archive member decoding not exposed by raw preview;
 4. possibly texture/tile composition whose source is not a plain sequential glyph list.
 
-First action should be to run **B52R22** on the exact B52R14R1 BIN and inspect its TXT/CSV evidence. Only if B52R22 finds no decoded live-source proof should the track move to targeted runtime VRAM/upload/decompression tracing. Do not start another whole-disc encoding census.
+First action remains **B52R22** on exact B52R14R1. Then run **B52R23** to correlate executable GPU/DMA routines with the target frame. If B52R22 exposes decoded target/TIM evidence, B52R23 is the ownership/render correlation layer; if B52R22 is negative, B52R23 becomes the primary runtime VRAM/upload trace entry point. Do not start another whole-disc encoding census.
 
 Recommended first target:
 - main menu `ストーリーモード` because it is large, stable, easy to identify visually.
@@ -304,6 +341,7 @@ Allowed:
 - B52R15-B52R20 read-only reverse results as recorded
 - B52R21R1 visible UI source path is runtime-dead based on user screenshots
 - B52R22 tooling source compiles and self-tests PASS; ROM execution is still pending
+- B52R23 GPU upload locator compiles and self-tests PASS; ROM/runtime correlation is still pending
 
 Not allowed:
 - overall Runtime PASS
