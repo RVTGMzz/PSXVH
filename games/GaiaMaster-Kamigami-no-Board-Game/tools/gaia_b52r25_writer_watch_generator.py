@@ -67,7 +67,11 @@ def make_lua(ranges,words,madr,bcr,ch,sync,direction,step):
 "  for i,e in ipairs(gaia_b52r25_events) do",
 "    f:write(tostring(i)..'\\t'..h25(e.address)..'\\t'..tostring(e.width)..'\\t'..tostring(e.cause)..'\\t'..h25(e.pc)..'\\t'..h25(e.ra)..'\\t'..h25(e.sp)..'\\t'..h25(e.a0)..'\\t'..h25(e.a1)..'\\t'..h25(e.a2)..'\\t'..h25(e.a3)..'\\n')",
 "  end",
-"  f:close(); print('Saved '..prefix..'_WRITER_TRACE.tsv')",
+"  f:close()",
+"  local mem=PCSX.getMemPtr()",
+"  local rf=assert(io.open(prefix..'_WRITER_RAM.bin','wb'))",
+"  rf:write(ffi.string(mem,0x200000)); rf:close()",
+"  print('Saved '..prefix..'_WRITER_TRACE.tsv + '..prefix..'_WRITER_RAM.bin')",
 "end",
 "",
 "local targets={"
@@ -100,7 +104,7 @@ def selftest():
         p=Path(d)/'t.tsv'
         p.write_text('seq\tpc\tra\thw\treg\tvalue\tfunc_start\tscore\n1\t1\t2\tDMA2_MADR\tt0\t00001000\t0\t1\n2\t1\t2\tDMA2_BCR\tt1\t00010004\t0\t1\n3\t1\t2\tDMA2_CHCR\tt2\t01000201\t0\t1\n',encoding='utf-8')
         tx=find_tx(load_events(p)); ranges,words=watched_ranges(tx[0],tx[1],tx[3],tx[5]); lua=make_lua(ranges,words,*tx)
-        assert ranges==[(0x1000,16)] and words==4 and 'PCSX.addBreakpoint' in lua and "'Write'" in lua and 'gaia_save25' in lua
+        assert ranges==[(0x1000,16)] and words==4 and 'PCSX.addBreakpoint' in lua and "'Write'" in lua and 'gaia_save25' in lua and '_WRITER_RAM.bin' in lua
     print('B52R25 WRITER WATCH GENERATOR SELFTEST PASS')
 
 def main():
