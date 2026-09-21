@@ -136,7 +136,8 @@ Current execution order:
 4. dùng B52R24 exact-MMIO capture để lấy MADR/BCR/CHCR/GP0 + RAM snapshot ở target frame;
 5. nếu B52R24 target transaction là SyncMode 0/1, dùng B52R25 writer-watch để bắt code fill source buffer;
 6. resolve writer PC về SLPS/overlay ownership before patch;
-7. if CPU writer-watch does not fire or direct-disc fill is suspected, use B52R26 DMA3 capture and CD/GPU range overlap.
+7. for any proven B52R24 linear payload, run B52R27 fingerprint immediately; exact match can jump straight to ISO file/offset/LBA;
+8. if CPU writer-watch does not fire or direct-disc fill is suspected, use B52R26 DMA3 capture and CD/GPU range overlap.
 
 ## B52R24 - DMA SOURCE CAPTURE TOOLING READY
 
@@ -195,6 +196,24 @@ Use B52R26 when B52R25 writer-watch does not fire or direct CDROM DMA fill is su
 Core synthetic self-tests PASS.
 
 **Real CD DMA capture pending. No file/LBA ownership claim.**
+
+## B52R27 - DISC FINGERPRINT TOOLING READY
+
+Prepared:
+
+- `tools/gaia_b52r27_disc_payload_fingerprint.py`
+- `tools/00_RUN_B52R27_DISC_FINGERPRINT.cmd`
+- `B52R27_DISC_PAYLOAD_FINGERPRINT.md`
+
+Given a real B52R24 `DMA_SOURCE.bin`, B52R27 searches MODE2/Form1 ISO9660 logical files for:
+- exact full payload;
+- aligned 64-byte start/middle/end anchors.
+
+It reports file + offset + extent + starting LBA.
+
+Full source compile PASS and self-test PASS.
+
+**Real payload search pending.**
 
 ## Runtime / translation checkpoints
 
