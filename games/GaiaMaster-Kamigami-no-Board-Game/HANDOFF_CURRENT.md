@@ -398,6 +398,41 @@ Even exact/full-cover overlap is only same-transition upstream RAM-load evidence
 
 Overall Runtime PASS remains **NO**.
 
+## B52R27 - disc payload fingerprint resolver
+
+Prepared read-only tooling:
+
+- `tools/gaia_b52r27_disc_payload_fingerprint.py`
+- `tools/00_RUN_B52R27_DISC_FINGERPRINT.cmd`
+- `B52R27_DISC_PAYLOAD_FINGERPRINT.md`
+
+Purpose:
+- shortcut from a proven B52R24 linear `DMA_SOURCE.bin` back to ISO ownership;
+- verify exact B52R14R1/CLEAN SHA1;
+- parse MODE2/Form1 ISO9660 logical files;
+- search full captured payload across file data;
+- fallback to aligned 64-byte start/middle/end anchors;
+- report file path + file-relative offset + extent + starting LBA.
+
+Verdicts:
+- `EXACT_DISC_PAYLOAD_MATCH_FOUND`
+- `ALIGNED_ANCHOR_EVIDENCE_ONLY`
+- `NO_DISC_FINGERPRINT_MATCH`
+
+Validation:
+- full Python source compile PASS during authoring;
+- **B52R27 DISC FINGERPRINT SELFTEST PASS**.
+
+Real execution:
+- **PENDING**, because no real B52R24 DMA_SOURCE payload has been supplied yet.
+
+Evidence rule:
+EXACT is strong verbatim disc-payload evidence. ALIGNED is suggestive only. NO match supports the hypothesis that the GPU-source buffer was transformed/decompressed/rasterized/composed, but does not identify which transform.
+
+No BDP mutation or ROM patch occurs here.
+
+Overall Runtime PASS remains **NO**.
+
 ## Closed/dead reverse paths
 
 Do NOT restart these without genuinely new evidence:
@@ -418,7 +453,7 @@ Treat remaining visible UI as one of:
 3. custom archive member decoding not exposed by raw preview;
 4. possibly texture/tile composition whose source is not a plain sequential glyph list.
 
-Execution order now: **B52R22** static probe → **B52R23** GPU/DMA locator → **B52R24** exact target DMA capture. For linear source, try **B52R25 writer-watch** first. If no CPU writer fires or a direct CD load is suspected, use **B52R26 DMA3 capture + CD/GPU range overlap**. SyncMode 2 remains GPU-origin/texture-upload territory. Do not start another whole-disc encoding census.
+Execution order now: **B52R22** static probe → **B52R23** GPU/DMA locator → **B52R24** exact target DMA capture. For a linear B52R24 payload, run **B52R27 fingerprint immediately** because an exact disc match can shortcut ownership. In parallel/if needed, use **B52R25 writer-watch** for CPU transforms, or **B52R26 DMA3 overlap** when direct CD fill is suspected/no CPU writer fires. SyncMode 2 remains GPU-origin/texture-upload territory. Do not start another whole-disc encoding census.
 
 Recommended first target:
 - main menu `ストーリーモード` because it is large, stable, easy to identify visually.
@@ -480,6 +515,7 @@ Allowed:
 - B52R24 trace generator/analyzer compile and self-test PASS; real TRACE/RAM capture is still pending
 - B52R25 writer-watch generator/resolver compile and self-test PASS; execution remains gated on a target B52R24 capture
 - B52R26 DMA3 locator/overlap core logic self-tests PASS; real CD DMA capture is pending
+- B52R27 disc fingerprint full source compiles and self-tests PASS; real payload search is pending
 
 Not allowed:
 - overall Runtime PASS
