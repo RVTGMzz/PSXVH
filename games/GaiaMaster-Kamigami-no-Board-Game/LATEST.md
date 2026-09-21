@@ -1,6 +1,6 @@
 # Gaia Master - trạng thái mới nhất
 
-Cập nhật: **2026-09-21**
+Cập nhật: **2026-09-22**
 
 Repo: `RVTGMzz/PSXVH`  
 Branch: `gaia-character-select-font-atlas-reverse-01`
@@ -137,7 +137,8 @@ Current execution order:
 5. nếu B52R24 target transaction là SyncMode 0/1, dùng B52R25 writer-watch để bắt code fill source buffer;
 6. resolve writer PC về SLPS/overlay ownership before patch;
 7. for any proven B52R24 linear payload, run B52R27 fingerprint immediately; exact match can jump straight to ISO file/offset/LBA;
-8. if CPU writer-watch does not fire or direct-disc fill is suspected, use B52R26 DMA3 capture and CD/GPU range overlap.
+8. if CPU writer-watch does not fire or direct-disc fill is suspected, use B52R26 DMA3 range overlap, then B52R28 Setloc/LBA provenance for CD file-owner candidates.
+9. if B52R25 writer PC is outside main SLPS text, use B52R29 with the writer-time RAM snapshot to fingerprint the overlay code owner.
 
 ## B52R24 - DMA SOURCE CAPTURE TOOLING READY
 
@@ -214,6 +215,44 @@ It reports file + offset + extent + starting LBA.
 Full source compile PASS and self-test PASS.
 
 **Real payload search pending.**
+
+## B52R28 - SETLOC/LBA CD-DMA PROVENANCE READY
+
+B52R28 is an upgrade over B52R26, not a replacement.
+
+Prepared:
+- `tools/gaia_b52r28_cd_dma_provenance_generator.py`
+- `tools/gaia_b52r28_cd_dma_provenance_analyzer.py`
+- `tools/00_BUILD_B52R28_CD_DMA_WATCH.cmd`
+- `tools/00_ANALYZE_B52R28_CD_DMA.cmd`
+- `B52R28_CD_DMA_PROVENANCE_TRACE.md`
+
+It watches CD host MMIO + DMA3, tracks Setloc/ReadN/ReadS, converts BCD MSF to LBA candidates, detects direct overlap with the B52R24 target RAM range, and can map tracked LBA back to an ISO9660 file when given exact B52R14R1/CLEAN.
+
+Validation:
+- generator compile/self-test PASS
+- analyzer compile/self-test PASS
+
+**Real trace pending. No LBA/file ownership claim.**
+
+## B52R29 - OVERLAY WRITER FINGERPRINT READY
+
+B52R25 now saves:
+- `GaiaMaster_B52R25_WRITER_TRACE.tsv`
+- `GaiaMaster_B52R25_WRITER_RAM.bin`
+
+Prepared:
+- `tools/gaia_b52r29_overlay_fingerprint_resolver.py`
+- `tools/00_RESOLVE_B52R29_OVERLAY_FINGERPRINT.cmd`
+- `B52R29_OVERLAY_WRITER_FINGERPRINT.md`
+
+If a B52R25 writer PC is outside main SLPS text, B52R29 searches exact 96/64/48/32-byte code anchors from the writer-time RAM snapshot across ISO Form1 files and ranks matches by surrounding context similarity.
+
+Validation:
+- compile PASS
+- self-test PASS
+
+**Real writer snapshot pending. No overlay owner claim.**
 
 ## Runtime / translation checkpoints
 
