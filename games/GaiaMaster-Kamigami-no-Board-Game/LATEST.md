@@ -135,7 +135,8 @@ Current execution order:
 3. dùng PCSX-Redux GPU Logger + Show origins và CPU breakpoints để correlate `ストーリーモード`;
 4. dùng B52R24 exact-MMIO capture để lấy MADR/BCR/CHCR/GP0 + RAM snapshot ở target frame;
 5. nếu B52R24 target transaction là SyncMode 0/1, dùng B52R25 writer-watch để bắt code fill source buffer;
-6. resolve writer PC về SLPS/overlay ownership trước khi nghĩ tới patch.
+6. resolve writer PC về SLPS/overlay ownership before patch;
+7. if CPU writer-watch does not fire or direct-disc fill is suspected, use B52R26 DMA3 capture and CD/GPU range overlap.
 
 ## B52R24 - DMA SOURCE CAPTURE TOOLING READY
 
@@ -178,6 +179,22 @@ Static validation:
 - writer-PC resolver py_compile/self-test PASS
 
 **Real writer hit pending. No disc-source claim.**
+
+## B52R26 - CD DMA PROVENANCE FALLBACK READY
+
+Prepared:
+
+- `tools/gaia_b52r26_cd_dma_locator.py`
+- `tools/gaia_b52r26_cd_gpu_overlap_analyzer.py`
+- `tools/00_RUN_B52R26_CD_DMA_LOCATOR.cmd`
+- `tools/00_COMPARE_B52R26_CD_GPU_OVERLAP.cmd`
+- `B52R26_CD_DMA_PROVENANCE.md`
+
+Use B52R26 when B52R25 writer-watch does not fire or direct CDROM DMA fill is suspected. It captures DMA3 MADR/BCR/CHCR and compares the CD destination RAM range against the B52R24 GPU-source range.
+
+Core synthetic self-tests PASS.
+
+**Real CD DMA capture pending. No file/LBA ownership claim.**
 
 ## Runtime / translation checkpoints
 
