@@ -360,6 +360,44 @@ CPU Write breakpoint chỉ bắt CPU writes. Nếu buffer được fill hoàn to
 
 Overall Runtime PASS vẫn **NO**.
 
+## B52R26 - CD DMA provenance fallback
+
+Prepared tooling:
+
+- `tools/gaia_b52r26_cd_dma_locator.py`
+- `tools/gaia_b52r26_cd_gpu_overlap_analyzer.py`
+- `tools/00_RUN_B52R26_CD_DMA_LOCATOR.cmd`
+- `tools/00_COMPARE_B52R26_CD_GPU_OVERLAP.cmd`
+- `B52R26_CD_DMA_PROVENANCE.md`
+
+Purpose:
+- fallback when B52R25 CPU writer-watch does not fire or a direct disc load is suspected;
+- DMA3 is CDROM -> RAM;
+- locator finds main-EXE writes to DMA3 MADR/BCR/CHCR and generates PCSX capture Lua;
+- overlap analyzer compares B52R26 CD destination range against the proven B52R24 GPU-source RAM range.
+
+Verdicts:
+- `EXACT_RANGE_MATCH`
+- `GPU_SOURCE_FULLY_INSIDE_CD_DMA`
+- `PARTIAL_OVERLAP`
+- `NO_OVERLAP`
+- `GPU_SYNC2_COMMAND_LIST`
+
+Validation:
+- synthetic DMA3 MADR/CHCR locator core self-test PASS;
+- synthetic CD/GPU overlap core self-test PASS.
+
+Real execution:
+- **PENDING**
+- no real CD DMA capture
+- no real overlap verdict
+- no ISO file/LBA ownership proof.
+
+Evidence rule:
+Even exact/full-cover overlap is only same-transition upstream RAM-load evidence. It does not by itself prove which ISO file/member/LBA supplied the bytes.
+
+Overall Runtime PASS remains **NO**.
+
 ## Closed/dead reverse paths
 
 Do NOT restart these without genuinely new evidence:
@@ -380,7 +418,7 @@ Treat remaining visible UI as one of:
 3. custom archive member decoding not exposed by raw preview;
 4. possibly texture/tile composition whose source is not a plain sequential glyph list.
 
-Execution order now: **B52R22** static probe → **B52R23** GPU/DMA locator → **B52R24** exact MMIO/DMA capture. If B52R24 proves a linear target transaction, use prepared **B52R25 writer-watch** to catch the CPU code filling that source buffer, then resolve the writer PC before any disc-side patch. If B52R24 is SyncMode 2 only, stay on GPU-origin/texture-upload tracing instead of treating command-list RAM as an asset. Do not start another whole-disc encoding census.
+Execution order now: **B52R22** static probe → **B52R23** GPU/DMA locator → **B52R24** exact target DMA capture. For linear source, try **B52R25 writer-watch** first. If no CPU writer fires or a direct CD load is suspected, use **B52R26 DMA3 capture + CD/GPU range overlap**. SyncMode 2 remains GPU-origin/texture-upload territory. Do not start another whole-disc encoding census.
 
 Recommended first target:
 - main menu `ストーリーモード` because it is large, stable, easy to identify visually.
@@ -441,6 +479,7 @@ Allowed:
 - B52R23 GPU upload locator compiles and self-tests PASS; ROM/runtime correlation is still pending
 - B52R24 trace generator/analyzer compile and self-test PASS; real TRACE/RAM capture is still pending
 - B52R25 writer-watch generator/resolver compile and self-test PASS; execution remains gated on a target B52R24 capture
+- B52R26 DMA3 locator/overlap core logic self-tests PASS; real CD DMA capture is pending
 
 Not allowed:
 - overall Runtime PASS
