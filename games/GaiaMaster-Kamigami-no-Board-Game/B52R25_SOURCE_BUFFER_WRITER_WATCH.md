@@ -42,7 +42,7 @@ Runtime helpers:
 - `gaia_arm25()`: catch the next distinct writer PC;
 - `gaia_arm25(N)`: skip N distinct writer PCs first;
 - `gaia_next25()`: arm and resume;
-- `gaia_save25()`: write `GaiaMaster_B52R25_WRITER_TRACE.tsv`.
+- `gaia_save25()`: write `GaiaMaster_B52R25_WRITER_TRACE.tsv` **and** `GaiaMaster_B52R25_WRITER_RAM.bin` (2 MiB writer-time RAM snapshot).
 
 The Write breakpoint callback records:
 - actual write address/width/cause;
@@ -101,3 +101,12 @@ If no CPU writer breakpoint fires even when armed before the transition, the sou
 Only after a concrete writer/load path is tied to the B52R24 target transaction should the project identify the disc/archive member and make a smallest reversible patch.
 
 Overall Runtime PASS remains **NO**.
+
+
+## B52R29 bridge
+
+If a real writer PC is in main RAM but outside the main `SLPS_020.75` text mapping, keep the new `GaiaMaster_B52R25_WRITER_RAM.bin` snapshot and use:
+
+`B52R29_OVERLAY_WRITER_FINGERPRINT.md`
+
+B52R29 fingerprints code bytes around the writer PC against ISO9660 Form1 files. This can identify the owner of raw overlay code, but not automatically the source data that produced the visible UI.
