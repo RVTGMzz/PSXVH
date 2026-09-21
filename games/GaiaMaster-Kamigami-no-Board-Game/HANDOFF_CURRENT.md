@@ -1,6 +1,6 @@
 # HANDOFF CURRENT - Gaia Master PS1 Việt hóa
 
-Updated: 2026-09-21
+Updated: 2026-09-22
 Repo: `RVTGMzz/PSXVH`
 Branch: `gaia-character-select-font-atlas-reverse-01`
 
@@ -433,6 +433,80 @@ No BDP mutation or ROM patch occurs here.
 
 Overall Runtime PASS remains **NO**.
 
+## B52R28 - Setloc/LBA CD-DMA provenance upgrade
+
+This is a **newer provenance layer built on top of the existing B52R26 DMA3 range-overlap tooling**. It does not replace B52R26.
+
+Files:
+
+- `tools/gaia_b52r28_cd_dma_provenance_generator.py`
+- `tools/gaia_b52r28_cd_dma_provenance_analyzer.py`
+- `tools/00_BUILD_B52R28_CD_DMA_WATCH.cmd`
+- `tools/00_ANALYZE_B52R28_CD_DMA.cmd`
+- `B52R28_CD_DMA_PROVENANCE_TRACE.md`
+
+Adds:
+- direct PCSX-Redux MMIO watches for CD host registers + DMA3;
+- MIPS store-value decode so BIOS/main-RAM writers can be traced;
+- CD bank tracking;
+- `Setloc 02h`, `ReadN 06h`, `ReadS 1Bh`, Stop/Pause tracking;
+- BCD MSF -> LBA candidate conversion;
+- DMA3 destination overlap against the B52R24 linear target source;
+- optional exact-BIN ISO9660 owner mapping from tracked LBA to file path/offset/LBA/raw BIN offset.
+
+Validation performed from the committed Python source:
+- generator compile PASS
+- **B52R28 CD DMA PROVENANCE GENERATOR SELFTEST PASS**
+- analyzer compile PASS
+- **B52R28 CD DMA PROVENANCE ANALYZER SELFTEST PASS**
+
+Real Gaia Master execution:
+- **PENDING**
+- no real Setloc/LBA trace;
+- no real DMA3/target overlap;
+- no file/LBA ownership claim.
+
+Evidence rule:
+A direct DMA3 overlap proves runtime destination overlap only. A tracked LBA/file owner is a provenance candidate whose strength depends on Setloc/sequential tracking. Do not patch from B52R28 alone.
+
+## B52R29 - overlay writer fingerprint resolver
+
+This is the overlay branch after B52R25. It does not replace the existing B52R27 disc-payload fingerprint tool.
+
+Prerequisite update:
+`gaia_save25()` now also writes `GaiaMaster_B52R25_WRITER_RAM.bin` (2 MiB) at the paused writer hit.
+
+Files:
+
+- `tools/gaia_b52r29_overlay_fingerprint_resolver.py`
+- `tools/00_RESOLVE_B52R29_OVERLAY_FINGERPRINT.cmd`
+- `B52R29_OVERLAY_WRITER_FINGERPRINT.md`
+
+Inputs:
+- B52R25 WRITER_TRACE.tsv
+- B52R25 WRITER_RAM.bin
+- exact B52R14R1/CLEAN BIN
+
+Behavior:
+- main-SLPS writer PCs remain handled by B52R25 resolver;
+- RAM PCs outside main SLPS are treated as overlay/runtime-loaded candidates;
+- exact code anchors 96/64/48/32 bytes are searched across ISO9660 Form1 files;
+- 256-byte surrounding context similarity ranks candidates;
+- report includes file path, file offset, extent, LBA and raw BIN offset.
+
+Validation:
+- compile PASS
+- **B52R29 OVERLAY FINGERPRINT RESOLVER SELFTEST PASS**
+- committed B52R25 generator verified to contain the 2 MiB writer-RAM snapshot path and self-test guard.
+
+Real execution:
+- **PENDING**
+- no writer snapshot supplied;
+- no overlay owner identified.
+
+Evidence rule:
+A code-owner fingerprint identifies where the writer code came from, not the asset/data bytes producing the visible Japanese UI.
+
 ## Closed/dead reverse paths
 
 Do NOT restart these without genuinely new evidence:
@@ -453,7 +527,7 @@ Treat remaining visible UI as one of:
 3. custom archive member decoding not exposed by raw preview;
 4. possibly texture/tile composition whose source is not a plain sequential glyph list.
 
-Execution order now: **B52R22** static probe → **B52R23** GPU/DMA locator → **B52R24** exact target DMA capture. For a linear B52R24 payload, run **B52R27 fingerprint immediately** because an exact disc match can shortcut ownership. In parallel/if needed, use **B52R25 writer-watch** for CPU transforms, or **B52R26 DMA3 overlap** when direct CD fill is suspected/no CPU writer fires. SyncMode 2 remains GPU-origin/texture-upload territory. Do not start another whole-disc encoding census.
+Execution order now: **B52R22** static probe → **B52R23** GPU/DMA locator → **B52R24** exact target DMA capture. For a linear B52R24 payload, run existing **B52R27 disc-payload fingerprint** immediately. Use **B52R25 writer-watch** for CPU transforms. If direct CD fill is suspected, existing **B52R26** gives DMA3 range evidence and new **B52R28** upgrades that path with Setloc/LBA/ISO-owner provenance. If B52R25 writer PC lands outside main SLPS, use **B52R29** overlay fingerprint on the writer-time RAM snapshot. SyncMode 2 remains GPU-origin/texture-upload territory. Do not start another whole-disc encoding census.
 
 Recommended first target:
 - main menu `ストーリーモード` because it is large, stable, easy to identify visually.
@@ -516,6 +590,8 @@ Allowed:
 - B52R25 writer-watch generator/resolver compile and self-test PASS; execution remains gated on a target B52R24 capture
 - B52R26 DMA3 locator/overlap core logic self-tests PASS; real CD DMA capture is pending
 - B52R27 disc fingerprint full source compiles and self-tests PASS; real payload search is pending
+- B52R28 Setloc/LBA CD-DMA provenance generator/analyzer compile and self-test PASS; real trace pending
+- B52R29 overlay fingerprint resolver compiles and self-tests PASS; real writer snapshot pending
 
 Not allowed:
 - overall Runtime PASS
