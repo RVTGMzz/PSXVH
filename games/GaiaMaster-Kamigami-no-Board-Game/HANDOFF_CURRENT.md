@@ -575,6 +575,44 @@ Execution:
 - no new runtime build has been promoted;
 - Runtime PASS remains **NO**.
 
+## B52R32 - capture session manager
+
+Prepared workflow controller:
+
+- `tools/gaia_b52r32_capture_session_manager.py`
+- `tools/00_CHECK_B52R32_SESSION.cmd`
+- `tools/00_ADVANCE_B52R32_READONLY.cmd`
+- `B52R32_CAPTURE_SESSION_MANAGER.md`
+
+B52R32 is now the preferred entry point for continuing the reverse workflow.
+
+Status-only launcher:
+- verifies exact B52R14R1/CLEAN SHA1;
+- scans the BIN folder for known B52R22-B52R31 outputs;
+- reports present/missing evidence;
+- prints exactly one next action;
+- writes `GaiaMaster_B52R32_SESSION_STATUS.txt/json`.
+
+Safe read-only advance launcher:
+- may auto-run B52R22, B52R23, B52R24 generator/analyzer, B52R27, B52R25 generator/resolver, B52R29, B52R28 generator/analyzer, and B52R30 when a single EXACT B52R27 candidate exists;
+- stops automatically at PCSX runtime actions;
+- stops on ambiguous multiple EXACT candidates;
+- stops at the B52R31 guarded build gate;
+- never invokes B52R31 build.
+
+Runtime stops are explicit:
+- B52R24: load capture Lua, call `gaia_arm24()`, enter green menu, then `gaia_save24()`;
+- B52R25: arm writer watch with `gaia_arm25()`, reproduce transition, then `gaia_save25()`;
+- B52R28: if needed, call `gaia_arm26()` before transition, then `gaia_save26()` on overlap pause.
+
+Validation:
+- compile PASS
+- **B52R32 CAPTURE SESSION MANAGER SELFTEST PASS**
+
+B52R32 does not create runtime evidence by itself and never upgrades static evidence to Runtime PASS.
+
+Overall Runtime PASS remains **NO**.
+
 ## Closed/dead reverse paths
 
 Do NOT restart these without genuinely new evidence:
@@ -595,7 +633,7 @@ Treat remaining visible UI as one of:
 3. custom archive member decoding not exposed by raw preview;
 4. possibly texture/tile composition whose source is not a plain sequential glyph list.
 
-Execution order now: **B52R22** static probe → **B52R23** GPU/DMA locator → **B52R24** exact target DMA capture. For linear payload use **B52R27** immediately; use **B52R25** for CPU transforms, **B52R28** for direct CD Setloc/LBA provenance, and **B52R29** for overlay writer ownership. Once a real disc/archive candidate is corroborated, run **B52R30** to verify structural ownership/checksum obligations. Only after target-frame ownership + B52R30 plan are proven may **B52R31** build mode be considered. SyncMode 2 remains GPU-origin/texture-upload territory. Do not start another whole-disc encoding census.
+Preferred execution entry is now **B52R32**. Give it the exact B52R14R1 BIN; it auto-runs every currently-safe static/read-only step and stops exactly where PCSX runtime or a human ownership decision is required. Under the hood the chain remains B52R22 → B52R23 → B52R24, then B52R27/B52R25/B52R28/B52R29 as evidence dictates, then B52R30 structural planning and finally the gated B52R31 dry-run/build path. SyncMode 2 remains GPU-origin/texture-upload territory. Do not start another whole-disc encoding census.
 
 Recommended first target:
 - main menu `ストーリーモード` because it is large, stable, easy to identify visually.
@@ -662,6 +700,7 @@ Allowed:
 - B52R29 overlay fingerprint resolver compiles and self-tests PASS; real writer snapshot pending
 - B52R30 ownership/patch planner compiles and self-tests PASS; real ownership candidate pending
 - B52R31 guarded builder compiles and self-tests PASS; build mode remains gated on proven ownership
+- B52R32 capture session manager compiles and self-tests PASS; it is the preferred continuation entry point
 
 Not allowed:
 - overall Runtime PASS
