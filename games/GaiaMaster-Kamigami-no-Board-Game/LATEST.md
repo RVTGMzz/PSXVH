@@ -1,6 +1,6 @@
 # Gaia Master - trạng thái mới nhất
 
-Cập nhật: **2026-09-22**
+Cập nhật: **2026-09-23**
 
 Repo: `RVTGMzz/PSXVH`  
 Branch: `gaia-character-select-font-atlas-reverse-01`
@@ -253,6 +253,39 @@ Validation:
 - self-test PASS
 
 **Real writer snapshot pending. No overlay owner claim.**
+
+## B52R30 - OWNERSHIP/PATCH PLANNER READY
+
+Prepared:
+- `tools/gaia_b52r30_ownership_patch_planner.py`
+- `tools/00_PLAN_B52R30_FROM_B52R27.cmd`
+- `B52R30_OWNERSHIP_PATCH_PLANNER.md`
+
+B52R30 accepts a proven/corroborated file-offset candidate, verifies ISO identity, maps checksum-valid BDP ancestry, lists touched LBAs and can simulate a same-length replacement with bottom-up nested checksum repair entirely in memory.
+
+PATCH_PLAN.json now contains strong identity guards: original candidate SHA1, replacement SHA1, full BDP ancestry, checksum changes and simulated logical-file SHA1.
+
+Validation:
+- compile PASS
+- self-test PASS
+
+**Real candidate execution pending.**
+
+## B52R31 - GUARDED BUILDER READY, EXECUTION LOCKED
+
+Prepared:
+- `tools/gaia_b52r31_guarded_candidate_builder.py`
+- `tools/00_DRYRUN_B52R31_GUARDED_CANDIDATE.cmd`
+- `tools/00_BUILD_B52R31_GUARDED_CANDIDATE.cmd`
+- `B52R31_GUARDED_CANDIDATE_BUILDER.md`
+
+Default is dry-run. Build mode refuses any drift from B52R30 plan, creates a new BIN/CUE only, repairs nested BDP checksums, regenerates MODE2/Form1 EDC/ECC, and performs logical-file/checksum readback.
+
+Validation:
+- compile PASS
+- self-test PASS
+
+**Do not run build mode until real target-frame ownership is proven.**
 
 ## Runtime / translation checkpoints
 
