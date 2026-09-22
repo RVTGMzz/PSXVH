@@ -1,6 +1,6 @@
 # HANDOFF CURRENT - Gaia Master PS1 Việt hóa
 
-Updated: 2026-09-22
+Updated: 2026-09-23
 Repo: `RVTGMzz/PSXVH`
 Branch: `gaia-character-select-font-atlas-reverse-01`
 
@@ -507,6 +507,74 @@ Real execution:
 Evidence rule:
 A code-owner fingerprint identifies where the writer code came from, not the asset/data bytes producing the visible Japanese UI.
 
+## B52R30 - ownership verifier + patch planner
+
+Prepared read-only structural gate:
+
+- `tools/gaia_b52r30_ownership_patch_planner.py`
+- `tools/00_PLAN_B52R30_FROM_B52R27.cmd`
+- `B52R30_OWNERSHIP_PATCH_PLANNER.md`
+
+Purpose:
+- take an already-supported ownership candidate, preferably B52R27 exact payload match or corroborated B52R28 provenance;
+- verify exact ISO file/extent/offset;
+- enumerate checksum-valid BDP ancestors covering the complete candidate range;
+- record direct member index where uniquely provable;
+- list candidate/checksum LBAs and raw BIN offset;
+- optionally simulate a same-length replacement entirely in memory;
+- repair simulated nested BDP checksums deepest -> outermost;
+- output a machine-readable guarded patch plan without modifying a disc image.
+
+B52R30 PATCH_PLAN now records candidate SHA1, payload SHA1, replacement SHA1, full BDP ancestry, checksum changes, touched LBAs and simulated logical-file SHA1.
+
+Validation:
+- compile PASS
+- **B52R30 OWNERSHIP/PATCH PLANNER SELFTEST PASS**
+
+Real ownership candidate execution:
+- **PENDING**
+
+B52R30 is not an ownership-discovery tool and does not authorize a patch by itself.
+
+## B52R31 - guarded candidate builder
+
+Mutation-capable tooling exists but is hard-gated:
+
+- `tools/gaia_b52r31_guarded_candidate_builder.py`
+- `tools/00_DRYRUN_B52R31_GUARDED_CANDIDATE.cmd`
+- `tools/00_BUILD_B52R31_GUARDED_CANDIDATE.cmd`
+- `B52R31_GUARDED_CANDIDATE_BUILDER.md`
+
+Before build mode, B52R31 requires exact agreement with B52R30:
+- input BIN SHA1;
+- ISO file/path/extent/size;
+- current candidate SHA1;
+- replacement length/SHA1;
+- complete BDP ancestry;
+- expected bottom-up checksum changes;
+- simulated logical-file SHA1.
+
+Default run is dry-run only.
+
+`--build`:
+- copies input BIN to a new output;
+- writes only changed target-file bytes;
+- uses B52R30's bottom-up checksum result;
+- regenerates MODE2/Form1 EDC/ECC for every actually changed sector;
+- rejects changed sectors outside the B52R30 planned LBA set;
+- reads back the logical file;
+- verifies replacement bytes + all proven BDP checksums;
+- writes a matching CUE.
+
+Validation:
+- compile PASS
+- **B52R31 GUARDED CANDIDATE BUILDER SELFTEST PASS**
+
+Execution:
+- **GATED / NOT YET RUN ON A REAL OWNERSHIP CANDIDATE**
+- no new runtime build has been promoted;
+- Runtime PASS remains **NO**.
+
 ## Closed/dead reverse paths
 
 Do NOT restart these without genuinely new evidence:
@@ -527,7 +595,7 @@ Treat remaining visible UI as one of:
 3. custom archive member decoding not exposed by raw preview;
 4. possibly texture/tile composition whose source is not a plain sequential glyph list.
 
-Execution order now: **B52R22** static probe → **B52R23** GPU/DMA locator → **B52R24** exact target DMA capture. For a linear B52R24 payload, run existing **B52R27 disc-payload fingerprint** immediately. Use **B52R25 writer-watch** for CPU transforms. If direct CD fill is suspected, existing **B52R26** gives DMA3 range evidence and new **B52R28** upgrades that path with Setloc/LBA/ISO-owner provenance. If B52R25 writer PC lands outside main SLPS, use **B52R29** overlay fingerprint on the writer-time RAM snapshot. SyncMode 2 remains GPU-origin/texture-upload territory. Do not start another whole-disc encoding census.
+Execution order now: **B52R22** static probe → **B52R23** GPU/DMA locator → **B52R24** exact target DMA capture. For linear payload use **B52R27** immediately; use **B52R25** for CPU transforms, **B52R28** for direct CD Setloc/LBA provenance, and **B52R29** for overlay writer ownership. Once a real disc/archive candidate is corroborated, run **B52R30** to verify structural ownership/checksum obligations. Only after target-frame ownership + B52R30 plan are proven may **B52R31** build mode be considered. SyncMode 2 remains GPU-origin/texture-upload territory. Do not start another whole-disc encoding census.
 
 Recommended first target:
 - main menu `ストーリーモード` because it is large, stable, easy to identify visually.
@@ -592,6 +660,8 @@ Allowed:
 - B52R27 disc fingerprint full source compiles and self-tests PASS; real payload search is pending
 - B52R28 Setloc/LBA CD-DMA provenance generator/analyzer compile and self-test PASS; real trace pending
 - B52R29 overlay fingerprint resolver compiles and self-tests PASS; real writer snapshot pending
+- B52R30 ownership/patch planner compiles and self-tests PASS; real ownership candidate pending
+- B52R31 guarded builder compiles and self-tests PASS; build mode remains gated on proven ownership
 
 Not allowed:
 - overall Runtime PASS
