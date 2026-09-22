@@ -287,6 +287,24 @@ Validation:
 
 **Do not run build mode until real target-frame ownership is proven.**
 
+## B52R32 - CAPTURE SESSION MANAGER READY
+
+Prepared:
+- `tools/gaia_b52r32_capture_session_manager.py`
+- `tools/00_CHECK_B52R32_SESSION.cmd`
+- `tools/00_ADVANCE_B52R32_READONLY.cmd`
+- `B52R32_CAPTURE_SESSION_MANAGER.md`
+
+This is now the preferred continuation entry point.
+
+Given exact B52R14R1/CLEAN BIN it scans evidence from B52R22-B52R31, prints one next action, and can auto-run all currently-safe read-only/static steps. It hard-stops at PCSX runtime, ambiguous ownership, and B52R31 build.
+
+Validation:
+- compile PASS
+- self-test PASS
+
+**No runtime evidence is created automatically.**
+
 ## Runtime / translation checkpoints
 
 - CLEAN SHA1:
