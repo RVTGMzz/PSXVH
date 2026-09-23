@@ -1,18 +1,38 @@
 @echo off
-setlocal
-chcp 65001 >nul
-if "%~1"=="" (
- echo Gaia Master B52R32 session status
- echo.
- echo Kéo-thả exact B52R14R1 .bin vào đây.
- echo Chỉ kiểm trạng thái, không chạy probe và không build ROM.
- pause
- exit /b 2
-)
-python "%~dp0gaia_b52r32_capture_session_manager.py" "%~1"
-set ERR=%ERRORLEVEL%
+setlocal DisableDelayedExpansion
+if "%~1"=="" goto :usage
+if not exist "%~f1" goto :missing
+where py >nul 2>&1
+if not errorlevel 1 goto :run_py
+where python >nul 2>&1
+if not errorlevel 1 goto :run_python
+echo [ERROR] Python 3 was not found. Install Python 3 and enable PATH.
+goto :failed
+:run_py
+py -3 "%~dp0gaia_b52r32_capture_session_manager.py" "%~f1"
+set "RC=%errorlevel%"
+goto :done
+:run_python
+python "%~dp0gaia_b52r32_capture_session_manager.py" "%~f1"
+set "RC=%errorlevel%"
+goto :done
+:usage
+echo Gaia Master B52R32 - SESSION STATUS
 echo.
-if "%ERR%"=="0" echo [OK] B52R32 status report written next to BIN.
-if not "%ERR%"=="0" echo [FAIL] exit code %ERR%
+echo Drag and drop the exact B52R14R1 BIN file onto this CMD file.
+echo This tool only checks status and never builds a ROM.
+set "RC=2"
+goto :done
+:missing
+echo [ERROR] The dropped BIN file does not exist:
+echo %~f1
+set "RC=3"
+goto :done
+:failed
+set "RC=4"
+:done
+echo.
+if "%RC%"=="0" echo [OK] Check GaiaMaster_B52R32_SESSION_STATUS.txt next to your BIN.
+if not "%RC%"=="0" echo [FAIL] Exit code %RC%.
 pause
-exit /b %ERR%
+exit /b %RC%
