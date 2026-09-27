@@ -225,3 +225,40 @@ Important:
 
 The target is now:
 **complete Vietnamese charset + original-game-like vertical metrics + proportional spacing**, not merely "current corpus fits".
+
+
+## NF2 cache-advance probe
+
+Prepared read-only VWF reverse tooling:
+
+- `tools/gaia_nf2_cache_advance_probe.py`
+- `tools/00_RUN_NF2_CACHE_ADVANCE_PROBE.cmd`
+- `NF2_CACHE_ADVANCE_PROBE.md`
+
+Why this path matters:
+
+Previous Gaia reverse already proved:
+- cache-hit horizontal advance comes from `cache_record.byte6`;
+- cache-miss advance comes from `state+0x3E` or `state+0x40 + 1`;
+- optional tracking comes from `state+0x3C`.
+
+NF2 therefore targets the **writer of cache_record+6**, not the global cursor/cache stride.
+
+The probe:
+- scans exact CLEAN/B52R14R1 SLPS for direct memory operations at offset `+6`;
+- ranks writers/readers inside known cache hit/miss ranges;
+- boosts candidates near `state+0x3C/+0x3E/+0x40`;
+- prints local MIPS dataflow context;
+- emits candidate CSV;
+- generates a PCSX-Redux Lua capture that pauses before the highest-ranked `+6` write and records the source advance value.
+
+Current status:
+- tooling committed;
+- real exact-B52R14R1 scan **PENDING**;
+- runtime capture **PENDING**;
+- no VWF ROM patch exists yet.
+
+Promotion rule:
+only after a runtime-correlated writer proves stable may NF2 replace/override the width value locally before cache byte6 is written.
+
+Do not return to global cache-stride or pointer-redirection experiments.
