@@ -1,0 +1,24 @@
+# PS1 / optical-disc images stay local only.
+*.bin
+*.cue
+*.iso
+*.img
+*.chd
+*.mdf
+*.mds
+*.pbp
+
+# Runtime RAM / DMA captures can be large and are local evidence.
+*RAM.bin
+*DMA_SOURCE.bin
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Local/editor/temp files
+*.tmp
+*.bak
+*.orig
+Thumbs.db
+.DS_Store
