@@ -98,3 +98,14 @@ Avoid repeating historical:
 - extended-height allocator changes.
 
 Overall Runtime PASS remains **NO**.
+
+## Superseded runtime action
+
+Real B52R14R1 results showed the broad +6 writer ranking contains many unrelated struct/UI writes and no direct +6 write inside the cache-miss window. Do **not** use the original 8-breakpoint NF2 Lua for promotion evidence.
+
+Use NF2R1 instead:
+
+- `gaia_nf2r1_cache_fill_helper_probe.py`
+- `GaiaMaster_NF2R1_PCSX_CACHE_FILL_CAPTURE.lua`
+
+NF2R1 targets the verified cache-fill helper call at `0x8003CC38 -> 0x8003C67C` and compares the exact cache record before/after the helper.
