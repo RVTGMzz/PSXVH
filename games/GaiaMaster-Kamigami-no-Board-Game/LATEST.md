@@ -305,6 +305,22 @@ Validation:
 
 **No runtime evidence is created automatically.**
 
+
+## External PS1 localization reference adopted
+
+Reviewed public release repo: `2ez4gcx/yugioh-fm-vi-patch`.
+
+Adopted immediately:
+- root `.gitattributes` forces `.cmd/.bat/.ps1` to CRLF to prevent Windows launcher breakage;
+- root `.gitignore` keeps disc images and large runtime BIN captures out of Git history;
+- future public Gaia release should use patch-only distribution, preferably PPF 3.0, with exact CLEAN + patched SHA-256 and automatic CUE creation;
+- original disc must never be overwritten.
+
+Reference note:
+`REFERENCE_YUGIOH_FM_VI_PATCH_LESSONS.md`
+
+Important: that repo states it uses Vietnamese diacritics, a redrawn font, variable-width character widths and some code changes, but its public repo does not expose the renderer reverse/build source. Therefore this is evidence that VWF is viable on PS1 in general, **not** evidence that Gaia should switch architecture now. Gaia remains on the frozen 12x12/mapping-only line until B52 runtime ownership proves otherwise.
+
 ## Runtime / translation checkpoints
 
 - CLEAN SHA1:
