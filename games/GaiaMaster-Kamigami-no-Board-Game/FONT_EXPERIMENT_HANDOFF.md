@@ -196,3 +196,32 @@ Therefore:
 - source artwork must stay complete;
 - runtime storage/codepage expansion becomes NF2 work;
 - do not reduce the source inventory back to 60 just to fit the old atlas allocation.
+
+
+## NF1 V0.3 proportional metrics
+
+Additional user screenshots show:
+- Vietnamese dialogue using the target reference font;
+- original English dialogue using the game's native visual style.
+
+The visible bright-text bands measure about 21-23 screenshot pixels high in both samples, so Vietnamese should preserve the original vertical rhythm rather than grow a visibly taller accent box.
+
+New files:
+- `tools/gaia_nf1_v03_width_metrics.py`
+- `tools/00_PREVIEW_NF1_V03_VWF_METRICS.cmd`
+- `NF1_V03_REFERENCE_METRICS.md`
+
+V0.3 adds design-time per-glyph metrics to the 229-glyph V0.2 source:
+- ink width;
+- proposed advance width;
+- compact widths for narrow glyphs/punctuation;
+- wider metrics for naturally wide glyphs;
+- proportional reference preview using both Vietnamese and English sample sentences.
+
+Important:
+- Gaia runtime does not honor V0.3 widths yet;
+- V0.3 is preparation for a future NF2 VWF mechanism;
+- do not patch renderer/cache/stride until a minimal safe hook is reverse-proven.
+
+The target is now:
+**complete Vietnamese charset + original-game-like vertical metrics + proportional spacing**, not merely "current corpus fits".
