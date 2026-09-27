@@ -148,3 +148,24 @@ Open NF2 only if:
 Then investigate per-glyph width/advance separately.
 
 Overall Runtime PASS remains **NO**.
+
+
+## NF1 V0.1 artwork locked
+
+User reviewed the generated contact sheet and accepted the direction as visually good enough to proceed.
+
+Therefore:
+- treat NF1 V0.1 artwork as the current baseline;
+- do not continue speculative glyph polishing before runtime;
+- next authority is in-game screenshots, not more offline tweaking.
+
+Runtime checklist:
+`NF1_V01_RUNTIME_TEST.md`
+
+Known useful existing translated targets:
+- `Thế giới đổi chủ`
+- `Đã ổn?`
+- `Chọn tướng`
+- `Nhấn O`
+
+These cover lowercase, uppercase Đ, đ, ã, ọ, ư, ấ and ordinary Latin without adding synthetic test text.
