@@ -169,3 +169,30 @@ Known useful existing translated targets:
 - `Nhấn O`
 
 These cover lowercase, uppercase Đ, đ, ã, ọ, ư, ấ and ordinary Latin without adding synthetic test text.
+
+
+## NF1 V0.2 reference pivot - complete Vietnamese screenshot
+
+User supplied a complete Vietnamese pixel-font screenshot and prefers it over the NF1 V0.1 contact sheet.
+
+Decision:
+- NF1 V0.1 remains a technical proof only;
+- it is no longer the final visual target;
+- NF1 V0.2 uses the supplied screenshot as the visual reference for thin strokes, accent spacing, baseline and charset completeness.
+
+Image analysis note:
+- the supplied screenshot is nearest-neighbor enlarged on a clean 3x pixel grid;
+- therefore bitmap tracing/reconstruction is feasible without guessing anti-aliased contours.
+
+V0.2 source inventory target:
+- 95 printable ASCII glyphs;
+- 67 uppercase Vietnamese non-ASCII glyphs;
+- 67 lowercase Vietnamese non-ASCII glyphs;
+- 229 source glyphs total.
+
+Current proven mapping-only custom capacity is 64 slots, so complete 134-glyph Vietnamese runtime coverage exceeds the proven custom capacity by 70 slots.
+
+Therefore:
+- source artwork must stay complete;
+- runtime storage/codepage expansion becomes NF2 work;
+- do not reduce the source inventory back to 60 just to fit the old atlas allocation.
