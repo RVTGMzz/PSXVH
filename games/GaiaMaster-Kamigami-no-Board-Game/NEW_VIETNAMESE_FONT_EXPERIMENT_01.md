@@ -123,6 +123,47 @@ Its public repository does not expose the underlying renderer/font build source,
 
 Branch created.
 
-New-font artwork implementation: **NOT STARTED YET**.
-Runtime test: **PENDING**.
+New-font artwork implementation: **NF1 V0.1 READY FOR PREVIEW / GUARDED BUILD**.
+
+Implemented:
+- `tools/gaia_nf1_new_font_art.py`
+- `tools/00_PREVIEW_NF1_NEW_FONT.cmd`
+- `tools/build_gaia_nf1_new_font.py`
+- `tools/00_BUILD_NF1_NEW_FONT.cmd`
+
+NF1 V0.1 artwork coverage:
+- 26 uppercase Latin
+- 26 lowercase Latin
+- 10 digits
+- 60 frozen Vietnamese custom glyphs
+- total: **122 newly drawn glyphs**
+
+Artwork characteristics:
+- independent 5x7-derived pixel family placed inside the proven 12x12 cell;
+- one-pixel foreground strokes;
+- no native glyph-body reuse;
+- no synthetic shadow layer;
+- dedicated `Đ/đ` construction;
+- dedicated horn for `Ơ/ơ/Ư/ư`;
+- structural/tone separation for circumflex/breve combinations;
+- dot-below uses the bottom row.
+
+Authoring checks completed:
+- `NF1 NEW FONT ART SELFTEST PASS glyphs=122`
+- `NF1 NEW FONT BUILDER SELFTEST PASS glyphs=122`
+- preview SVG generation succeeded.
+
+Guarded builder behavior:
+- accepts **only** exact B52R14R1 SHA1 `0ced9982e1b00566b42ace047236378826c2aa1c`;
+- resolves full-width Latin/digit mappings from the actual SLPS mapping table;
+- aborts on duplicate mappings or collision with the 60 frozen Vietnamese slots;
+- patches only SLPS font bytes;
+- requires PRGPACK byte-for-byte unchanged;
+- regenerates MODE2/Form1 EDC/ECC;
+- rereads all 122 destination glyphs before reporting static PASS;
+- never overwrites the input BIN.
+
+Real B52R14R1 build execution: **PENDING on user-side exact BIN**.
+Runtime screenshot: **PENDING**.
 Canonical B52 line: unchanged.
+Overall Runtime PASS: **NO**.
