@@ -1,6 +1,6 @@
 # FONT EXPERIMENT HANDOFF
 
-Updated: 2026-09-28
+Updated: 2026-09-30
 
 Branch: `gaia-new-vietnamese-font-experiment-01`
 Parent/canonical reverse branch: `gaia-character-select-font-atlas-reverse-01`
@@ -254,8 +254,13 @@ The probe:
 
 Current status:
 - tooling committed;
-- real exact-B52R14R1 scan **PENDING**;
-- runtime capture **PENDING**;
+- **real exact-B52R14R1 scan COMPLETED**;
+- exact BIN verified as `0ced9982e1b00566b42ace047236378826c2aa1c`;
+- scan found **347 offset +6 memory xrefs**;
+- high-confidence cache-hit reads confirmed at `0x8003CB54`, `0x8003CBF4`, `0x8003CC08`;
+- **no direct +6 write was found inside the known cache-miss window**;
+- broad 8-breakpoint NF2 Lua is therefore superseded;
+- NF2R1 targeted runtime capture is **PENDING**;
 - no VWF ROM patch exists yet.
 
 Promotion rule:
@@ -273,3 +278,32 @@ Use NF2R1 instead:
 - `GaiaMaster_NF2R1_PCSX_CACHE_FILL_CAPTURE.lua`
 
 NF2R1 targets the verified cache-fill helper call at `0x8003CC38 -> 0x8003C67C` and compares the exact cache record before/after the helper.
+
+
+## 2026-09-30 current next action
+
+Do **not** use the original broad `GaiaMaster_NF2_PCSX_ADVANCE_CAPTURE.lua`.
+
+Use NF2R1 instead.
+
+Preferred simple flow:
+
+1. On exact B52R14R1, run:
+   `tools/00_RUN_NF2R1_CACHE_FILL_HELPER_PROBE.cmd`
+2. It generates:
+   `GaiaMaster_NF2R1_PCSX_CACHE_FILL_CAPTURE.lua`
+3. Open B52R14R1 in PCSX-Redux Interpreter/Debugger.
+4. Load/run that Lua.
+5. In Lua console call:
+   `gaia_arm_nf2r1()`
+6. Show/re-enter any visible text line.
+7. When PCSX pauses, call:
+   `gaia_save_nf2r1()`
+8. Send:
+   `GaiaMaster_NF2R1_CACHE_FILL_TRACE.tsv`
+
+One event is enough for the first analysis.
+
+Do not build a VWF ROM yet.
+
+Overall Runtime PASS remains **NO**.
