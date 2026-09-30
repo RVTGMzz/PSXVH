@@ -1,47 +1,41 @@
-# Prompt mở phiên chat mới - Gaia Master
+# Prompt mở phiên chat mới - Gaia Master New Vietnamese Font / NF2R1
 
 Copy nguyên đoạn dưới đây vào phiên mới:
 
-> Tiếp tục Gaia Master PS1 từ `games/GaiaMaster-Kamigami-no-Board-Game/HANDOFF_CURRENT.md` trên branch `gaia-character-select-font-atlas-reverse-01` của repo `RVTGMzz/PSXVH`. Đọc thêm `LATEST.md`. Current exact working base là B52R14R1 SHA1 `0ced9982e1b00566b42ace047236378826c2aa1c`; CLEAN Japan SHA1 `f4d5298583c90d89c4b7e51d2dde160ee07f2aec`. B52R11R3 quick-path runtime OK, B52R12 user-confirmed path OK. SCR_DATA có 303 nested BDP-like containers, mọi mutation SCR_DATA phải repair checksum bottom-up. UI reverse B52R15-B52R21R1 đã đóng các đường dead: 41 known CP932 hits đều already-changed, B52R17 không có alternate live source, B52R18 đã review đủ 173 raw TIM không có target UI, B52R19 JIS/tile-index = 0, B52R20 owner/sibling raw previews không lộ target UI, và B52R21R1 patch các known PRGPACK copies nhưng runtime screenshots vẫn không đổi: main menu, Character Select và 冒険のはじまり vẫn Nhật. Kết luận: các known PRGPACK CP932 copies là runtime-dead cho các màn này. Không scan lại plaintext/alternate encoding/TIM/JIS và không re-patch các offset đó. B52R22 read-only live-source probe đã được commit và self-test PASS nhưng ROM execution còn pending. B52R23 GPU upload locator cũng đã được commit: `tools/gaia_b52r23_gpu_upload_locator.py` + launcher `00_RUN_B52R23_GPU_UPLOAD_LOCATOR.cmd`; py_compile/self-test PASS, ROM/runtime correlation pending. Locator còn tự sinh `GaiaMaster_B52R23_PCSX_BREAKPOINTS.lua`; load vào PCSX-Redux và gọi `gaia_arm()` ngay trước target menu để armed hit đầu tiên log PC/RA/SP + pause. Thứ tự hiện tại: B52R22 trên exact B52R14R1, B52R23 trên cùng BIN, rồi B52R24 exact-MMIO capture. B52R24 đã có generator/analyzer + launcher, self-test PASS; nó bắt WRITE tại DMA2_MADR/BCR/CHCR/GP0, pause ở DMA start, và `gaia_save24()` xuất TRACE.tsv + 2 MiB RAM + META. Analyzer giải SyncMode, BCR/MADR, linked-list/linear payload và GP0 A0h rectangle. Dùng GPU Logger/Show origins để correlate đúng ストーリーモード. Chưa có real capture/source-found. B52R25 tooling đã chuẩn bị sẵn: writer-watch generator + writer-PC resolver, nhưng execution chỉ mở sau khi B52R24 bắt được target transaction. Với SyncMode 0/1, B52R25 watch source RAM writes và map writer PC về SLPS/overlay; SyncMode 2 không được coi là linear asset source. B52R26 đã chuẩn bị làm fallback DMA3 CDROM->RAM: capture MADR/BCR/CHCR và so range đích CD với range nguồn GPU của B52R24. Exact/full-cover chỉ là upstream RAM-load evidence, chưa phải ISO file/LBA proof. B52R27 disc fingerprint cũng đã sẵn sàng cho raw payload ownership. B52R28 mới nâng nhánh CD-DMA thêm Setloc/ReadN/ReadS + BCD MSF→LBA + optional ISO owner mapping. B52R29 xử lý writer PC ngoài main SLPS bằng writer-time 2 MiB RAM snapshot + exact overlay code fingerprint. B52R30 mới là structural ownership/checksum gate: map exact candidate file/offset vào BDP ancestry, touched LBA và dry-run same-length replacement bottom-up. B52R31 guarded builder đã chuẩn bị nhưng build mode bị khóa bởi B52R30 plan + exact identity guards; dry-run là mặc định. B52R32 capture session manager mới là entry point mặc định: kéo exact B52R14R1 vào `00_ADVANCE_B52R32_READONLY.cmd`, nó tự chạy phần static/read-only và dừng đúng nơi cần PCSX/human decision. Không đụng font, không gọi overall Runtime PASS. Local repo đã gần 20GB, tránh tạo thêm full BIN không cần thiết và chuẩn bị workflow cleanup an toàn sau khi có checkpoint mới.
+> Tiếp tục Gaia Master PS1 từ repo `RVTGMzz/PSXVH`, branch `gaia-new-vietnamese-font-experiment-01`. Đọc trước `games/GaiaMaster-Kamigami-no-Board-Game/SESSION_HANDOFF_2026-09-30_GAIA_NEW_FONT_NF2R1.md`, `FONT_EXPERIMENT_HANDOFF.md`, `LATEST.md`, `NF2R1_CACHE_FILL_HELPER_PROBE.md`. Exact working base vẫn là B52R14R1 SHA1 `0ced9982e1b00566b42ace047236378826c2aa1c`; CLEAN SHA1 `f4d5298583c90d89c4b7e51d2dde160ee07f2aec`. Không quay lại vá font cũ. NF1 V0.1 chỉ là technical proof. Hướng visual hiện tại là font Việt mới hoàn toàn theo screenshot reference: nét mảnh, đủ toàn bộ tiếng Việt, vertical metric giống font Anh gốc, spacing proportional. NF1 V0.2 đã định nghĩa 229 source glyphs = 95 ASCII + 134 Vietnamese non-ASCII. NF1 V0.3 đã có per-glyph ink/advance metrics. Current mapping-only custom capacity mới chứng minh 64 slot, thiếu 70 slot cho full Vietnamese set nên không được claim full runtime support. Real NF2 scan đã chạy thành công trên exact B52R14R1: 347 offset+6 xrefs; cache-hit byte6 reads xác nhận tại 0x8003CB54 / 0x8003CBF4 / 0x8003CC08; không có direct +6 WRITE trong known cache-miss window. Broad 8-breakpoint NF2 Lua đã bị supersede, không dùng nữa. NF2R1 là đường hiện tại: caller 0x8003CC30 a0=state, 0x8003CC34 a2=state+0x64 cache_write, 0x8003CC38 jal 0x8003C67C, return 0x8003CC40. Tool `gaia_nf2r1_cache_fill_helper_probe.py` + launcher đã commit. Bước kế tiếp duy nhất là chạy NF2R1 runtime capture trong PCSX-Redux, gọi `gaia_arm_nf2r1()`, cho hiện một dòng chữ, khi pause gọi `gaia_save_nf2r1()`, rồi phân tích `GaiaMaster_NF2R1_CACHE_FILL_TRACE.tsv`. Chỉ cần 1 event đầu tiên. Chưa build VWF ROM, chưa sửa global cache stride/pointer, chưa gọi Runtime PASS.
 
 ## Files đọc đầu tiên
 
 ```text
-games/GaiaMaster-Kamigami-no-Board-Game/HANDOFF_CURRENT.md
+games/GaiaMaster-Kamigami-no-Board-Game/SESSION_HANDOFF_2026-09-30_GAIA_NEW_FONT_NF2R1.md
+games/GaiaMaster-Kamigami-no-Board-Game/FONT_EXPERIMENT_HANDOFF.md
 games/GaiaMaster-Kamigami-no-Board-Game/LATEST.md
-games/GaiaMaster-Kamigami-no-Board-Game/NEXT_CHAT_PROMPT.md
-games/GaiaMaster-Kamigami-no-Board-Game/SESSION_HANDOFF_2026-09-19_B52R21R1_UI_SOURCE_PIVOT.md
-games/GaiaMaster-Kamigami-no-Board-Game/B52R22_LIVE_SOURCE_PROBE.md
-games/GaiaMaster-Kamigami-no-Board-Game/B52R23_GPU_UPLOAD_RUNTIME_TRACE.md
-games/GaiaMaster-Kamigami-no-Board-Game/B52R24_RUNTIME_DMA_SOURCE_CAPTURE.md
-games/GaiaMaster-Kamigami-no-Board-Game/B52R25_SOURCE_BUFFER_WRITER_WATCH.md
-games/GaiaMaster-Kamigami-no-Board-Game/B52R26_CD_DMA_PROVENANCE.md
-games/GaiaMaster-Kamigami-no-Board-Game/B52R27_DISC_PAYLOAD_FINGERPRINT.md
-games/GaiaMaster-Kamigami-no-Board-Game/B52R28_CD_DMA_PROVENANCE_TRACE.md
-games/GaiaMaster-Kamigami-no-Board-Game/B52R29_OVERLAY_WRITER_FINGERPRINT.md
-games/GaiaMaster-Kamigami-no-Board-Game/B52R30_OWNERSHIP_PATCH_PLANNER.md
-games/GaiaMaster-Kamigami-no-Board-Game/B52R31_GUARDED_CANDIDATE_BUILDER.md
-games/GaiaMaster-Kamigami-no-Board-Game/B52R32_CAPTURE_SESSION_MANAGER.md
+games/GaiaMaster-Kamigami-no-Board-Game/NF1_V02_FULL_CHARSET_PLAN.md
+games/GaiaMaster-Kamigami-no-Board-Game/NF1_V03_REFERENCE_METRICS.md
+games/GaiaMaster-Kamigami-no-Board-Game/NF2_CACHE_ADVANCE_PROBE.md
+games/GaiaMaster-Kamigami-no-Board-Game/NF2R1_CACHE_FILL_HELPER_PROBE.md
 ```
 
 ## Do not regress
 
-- không dùng tên repo cũ `ronvotri/Viet-Hoa-PS1`;
-- không quay lại B51 như thể chưa có B52;
-- không gọi B52R21R1 là visible-UI PASS;
-- không scan lại raw TIM 173 asset;
-- không scan lại alternate encoding hoặc JIS tile-index;
-- không patch lại known PRGPACK CP932 UI copies;
-- không sửa font;
-- không tạo hàng loạt full-disc BIN cho read-only probes;
-- Runtime PASS toàn game vẫn NO.
+- không quay về branch font cũ như thể NF1/NF2 chưa tồn tại;
+- không tiếp tục polish font cũ;
+- không coi NF1 V0.1 là final visual target;
+- không dùng broad 8-breakpoint NF2 Lua cũ;
+- không patch VWF trước runtime trace NF2R1;
+- không sửa global cache stride / VRAM geometry / pointer redirect;
+- không claim 229 glyph đã chạy trong game;
+- không gọi overall Runtime PASS.
 
 ## First action
 
-1. Preferred: kéo exact B52R14R1 vào `tools/00_ADVANCE_B52R32_READONLY.cmd`.
-2. Đọc `GaiaMaster_B52R32_SESSION_STATUS.txt`.
-3. Nếu status = RUNTIME/B52R24: PCSX-Redux interpreter + debugger, load `GaiaMaster_B52R24_PCSX_DMA_SOURCE_CAPTURE.lua`, gọi `gaia_arm24()` ngay trước green main menu, enter menu, khi pause gọi `gaia_save24()`.
-4. Chạy lại B52R32 read-only advance. Nó sẽ tự analyze/fingerprint/generate downstream tooling khi prerequisites xuất hiện.
-5. Khi status dừng ở B52R25/B52R28 runtime hoặc ownership ambiguity, làm đúng instruction trong report rồi chạy B52R32 lại.
-6. B52R31 BUILD vẫn manual-only và bị khóa tới khi target-frame ownership + B52R30 plan được chứng minh.
-7. Runtime PASS toàn game vẫn NO cho tới khi user test gameplay.
+Nếu user chưa gửi NF2R1 TSV:
+1. hướng dẫn cực ngắn, từng bước, tránh thuật ngữ;
+2. chạy đúng B52R14R1 trong PCSX-Redux;
+3. load `GaiaMaster_NF2R1_PCSX_CACHE_FILL_CAPTURE.lua`;
+4. `gaia_arm_nf2r1()`;
+5. cho hiện một dòng chữ;
+6. khi pause: `gaia_save_nf2r1()`;
+7. user gửi `GaiaMaster_NF2R1_CACHE_FILL_TRACE.tsv`.
+
+Nếu user đã gửi TSV: phân tích ngay, không bắt họ chạy lại từ đầu.
