@@ -121,49 +121,53 @@ Its public repository does not expose the underlying renderer/font build source,
 
 ## Current status
 
-Branch created.
+### Visual direction
 
-New-font artwork implementation: **NF1 V0.1 READY FOR PREVIEW / GUARDED BUILD**.
+NF1 V0.1 is preserved as a technical proof but is **no longer the final visual target**.
 
-Implemented:
-- `tools/gaia_nf1_new_font_art.py`
-- `tools/00_PREVIEW_NF1_NEW_FONT.cmd`
-- `tools/build_gaia_nf1_new_font.py`
-- `tools/00_BUILD_NF1_NEW_FONT.cmd`
+Current target is based on the user-supplied complete Vietnamese PS1 pixel-font screenshots:
+- thin strokes;
+- full Vietnamese coverage;
+- vertical rhythm close to the original English font;
+- proportional-looking horizontal spacing.
 
-NF1 V0.1 artwork coverage:
-- 26 uppercase Latin
-- 26 lowercase Latin
-- 10 digits
-- 60 frozen Vietnamese custom glyphs
-- total: **122 newly drawn glyphs**
+### Source font status
 
-Artwork characteristics:
-- independent 5x7-derived pixel family placed inside the proven 12x12 cell;
-- one-pixel foreground strokes;
-- no native glyph-body reuse;
-- no synthetic shadow layer;
-- dedicated `Đ/đ` construction;
-- dedicated horn for `Ơ/ơ/Ư/ư`;
-- structural/tone separation for circumflex/breve combinations;
-- dot-below uses the bottom row.
+NF1 V0.2:
+- 95 printable ASCII glyphs;
+- 134 non-ASCII Vietnamese glyphs;
+- **229 total source glyphs**.
 
-Authoring checks completed:
-- `NF1 NEW FONT ART SELFTEST PASS glyphs=122`
-- `NF1 NEW FONT BUILDER SELFTEST PASS glyphs=122`
-- preview SVG generation succeeded.
+Current proven mapping-only custom runtime capacity is 64 slots, so full Vietnamese runtime coverage still needs a larger font-bank/codepage strategy.
 
-Guarded builder behavior:
-- accepts **only** exact B52R14R1 SHA1 `0ced9982e1b00566b42ace047236378826c2aa1c`;
-- resolves full-width Latin/digit mappings from the actual SLPS mapping table;
-- aborts on duplicate mappings or collision with the 60 frozen Vietnamese slots;
-- patches only SLPS font bytes;
-- requires PRGPACK byte-for-byte unchanged;
-- regenerates MODE2/Form1 EDC/ECC;
-- rereads all 122 destination glyphs before reporting static PASS;
-- never overwrites the input BIN.
+NF1 V0.3:
+- per-glyph ink width prepared;
+- proposed advance width prepared;
+- proportional preview tooling prepared.
 
-Real B52R14R1 build execution: **PENDING on user-side exact BIN**.
-Runtime screenshot: **PENDING**.
-Canonical B52 line: unchanged.
-Overall Runtime PASS: **NO**.
+### NF2 runtime reverse
+
+Real exact-B52R14R1 NF2 scan completed:
+- BIN SHA1 `0ced9982e1b00566b42ace047236378826c2aa1c`;
+- 347 offset +6 memory xrefs;
+- cache-hit byte6 reads confirmed;
+- no direct +6 write in the known cache-miss window.
+
+Therefore the broad 8-breakpoint NF2 writer Lua is superseded.
+
+NF2R1 now targets the verified helper call:
+
+```
+0x8003CC30  addu a0,s1,zero
+0x8003CC34  lw   a2,100(s1)
+0x8003CC38  jal  0x8003C67C
+0x8003CC40  return
+```
+
+NF2R1 runtime capture is still pending.
+
+No VWF ROM patch has been built.
+
+Canonical B52 base remains unchanged.
+
+Overall Runtime PASS remains **NO**.
